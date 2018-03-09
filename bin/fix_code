@@ -1,0 +1,17 @@
+#!/bin/bash
+
+source "$( cd "$( dirname "$0" )" && pwd )/common" || exit 1
+go_to_laravel_dir
+
+if [ $# -ne 1 ]; then
+	exit_error "You must pass one and only one file or folder as a parameter"
+fi
+
+# # For a list of all available rules run:
+# # ./vendor/bin/php-cs-fixer fix --help
+./vendor/bin/php-cs-fixer fix "$@"  # --rules=some_rule,-disable_another_rule
+
+
+./vendor/bin/phpcbf --standard=phpcodesniffer.xml "$@"
+
+exit 0
