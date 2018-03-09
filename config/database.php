@@ -39,6 +39,12 @@ return [
             'prefix' => '',
         ],
 
+        'sqlite-memory' => [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '127.0.0.1'),
@@ -50,7 +56,7 @@ return [
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
-            'strict' => true,
+            'strict' => env('DB_STRICT', true),
             'engine' => null,
         ],
 
@@ -63,7 +69,7 @@ return [
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
             'prefix' => '',
-            'schema' => 'public',
+            'schema' => env('DB_SCHEMA', 'public'),
             'sslmode' => 'prefer',
         ],
 

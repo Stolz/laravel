@@ -36,6 +36,12 @@ return [
             'secret' => env('PUSHER_APP_SECRET'),
             'app_id' => env('PUSHER_APP_ID'),
             'options' => [
+                /* clusters:
+                 USA N.Virginia: us-east-1 aka mt1
+                 USA Ohio: us-east-2 aka us2
+                 Ireland: eu-west-1 aka eu
+                 Singapore: ap-southeast-1 aka ap1
+                 Mumbai: ap-south-1 aka ap2 */
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                 'encrypted' => true,
             ],
