@@ -43,6 +43,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Editor
+    |--------------------------------------------------------------------------
+    |
+    | When using the pretty error page feature, whoops comes with the ability to
+    | open referenced files directly in your IDE or editor. This feature only
+    | works in case your php-source files are locally accessible to the machine
+    | on which the editor is installed. Supported editors: emacs idea macvim
+    | phpstorm sublime textmate xdebug vscode atom
+    |
+    */
+
+    'editor' => env('APP_EDITOR', 'sublime'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
     |
@@ -52,7 +67,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://laravel'),
 
     /*
     |--------------------------------------------------------------------------
