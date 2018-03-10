@@ -50,7 +50,7 @@
 		<exclude name="PEAR.Commenting.FunctionComment.SpacingAfterParamType"/>
 	</rule>
 
-	<!--Use PHPCompatibility standard-->
+	<!--Ensure our code us compatible with the desired PHP version-->
 	<config name="installed_paths" value="vendor/wimg/php-compatibility" />
 	<config name="testVersion" value="7.2-"/>
 	<rule ref="PHPCompatibility"/>
@@ -70,13 +70,6 @@
 
 		<!--Allow long lines-->
 		<exclude name="Generic.Files.LineLength.TooLong"/>
-
-		<!--Allow spaces after open brace for spacing the "!" logical operator `if( ! $condition)`-->
-		<exclude name="PSR2.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace"/>
-		<exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpenBrace"/>
-
-		<!--Do not enforce control structures curly braces on the same line-->
-		<exclude name="Squiz.ControlStructures.ControlSignature"/>
 	</rule>
 
 	<!--Do not use spaces gaps for array brakets-->
@@ -94,14 +87,23 @@
 	<!--PHP functions in lowecase-->
 	<rule ref="Squiz.PHP.LowercasePHPFunctions"/>
 
+	<!--Ensure cast statements don't contain whitespace-->
+	<rule ref="Squiz.WhiteSpace.CastSpacing"/>
+
 	<!--Force only one space at both sides of logical operators-->
 	<rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
 
 	<!--Force space at both sides of operatos-->
 	<rule ref="Squiz.WhiteSpace.OperatorSpacing"/>
 
+	<!--Ensure there is a single space after scope keywords-->
+	<rule ref="Squiz.WhiteSpace.ScopeKeywordSpacing"/>
+
 	<!--No whitespace before a semicolon-->
 	<rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+
+	<!--No superfluous whitespace-->
+	<rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
 
 	<!--Blade files need close tags-->
 	<rule ref="Zend.Files.ClosingTag.NotAllowed">
