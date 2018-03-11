@@ -53,6 +53,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware('web')
              ->namespace($this->namespace)
+             ->attribute(0, 'https') // Make routes of the group only available via HTTPS
              ->group(base_path('routes/web.php'));
     }
 
@@ -68,6 +69,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::prefix('api')
              ->middleware('api')
              ->namespace($this->namespace)
+             ->attribute(0, 'https') // Make routes of the group only available via HTTPS
              ->group(base_path('routes/api.php'));
     }
 }
