@@ -3,17 +3,9 @@
 namespace App\Repositories\Contracts;
 
 use App\Models\Model;
-use Illuminate\Support\Collection;
 
 interface ModelRepository
 {
-    /**
-     * Include soft deleted models in operations that normally exclude them.
-     *
-     * @return \App\Repositories\Contracts\ModelRepository
-     */
-    public function includeSoftDeleted(): ModelRepository;
-
     /**
      * Save a new model.
      *
@@ -31,28 +23,12 @@ interface ModelRepository
     public function update(Model $model): bool;
 
     /**
-     * Soft delete a model.
+     * Delete a model.
      *
      * @param \App\Models\Model $model
      * @return bool
      */
     public function delete(Model $model): bool;
-
-    /**
-     * Force delete a model.
-     *
-     * @param \App\Models\Model $model
-     * @return bool
-     */
-    public function forceDelete(Model $model): bool;
-
-    /**
-     * Restore a soft deleted model.
-     *
-     * @param \App\Models\Model $model
-     * @return bool
-     */
-    public function restore(Model $model): bool;
 
     /**
      * Retieve a single model by its primary key.
@@ -76,7 +52,7 @@ interface ModelRepository
      *
      * @return \Illuminate\Support\Collection of \App\Models\Model
      */
-    public function all(): Collection;
+    public function all(): \Illuminate\Support\Collection;
 
     /**
      * Count the number of models.

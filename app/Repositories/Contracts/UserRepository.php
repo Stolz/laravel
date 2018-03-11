@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Contracts;
 
-interface UserRepository extends ModelRepository
+interface UserRepository extends SoftDeletableModelRepository
 {
 
 }

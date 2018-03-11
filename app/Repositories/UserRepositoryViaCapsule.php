@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-class UserRepositoryViaCapsule extends ModelRepositoryViaCapsule implements Contracts\UserRepository
+class UserRepositoryViaCapsule extends SoftDeletableModelRepositoryViaCapsule implements Contracts\UserRepository
 {
     /**
      * Database table to use.
@@ -10,13 +10,6 @@ class UserRepositoryViaCapsule extends ModelRepositoryViaCapsule implements Cont
      * @var string
      */
     protected $table = 'users';
-
-    /**
-     * Whether or not the model handled by this repository supports soft deletes.
-     *
-     * @var bool
-     */
-    protected $softDeletable = true;
 
     /**
      * Convert database record into domain model.

@@ -4,8 +4,6 @@ namespace App\Repositories;
 
 use App\Models\Model;
 use App\Repositories\Contracts\ModelRepository;
-use Illuminate\Database\Query\Builder as QueryBuilder;
-use Illuminate\Support\Collection;
 
 abstract class ModelRepositoryViaCapsule implements ModelRepository
 {
@@ -22,20 +20,6 @@ abstract class ModelRepositoryViaCapsule implements ModelRepository
      * @var string
      */
     protected $table;
-
-    /**
-     * Whether or not the model handled by this repository supports soft deletes.
-     *
-     * @var bool
-     */
-    protected $softDeletable = false;
-
-    /**
-     * Whether or not include soft deleted models in the next query.
-     *
-     * @var bool
-     */
-    protected $withSoftDeleted = false;
 
     /**
      * Class constructor.
@@ -55,32 +39,9 @@ abstract class ModelRepositoryViaCapsule implements ModelRepository
      *
      * @return \Illuminate\Database\Query\Builder
      */
-    protected function query(): QueryBuilder
+    protected function query(): \Illuminate\Database\Query\Builder
     {
         return $this->db->table($this->table);
-    }
-
-    /**
-     * Begin a new query on the model table with soft delete support.
-     *
-     * @return \Illuminate\Database\Query\Builder
-     */
-    protected function softDeleteAwareQuery(): QueryBuilder
-    {
-        $query = $this->query();
-
-        if (! $this->softDeletable)
-            return $query;
-
-        if ($this->withSoftDeleted) {
-            // Include soft deleted
-            $this->withSoftDeleted = false; // Ensure the flag is used only once per query
-        } else {
-            // Exclude soft deleted
-            $query->whereNull('deleted_at');
-        }
-
-        return $query;
     }
 
     /**
@@ -103,18 +64,6 @@ abstract class ModelRepositoryViaCapsule implements ModelRepository
     }
 
     // Contract ====================================================================
-
-    /**
-     * Include soft deleted models in operations that normally exclude them.
-     *
-     * @return \App\Repositories\Contracts\ModelRepository
-     */
-    public function includeSoftDeleted(): ModelRepository
-    {
-        $this->withSoftDeleted = true;
-
-        return $this;
-    }
 
     /**
      * Save a new model.
@@ -169,54 +118,14 @@ abstract class ModelRepositoryViaCapsule implements ModelRepository
     }
 
     /**
-     * Soft delete a model.
+     * Delete a model.
      *
      * @param \App\Models\Model $model
      * @return bool
      */
     public function delete(Model $model): bool
     {
-        if (! $this->softDeletable)
-            return $this->forceDelete($model);
-
-        $deletedAt = $model->getDeletedAt();
-        $updated = $this->update($model->setDeletedAt(now()));
-
-        if (! $updated)
-            $model->setDeletedAt($deletedAt);
-
-        return $updated;
-    }
-
-    /**
-     * Force delete a model.
-     *
-     * @param \App\Models\Model $model
-     * @return bool
-     */
-    public function forceDelete(Model $model): bool
-    {
         return (bool) $this->query()->whereId($model->getId())->limit(1)->delete();
-    }
-
-    /**
-     * Restore a soft deleted model.
-     *
-     * @param \App\Models\Model $model
-     * @return bool
-     */
-    public function restore(Model $model): bool
-    {
-        if (! $this->softDeletable)
-            return false;
-
-        $deletedAt = $model->getDeletedAt();
-        $updated = $this->update($model->setDeletedAt(null));
-
-        if (! $updated)
-            $model->setDeletedAt($deletedAt);
-
-        return $updated;
     }
 
     /**
@@ -239,7 +148,7 @@ abstract class ModelRepositoryViaCapsule implements ModelRepository
      */
     public function findBy($field, $value): ?Model
     {
-        $found = $this->softDeleteAwareQuery()->where($field, $value)->first();
+        $found = $this->query()->where($field, $value)->first();
 
         return ($found) ? $this->recordToModel($found) : null;
     }
@@ -249,9 +158,9 @@ abstract class ModelRepositoryViaCapsule implements ModelRepository
      *
      * @return \Illuminate\Support\Collection of \App\Models\Model
      */
-    public function all(): Collection
+    public function all(): \Illuminate\Support\Collection
     {
-        return $this->softDeleteAwareQuery()->get()->transform(function ($record) {
+        return $this->query()->get()->transform(function ($record) {
             return $this->recordToModel($record);
         });
     }
@@ -263,6 +172,6 @@ abstract class ModelRepositoryViaCapsule implements ModelRepository
      */
     public function count(): int
     {
-        return $this->softDeleteAwareQuery()->count();
+        return $this->query()->count();
     }
 }
