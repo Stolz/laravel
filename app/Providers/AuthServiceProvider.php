@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +25,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        // Register our own user provider for authentication
+        Auth::provider('userRepository', function ($app, array $config): \Illuminate\Contracts\Auth\UserProvider {
+            return $app->make(\App\Repositories\Contracts\UserRepository::class);
+        });
     }
 }

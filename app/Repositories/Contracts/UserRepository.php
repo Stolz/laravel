@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Contracts;
 
-interface UserRepository extends SoftDeletableModelRepository
+use Illuminate\Contracts\Auth\UserProvider;
+
+interface UserRepository extends SoftDeletableModelRepository, UserProvider
 {
 
 }
