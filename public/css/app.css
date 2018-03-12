@@ -1,7 +1,1 @@
-@import url(https://fonts.googleapis.com/css?family=Chango|Exo&subset=latin,latin-ext);
-
-* {
-    color: #000;
-    background-color: #FFF;
-    font-family: 'Exo', sans-serif;
-}
+@import url(https://fonts.googleapis.com/css?family=Chango|Exo&subset=latin,latin-ext);body{color:#000;background-color:#fff;font-family:Exo,sans-serif}input{display:block}input[type=checkbox]{display:inline}nav{float:right}.error{color:red}.sucess{color:green}.warning{color:orange}

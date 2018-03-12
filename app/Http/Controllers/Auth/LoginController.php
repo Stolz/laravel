@@ -7,33 +7,29 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
     use AuthenticatesUsers;
+
+    /**
+     * Login throttle maximum number of attempts to allow.
+     *
+     * @var int
+     */
+    protected $maxAttempts = 5;
+
+    /**
+     * Login throttle number of minutes to decay.
+     *
+     * @var int
+     */
+    protected $decayMinutes = 1;
 
     /**
      * Where to redirect users after login.
      *
-     * @var string
+     * @return string
      */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function redirectPath()
     {
-        $this->middleware('guest')->except('logout');
+        return route('me');
     }
 }
