@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Repositories\Contracts;
+namespace Tests\Unit\Repositories\Contracts;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
