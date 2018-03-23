@@ -30,7 +30,8 @@ $SUDO find . -type f -exec chmod 640 {} \;
 # Exec permission for scripts
 $SUDO chmod 750 artisan bin/* vendor/bin/* node_modules/.bin/*
 
-# Writte permissions for certain directories
+# Writte permissions for certain paths
 $SUDO find storage -type d -exec chmod 770 {} \;
+$SUDO find storage/logs -type f -name *.log -exec chmod 660 {} \;
 
 exit 0

@@ -5,6 +5,16 @@ namespace Tests;
 class ExampleTest extends TestCase
 {
     /**
+     * Run before each test.
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+    }
+
+    /**
      * Test template.
      *
      * @return void
@@ -13,37 +23,4 @@ class ExampleTest extends TestCase
     {
         $this->markTestIncomplete('This test has not been implemented yet.');
     }*/
-
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function testExample()
-    {
-        $this->assertTrue(true);
-    }
-
-    /**
-     * A basic HTTP functional test example.
-     *
-     * @return void
-    */
-    public function testHomePage()
-    {
-        $response = $this->get('/');
-        $response->assertStatus(200);
-    }
-
-    /**
-     * Test routes are correct.
-     *
-     * @return void
-     */
-    public function testRoutes()
-    {
-        $this->artisan('route:list');
-        $output = app('Illuminate\Contracts\Console\Kernel')->output();
-        $this->assertRegExp('/Domain.*Method.*URI.*Name.*Action.*Middleware/', $output);
-    }
 }
