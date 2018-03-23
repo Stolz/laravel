@@ -26,7 +26,7 @@ class UserRepositoryTest extends TestCase
     }
 
     /**
-     * Test retieve all models.
+     * Test retrieve all models.
      *
      * @return void
      */
@@ -105,7 +105,7 @@ class UserRepositoryTest extends TestCase
     }
 
     /**
-     * Test retieve a single model by its primary key.
+     * Test retrieve a single model by its primary key.
      *
      * @return void
      */
@@ -119,7 +119,7 @@ class UserRepositoryTest extends TestCase
     }
 
     /**
-     * Test retieve a single model by a given unique field.
+     * Test retrieve a single model by a given unique field.
      *
      * @return void
      */

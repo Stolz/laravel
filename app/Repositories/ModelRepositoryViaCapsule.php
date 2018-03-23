@@ -129,7 +129,7 @@ abstract class ModelRepositoryViaCapsule implements ModelRepository
     }
 
     /**
-     * Retieve a single model by its primary key.
+     * Retrieve a single model by its primary key.
      *
      * @param  mixed $id
      * @return \App\Models\Model|null
