@@ -28,7 +28,7 @@ $SUDO find . -type d -exec chmod 750 {} \;
 $SUDO find . -type f -exec chmod 640 {} \;
 
 # Exec permission for scripts
-$SUDO chmod 750 artisan bin/* vendor/bin/* node_modules/.bin/*
+$SUDO chmod 750 artisan bin/* vendor/bin/* node_modules/.bin/* ./vendor/laravel/dusk/bin/chromedriver-linux
 
 # Writte permissions for certain paths
 $SUDO find storage -type d -exec chmod 770 {} \;
