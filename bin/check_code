@@ -19,7 +19,7 @@ function usage
 {
 	color "Usage:" "yellow"
 	echo
-	color "    $0 -l | -S | -s [sniffs] | -i [sniffs]" "cyan"
+	color "    $0 -l | -S | -s [sniffs] | -i [sniffs] | -m | -h" "cyan"
 	echo
 	color "where:" "yellow"
 	echo
