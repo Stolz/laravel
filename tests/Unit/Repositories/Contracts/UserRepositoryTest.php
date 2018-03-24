@@ -20,7 +20,7 @@ class UserRepositoryTest extends TestCase
         parent::setUp();
 
         $this->repository = app(\App\Repositories\Contracts\UserRepository::class);
-        $this->model = User::make(['name' => 'test', 'email' => 'test@test.com', 'password' => 'secret']);
+        $this->model = factory(User::class)->make(['name' => 'test']);
         $this->repository->create($this->model);
     }
 
