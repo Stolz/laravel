@@ -8,7 +8,7 @@ Route::view('/', 'home')->name('home');
 
 Route::middleware(['guest'])->group(function () {
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-    Route::post('login', 'Auth\LoginController@login')->name('do.login');
+    Route::post('login', 'Auth\LoginController@login')->name('login.attempt');
 });
 
 /// Only authenticated users area ==============================================

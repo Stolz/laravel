@@ -5,7 +5,7 @@
 
 @section('content')
 
-    <form method="POST" action="{{ route('do.login') }}">
+    <form method="POST" action="{{ route('login.attempt') }}">
         @csrf
 
         <label for="email">{{ _('E-Mail') }}</label>
