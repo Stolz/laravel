@@ -15,5 +15,10 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('logout', 'Auth\LoginController@logout')->name('logout');
-    Route::view('me', 'me')->name('me');
+
+    Route::prefix('me')->group(function () {
+        Route::get('/', 'MeController@showInfo')->name('me');
+        Route::get('password', 'MeController@showChangePasswordForm')->name('me.password');
+        Route::post('password', 'MeController@changePassword')->name('me.password.change');
+    });
 });
