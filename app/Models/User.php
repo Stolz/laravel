@@ -25,6 +25,13 @@ class User extends Model implements AuthenticatableContract/* TODO, Authorizable
      */
     const MIN_PASSWORD_LENGTH = 5;
 
+    /**
+     * Password encryption work factor.
+     *
+     * @const int
+     */
+    const PASSWORD_BCRYPT_ROUNDS = 10;
+
     // Meta ========================================================================
 
     /**
@@ -136,12 +143,14 @@ class User extends Model implements AuthenticatableContract/* TODO, Authorizable
      */
     public function setPassword(string $password): self
     {
-        if (Hash::needsRehash($password)) {
+        $options = $this->getPasswordHashOptions();
+
+        if (Hash::needsRehash($password, $options)) {
             if (strlen($password) < static::MIN_PASSWORD_LENGTH) {
                 throw new \InvalidArgumentException('Password must be at least 5 characters long');
             }
 
-            $password = Hash::make($password);
+            $password = Hash::make($password, $options);
         }
 
         $this->password = $password;
@@ -193,6 +202,22 @@ class User extends Model implements AuthenticatableContract/* TODO, Authorizable
     }
 
     // Domain logic ================================================================
+
+    /**
+     * Get options used for hashing passwords.
+     *
+     * For performance reasons Laravel uses different hash options for different environments.
+     * For instance, testing environment uses 4 Bcrypt rounds whereas other environments use
+     * 10 rounds. If we hash user passwords using the default options they may become unusable
+     * in our testing environment. To prevent this all password hashing operations of this model
+     * must use the options returned by this function.
+     *
+     * @return array
+     */
+    protected function getPasswordHashOptions(): array
+    {
+        return ['rounds' => static::PASSWORD_BCRYPT_ROUNDS];
+    }
 
     /**
      * Get the name of the unique identifier for the user.
