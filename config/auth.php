@@ -67,6 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'userRepository',
+            'model' => App\Models\User::class,
         ],
 
         // 'users' => [
