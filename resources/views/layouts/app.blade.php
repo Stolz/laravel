@@ -13,6 +13,7 @@
 
 <div id="content">
     <h1>{{ config('app.name') }}</h1>
+    @include('flash-messages')
     @yield('content')
 </div>
 @stop

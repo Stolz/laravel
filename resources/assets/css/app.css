@@ -12,5 +12,6 @@ input[type='checkbox'] {display: inline}
 nav {float: right}
 
 .error {color: red}
-.sucess {color: green}
+.info {color: blue}
+.success {color: green}
 .warning {color: orange}
