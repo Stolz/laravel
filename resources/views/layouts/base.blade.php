@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
-    <title>@yield('page-title') | {{ config('app.name') }}</title>
+    <title>@yield('page.title') | {{ config('app.name') }}</title>
 
-    @hasSection('page-description')
-    <meta name="description" content="@yield('page-description')">
+    @hasSection('page.description')
+    <meta name="description" content="@yield('page.description')">
     @endif
 
     <base href="/" />
