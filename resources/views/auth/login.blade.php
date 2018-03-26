@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('page.title', _('Login'))
-@section('page.description', _('Login page'))
 
 @section('content')
 
@@ -21,6 +20,8 @@
         </label>
 
         <input type="submit" value="{{ _('Login') }}"/>
+
+        <a href="{{ route('password.request') }}"> {{ _('Forgot your password?') }} </a>
     </form>
 
 @endsection

@@ -49,7 +49,7 @@ class MeController extends Controller
             return redirect()->back()->withErrors(['password' => _('Wrong password')]);
 
         // Apply changes to the user
-        $user->setPassword($request->get('new_password'));
+        $user->setPassword($request->get('new_password'))->setRememberToken(str_random(60));
 
         // Update user in repository
         if ($userRepository->update($user)) {

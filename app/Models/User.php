@@ -12,11 +12,9 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 
-class User extends Model implements AuthenticatableContract/* TODO, AuthorizableContract, CanResetPasswordContract */
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract /* TODO AuthorizableContract */
 {
-    // TODO some of these traits implement the above contracts for Eloquent models, but I'm not using Eloquent
-    // review all these traits to identigy the one that are for Eloquent and reimplement them
-    use Softdeletable, Timestampable;/*TODO, Authorizable, CanResetPassword, Notifiable*/
+    use Softdeletable, Timestampable, Notifiable, CanResetPassword; /* TODO Authorizable */
 
     /**
      * Minimum password length before encryption.
