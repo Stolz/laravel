@@ -108,11 +108,15 @@ return [
     | provides a richer set of commands than a typical key-value systems
     | such as APC or Memcached. Laravel makes it easy to dig right in.
     |
+    | Available clients:
+    |  predis:   Slower. It requires to install predis/predis Composer package
+    |  phpredis: Faster. It requires to install a PHP extension. https://github.com/phpredis/phpredis
+    |
     */
 
     'redis' => [
 
-        'client' => 'predis',
+        'client' => env('REDIS_CLIENT', 'predis'),
 
         'default' => [
             'host' => env('REDIS_HOST', '127.0.0.1'),
