@@ -100,21 +100,25 @@ To get some stats about the code
 
 ## Testing
 
-Run all tests
+Run all tests on the default suites (default suites are defined with `defaultTestSuite` attribute within `phpunit.xml`)
 
 	./vendor/bin/phpunit
 
-Run all test on a single test file
+Run all test on a file
 
 	./vendor/bin/phpunit tests/TestClass.php
 
-Run a single test on a single test file
+Run all test on a directory
 
-	./vendor/bin/phpunit --filter testSomething TestSuit tests/TestSuit.php
+	./vendor/bin/phpunit tests/Unit
 
-Run all test on the same test suit (test suits are defined in `phpunit.xml` file)
+Run a single test on a single file
 
-	./vendor/bin/phpunit --testsuite "Test Suite Name"
+	./vendor/bin/phpunit --filter testSomething tests/TestClass.php
+
+Run all test on certails test suites only (use `phpunit --list-suites` to see availale suites)
+
+	./vendor/bin/phpunit --testsuite Unit,Feature
 
 To disable code coverage on run time for faster tests execution add the option `--no-coverage`.
 
