@@ -21,8 +21,6 @@
         </label>
 
         <input type="submit" value="{{ _('Login') }}"/>
-
-        <a href="{{ route('password.request') }}"> {{ _('Forgot your password?') }} </a>
     </form>
 
 @endsection

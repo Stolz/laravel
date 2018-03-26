@@ -19,7 +19,7 @@
         <input type="password"  name="new_password_confirmation" required>
         @if($errors->has('new_password_confirmation'))<p class="error">{{ $errors->first('new_password_confirmation') }}</p>@endif
 
-        <p><input type="submit" value="{{ _('Change password') }}"/></p>
+        <input type="submit" value="{{ _('Change password') }}"/>
     </form>
 
 @endsection
