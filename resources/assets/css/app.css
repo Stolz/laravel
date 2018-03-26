@@ -8,13 +8,18 @@ body {
     color: #000;
 }
 
+h1 small {
+    font-size: 50%;
+    font-weight: normal;
+}
+
+nav {float: right}
+
 input {
     display: block;
     margin-bottom: .8em;
 }
 input[type='checkbox'] {display: inline}
-
-nav {float: right}
 
 .error {color: red}
 .info {color: blue}
