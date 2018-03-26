@@ -1,12 +1,17 @@
 @import url(https://fonts.googleapis.com/css?family=Chango|Exo&subset=latin,latin-ext);
 
 body {
-    color: #000;
-    background-color: #FFF;
     font-family: 'Exo', sans-serif;
+    margin: 0;
+    padding: 0 2em;
+    background-color: #FFF;
+    color: #000;
 }
 
-input {display: block}
+input {
+    display: block;
+    margin-bottom: .8em;
+}
 input[type='checkbox'] {display: inline}
 
 nav {float: right}
