@@ -108,17 +108,7 @@ abstract class Model implements Arrayable, Jsonable
      */
     public function toJson($options = 0): string
     {
-        // Whether or not JSON representation of the model should have a human friendly format
-        static $prettyJson;
-
-        // For performance reasons 'production' environment does not print pretty JSON
-        if ($prettyJson === null)
-            $prettyJson = ! app()->environment('production');
-
-        if ($prettyJson)
-            $options = $options | JSON_PRETTY_PRINT;
-
-        return json_encode($this->toArray(), $options);
+        return json($this->toArray(), $options);
     }
 
     // Domain logic ================================================================

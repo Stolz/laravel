@@ -29,6 +29,33 @@ if (! function_exists('d')) {
     }
 }
 
+if (! function_exists('json')) {
+    /**
+     * Returns the JSON representation of a value.
+     *
+     * If current environment is not production force JSON_PRETTY_PRINT option.
+     *
+     * @param mixed $value
+     * @param int $options
+     * @param int $depth
+     * @return string
+     */
+    function json($value, int $options = 0, int $depth = 512): string
+    {
+        // Whether or not JSON should have a human friendly format
+        static $prettyJson;
+
+        // For performance reasons 'production' environment does not print pretty JSON
+        if ($prettyJson === null)
+            $prettyJson = ! app()->environment('production');
+
+        if ($prettyJson)
+            $options = $options | JSON_PRETTY_PRINT;
+
+        return json_encode($value, $options, $depth);
+    }
+}
+
 if (! function_exists('convert_to_date')) {
     /**
      * Convert a date value to a \Carbon\Carbon instance.
