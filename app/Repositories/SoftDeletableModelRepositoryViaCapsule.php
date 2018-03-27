@@ -85,9 +85,8 @@ abstract class SoftDeletableModelRepositoryViaCapsule extends ModelRepositoryVia
         $deletedAt = $model->getDeletedAt();
         $updated = $this->update($model->setDeletedAt(null));
 
-        if (! $updated) {
+        if (! $updated)
             $model->setDeletedAt($deletedAt);
-        }
 
         return $updated;
     }

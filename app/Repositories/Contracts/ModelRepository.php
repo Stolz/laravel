@@ -18,9 +18,10 @@ interface ModelRepository
      * Update an existing model.
      *
      * @param \App\Models\Model $model
+     * @param array $fields If not empty only these fields will be updated
      * @return bool
      */
-    public function update(Model $model): bool;
+    public function update(Model $model, array $fields = []): bool;
 
     /**
      * Delete a model.

@@ -60,7 +60,7 @@ class UserRepositoryViaCapsule extends SoftDeletableModelRepositoryViaCapsule im
      */
     public function updateRememberToken(Authenticatable $user, $token)
     {
-        $this->update($user->setRememberToken($token));
+        $this->update($user->setRememberToken($token), [$user->getRememberTokenName()]);
     }
 
     /**

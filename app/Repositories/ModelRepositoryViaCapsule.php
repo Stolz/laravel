@@ -96,11 +96,15 @@ abstract class ModelRepositoryViaCapsule implements ModelRepository
      * Update an existing model.
      *
      * @param \App\Models\Model $model
+     * @param array $fields If not empty only these fields will be updated
      * @return bool
      */
-    public function update(Model $model): bool
+    public function update(Model $model, array $fields = []): bool
     {
+        // Extract columns to update
         $columns = array_except($this->modelToRecord($model), ['id', 'updated_at']);
+        if($fields)
+            $columns = array_only($columns, $fields);
 
         // Set update time
         if ($updatedAt = method_exists($model, 'setUpdatedAt'))
