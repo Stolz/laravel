@@ -112,7 +112,7 @@ abstract class Model implements Arrayable, Jsonable
         static $prettyJson;
 
         // For performance reasons 'production' environment does not print pretty JSON
-        if (is_null($prettyJson))
+        if ($prettyJson === null)
             $prettyJson = ! app()->environment('production');
 
         if ($prettyJson)
