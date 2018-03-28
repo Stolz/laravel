@@ -126,7 +126,7 @@ abstract class SoftDeletableModelRepositoryViaCapsule extends ModelRepositoryVia
      * @param  int|null $page
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginate($perPage = 15, int $page = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public function paginate(int $perPage = 15, int $page = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         $this->paginateQuery = $this->softDeleteAwareQuery();
 

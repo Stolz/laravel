@@ -8,6 +8,13 @@ use App\Repositories\Contracts\ModelRepository;
 abstract class ModelRepositoryViaCapsule implements ModelRepository
 {
     /**
+     * Maximum number of items per page when using pagination.
+     *
+     * @const int
+     */
+    const MAX_PER_PAGE = 50;
+
+    /**
      * Instance of the service used to interact with database.
      *
      * @var \Illuminate\Database\ConnectionResolverInterface
@@ -178,21 +185,28 @@ abstract class ModelRepositoryViaCapsule implements ModelRepository
      * @param  int|null $page
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginate($perPage = 15, int $page = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public function paginate(int $perPage = 15, int $page = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         $query = (isset($this->paginateQuery)) ? $this->paginateQuery : $this->query();
 
         // Sort results
-        if($orderByColumn = request('sortby') and \Schema::hasColumn($this->table, $orderByColumn))
+        if($orderByColumn = request('sortBy') and \Schema::hasColumn($this->table, $orderByColumn))
         {
-            $orderByDirection = (request('sortdir') === 'desc') ? 'desc' : 'asc';
+            $orderByDirection = (request('sortDir') === 'desc') ? 'desc' : 'asc';
             $query->orderBy($orderByColumn, $orderByDirection);
         }
 
+        // Fetch results
+        $perPage = min($perPage, static::MAX_PER_PAGE);
         $paginator = $query->paginate($perPage, ['*'], 'page', $page);
 
-        foreach($paginator as $key => $record)
-              $paginator[$key] = $this->recordToModel($record);
+        // Include sorting parameters
+        if(isset($orderByDirection))
+            $paginator->appends(['sortBy' => $orderByColumn, 'sortDir' => $orderByDirection]);
+
+        $paginator->transform(function ($record) {
+            return $this->recordToModel($record);
+        });
 
         return $paginator;
     }
