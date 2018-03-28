@@ -6,15 +6,25 @@ use App\Traits\Identifiable;
 use App\Traits\Makeable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
+use JsonSerializable;
 
-abstract class Model implements Arrayable, Jsonable
+abstract class Model implements Arrayable, Jsonable, JsonSerializable
 {
     use Identifiable, Makeable;
 
     /**
      * Default format used for dates with time.
+     *
+     * @const string
      */
     const DATETIME_FORMAT = 'Y-m-d H:i:s';
+
+    /**
+     * Fields to hide when converting the model to JSON.
+     *
+     * @const array
+     */
+    const JSON_HIDDEN = [];
 
     // Meta ========================================================================
 
@@ -108,7 +118,19 @@ abstract class Model implements Arrayable, Jsonable
      */
     public function toJson($options = 0): string
     {
-        return json($this->toArray(), $options);
+        return json($this->jsonSerialize(), $options);
+    }
+
+    /**
+     * Specify data which should be serialized to JSON.
+     *
+     * Implements \JsonSerializable
+     *
+     * @return mixed
+     */
+    public function jsonSerialize()
+    {
+        return $this->toArrayExcept(static::JSON_HIDDEN);
     }
 
     // Domain logic ================================================================

@@ -17,6 +17,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     use Softdeletable, Timestampable, Notifiable, CanResetPassword; /* TODO Authorizable */
 
     /**
+     * Fields to hide when converting the model to JSON.
+     *
+     * @const array
+     */
+    const JSON_HIDDEN = ['password', 'remember_token'];
+
+    /**
      * Minimum password length before encryption.
      *
      * @const int
@@ -197,25 +204,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             'password' => $this->getPassword(),
             'remember_token' => $this->getRememberToken(),
         ] + $this->getTimestampsAsArray() + $this->getDeletedAtAsArray();
-    }
-
-    /**
-     * Convert the model to its JSON representation.
-     *
-     * Implements \Illuminate\Contracts\Support\Jsonable interface.
-     *
-     * @param int $options
-     * @return string
-     */
-    public function toJson($options = 0): string
-    {
-        // Remove sensible fields
-        $data = $this->toArrayExcept([
-            'password',
-            $this->getRememberTokenName(),
-        ]);
-
-        return json($data, $options);
     }
 
     // Domain logic ================================================================
