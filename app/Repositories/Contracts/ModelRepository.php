@@ -56,6 +56,17 @@ interface ModelRepository
     public function all(): \Illuminate\Support\Collection;
 
     /**
+     * Retrieve a page of a paginated result of all models.
+     *
+     * If no page is provided it will be guessed from the current request.
+     *
+     * @param  int $perPage
+     * @param  int|null $page
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function paginate($perPage = 15, int $page = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator;
+
+    /**
      * Count the number of models.
      *
      * @return int

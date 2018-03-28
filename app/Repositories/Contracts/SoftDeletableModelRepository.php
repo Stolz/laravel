@@ -14,14 +14,6 @@ interface SoftDeletableModelRepository extends ModelRepository
     public function includeSoftDeleted(): SoftDeletableModelRepository;
 
     /**
-     * Soft delete a model.
-     *
-     * @param \App\Models\Model $model
-     * @return bool
-     */
-    public function delete(Model $model): bool;
-
-    /**
      * Force delete a model.
      *
      * @param \App\Models\Model $model

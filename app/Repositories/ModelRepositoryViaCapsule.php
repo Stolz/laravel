@@ -170,6 +170,34 @@ abstract class ModelRepositoryViaCapsule implements ModelRepository
     }
 
     /**
+     * Retrieve a page of a paginated result of all models.
+     *
+     * If no page is provided it will be guessed from the current request.
+     *
+     * @param  int $perPage
+     * @param  int|null $page
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function paginate($perPage = 15, int $page = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    {
+        $query = (isset($this->paginateQuery)) ? $this->paginateQuery : $this->query();
+
+        // Sort results
+        if($orderByColumn = request('sortby') and \Schema::hasColumn($this->table, $orderByColumn))
+        {
+            $orderByDirection = (request('sortdir') === 'desc') ? 'desc' : 'asc';
+            $query->orderBy($orderByColumn, $orderByDirection);
+        }
+
+        $paginator = $query->paginate($perPage, ['*'], 'page', $page);
+
+        foreach($paginator as $key => $record)
+              $paginator[$key] = $this->recordToModel($record);
+
+        return $paginator;
+    }
+
+    /**
      * Count the number of models.
      *
      * @return int
