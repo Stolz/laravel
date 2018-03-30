@@ -24,6 +24,12 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
+
+        // Regiter route model bindings
+        Route::bind('user', function ($id) {
+            $userRepository = app(\App\Repositories\Contracts\UserRepository::class);
+            return $userRepository->find($id) ?? abort(404, _("User with id '$id' not found"));
+        });
     }
 
     /**

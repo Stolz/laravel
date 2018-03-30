@@ -1,18 +1,17 @@
 <?php
 
-use Illuminate\Http\Request;
+/// Only guests area ===========================================================
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+Route::middleware(['guest'])->group(function () {
+    Route::middleware(['throttle:5,5'])->post('login', 'AuthController@login')->name('login');
+});
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+/// Only authenticated users area ==============================================
+
+Route::middleware(['auth:api'])->group(function () {
+    Route::middleware(['throttle:5,5'])->get('refresh', 'AuthController@refresh')->name('refresh');
+    Route::get('me', 'AuthController@me')->name('me');
+    Route::get('logout', 'AuthController@logout')->name('logout');
+
+    Route::apiResource('user', 'UserController');
 });

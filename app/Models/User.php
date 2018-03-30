@@ -11,8 +11,9 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract /* TODO AuthorizableContract */
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract, JWTSubject /* TODO AuthorizableContract */
 {
     use Softdeletable, Timestampable, Notifiable, CanResetPassword; /* TODO Authorizable */
 
@@ -262,5 +263,25 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function getRememberTokenName(): string
     {
         return 'remember_token';
+    }
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getId();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }
