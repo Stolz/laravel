@@ -6,7 +6,7 @@
 .env
 .kateproject*
 .php_cs.cache
-/docs
+/docs/sami
 /node_modules
 /public/storage
 /storage/*.key

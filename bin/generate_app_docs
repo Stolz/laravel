@@ -21,4 +21,4 @@ color "please temporarily comment out all the anonymous classes in the source co
 color "Generating source code documentation"
 php ./vendor/bin/sami update sami.php
 
-open_in_browser ./docs/search.html
+open_in_browser ./docs/sami/search.html
