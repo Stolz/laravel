@@ -26,9 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // Register User model repository
         $this->app->bind(\App\Repositories\Contracts\UserRepository::class, function () {
-            $database = app('db');
-
-            return new \App\Repositories\UserRepositoryViaCapsule($database);
+            return new \App\Repositories\QueryBuilder\UserRepository(app('db'));
         });
     }
 }

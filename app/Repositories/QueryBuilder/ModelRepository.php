@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\QueryBuilder;
 
 use App\Models\Model;
-use App\Repositories\Contracts\ModelRepository;
+use App\Repositories\Contracts\ModelRepository as ModelRepositoryContract;
 
-abstract class ModelRepositoryViaCapsule implements ModelRepository
+abstract class ModelRepository implements ModelRepositoryContract
 {
     /**
      * Maximum number of items per page when using pagination.

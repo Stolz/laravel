@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\QueryBuilder;
 
+use App\Repositories\Contracts\UserRepository as UserRepositoryContract;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Hash;
 
-class UserRepositoryViaCapsule extends SoftDeletableModelRepositoryViaCapsule implements Contracts\UserRepository
+class UserRepository extends SoftDeletableModelRepository implements UserRepositoryContract
 {
     /**
      * Database table to use.

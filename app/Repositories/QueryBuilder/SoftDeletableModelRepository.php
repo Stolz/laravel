@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\QueryBuilder;
 
 use App\Models\Model;
-use App\Repositories\Contracts\SoftDeletableModelRepository;
+use App\Repositories\Contracts\SoftDeletableModelRepository as SoftDeletableModelRepositoryContract;
 
-abstract class SoftDeletableModelRepositoryViaCapsule extends ModelRepositoryViaCapsule implements SoftDeletableModelRepository
+abstract class SoftDeletableModelRepository extends ModelRepository implements SoftDeletableModelRepositoryContract
 {
     /**
      * Whether or not include soft deleted models in the next query.
@@ -39,7 +39,7 @@ abstract class SoftDeletableModelRepositoryViaCapsule extends ModelRepositoryVia
      *
      * @return \App\Repositories\Contracts\SoftDeletableModelRepository
      */
-    public function includeSoftDeleted(): SoftDeletableModelRepository
+    public function includeSoftDeleted(): SoftDeletableModelRepositoryContract
     {
         $this->withSoftDeleted = true;
 
