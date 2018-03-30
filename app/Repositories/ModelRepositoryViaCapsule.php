@@ -110,7 +110,7 @@ abstract class ModelRepositoryViaCapsule implements ModelRepository
     {
         // Extract columns to update
         $columns = array_except($this->modelToRecord($model), ['id', 'updated_at']);
-        if($fields)
+        if ($fields)
             $columns = array_only($columns, $fields);
 
         // Set update time
@@ -190,8 +190,7 @@ abstract class ModelRepositoryViaCapsule implements ModelRepository
         $query = (isset($this->paginateQuery)) ? $this->paginateQuery : $this->query();
 
         // Sort results
-        if($orderByColumn = request('sortBy') and \Schema::hasColumn($this->table, $orderByColumn))
-        {
+        if ($orderByColumn = request('sortBy') and \Schema::hasColumn($this->table, $orderByColumn)) {
             $orderByDirection = (request('sortDir') === 'desc') ? 'desc' : 'asc';
             $query->orderBy($orderByColumn, $orderByDirection);
         }
@@ -201,7 +200,7 @@ abstract class ModelRepositoryViaCapsule implements ModelRepository
         $paginator = $query->paginate($perPage, ['*'], 'page', $page);
 
         // Include sorting parameters
-        if(isset($orderByDirection))
+        if (isset($orderByDirection))
             $paginator->appends(['sortBy' => $orderByColumn, 'sortDir' => $orderByDirection]);
 
         $paginator->transform(function ($record) {
