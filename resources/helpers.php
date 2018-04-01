@@ -29,6 +29,22 @@ if (! function_exists('d')) {
     }
 }
 
+if (! function_exists('array_map_key')) {
+    /**
+     * Applies a callback to the keys of the given array.
+     *
+     * @param callable $callback
+     * @param array $array
+     * @return array
+     */
+    function array_map_key(callable $callback, array $array)
+    {
+        $keys = array_map($callback, array_keys($array));
+
+        return array_combine($keys, $array);
+    }
+}
+
 if (! function_exists('json')) {
     /**
      * Returns the JSON representation of a value.
