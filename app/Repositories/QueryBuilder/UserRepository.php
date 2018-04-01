@@ -46,7 +46,7 @@ class UserRepository extends SoftDeletableModelRepository implements UserReposit
      */
     public function retrieveByToken($identifier, $token)
     {
-        if ($user = $this->retrieveById($identifier) and $user->getRememberToken() === $token)
+        if ($user = $this->retrieveById($identifier) and $user->getRememberToken() and hash_equals($user->getRememberToken(), $token))
             return $user;
 
         return null;
