@@ -34,10 +34,14 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request  $request): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $perPage = $request->input('perPage', 15);
-        $users = $this->userRepository->paginate($perPage)->transform(function ($user) {
+        $perPage = (int) $request->input('perPage', 1);
+        $page = (int) $request->input('page', 1);
+        $sortBy = $request->input('sortBy');
+        $sortDirection = $request->input('sortDir', 'asc');
+
+        $users = $this->userRepository->paginate($perPage, $page, $sortBy, $sortDirection)->transform(function ($user) {
             return $user->jsonSerialize();
         });
 

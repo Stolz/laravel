@@ -12,7 +12,7 @@ abstract class ModelRepository implements ModelRepositoryContract
      *
      * @const int
      */
-    const MAX_PER_PAGE = 50;
+    const MAX_PER_PAGE = 100;
 
     /**
      * Instance of the service used to interact with database.
@@ -179,33 +179,38 @@ abstract class ModelRepository implements ModelRepositoryContract
     /**
      * Retrieve a page of a paginated result of all models.
      *
-     * If no page is provided it will be guessed from the current request.
-     *
      * @param  int $perPage
-     * @param  int|null $page
+     * @param  int $page
+     * @param  string $sortBy
+     * @param  string $sortDirection Either 'asc' or 'desc'
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginate(int $perPage = 15, int $page = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public function paginate(int $perPage = 15, int $page = 1, string $sortBy = null, string $sortDirection = 'asc'): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
+        // Validate parameters
+        $perPage = max(1, min($perPage, static::MAX_PER_PAGE));
+        $page = max(1, $page);
+        $sortBy = ($sortBy !== null and \Schema::hasColumn($this->table, $sortBy)) ? $sortBy : null;
+        $sortDirection = ($sortDirection === 'desc') ? 'desc' : 'asc';
+
+        // Reuse queries defined by child classes
         $query = (isset($this->paginateQuery)) ? $this->paginateQuery : $this->query();
 
-        // Sort results
-        if ($orderByColumn = request('sortBy') and \Schema::hasColumn($this->table, $orderByColumn)) {
-            $orderByDirection = (request('sortDir') === 'desc') ? 'desc' : 'asc';
-            $query->orderBy($orderByColumn, $orderByDirection);
-        }
+        // Apply sorting parameters
+        if ($sortBy !== null)
+            $query->orderBy($sortBy, $sortDirection);
 
         // Fetch results
-        $perPage = min($perPage, static::MAX_PER_PAGE);
         $paginator = $query->paginate($perPage, ['*'], 'page', $page);
-
-        // Include sorting parameters
-        if (isset($orderByDirection))
-            $paginator->appends(['sortBy' => $orderByColumn, 'sortDir' => $orderByDirection]);
-
         $paginator->transform(function ($record) {
             return $this->recordToModel($record);
         });
+
+        // Include sorting parameters in query string
+        if ($sortBy !== null)
+            $paginator->appends(['sortBy' => $sortBy]);
+        if ($sortDirection !== 'asc')
+            $paginator->appends(['sortDir' => $sortDirection]);
 
         return $paginator;
     }

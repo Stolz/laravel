@@ -58,13 +58,13 @@ interface ModelRepository
     /**
      * Retrieve a page of a paginated result of all models.
      *
-     * If no page is provided it will be guessed from the current request.
-     *
      * @param  int $perPage
-     * @param  int|null $page
+     * @param  int $page
+     * @param  string $sortBy
+     * @param  string $sortDirection Either 'asc' or 'desc'
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginate(int $perPage = 15, int $page = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator;
+    public function paginate(int $perPage = 15, int $page = 1, string $sortBy = null, string $sortDirection = 'asc'): \Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
     /**
      * Count the number of models.
