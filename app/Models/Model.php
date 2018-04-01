@@ -94,7 +94,7 @@ abstract class Model implements Arrayable, Jsonable, JsonSerializable
      */
     public function toArrayOnly(array $only): array
     {
-        return array_only($this->toArray(), $only);
+        return array_only($this->toArray(), array_map('snake_case', $only));
     }
 
     /**
@@ -105,7 +105,7 @@ abstract class Model implements Arrayable, Jsonable, JsonSerializable
      */
     public function toArrayExcept(array $except): array
     {
-        return array_except($this->toArray(), $except);
+        return array_except($this->toArray(), array_map('snake_case', $except));
     }
 
     /**

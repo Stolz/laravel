@@ -111,7 +111,7 @@ abstract class ModelRepository implements ModelRepositoryContract
         // Extract columns to update
         $columns = array_except($this->modelToRecord($model), ['id', 'updated_at']);
         if ($fields)
-            $columns = array_only($columns, $fields);
+            $columns = array_only($columns, array_map('snake_case', $fields));
 
         // Set update time
         if ($updatedAt = method_exists($model, 'setUpdatedAt'))
@@ -159,7 +159,7 @@ abstract class ModelRepository implements ModelRepositoryContract
      */
     public function findBy($field, $value): ?Model
     {
-        $found = $this->query()->where($field, $value)->first();
+        $found = $this->query()->where(snake_case($field), $value)->first();
 
         return ($found) ? $this->recordToModel($found) : null;
     }

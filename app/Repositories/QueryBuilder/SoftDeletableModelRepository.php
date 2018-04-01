@@ -100,7 +100,7 @@ abstract class SoftDeletableModelRepository extends ModelRepository implements S
      */
     public function findBy($field, $value): ?Model
     {
-        $found = $this->softDeleteAwareQuery()->where($field, $value)->first();
+        $found = $this->softDeleteAwareQuery()->where(snake_case($field), $value)->first();
 
         return ($found) ? $this->recordToModel($found) : null;
     }
