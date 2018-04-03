@@ -25,6 +25,21 @@ class UserRepositoryTest extends TestCase
     }
 
     /**
+     * Run after each test.
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        // Transactions from RefreshDatabase trait don't work for Doctrine based repositories
+        $this->repository->includeSoftDeleted()->all()->each(function ($user) {
+            $this->repository->forceDelete($user);
+        });
+
+        parent::tearDown();
+    }
+
+    /**
      * Test retrieve all models.
      *
      * @return void
@@ -50,10 +65,11 @@ class UserRepositoryTest extends TestCase
      */
     public function testCreate()
     {
-        $id = $this->model->getId();
-        $this->assertTrue($this->repository->create($this->model->setEmail(str_random())));
-        $this->assertNotEquals($id, $this->model->getId());
+        $model = with(clone $this->model)->setEmail(str_random());
+        $this->assertTrue($this->repository->create($model));
+        $this->assertNotEquals($this->model->getId(), $model->getId());
         $this->assertNotNull($this->model->getCreatedAt());
+        $this->assertNotEquals($this->model->getCreatedAt(), $model->getCreatedAt());
     }
 
     /**
