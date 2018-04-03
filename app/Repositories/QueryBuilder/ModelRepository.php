@@ -35,9 +35,13 @@ abstract class ModelRepository implements ModelRepositoryContract
      *
      * @param \Illuminate\Database\ConnectionResolverInterface $database
      * @return void
+     * @throws \RuntimeException
      */
     public function __construct(\Illuminate\Database\ConnectionResolverInterface $database)
     {
+        if (! $this->table)
+            throw new \RuntimeException('Missing database table name');
+
         $this->db = $database;
     }
 
@@ -147,7 +151,7 @@ abstract class ModelRepository implements ModelRepositoryContract
      */
     public function find($id): ?Model
     {
-        return $this->findBy('id', $id);
+        return ($id === null) ? null : $this->findBy('id', $id);
     }
 
     /**
