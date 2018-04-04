@@ -26,13 +26,15 @@ On production environment
 
 	git clone https://github.com/Stolz/laravel.git -b master
 	cd laravel
-	composer install --no-dev --optimize-autoloader --no-suggest
+	composer install --no-dev --classmap-authoritative --no-suggest
 	cp .env.example .env
 	php artisan key:generate
 	$EDITOR .env
 	php artisan config:cache
 	php artisan route:cache
 	php artisan migrate --seed
+
+NOTE: If yo are generating classes at runtime use `--optimize-autoloader` instead of `--classmap-authoritative`.
 
 ## Update existing installation
 
@@ -59,12 +61,14 @@ On production environment
 	php artisan route:clear
 	php artisan cache:clear
 	git pull
-	composer install --no-dev --optimize-autoloader --no-suggest
+	composer install --no-dev --classmap-authoritative --no-suggest
 	php artisan migrate
 	php artisan route:cache
 	php artisan config:cache
 	php artisan up
 	php artisan queue:restart
+
+NOTE: If yo are generating classes at runtime use `--optimize-autoloader` instead of `--classmap-authoritative`.
 
 ## Static code analysis
 
