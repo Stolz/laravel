@@ -108,10 +108,6 @@ return [
     */
     'custom_types' => [
         'json' => LaravelDoctrine\ORM\Types\Json::class,
-        'carbondate' => DoctrineExtensions\Types\CarbonDateType::class,
-        'carbondatetime' => DoctrineExtensions\Types\CarbonDateTimeType::class,
-        'carbondatetimetz' => DoctrineExtensions\Types\CarbonDateTimeTzType::class,
-        'carbontime' => DoctrineExtensions\Types\CarbonTimeType::class,
     ],
     /*
     |--------------------------------------------------------------------------
