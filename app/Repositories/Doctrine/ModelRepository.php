@@ -71,7 +71,9 @@ abstract class ModelRepository implements ModelRepositoryContract
      */
     public function create(Model $model): bool
     {
-        $model->setCreatedAt(now());
+        if (method_exists($model, 'setCreatedAt'))
+            $model->setCreatedAt(now());
+
         $this->entityManager->persist($model);
         $this->entityManager->flush($model);
 
@@ -90,7 +92,9 @@ abstract class ModelRepository implements ModelRepositoryContract
         // TODO restrict update to only $fields
         // $fields = array_map('camel_case', $fields);
 
-        $model->setUpdatedAt(now());
+        if (method_exists($model, 'setUpdatedAt'))
+            $model->setUpdatedAt(now());
+
         $this->entityManager->flush($model);
 
         return true;
