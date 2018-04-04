@@ -31,8 +31,8 @@ class User extends EntityMapping
         $builder->string('email')->unique();
         $builder->string('password');
         $builder->string('rememberToken')->length(100)->nullable();
-        $builder->datetime('createdAt')->nullable();
-        $builder->datetime('updatedAt')->nullable();
-        $builder->datetime('deletedAt')->nullable();
+        $builder->carbonDateTime('createdAt')->nullable();
+        $builder->carbonDateTime('updatedAt')->nullable();
+        $builder->carbonDateTime('deletedAt')->nullable();
     }
 }
