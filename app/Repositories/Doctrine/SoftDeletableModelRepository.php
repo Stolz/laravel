@@ -15,7 +15,7 @@ abstract class SoftDeletableModelRepository extends ModelRepository implements S
     protected $withSoftDeleted = false;
 
     /**
-     * Attach soft deleted criteria.
+     * Create a soft delete aware criteria.
      *
      * @param  array $criteria
      * @return array
@@ -29,6 +29,26 @@ abstract class SoftDeletableModelRepository extends ModelRepository implements S
         }
 
         return array_map_key('camel_case', $criteria);
+    }
+
+    /**
+     * Create a soft delete aware query builder.
+     *
+     * @param string $alias
+     * @param string $indexBy The index for the from.
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    protected function softDeleteAwareQueryBuilder(string $alias = 'o', $indexBy = null): \Doctrine\ORM\QueryBuilder
+    {
+        $queryBuilder = $this->repository->createQueryBuilder($alias, $indexBy);
+
+        if ($this->withSoftDeleted) {
+            $this->withSoftDeleted = false; // Ensure the flag is used only once per query
+        } else {
+            $queryBuilder->andWhere("$alias.deletedAt is NULL");
+        }
+
+        return $queryBuilder;
     }
 
     /**
@@ -126,16 +146,7 @@ abstract class SoftDeletableModelRepository extends ModelRepository implements S
      */
     public function paginate(int $perPage = 15, int $page = 1, string $sortBy = null, string $sortDirection = 'asc'): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
-        $criteria = $this->softDeleteAwareCriteria();
-        $this->paginateQueryBuilder = $this->repository->createQueryBuilder('o');
-
-        foreach ($criteria as $key => $value) {
-            if ($value === null) {
-                $this->paginateQueryBuilder->andWhere("o.$key is NULL");
-            } else {
-                $this->paginateQueryBuilder->andWhere("o.$key = :$key")->setParameter($key, $value);
-            }
-        }
+        $this->paginateQueryBuilder = $this->softDeleteAwareQueryBuilder();
 
         return parent::paginate($perPage, $page, $sortBy, $sortDirection);
     }
