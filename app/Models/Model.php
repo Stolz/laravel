@@ -26,6 +26,14 @@ abstract class Model implements Arrayable, Jsonable, JsonSerializable
      */
     const JSON_HIDDEN = [];
 
+    /**
+     * Fields that contain a OneToMany or ManyToMany relationship.
+     * Constructor will automatically initialize them.
+     *
+     * @const array
+     */
+    const RELATIONSHIPS = [];
+
     // Meta ========================================================================
 
     /**
@@ -36,10 +44,15 @@ abstract class Model implements Arrayable, Jsonable, JsonSerializable
      */
     public function __construct(array $attributes = [])
     {
-        if ($attributes) {
+        // Initialize OneToMany/ManyToMany relationships
+        foreach (static::RELATIONSHIPS as $relationship)
+            $this->{$relationship} = new \Doctrine\Common\Collections\ArrayCollection();
+
+        if ($attributes)
             $this->set($attributes);
-        }
     }
+
+    // Relationships ===============================================================
 
     // Gettets =====================================================================
 
