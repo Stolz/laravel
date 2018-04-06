@@ -36,7 +36,7 @@ class UserController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $perPage = (int) $request->input('perPage', 1);
+        $perPage = (int) $request->input('perPage', 15);
         $page = (int) $request->input('page', 1);
         $sortBy = $request->input('sortBy');
         $sortDirection = $request->input('sortDir', 'asc');
