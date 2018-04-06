@@ -23,9 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Register User model repository
-        $this->app->bind(\App\Repositories\Contracts\UserRepository::class, function () {
-            return new \App\Repositories\Doctrine\UserRepository(app('em'));
-        });
+        //
     }
 }
