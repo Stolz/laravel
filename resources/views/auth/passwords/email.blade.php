@@ -14,7 +14,7 @@
         <input type="submit" value="{{ _('Send password reset link') }}"/>
     </form>
 
-    @if (session('status'))
+    @if(session('status'))
         <div class="success">{{ session('status') }}</div>
     @endif
 

@@ -29,5 +29,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', 'MeController@showInfo')->name('me');
         Route::get('password', 'MeController@showChangePasswordForm')->name('me.password');
         Route::post('password', 'MeController@changePassword')->name('me.password.change');
+        Route::get('notifications', 'MeController@showNotifications')->name('me.notifications');
+        Route::post('notifications', 'MeController@markNotificationAsRead')->name('me.notification.read');
     });
 });

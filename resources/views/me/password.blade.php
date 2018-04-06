@@ -4,6 +4,8 @@
 
 @section('content')
 
+    @include('me.nav')
+
     <form method="POST" action="{{ route('me.password.change') }}">
         @csrf
 

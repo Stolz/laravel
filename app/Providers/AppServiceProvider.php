@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Custom blade directives
+        Blade::if('route', function ($routes) {
+            return in_array(Route::currentRouteName(), (array) $routes, true);
+        });
+        Blade::if('notroute', function ($routes) {
+            return ! in_array(Route::currentRouteName(), (array) $routes, true);
+        });
     }
 
     /**

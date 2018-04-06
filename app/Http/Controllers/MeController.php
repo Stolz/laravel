@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\Contracts\NotificationRepository;
+use App\Repositories\Contracts\UserRepository;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class MeController extends Controller
@@ -35,7 +38,7 @@ class MeController extends Controller
      * @param  \App\Repositories\Contracts\UserRepository $userRepository
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function changePassword(\App\Http\Requests\ChangePassword $request, \App\Repositories\Contracts\UserRepository $userRepository): \Illuminate\Http\RedirectResponse
+    public function changePassword(\App\Http\Requests\ChangePassword $request, UserRepository $userRepository): RedirectResponse
     {
         $user = $request->user();
 
@@ -44,7 +47,6 @@ class MeController extends Controller
             'email' => $user->getEmail(),
             'password' => $request->get('password'),
         ];
-
         if (! $userRepository->validateCredentials($user, $credentials))
             return redirect()->back()->withErrors(['password' => _('Wrong password')]);
 
@@ -61,6 +63,45 @@ class MeController extends Controller
 
         // Error
         session()->flash('error', _('Unable to update pasword'));
+
+        return redirect()->back();
+    }
+
+    /**
+     * Show page with user notifications.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Repositories\Contracts\NotificationRepository $notificationRepository
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function showNotifications(Request $request, NotificationRepository $notificationRepository): View
+    {
+        $user = $request->user();
+        $perPage = (int) $request->input('perPage', 15);
+        $page = (int) $request->input('page', 1);
+        $sortBy = $request->input('sortBy');
+        $sortDirection = $request->input('sortDir', 'asc');
+
+        $notifications = $notificationRepository->paginateUser($user, $perPage, $page, $sortBy, $sortDirection);
+
+        return view('me.notifications')->withNotifications($notifications);
+    }
+
+    /**
+     * Mark user notification as read.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Repositories\Contracts\NotificationRepository $notificationRepository
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function markNotificationAsRead(Request $request, NotificationRepository $notificationRepository): RedirectResponse
+    {
+        $notification = $notificationRepository->find($request->input('notification'));
+
+        if ($notification and $notification->isUnread() and $notification->belongsTo($request->user())) {
+            $notification->setReadAt(now());
+            $notificationRepository->update($notification);
+        }
 
         return redirect()->back();
     }

@@ -325,4 +325,25 @@ class Notification extends Model
     {
         return isset($this->readAt);
     }
+
+    /**
+     * Determine whether or not the notification has been read.
+     *
+     * @return bool
+     */
+    public function isUnread(): bool
+    {
+        return ! $this->isRead();
+    }
+
+    /**
+     * Determine whether or not the notification belongs to a given user.
+     *
+     * @param  User $user
+     * @return bool
+     */
+    public function belongsTo(User $user): bool
+    {
+        return $this->getUser() and $user->getId() and $this->getUser()->getId() === $user->getId();
+    }
 }
