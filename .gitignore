@@ -5,7 +5,8 @@
 .directory
 .env
 .kateproject*
-.php_cs.cache
+/.idea/
+/.php_cs.cache
 /docs/sami
 /node_modules
 /public/storage
