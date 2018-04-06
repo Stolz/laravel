@@ -22,6 +22,13 @@ abstract class ModelRepository implements ModelRepositoryContract
     protected $modelClass;
 
     /**
+     * Alias to be used to reference the model within query builder.
+     *
+     * @var string
+     */
+    protected $modelAlias = 'o';
+
+    /**
      * Instance of Doctrine entity manager.
      *
      * @var \Doctrine\ORM\EntityManagerInterface
@@ -165,11 +172,11 @@ abstract class ModelRepository implements ModelRepositoryContract
         $sortDirection = ($sortDirection === 'desc') ? 'desc' : 'asc';
 
         // Reuse query builder defined by child classes
-        $queryBuilder = (isset($this->paginateQueryBuilder)) ? $this->paginateQueryBuilder : $this->repository->createQueryBuilder('o');
+        $queryBuilder = (isset($this->paginateQueryBuilder)) ? $this->paginateQueryBuilder : $this->repository->createQueryBuilder($this->modelAlias);
 
         // Apply sorting parameters
         if ($sortBy !== null)
-            $queryBuilder->orderBy("o.$sortBy", strtoupper($sortDirection));
+            $queryBuilder->addOrderBy("{$this->modelAlias}.$sortBy", strtoupper($sortDirection));
 
         $paginator = \LaravelDoctrine\ORM\Pagination\PaginatorAdapter::fromParams(
             $queryBuilder->getQuery(),
@@ -193,6 +200,6 @@ abstract class ModelRepository implements ModelRepositoryContract
      */
     public function count(): int
     {
-        $this->repository->count();
+        return $this->repository->count([]);
     }
 }

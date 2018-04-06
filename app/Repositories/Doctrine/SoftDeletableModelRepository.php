@@ -34,18 +34,16 @@ abstract class SoftDeletableModelRepository extends ModelRepository implements S
     /**
      * Create a soft delete aware query builder.
      *
-     * @param string $alias
-     * @param string $indexBy The index for the from.
      * @return \Doctrine\ORM\QueryBuilder
      */
-    protected function softDeleteAwareQueryBuilder(string $alias = 'o', $indexBy = null): \Doctrine\ORM\QueryBuilder
+    protected function softDeleteAwareQueryBuilder(): \Doctrine\ORM\QueryBuilder
     {
-        $queryBuilder = $this->repository->createQueryBuilder($alias, $indexBy);
+        $queryBuilder = $this->repository->createQueryBuilder($this->modelAlias);
 
         if ($this->withSoftDeleted) {
             $this->withSoftDeleted = false; // Ensure the flag is used only once per query
         } else {
-            $queryBuilder->andWhere("$alias.deletedAt is NULL");
+            $queryBuilder->andWhere("{$this->modelAlias}.deletedAt is NULL");
         }
 
         return $queryBuilder;

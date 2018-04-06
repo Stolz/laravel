@@ -25,7 +25,6 @@ class User extends EntityMapping
      */
     public function map(Fluent $builder)
     {
-        $builder->table('users');
         $builder->increments('id');
         $builder->string('name');
         $builder->string('email')->unique();

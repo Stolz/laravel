@@ -29,7 +29,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @const int
      */
-    const MIN_PASSWORD_LENGTH = 5;
+    const MIN_PASSWORD_LENGTH = 6;
 
     /**
      * Password encryption work factor.
