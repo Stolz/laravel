@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Nameable;
 use App\Traits\Softdeletable;
 use App\Traits\Timestampable;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -13,9 +14,9 @@ use Illuminate\Notifications\RoutesNotifications as Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract, JWTSubject /* TODO AuthorizableContract */
+class User extends Model implements AuthenticatableContract, JWTSubject, CanResetPasswordContract /* TODO AuthorizableContract */
 {
-    use Softdeletable, Timestampable, Notifiable, CanResetPassword; /* TODO Authorizable */
+    use Nameable, Timestampable, Softdeletable, Notifiable, CanResetPassword; /* TODO Authorizable */
 
     /**
      * Fields to hide when converting the model to JSON.
@@ -41,13 +42,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     // Meta ========================================================================
 
     /**
-     * The name of the user.
-     *
-     * @var string
-     */
-    protected $name;
-
-    /**
      * The e-mail address of the user.
      *
      * @var string
@@ -70,17 +64,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     protected $rememberToken;
 
-    // Gettets =====================================================================
+    // Relationships ===============================================================
 
-    /**
-     * Get the name of the user.
-     *
-     * @return string|null
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
+    // Gettets =====================================================================
 
     /**
      * Get the e-mail address of the user.
@@ -113,19 +99,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     // Setters =====================================================================
-
-    /**
-     * Set the name of the user.
-     *
-     * @param  string|null $name
-     * @return self
-     */
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 
     /**
      * Set the e-mail address of the user.
@@ -178,16 +151,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     // Transformers ================================================================
-
-    /**
-     * Convert the user to string.
-     *
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return (string) $this->getName();
-    }
 
     /**
      * Convert the user into its array representation.
