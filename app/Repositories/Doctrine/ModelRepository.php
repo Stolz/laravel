@@ -168,7 +168,7 @@ abstract class ModelRepository implements ModelRepositoryContract
         // Validate parameters
         $perPage = max(1, min($perPage, static::MAX_PER_PAGE));
         $page = max(1, $page);
-        $sortBy = ($sortBy !== null and \Schema::hasColumn($this->getTable(), $sortBy)) ? $sortBy : null;
+        $sortBy = ($sortBy !== null and \Schema::hasColumn($this->getTable(), snake_case($sortBy))) ? $sortBy : null;
         $sortDirection = ($sortDirection === 'desc') ? 'desc' : 'asc';
 
         // Reuse query builder defined by child classes
