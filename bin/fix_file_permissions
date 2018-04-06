@@ -20,18 +20,21 @@ else
 	SUDO=''
 fi
 
-# Owner
+# Set owner
 $SUDO chown -R $USER:$GROUP .
 
-# Default safe permissions
+# Set default safe permissions
 $SUDO find . -type d -exec chmod 750 {} \;
 $SUDO find . -type f -exec chmod 640 {} \;
 
-# Exec permission for scripts
+# Set exec permission for scripts
 $SUDO chmod 750 artisan bin/* vendor/bin/* node_modules/.bin/* ./vendor/laravel/dusk/bin/chromedriver-linux
 
-# Writte permissions for certain paths
+# Set write permissions for certain paths
+$SUDO find bootstrap/cache -type d -exec chmod 770 {} \;
+$SUDO find bootstrap/cache -type f -name '*.php' -exec chmod 660 {} \;
 $SUDO find storage -type d -exec chmod 770 {} \;
-$SUDO find storage/logs -type f -name *.log -exec chmod 660 {} \;
+$SUDO find storage/logs -type f -name '*.log' -exec chmod 660 {} \;
+$SUDO find storage/framework/views -type f -name '*.php' -exec chmod 660 {} \;
 
 exit 0
