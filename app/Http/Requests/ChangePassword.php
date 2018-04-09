@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class ChangePassword extends FormRequest
+class ChangePassword extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -11,6 +11,7 @@ class ChangePassword extends FormRequest
      */
     public function authorize()
     {
+        dd($this->user());
         return true;
     }
 
