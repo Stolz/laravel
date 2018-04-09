@@ -52,16 +52,19 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Repositories\Contracts\RoleRepository $roleRepository
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(Request $request, \App\Repositories\Contracts\RoleRepository $roleRepository): JsonResponse
     {
         $attributes = $request->validate([
             'name' => 'required|min:2|max:255',
             'email' => 'required|email|max:255|unique:App\Models\User',
             'password' => 'required|min:5',
+            'role' => 'required|exists:App\Models\Role,name',
         ]);
 
+        $attributes['role'] = $roleRepository->findBy('name', $attributes['role']);
         $user = User::make($attributes);
 
         if ($this->userRepository->create($user))

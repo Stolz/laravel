@@ -19,8 +19,14 @@ class UserRepositoryTest extends TestCase
     {
         parent::setUp();
 
+        // Create test role
+        $role = \App\Models\Role::make(['name' => str_random(6)]);
+        $this->roleRepository = app(\App\Repositories\Contracts\RoleRepository::class);
+        $this->roleRepository->create($role);
+
+        // Create test user
         $this->repository = app(\App\Repositories\Contracts\UserRepository::class);
-        $this->model = factory(User::class)->make(['name' => 'test']);
+        $this->model = factory(User::class)->make(['name' => 'test', 'role' => $role]);
         $this->repository->create($this->model);
     }
 
@@ -34,6 +40,9 @@ class UserRepositoryTest extends TestCase
         // Transactions from RefreshDatabase trait don't work for Doctrine based repositories
         $this->repository->includeSoftDeleted()->all()->each(function ($user) {
             $this->repository->forceDelete($user);
+        });
+        $this->roleRepository->all()->each(function ($role) {
+            $this->roleRepository->delete($role);
         });
 
         parent::tearDown();

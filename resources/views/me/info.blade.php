@@ -14,6 +14,9 @@
 
         <dt>{{ _('E-mail') }}</dt>
         <dd>{{ $user->getEmail() }}</dd>
+
+        <dt>{{ _('Role') }}</dt>
+        <dd>{{ $user->getRole() }}</dd>
     </dl>
 
 @endsection

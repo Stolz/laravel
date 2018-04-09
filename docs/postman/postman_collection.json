@@ -47,7 +47,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": \"test@example.com\",\n\t\"password\": \"secret\"\n}\n"
+							"raw": "{\n\t\"email\": \"user@example.com\",\n\t\"password\": \"secret\"\n}\n"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/login",
@@ -102,7 +102,7 @@
 								"refresh"
 							]
 						},
-						"description": "Regresh current JWT to prevent it from expiring"
+						"description": "Invalidates current JWT and generates a new one"
 					},
 					"response": []
 				},
@@ -269,7 +269,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Test {{$randomInt}}\",\n\t\"email\": \"{{$randomInt}}@example.com\",\n\t\"password\": \"secret\"\n}\n"
+							"raw": "{\n\t\"name\": \"Test {{$randomInt}}\",\n\t\"email\": \"{{$randomInt}}@example.com\",\n\t\"password\": \"secret\",\n\t\"role\": \"User\"\n}\n"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/user",
