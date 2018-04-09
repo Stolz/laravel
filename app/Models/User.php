@@ -66,6 +66,13 @@ class User extends Model implements AuthenticatableContract, JWTSubject, CanRese
 
     // Relationships ===============================================================
 
+    /**
+     * The role of the user.
+     *
+     * @var Role
+     */
+    protected $role;
+
     // Gettets =====================================================================
 
     /**
@@ -96,6 +103,16 @@ class User extends Model implements AuthenticatableContract, JWTSubject, CanRese
     public function getRememberToken(): ?string
     {
         return $this->rememberToken;
+    }
+
+    /**
+     * Get the role of the user.
+     *
+     * @return Role|null
+     */
+    public function getRole(): ?Role
+    {
+        return $this->role;
     }
 
     // Setters =====================================================================
@@ -150,6 +167,26 @@ class User extends Model implements AuthenticatableContract, JWTSubject, CanRese
         return $this;
     }
 
+    /**
+     * Set the role of the user.
+     *
+     * @param  Role|array|null $role
+     * @return self
+     * @throws \InvalidArgumentException
+     */
+    public function setRole($role): self
+    {
+        if (is_array($role))
+            $role = Role::make($role);
+
+        if ($role !== null and ! $role instanceof Role)
+            throw new \InvalidArgumentException('Invalid role');
+
+        $this->role = $role;
+
+        return $this;
+    }
+
     // Transformers ================================================================
 
     /**
@@ -167,6 +204,7 @@ class User extends Model implements AuthenticatableContract, JWTSubject, CanRese
             'email' => $this->getEmail(),
             'password' => $this->getPassword(),
             'remember_token' => $this->getRememberToken(),
+            'role' => ($role = $this->getRole()) ? $role->toArray() : null,
         ] + $this->getTimestampsAsArray() + $this->getDeletedAtAsArray();
     }
 

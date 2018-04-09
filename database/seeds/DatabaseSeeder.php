@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,6 +12,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        // Clear cache
+        Artisan::call('cache:clear');
+
+        // Regular seeds
+        $this->call('RolesSeeder');
+
+        // Seeds for local environment.
+        if (app()->environment('local')) {
+            $this->call('LocalUsersSeeder');
+        }
     }
 }

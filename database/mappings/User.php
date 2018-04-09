@@ -33,5 +33,8 @@ class User extends EntityMapping
         $builder->carbonDateTime('createdAt')->nullable();
         $builder->carbonDateTime('updatedAt')->nullable();
         $builder->carbonDateTime('deletedAt')->nullable();
+
+        // Relationships
+        $builder->manyToOne(\App\Models\Role::class); // unidirectional. owning side
     }
 }
