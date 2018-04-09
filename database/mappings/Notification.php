@@ -34,6 +34,6 @@ class Notification extends EntityMapping
         $builder->carbonDateTime('readAt')->nullable();
 
         // Relationships
-        $builder->manyToOne(\App\Models\User::class);
+        $builder->manyToOne(\App\Models\User::class); // unidirectional. owning side
     }
 }
