@@ -32,7 +32,7 @@ return [
             'proxies' => [
                 'namespace' => false,
                 'path' => storage_path('proxies'),
-                'auto_generate' => false,
+                'auto_generate' => env('APP_ENV') === 'local',
             ],
             /*
             |--------------------------------------------------------------------------

@@ -20,6 +20,7 @@ On development environment
 	cp .env.example .env
 	php artisan key:generate
 	$EDITOR .env
+	php artisan doctrine:generate:proxies
 	php artisan migrate --seed
 
 On production environment
@@ -30,6 +31,7 @@ On production environment
 	cp .env.example .env
 	php artisan key:generate
 	$EDITOR .env
+	php artisan doctrine:generate:proxies
 	php artisan config:cache
 	php artisan route:cache
 	php artisan migrate --seed
@@ -50,6 +52,7 @@ On development environment
 	php artisan down
 	git pull
 	composer install --optimize-autoloader --no-suggest
+	php artisan doctrine:generate:proxies
 	php artisan migrate
 	php artisan up
 	php artisan queue:restart
@@ -62,6 +65,7 @@ On production environment
 	php artisan cache:clear
 	git pull
 	composer install --no-dev --classmap-authoritative --no-suggest
+	php artisan doctrine:generate:proxies
 	php artisan migrate
 	php artisan route:cache
 	php artisan config:cache
