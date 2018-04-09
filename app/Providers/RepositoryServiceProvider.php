@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Repositories\Contracts\NotificationRepository;
+use App\Repositories\Contracts\RoleRepository;
 use App\Repositories\Contracts\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,14 +23,16 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $entityManager = app('em');
-
-        $this->app->bind(NotificationRepository::class, function () use ($entityManager) {
-            return new \App\Repositories\Doctrine\NotificationRepository($entityManager);
+        $this->app->singleton(NotificationRepository::class, function () {
+            return new \App\Repositories\Doctrine\NotificationRepository($this->app['em']);
         });
 
-        $this->app->bind(UserRepository::class, function () use ($entityManager) {
-            return new \App\Repositories\Doctrine\UserRepository($entityManager);
+        $this->app->singleton(RoleRepository::class, function () {
+            return new \App\Repositories\Doctrine\RoleRepository($this->app['em']);
+        });
+
+        $this->app->singleton(UserRepository::class, function () {
+            return new \App\Repositories\Doctrine\UserRepository($this->app['em']);
         });
     }
 
@@ -42,6 +45,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         return [
             NotificationRepository::class,
+            RoleRepository::class,
             UserRepository::class,
         ];
     }
