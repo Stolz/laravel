@@ -317,7 +317,7 @@ class Notification extends Model
     }
 
     /**
-     * Determine whether or not the notification has been read.
+     * Determine whether the notification has been read.
      *
      * @return bool
      */
@@ -327,7 +327,7 @@ class Notification extends Model
     }
 
     /**
-     * Determine whether or not the notification has been read.
+     * Determine whether the notification has been read.
      *
      * @return bool
      */
@@ -337,7 +337,7 @@ class Notification extends Model
     }
 
     /**
-     * Determine whether or not the notification belongs to a given user.
+     * Determine whether the notification belongs to a given user.
      *
      * @param  User $user
      * @return bool

@@ -11,7 +11,6 @@ class ChangePassword extends Request
      */
     public function authorize()
     {
-        dd($this->user());
         return true;
     }
 

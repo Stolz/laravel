@@ -57,7 +57,7 @@ trait Softdeletable
     }
 
     /**
-     * Determine whether or not the model has been soft-deleted.
+     * Determine whether the model has been soft-deleted.
      *
      * @return bool
      */
