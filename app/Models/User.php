@@ -14,9 +14,9 @@ use Illuminate\Notifications\RoutesNotifications as Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Model implements AuthenticatableContract, JWTSubject, CanResetPasswordContract /* TODO AuthorizableContract */
+class User extends Model implements AuthenticatableContract, JWTSubject, CanResetPasswordContract, AuthorizableContract
 {
-    use Nameable, Timestampable, Softdeletable, Notifiable, CanResetPassword; /* TODO Authorizable */
+    use Nameable, Timestampable, Softdeletable, Notifiable, CanResetPassword, Authorizable;
 
     /**
      * Fields to hide when converting the model to JSON.
@@ -209,6 +209,18 @@ class User extends Model implements AuthenticatableContract, JWTSubject, CanRese
     }
 
     // Domain logic ================================================================
+
+    /**
+     * Determine whether the user is an admin with full privileges.
+     *
+     * @return bool
+     */
+    public function isSuperAdmin(): bool
+    {
+        $role = $this->getRole();
+
+        return ($role instanceof Role and $role->getName() === 'Admin');
+    }
 
     /**
      * Get options used for hashing passwords.

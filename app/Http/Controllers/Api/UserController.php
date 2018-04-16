@@ -6,8 +6,6 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-// TODO This is a demo controller. It intentionally lacks user authorization checks.
-
 class UserController extends Controller
 {
     /**
@@ -36,11 +34,16 @@ class UserController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        // Ensure the user has permission to perform this acction
+        $this->authorize('list', User::class);
+
+        // Get pagination options
         $perPage = (int) $request->input('perPage', 15);
         $page = (int) $request->input('page', 1);
         $sortBy = $request->input('sortBy');
         $sortDirection = $request->input('sortDir', 'asc');
 
+        // Get users from repository
         $users = $this->userRepository->paginate($perPage, $page, $sortBy, $sortDirection)->transform(function ($user) {
             return $user->jsonSerialize();
         });
@@ -57,6 +60,10 @@ class UserController extends Controller
      */
     public function store(Request $request, \App\Repositories\Contracts\RoleRepository $roleRepository): JsonResponse
     {
+        // Ensure the user has permission to perform this acction
+        $this->authorize('create', User::class);
+
+        // Validate input
         $attributes = $request->validate([
             'name' => 'required|min:2|max:255',
             'email' => 'required|email|max:255|unique:App\Models\User',
@@ -64,9 +71,9 @@ class UserController extends Controller
             'role' => 'required|exists:App\Models\Role,name',
         ]);
 
+        // Add user to repository
         $attributes['role'] = $roleRepository->findBy('name', $attributes['role']);
         $user = User::make($attributes);
-
         if ($this->userRepository->create($user))
             return $this->json(['created' => true, 'id' => $user->getId()], 201);
 
@@ -81,6 +88,9 @@ class UserController extends Controller
      */
     public function show(User $user): JsonResponse
     {
+        // Ensure the user has permission to perform this acction
+        $this->authorize('view', $user);
+
         return $this->json($user);
     }
 
@@ -93,12 +103,17 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user): JsonResponse
     {
+        // Ensure the user has permission to perform this acction
+        $this->authorize('update', $user);
+
+        // Validate input
         $attributes = $request->validate([
             'name' => 'min:2|max:255',
             'email' => 'email|max:255|unique:App\Models\User,email,' . $user->getId(),
             'password' => 'min:5',
         ]);
 
+        // Update user in repository
         $user->set($attributes);
         $updated = $this->userRepository->update($user, array_keys($attributes));
 
@@ -113,6 +128,10 @@ class UserController extends Controller
      */
     public function destroy(User $user): JsonResponse
     {
+        // Ensure the user has permission to perform this acction
+        $this->authorize('delete', $user);
+
+        // Delete user from repository
         $deleted = $this->userRepository->delete($user);
 
         return $this->json(['deleted' => $deleted], $deleted ? 200 : 500);
