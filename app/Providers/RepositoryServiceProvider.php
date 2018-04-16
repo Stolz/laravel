@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Repositories\Contracts\NotificationRepository;
+use App\Repositories\Contracts\PermissionRepository;
 use App\Repositories\Contracts\RoleRepository;
 use App\Repositories\Contracts\UserRepository;
 use Illuminate\Support\ServiceProvider;
@@ -27,6 +28,10 @@ class RepositoryServiceProvider extends ServiceProvider
             return new \App\Repositories\Doctrine\NotificationRepository($this->app['em']);
         });
 
+        $this->app->singleton(PermissionRepository::class, function () {
+            return new \App\Repositories\Doctrine\PermissionRepository($this->app['em']);
+        });
+
         $this->app->singleton(RoleRepository::class, function () {
             return new \App\Repositories\Doctrine\RoleRepository($this->app['em']);
         });
@@ -45,6 +50,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         return [
             NotificationRepository::class,
+            PermissionRepository::class,
             RoleRepository::class,
             UserRepository::class,
         ];
