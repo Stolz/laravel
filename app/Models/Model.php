@@ -27,7 +27,7 @@ abstract class Model implements Arrayable, Jsonable, JsonSerializable
     const JSON_HIDDEN = [];
 
     /**
-     * Fields that contain a OneToMany or ManyToMany relationship.
+     * Fields that contain the "many" part of a OneToMany or ManyToMany relationship.
      * Constructor will automatically initialize them.
      *
      * @const array

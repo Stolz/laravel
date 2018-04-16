@@ -30,5 +30,8 @@ class Role extends EntityMapping
         $builder->string('description')->nullable();
         $builder->carbonDateTime('createdAt')->nullable();
         $builder->carbonDateTime('updatedAt')->nullable();
+
+        // Relationships
+        $builder->manyToMany(\App\Models\Permission::class); // unidirectional. owning side
     }
 }

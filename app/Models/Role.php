@@ -10,11 +10,36 @@ class Role extends Model
 {
     use Nameable, Descriptable, Timestampable;
 
+    /**
+     * Fields that contain the "many" part of a OneToMany or ManyToMany relationship.
+     * Constructor will automatically initialize them.
+     *
+     * @const array
+     */
+    const RELATIONSHIPS = ['permissions'];
+
     // Meta ========================================================================
 
     // Relationships ===============================================================
 
+    /**
+     * The permissions of the role.
+     *
+     * @var \Doctrine\Common\Collections\Collection of Permissions
+     */
+    protected $permissions;
+
     // Gettets =====================================================================
+
+    /**
+     * Get the he permissions of the role.
+     *
+     * @return \Doctrine\Common\Collections\Collection of Bar
+     */
+    public function getPermissions(): \Doctrine\Common\Collections\Collection
+    {
+        return $this->permissions;
+    }
 
     // Setters =====================================================================
 
