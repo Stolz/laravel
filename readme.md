@@ -136,7 +136,7 @@ Compile assets on local environment
 
 	npm run dev
 
-To automatically recompile assets on local environment whenever a change it detected
+To automatically recompile assets on local environment whenever a change is detected
 
 	npm run watch
 
