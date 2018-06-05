@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Repositories\Contracts\CountryRepository;
 use App\Repositories\Contracts\NotificationRepository;
 use App\Repositories\Contracts\PermissionRepository;
 use App\Repositories\Contracts\RoleRepository;
@@ -24,6 +25,10 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton(CountryRepository::class, function () {
+            return new \App\Repositories\Doctrine\CountryRepository($this->app['em']);
+        });
+
         $this->app->singleton(NotificationRepository::class, function () {
             return new \App\Repositories\Doctrine\NotificationRepository($this->app['em']);
         });
@@ -49,6 +54,7 @@ class RepositoryServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
+            CountryRepository::class,
             NotificationRepository::class,
             PermissionRepository::class,
             RoleRepository::class,

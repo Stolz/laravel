@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         Artisan::call('cache:clear');
 
         // Regular seeds
+        $this->call('CountrySeeder');
         $this->call('PermissionsSeeder');
         $this->call('RolesSeeder');
 
