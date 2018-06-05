@@ -3,7 +3,6 @@
 namespace Doctrine\Mappings;
 
 use LaravelDoctrine\Fluent\EntityMapping;
-use LaravelDoctrine\Fluent\Fluent;
 
 class Role extends EntityMapping
 {
@@ -20,10 +19,10 @@ class Role extends EntityMapping
     /**
      * Load the object's metadata through the Metadata Builder object.
      *
-     * @param Fluent $builder
+     * @param  \LaravelDoctrine\Fluent\Fluent $builder
      * @return void
      */
-    public function map(Fluent $builder)
+    public function map(\LaravelDoctrine\Fluent\Fluent $builder)
     {
         $builder->increments('id');
         $builder->string('name')->unique();
