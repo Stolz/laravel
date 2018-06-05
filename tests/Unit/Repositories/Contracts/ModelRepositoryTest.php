@@ -6,7 +6,12 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class UserRepositoryTest extends TestCase
+/**
+ * This class is meant to tests both \App\Repositories\Contracts\{ModelRepository,SoftDeletableModelRepository}.
+ * Since the base model is an abstract class it has no repository. Therefore the user model repository contract
+ * is used instead since it implements both of the interfaces under test.
+ */
+class ModelRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
