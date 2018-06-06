@@ -16,13 +16,17 @@ class DatabaseSeeder extends Seeder
         Artisan::call('cache:clear');
 
         // Regular seeds
-        $this->call('CountriesSeeder');
-        $this->call('PermissionsSeeder');
-        $this->call('RolesSeeder');
+        $this->call([
+            'CountriesSeeder',
+            'PermissionsSeeder',
+            'RolesSeeder',
+        ]);
 
         // Seeds for local environment.
         if (app()->environment('local')) {
-            $this->call('LocalUsersSeeder');
+            $this->call([
+                'LocalUsersSeeder',
+            ]);
         }
     }
 }
