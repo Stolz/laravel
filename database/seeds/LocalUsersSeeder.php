@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\User;
+use App\Repositories\Contracts\RoleRepository;
+use App\Repositories\Contracts\UserRepository;
 use Illuminate\Database\Seeder;
 
 class LocalUsersSeeder extends Seeder
@@ -11,15 +14,19 @@ class LocalUsersSeeder extends Seeder
      */
     public function run()
     {
-        $userRepository = app(App\Repositories\Contracts\UserRepository::class);
-        $roleRepository = app(App\Repositories\Contracts\RoleRepository::class);
+        // Get all roles
+        $roles = app(RoleRepository::class)->all();
 
-        $users = [
-            ['name' => 'Admin', 'email' => 'admin@example.com', 'role' => $roleRepository->findBy('name', 'Admin')],
-            ['name' => 'User', 'email' => 'user@example.com', 'role' => $roleRepository->findBy('name', 'User')],
-        ];
+        // Add a user for each role
+        $userRepository = app(UserRepository::class);
+        foreach ($roles as $role) {
+            $user = factory(User::class)->make([
+                'name' => $name = $role->getName(),
+                'email' => str_slug($name, '.') . '@example.com',
+                'role' => $role
+            ]);
 
-        foreach ($users as $user)
-            $userRepository->create(App\Models\User::make($user)->setPassword('secret'));
+            $userRepository->create($user);
+        }
     }
 }
