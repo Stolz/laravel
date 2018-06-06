@@ -26,7 +26,7 @@ return [
             'connection' => env('DB_CONNECTION', 'pgsql'),
             'meta' => 'fluent',
             'mappings' => require(database_path('mappings/all.php')),
-            'namespaces' => ['Models' => 'App\Models'],
+            'namespaces' => ['_' => 'App\Models'], // To use this alias: SELECT u FROM _:User u ...
             'paths' => [app_path('Models')],
             'repository' => Doctrine\ORM\EntityRepository::class,
             'proxies' => [
