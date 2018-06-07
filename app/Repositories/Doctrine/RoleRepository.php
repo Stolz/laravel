@@ -31,6 +31,8 @@ class RoleRepository extends ModelRepository implements RoleRepositoryContract
     public function hasPermission(Role $role, $permissions): bool
     {
         $permissions = (array) $permissions;
+        if (! $permissions)
+            return false;
 
         $matching = $role->getPermissions()->filter(function ($permission) use ($permissions) {
             return in_array($permission->getName(), $permissions, true);
@@ -49,6 +51,8 @@ class RoleRepository extends ModelRepository implements RoleRepositoryContract
     public function hasAnyPermission(Role $role, $permissions): bool
     {
         $permissions = (array) $permissions;
+        if (! $permissions)
+            return false;
 
         return $role->getPermissions()->exists(function ($key, $permission) use ($permissions) {
             return in_array($permission->getName(), $permissions, true);
