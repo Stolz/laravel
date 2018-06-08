@@ -19,7 +19,7 @@ class RoleRepository extends ModelRepository implements RoleRepositoryContract
      *
      * @var string
      */
-    protected $modelAlias = 'r';
+    protected $modelAlias = 'role';
 
     /**
      * Determine whether the role has all of the given permissions by name

@@ -20,7 +20,7 @@ class NotificationRepository extends ModelRepository implements NotificationRepo
      *
      * @var string
      */
-    protected $modelAlias = 'n';
+    protected $modelAlias = 'notification';
 
     /**
      * Create a query builder that filters by user.

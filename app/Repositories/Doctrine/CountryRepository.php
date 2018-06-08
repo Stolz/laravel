@@ -18,5 +18,5 @@ class CountryRepository extends ModelRepository implements CountryRepositoryCont
      *
      * @var string
      */
-    protected $modelAlias = 'c';
+    protected $modelAlias = 'country';
 }

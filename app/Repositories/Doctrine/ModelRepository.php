@@ -23,10 +23,11 @@ abstract class ModelRepository implements ModelRepositoryContract
 
     /**
      * Alias to be used to reference the model within query builder.
+     * constructor ensures child classes define it.
      *
      * @var string
      */
-    protected $modelAlias = 'o';
+    protected $modelAlias;
 
     /**
      * Instance of Doctrine entity manager.

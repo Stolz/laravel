@@ -18,5 +18,5 @@ class PermissionRepository extends ModelRepository implements PermissionReposito
      *
      * @var string
      */
-    protected $modelAlias = 'p';
+    protected $modelAlias = 'permission';
 }

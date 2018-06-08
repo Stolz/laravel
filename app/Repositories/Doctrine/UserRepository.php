@@ -21,5 +21,5 @@ class UserRepository extends SoftDeletableModelRepository implements UserReposit
      *
      * @var string
      */
-    protected $modelAlias = 'u';
+    protected $modelAlias = 'user';
 }
