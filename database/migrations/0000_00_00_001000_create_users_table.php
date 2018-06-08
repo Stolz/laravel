@@ -17,13 +17,13 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();
+            $table->unsignedInteger('role_id');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
 
             // Foreign keys
-            $table->unsignedInteger('role_id');
             $table->foreign('role_id')->references('id')->on('roles')->onUpdate('cascade')->onDelete('restrict');
         });
     }

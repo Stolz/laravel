@@ -15,6 +15,7 @@ class CreateNotificationsTable extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('user_id');
             $table->enum('level', \App\Models\Notification::LEVELS);
             $table->string('message');
             $table->string('action_text')->nullable();
@@ -23,7 +24,6 @@ class CreateNotificationsTable extends Migration
             $table->timestamp('read_at')->nullable();
 
             // Foreign keys
-            $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
