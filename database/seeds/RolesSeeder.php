@@ -24,4 +24,3 @@ class RolesSeeder extends Seeder
             $roleRepository->create(Role::make($role));
     }
 }
-

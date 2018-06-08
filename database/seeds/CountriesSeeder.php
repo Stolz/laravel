@@ -24,4 +24,3 @@ class CountriesSeeder extends Seeder
             $countryRepository->create(Country::make($country));
     }
 }
-

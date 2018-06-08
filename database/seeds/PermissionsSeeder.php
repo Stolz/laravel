@@ -27,4 +27,3 @@ class PermissionsSeeder extends Seeder
             $permissionRepository->create(Permission::make($permission));
     }
 }
-
