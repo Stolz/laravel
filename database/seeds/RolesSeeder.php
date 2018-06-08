@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Role;
+use App\Repositories\Contracts\RoleRepository;
 use Illuminate\Database\Seeder;
 
 class RolesSeeder extends Seeder
@@ -11,7 +13,7 @@ class RolesSeeder extends Seeder
      */
     public function run()
     {
-        $roleRepository = app(App\Repositories\Contracts\RoleRepository::class);
+        $roleRepository = app(RoleRepository::class);
 
         $roles = [
             ['name' => 'Admin'],
@@ -19,6 +21,7 @@ class RolesSeeder extends Seeder
         ];
 
         foreach ($roles as $role)
-            $roleRepository->create(App\Models\Role::make($role));
+            $roleRepository->create(Role::make($role));
     }
 }
+

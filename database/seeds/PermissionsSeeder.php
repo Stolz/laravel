@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Permission;
+use App\Repositories\Contracts\PermissionRepository;
 use Illuminate\Database\Seeder;
 
 class PermissionsSeeder extends Seeder
@@ -11,7 +13,7 @@ class PermissionsSeeder extends Seeder
      */
     public function run()
     {
-        $permissionRepository = app(App\Repositories\Contracts\PermissionRepository::class);
+        $permissionRepository = app(PermissionRepository::class);
 
         $permissions = [
             ['name' => 'user-list'],
@@ -22,6 +24,7 @@ class PermissionsSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission)
-            $permissionRepository->create(App\Models\Permission::make($permission));
+            $permissionRepository->create(Permission::make($permission));
     }
 }
+

@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Country;
+use App\Repositories\Contracts\CountryRepository;
 use Illuminate\Database\Seeder;
 
 class CountriesSeeder extends Seeder
@@ -11,15 +13,15 @@ class CountriesSeeder extends Seeder
      */
     public function run()
     {
-        $countryRepository = app(App\Repositories\Contracts\CountryRepository::class);
+        $countryRepository = app(CountryRepository::class);
 
         $countries = [
             ['name' => 'Hong Kong'],
             ['name' => 'Spain'],
         ];
 
-        foreach ($countries as $country) {
-            $countryRepository->create(App\Models\Country::make($country));
-        }
+        foreach ($countries as $country)
+            $countryRepository->create(Country::make($country));
     }
 }
+
