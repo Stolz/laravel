@@ -31,6 +31,7 @@ On production environment
 	cp .env.example .env
 	php artisan key:generate
 	$EDITOR .env
+	php artisan doctrine:ensure:production
 	php artisan doctrine:generate:proxies
 	php artisan config:cache
 	php artisan route:cache
@@ -63,6 +64,9 @@ On production environment
 	php artisan config:clear
 	php artisan route:clear
 	php artisan cache:clear
+	php artisan doctrine:clear:metadata:cache
+	php artisan doctrine:clear:query:cache
+	php artisan doctrine:clear:result:cache
 	git pull
 	composer install --no-dev --classmap-authoritative --no-suggest
 	php artisan doctrine:generate:proxies
