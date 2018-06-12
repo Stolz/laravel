@@ -12,7 +12,7 @@ class RoleRepository extends ModelRepository implements RoleRepositoryContract
      *
      * @var string
      */
-    protected $modelClass = \App\Models\Role::class;
+    protected $modelClass = Role::class;
 
     /**
      * Alias to be used to reference the model within query builder.

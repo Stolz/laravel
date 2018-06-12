@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Doctrine;
 
-use App\Models\Model as Notification;
 use App\Models\User;
 use App\Repositories\Contracts\NotificationRepository as NotificationRepositoryContract;
 
