@@ -14,6 +14,9 @@ class DatabaseSeeder extends Seeder
     {
         // Clear cache
         Artisan::call('cache:clear');
+        Artisan::call('doctrine:clear:metadata:cache');
+        Artisan::call('doctrine:clear:query:cache');
+        Artisan::call('doctrine:clear:result:cache');
 
         // Regular seeds
         $this->call([
@@ -22,7 +25,7 @@ class DatabaseSeeder extends Seeder
             'RolesSeeder',
         ]);
 
-        // Seeds for local environment.
+        // Seeds for local environment
         if (app()->environment('local')) {
             $this->call([
                 'LocalUsersSeeder',

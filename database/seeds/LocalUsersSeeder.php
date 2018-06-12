@@ -1,9 +1,6 @@
 <?php
 
 use App\Models\User;
-use App\Repositories\Contracts\RoleRepository;
-use App\Repositories\Contracts\UserRepository;
-use Illuminate\Database\Seeder;
 
 class LocalUsersSeeder extends Seeder
 {
@@ -14,11 +11,8 @@ class LocalUsersSeeder extends Seeder
      */
     public function run()
     {
-        // Get all roles
-        $roles = app(RoleRepository::class)->all();
-
         // Add a user for each role
-        $userRepository = app(UserRepository::class);
+        $roles = $this->roleRepository->all();
         foreach ($roles as $role) {
             $user = factory(User::class)->make([
                 'name' => $name = $role->getName(),
@@ -26,7 +20,7 @@ class LocalUsersSeeder extends Seeder
                 'role' => $role
             ]);
 
-            $userRepository->create($user);
+            $this->userRepository->create($user);
         }
     }
 }
