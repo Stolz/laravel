@@ -4,11 +4,12 @@ namespace App\Models;
 
 use App\Traits\Identifiable;
 use App\Traits\Makeable;
+use ArrayAccess;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use JsonSerializable;
 
-abstract class Model implements Arrayable, Jsonable, JsonSerializable
+abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
 {
     use Identifiable, Makeable;
 
@@ -147,4 +148,64 @@ abstract class Model implements Arrayable, Jsonable, JsonSerializable
     }
 
     // Domain logic ================================================================
+
+    /**
+     * Determine if a property can be accessed via ArrayAccess.
+     *
+     * @param  mixed $key
+     * @return bool
+     */
+    public function offsetExists($key)
+    {
+        try {
+            $getter = 'get' . studly_case($key);
+            $method = new \ReflectionMethod($this, $getter);
+
+            return $method->isPublic();
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
+
+    /**
+     * Get a property via ArrayAccess.
+     *
+     * @param  mixed $key
+     * @return mixed
+     * @throws \DomainException
+     */
+    public function offsetGet($key)
+    {
+        if (! $this->offsetExists($key))
+            throw new \DomainException(sprintf("Array access of class '%s' is not available for property '%s'", get_class($this), $key));
+
+        $getter = 'get' . studly_case($key);
+
+        return $this->{$getter}();
+    }
+
+    /**
+     * Set a property via ArrayAccess.
+     *
+     * @param  mixed  $key
+     * @param  mixed  $value
+     * @return void
+     * @throws \DomainException
+     */
+    public function offsetSet($key, $value)
+    {
+        throw new \DomainException(sprintf("Array access of class '%s' is read-only", get_class($this)));
+    }
+
+    /**
+     * Unset a property via ArrayAccess.
+     *
+     * @param  string  $key
+     * @return void
+     * @throws \DomainException
+     */
+    public function offsetUnset($key)
+    {
+        throw new \DomainException(sprintf("Array access of class '%s' is read-only", get_class($this)));
+    }
 }
