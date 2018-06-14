@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Models;
+
+use App\Traits\Timestampable; // TODO remove if not applicable
+
+class Dummy extends Model
+{
+    use Timestampable; // TODO remove if not applicable
+
+    /**
+     * Fields to hide when converting the dummy to JSON.
+     *
+     * @const array
+     */
+    const JSON_HIDDEN = []; // TODO remove if not applicable
+
+    /**
+     * Fields that contain the "many" part of a OneToMany or ManyToMany relationship.
+     * Constructor will automatically initialize them.
+     *
+     * @const array
+     */
+    const RELATIONSHIPS = []; // TODO remove if not applicable
+
+    // Meta ========================================================================
+
+    // Relationships ===============================================================
+
+    // Gettets =====================================================================
+
+    // Setters =====================================================================
+
+    // Transformers ================================================================
+
+    /**
+     * Convert the dummy into its array representation.
+     *
+     * NOTE: By convention array keys must be in snake_case, not in camelCase or StudlyCase.
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            // TODO
+        ];
+    }
+
+    // Domain logic ================================================================
+}

@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateDummiesTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('dummies_table', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('todo')->unique()->nullable()->default('TODO'); // TODO
+            $table->timestamps(); // TODO
+            $table->softDeletes(); // TODO
+
+            // Foreign keys
+            $table->foreign('todo_id')->references('id')->on('todos')->onUpdate('cascade')->onDelete('restrict'); // TODO
+
+            // Extra keys
+            $table->unique(['todo', 'todo']); // TODO
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('dummies_table');
+    }
+}

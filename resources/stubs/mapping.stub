@@ -1,0 +1,36 @@
+<?php
+
+namespace Doctrine\Mappings;
+
+use LaravelDoctrine\Fluent\EntityMapping;
+
+class Dummy extends EntityMapping
+{
+    /**
+     * Returns the fully qualified name of the class that this mapper maps.
+     *
+     * @return string
+     */
+    public function mapFor()
+    {
+        return \App\Models\Dummy::class;
+    }
+
+    /**
+     * Load the object's metadata through the Metadata Builder object.
+     *
+     * @param  \LaravelDoctrine\Fluent\Fluent $builder
+     * @return void
+     */
+    public function map(\LaravelDoctrine\Fluent\Fluent $builder)
+    {
+        $builder->increments('id');
+        $builder->string('todo')->unique()->nullable(); // TODO
+        $builder->carbonDateTime('createdAt')->nullable(); // TODO
+        $builder->carbonDateTime('updatedAt')->nullable(); // TODO
+        $builder->carbonDateTime('deletedAt')->nullable(); // TODO
+
+        // Relationships
+        $builder->manyToOne(\App\Models\Foo::class); // unidirectional. owning side TODO
+    }
+}
