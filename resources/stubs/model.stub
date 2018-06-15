@@ -44,8 +44,7 @@ class Dummy extends Model
     {
         return [
             'id' => $this->getId(),
-            // TODO
-        ];
+        ] + $this->getTimestampsAsArray();  // TODO remove if not applicable
     }
 
     // Domain logic ================================================================
