@@ -17,18 +17,18 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon" />{{-- Favicon  --}}
 
     {{-- CSS  --}}
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     @stack('css')
 </head>
 <body>
-    <!--[if lte IE 9]>
-    <h1>You are using an outdated browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</h1>
-    <![endif]-->
+
+    <!--[if lte IE 9]><h1 style="position:absolute;top:0;z-index:10000; color:black; background-color:orange">
+        You are using an outdated browser.
+        Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.
+    </h1><![endif]-->
 
     @yield('body')
 
     {{-- JavaScript  --}}
-    <script src="{{ mix('js/app.js') }}"></script>
     @stack('js')
 </body>
 </html>
