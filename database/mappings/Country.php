@@ -24,6 +24,7 @@ class Country extends EntityMapping
      */
     public function map(\LaravelDoctrine\Fluent\Fluent $builder)
     {
+        $builder->entity()->readOnly();
         $builder->smallIncrements('id');
         $builder->string('name')->unique();
     }

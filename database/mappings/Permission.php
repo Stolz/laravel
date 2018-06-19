@@ -24,6 +24,7 @@ class Permission extends EntityMapping
      */
     public function map(\LaravelDoctrine\Fluent\Fluent $builder)
     {
+        $builder->entity()->readOnly();
         $builder->increments('id');
         $builder->string('name')->unique();
         $builder->string('description')->nullable();
