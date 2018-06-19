@@ -24,6 +24,7 @@ class Dummy extends EntityMapping
      */
     public function map(\LaravelDoctrine\Fluent\Fluent $builder)
     {
+        $builder->entity()->readOnly(); // TODO
         $builder->increments('id');
         $builder->string('todo')->unique()->nullable(); // TODO
         $builder->carbonDateTime('createdAt')->nullable(); // TODO
