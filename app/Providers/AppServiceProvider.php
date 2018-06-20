@@ -24,7 +24,13 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // Custom Blade components
-        Blade::component('components.alert', 'alert');
+        $components = [
+            'components.alert' => 'alert',
+            'components.form.checkbox' => 'checkbox',
+        ];
+        foreach ($components as $path => $name) {
+            Blade::component($path, $name);
+        }
     }
 
     /**

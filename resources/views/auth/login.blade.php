@@ -23,10 +23,9 @@
 
             <div class="row">
                 <div class="col">
-                    <div class="form-check">
-                        <input id="remember" type="checkbox" name="remember" class="form-check-input"  {{ old('remember') ? 'checked' : '' }}>
-                        <label class="form-check-label" for="remember">{{ _('Remember me') }}</label>
-                    </div>
+                    @checkbox(['name' => 'remember', 'checked' => old('remember')])
+                        {{ _('Remember me') }}
+                    @endcheckbox
                 </div><!--.col-->
                 <div class="col text-right">
                     <a href="{{ route('password.request') }}"> {{ _('Forgot your password?') }}</a>
