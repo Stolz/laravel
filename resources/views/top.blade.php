@@ -1,7 +1,7 @@
 <nav class="navbar navbar-dark bg-primary navbar-expand-sm">{{-- .navbar-expand-sm collapses the bar for small devices --}}
 
     {{-- Branding and page title --}}
-    <a class="navbar-brand" href="{{ route('home') }}" title="{{ _('Home') }}">{{ config('app.name') }}</a>
+    <a class="navbar-brand d-none d-sm-block" href="{{ route('home') }}" title="{{ _('Home') }}">{{ config('app.name') }}</a>
     <span class="navbar-text">@yield('page.title')</span>
 
     {{-- Button to show navigation on small devices --}}
