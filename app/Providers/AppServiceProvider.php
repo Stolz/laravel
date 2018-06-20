@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
         $components = [
             'components.alert' => 'alert',
             'components.form.checkbox' => 'checkbox',
+            'components.form.input' => 'input',
         ];
         foreach ($components as $path => $name) {
             Blade::component($path, $name);
