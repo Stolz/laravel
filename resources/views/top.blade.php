@@ -24,7 +24,7 @@
                         {{ Auth::user() }}
                         @inject('notificationRepository', 'App\Repositories\Contracts\NotificationRepository')
                         @if($unreadNotifications = $notificationRepository->countUnread(Auth::user()))
-                            ({{ $unreadNotifications }})
+                             <span class="badge badge-pill badge-dark">{{ $unreadNotifications }}</span>
                         </a>
                         @endif
                     </a>
@@ -33,7 +33,7 @@
                         <a class="dropdown-item" href="{{ route('me.notifications') }}">
                             {{ _('Notifications') }}
                             @if($unreadNotifications)
-                                ({{ $unreadNotifications }})
+                                &nbsp;<span class="badge badge-pill badge-primary">{{ $unreadNotifications }}</span>
                             @endif
                         </a>
                         <a class="dropdown-item" href="{{ route('me.password') }}">{{ _('Change password') }}</a>
