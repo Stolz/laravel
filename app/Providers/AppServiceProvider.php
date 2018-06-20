@@ -15,13 +15,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Custom blade directives
+        // Custom Blade directives
         Blade::if('route', function ($routes) {
             return in_array(Route::currentRouteName(), (array) $routes, true);
         });
         Blade::if('notroute', function ($routes) {
             return ! in_array(Route::currentRouteName(), (array) $routes, true);
         });
+
+        // Custom Blade components
+        Blade::component('components.alert', 'alert');
     }
 
     /**

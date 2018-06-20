@@ -1,1 +1,3 @@
-console.log('app.js loaded!');
+$(document).ready(function () {
+    $('body').bootstrapMaterialDesign();
+});

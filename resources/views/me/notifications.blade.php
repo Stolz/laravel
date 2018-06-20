@@ -4,37 +4,41 @@
 
 @section('content')
 
-    @include('me.nav')
-
     @if(! $notifications->count())
         {{ _('There are no notifications') }}
     @else
         <form method="POST" action="{{ route('me.notification.read') }}">
             @csrf
-            <table summary="">
-                <tbody>
-                @foreach($notifications as $notification)
-                    <tr class="{{ $notification->getLevel() }}">
-                        <td>{{ $notification->getCreatedAt()->diffForHumans() }}</td>
-                        <td>
+            @foreach($notifications as $notification)
+                <?php $type = ($notification->isUnread()) ? $notification->getLevel() : 'secondary' ?>
+                @alert(['type' => $type])
+                    <div class="row no-gutters align-items-center">
+
+                        {{-- Notifification body --}}
+                        <div class="col">
                             <b>{{ $notification->getMessage() }}</b>
-
                             @if($url = $notification->getActionUrl())
-                                <a href="{{ $url }}">{{ $notification->getActionText() }}</a>
+                                <a class="alert-link" href="{{ $url }}">{{ $notification->getActionText() }}</a>
                             @endif
-                        </td>
+                        </div>
 
-                        {{-- Button to mark notification as read --}}
+                        {{-- Button to mark notifification as read --}}
                         @if($notification->isUnread())
-                            <td>
-                                <button name="notification" value="{{ $notification->getId() }}">{{ _('Mark as read') }}</button>
-                            </td>
+                        <div class="col-md-2 col-lg-1">
+                            {{-- Button to mark notification as read --}}
+                            <button name="notification" class="btn btn-outline-{{ ($type === 'error' ? 'danger' : $type) }}" value="{{ $notification->getId() }}">{{ _('Mark as read') }}</button>
+                        </div>
                         @endif
-                    </tr>
-                @endforeach
-                </tbody>
 
-            </table>
+                        {{-- Notifification relative date --}}
+                        <div class="col-md-2 col-lg-1 text-right">
+                            {{ $notification->getCreatedAt()->diffForHumans() }}
+                        </div>
+                    </div>
+
+                @endalert
+            @endforeach
+
             {{ $notifications->links('pagination') }}
         </form>
     @endif

@@ -1,7 +1,9 @@
-@foreach(['error', 'warning', 'info', 'success'] as $flashMessageType)
+@foreach(['error', 'warning', 'info', 'success', 'primary', 'secondary', 'light', 'dark'] as $flashMessageType)
+
     @if(session()->has($flashMessageType))
-        <div class="{{ $flashMessageType }}">
+        @alert(['type' => $flashMessageType, 'dismiss' => true])
             {{ session($flashMessageType) }}
-        </div>
+        @endalert
     @endif
+
 @endforeach

@@ -4,6 +4,6 @@
 
 @section('content')
 
-    <p>Welcome to Laravel {{ app()::VERSION }}!!</p>
+    <h1>Welcome to {{ config('app.name') }} {{ app()::VERSION }}</h1>
 
 @endsection
