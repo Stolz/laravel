@@ -4,7 +4,7 @@
 // To customize Bootstrap and BMD override here any of the values of ~/bootstrap-material-design/scss/_variables.scss
 // More info at https://fezvrasta.github.io/bootstrap-material-design/docs/4.0/getting-started/theming/
 
-@import "~bootstrap-material-design/scss/variables/_colors";
+@import "~bootstrap-material-design/scss/variables/colors";
 $theme-colors: (
     primary: $blue-900,
     success: $green,
@@ -14,6 +14,7 @@ $theme-colors: (
     light: $grey-100,
     dark: $grey-800
 );
+$bmd-label-color: $blue-800;
 
 // BMD must be loaded afer our customization
 @import "~bootstrap-material-design/scss/_core.scss";
