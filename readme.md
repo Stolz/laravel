@@ -136,7 +136,11 @@ To disable code coverage on run time for faster tests execution add the option `
 
 ## Compiling assets
 
-Compile assets on local environment
+Install tools to compile assets
+
+	npm install
+
+Compile assets for local environment
 
 	npm run dev
 
@@ -144,7 +148,7 @@ To automatically recompile assets on local environment whenever a change is dete
 
 	npm run watch
 
-Compile assets on production environment (concatenated a minified)
+Compile assets for production environment (concatenated a minified)
 
 	npm run production
 
