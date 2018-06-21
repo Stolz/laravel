@@ -24,7 +24,7 @@
                         {{ Auth::user() }}
                         @inject('notificationRepository', 'App\Repositories\Contracts\NotificationRepository')
                         @if($unreadNotifications = $notificationRepository->countUnread(Auth::user()))
-                             <span class="badge badge-pill badge-dark">{{ $unreadNotifications }}</span>
+                             <span class="badge badge-pill badge-info">{{ $unreadNotifications }}</span>
                         </a>
                         @endif
                     </a>
