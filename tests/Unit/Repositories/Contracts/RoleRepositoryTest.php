@@ -6,7 +6,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Repositories\Contracts\PermissionRepository;
 use App\Repositories\Contracts\RoleRepository;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\RefreshDatabase;
 use Tests\TestCase;
 
 class RoleRepositoryTest extends TestCase
@@ -35,24 +35,6 @@ class RoleRepositoryTest extends TestCase
         $this->permissionRepository = app(PermissionRepository::class);
         $this->permissionRepository->create($this->permissions->first());
         $this->permissionRepository->create($this->permissions->last());
-    }
-
-    /**
-     * Run after each test.
-     *
-     * @return void
-     */
-    public function tearDown()
-    {
-        // Transactions from RefreshDatabase trait don't work for Doctrine based repositories
-        $this->permissionRepository->all()->each(function ($permission) {
-            $this->permissionRepository->delete($permission);
-        });
-        $this->roleRepository->all()->each(function ($role) {
-            $this->roleRepository->delete($role);
-        });
-
-        parent::tearDown();
     }
 
     /**
