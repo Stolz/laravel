@@ -110,6 +110,10 @@ To get some stats about the code
 
 	./bin/stats
 
+To install a Git hook that checks the code before each commit
+
+	ln -sf ../../bin/pre-commit-hook .git/hooks/pre-commit
+
 ## Testing
 
 Run all tests on the default suites (default suites are defined with `defaultTestSuite` attribute within `phpunit.xml`)
