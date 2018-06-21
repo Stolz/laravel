@@ -5,16 +5,9 @@ const path = {
     bmd: 'node_modules/bootstrap-material-design/',
     jquery: 'node_modules/jquery/',
     popper: 'node_modules/popper.js/',
-    roboto: 'node_modules/typeface-roboto/',
 }
 
-mix.copyDirectory(path.roboto + 'files', 'public/css/files');
-
-mix.styles([
-    path.roboto + 'index.css',
-    path.bmd + 'dist/css/bootstrap-material-design.min.css',
-    path.assets + 'css/app.css',
-], 'public/css/app.css');
+mix.sass(path.assets + 'sass/app.scss', 'public/css/app.css');
 
 mix.scripts([
     path.jquery + 'dist/jquery.slim.min.js',

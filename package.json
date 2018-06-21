@@ -13,6 +13,7 @@
         "typeface-roboto": "0.0.54",
         "jquery": "^3.2.1",
         "popper.js": "^1.12.6",
+        "bootstrap": "^4.0.0",
         "bootstrap-material-design": "^4.1.1"
     },
     "devDependencies": {
