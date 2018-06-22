@@ -32,10 +32,10 @@ class RoleRepository extends ModelRepository implements RoleRepositoryContract
      */
     public function addPermission(Role $role, Permission $permission): bool
     {
-        $rolePermission = $role->getPermissions();
+        $rolePermissions = $role->getPermissions();
 
-        if (! $rolePermission->contains($permission))
-            $rolePermission->add($permission);
+        if (! $rolePermissions->contains($permission))
+            $rolePermissions->add($permission);
 
         return $this->update($role);
     }
