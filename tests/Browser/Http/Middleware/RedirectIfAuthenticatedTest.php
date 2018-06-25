@@ -2,13 +2,14 @@
 
 namespace Tests\Browser\Http\Middleware;
 
+use App\Traits\AttachesRepositories;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
 class RedirectIfAuthenticatedTest extends DuskTestCase
 {
-    use DatabaseMigrations;
+    use DatabaseMigrations, AttachesRepositories;
 
     /**
      * Create a test user.
@@ -18,8 +19,7 @@ class RedirectIfAuthenticatedTest extends DuskTestCase
     protected function createUser()
     {
         $this->user = factory(\App\Models\User::class)->make(['password' => 'secret']);
-        $userRepository = app(\App\Repositories\Contracts\UserRepository::class);
-        $userRepository->create($this->user);
+        $this->userRepository->create($this->user);
 
         return $this;
     }
