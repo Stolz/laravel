@@ -23,7 +23,7 @@ class CreatePermissionRoleTable extends Migration
             $table->foreign('role_id')->references('id')->on('roles')->onUpdate('cascade')->onDelete('cascade');
 
             // Extra keys
-            $table->unique(['permission_id', 'role_id']);
+            $table->unique(['role_id', 'permission_id']);
         });
     }
 
