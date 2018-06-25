@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Tests\Traits;
 
 trait RefreshDatabase
 {
@@ -13,8 +13,8 @@ trait RefreshDatabase
      */
     public function beginDatabaseTransaction()
     {
-        // Transactions from RefreshDatabase trait don't work for Doctrine based repositories.
-        // We need to use our own implementation
+        // Transactions from Laravel RefreshDatabase trait don't work for Doctrine
+        // based repositories. We need to use our own implementation
 
         $connection = $this->app->make('em')->getConnection();
         $connection->beginTransaction();

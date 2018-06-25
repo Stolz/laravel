@@ -6,10 +6,12 @@ use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Laravel\Dusk\TestCase as BaseTestCase;
+use Tests\Traits\CreatesApplication;
+use Tests\Traits\SetsUpTraits;
 
 abstract class DuskTestCase extends BaseTestCase
 {
-    use CreatesApplication;
+    use CreatesApplication, SetsUpTraits;
 
     /**
      * Prepare for Dusk test execution.
@@ -39,23 +41,5 @@ abstract class DuskTestCase extends BaseTestCase
         $capabilities = DesiredCapabilities::chrome()->setCapability(ChromeOptions::CAPABILITY, $options);
 
         return RemoteWebDriver::create('http://localhost:9515', $capabilities);
-    }
-
-    /**
-     * Boot the testing helper traits.
-     *
-     * @return array
-     */
-    protected function setUpTraits()
-    {
-        $uses = parent::setUpTraits();
-
-        if (isset($uses[\App\Traits\AttachesRepositories::class])) {
-            $this->afterApplicationCreated(function () {
-                $this->attachRepositories();
-            });
-        }
-
-        return $uses;
     }
 }

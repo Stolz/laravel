@@ -3,9 +3,9 @@
 namespace Tests\Unit\Repositories\Contracts;
 
 use App\Models\User;
-use App\Traits\AttachesRepositories;
-use Tests\RefreshDatabase;
 use Tests\TestCase;
+use Tests\Traits\CreatesUsers;
+use Tests\Traits\RefreshDatabase;
 
 /**
  * This class is meant to tests both \App\Repositories\Contracts\{ModelRepository,SoftDeletableModelRepository}.
@@ -14,7 +14,7 @@ use Tests\TestCase;
  */
 class ModelRepositoryTest extends TestCase
 {
-    use RefreshDatabase, AttachesRepositories;
+    use RefreshDatabase, CreatesUsers;
 
     /**
      * Run before each test.
@@ -25,13 +25,10 @@ class ModelRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        // Create test role
-        $role = \App\Models\Role::make(['name' => str_random(6)]);
-        $this->roleRepository->create($role);
+        $this->repository = $this->userRepository;
 
         // Create test user
-        $this->model = factory(User::class)->make(['name' => 'test', 'role' => $role]);
-        $this->userRepository->create($this->model);
+        $this->model = $this->createUser(['name' => 'test']);
     }
 
     /**
@@ -41,16 +38,16 @@ class ModelRepositoryTest extends TestCase
      */
     public function testAll()
     {
-        $this->assertEquals(1, $this->userRepository->all()->count());
-        $this->assertEquals(1, $this->userRepository->includeSoftDeleted()->all()->count());
+        $this->assertEquals(1, $this->repository->all()->count());
+        $this->assertEquals(1, $this->repository->includeSoftDeleted()->all()->count());
 
-        $this->userRepository->delete($this->model);
-        $this->assertEquals(0, $this->userRepository->all()->count());
-        $this->assertEquals(1, $this->userRepository->includeSoftDeleted()->all()->count());
+        $this->repository->delete($this->model);
+        $this->assertEquals(0, $this->repository->all()->count());
+        $this->assertEquals(1, $this->repository->includeSoftDeleted()->all()->count());
 
-        $this->userRepository->forceDelete($this->model);
-        $this->assertEquals(0, $this->userRepository->all()->count());
-        $this->assertEquals(0, $this->userRepository->includeSoftDeleted()->all()->count());
+        $this->repository->forceDelete($this->model);
+        $this->assertEquals(0, $this->repository->all()->count());
+        $this->assertEquals(0, $this->repository->includeSoftDeleted()->all()->count());
     }
 
     /**
@@ -61,7 +58,7 @@ class ModelRepositoryTest extends TestCase
     public function testCreate()
     {
         $model = with(clone $this->model)->setEmail(str_random());
-        $this->assertTrue($this->userRepository->create($model));
+        $this->assertTrue($this->repository->create($model));
         $this->assertNotEquals($this->model->getId(), $model->getId());
         $this->assertNotNull($this->model->getCreatedAt());
         $this->assertNotEquals($this->model->getCreatedAt(), $model->getCreatedAt());
@@ -75,7 +72,7 @@ class ModelRepositoryTest extends TestCase
     public function testUpdate()
     {
         $this->assertNull($this->model->getUpdatedAt());
-        $this->assertTrue($this->userRepository->update($this->model->setName(str_random())));
+        $this->assertTrue($this->repository->update($this->model->setName(str_random())));
         $this->assertNotEquals('test', $this->model->getName());
         $this->assertNotNull($this->model->getUpdatedAt());
     }
@@ -87,8 +84,8 @@ class ModelRepositoryTest extends TestCase
      */
     public function testDelete()
     {
-        $this->assertTrue($this->userRepository->delete($this->model));
-        $this->assertNotNull($this->userRepository->includeSoftDeleted()->find($this->model->getId()));
+        $this->assertTrue($this->repository->delete($this->model));
+        $this->assertNotNull($this->repository->includeSoftDeleted()->find($this->model->getId()));
     }
 
     /**
@@ -98,8 +95,8 @@ class ModelRepositoryTest extends TestCase
      */
     public function testForceDelete()
     {
-        $this->assertTrue($this->userRepository->forceDelete($this->model));
-        $this->assertNull($this->userRepository->includeSoftDeleted()->find($this->model->getId()));
+        $this->assertTrue($this->repository->forceDelete($this->model));
+        $this->assertNull($this->repository->includeSoftDeleted()->find($this->model->getId()));
     }
 
     /**
@@ -109,8 +106,8 @@ class ModelRepositoryTest extends TestCase
      */
     public function testRestore()
     {
-        $this->userRepository->delete($this->model);
-        $this->assertTrue($this->userRepository->restore($this->model));
+        $this->repository->delete($this->model);
+        $this->assertTrue($this->repository->restore($this->model));
         $this->assertNull($this->model->getDeletedAt());
     }
 
@@ -121,11 +118,11 @@ class ModelRepositoryTest extends TestCase
      */
     public function testFind()
     {
-        $this->assertNull($this->userRepository->find(null));
-        $this->assertEquals($this->model->getId(), $this->userRepository->find($this->model->getId())->getId());
-        $this->userRepository->delete($this->model);
-        $this->assertNull($this->userRepository->find($this->model->getId()));
-        $this->assertNotNull($this->userRepository->includeSoftDeleted()->find($this->model->getId()));
+        $this->assertNull($this->repository->find(null));
+        $this->assertEquals($this->model->getId(), $this->repository->find($this->model->getId())->getId());
+        $this->repository->delete($this->model);
+        $this->assertNull($this->repository->find($this->model->getId()));
+        $this->assertNotNull($this->repository->includeSoftDeleted()->find($this->model->getId()));
     }
 
     /**
@@ -135,11 +132,11 @@ class ModelRepositoryTest extends TestCase
      */
     public function testFindBy()
     {
-        $this->assertNull($this->userRepository->findBy('name', null));
-        $this->assertEquals('test', $this->userRepository->findBy('name', 'test')->getName());
-        $this->userRepository->delete($this->model);
-        $this->assertNull($this->userRepository->findBy('name', 'test'));
-        $this->assertNotNull($this->userRepository->includeSoftDeleted()->findBy('name', 'test'));
+        $this->assertNull($this->repository->findBy('name', null));
+        $this->assertEquals('test', $this->repository->findBy('name', 'test')->getName());
+        $this->repository->delete($this->model);
+        $this->assertNull($this->repository->findBy('name', 'test'));
+        $this->assertNotNull($this->repository->includeSoftDeleted()->findBy('name', 'test'));
     }
 
     /**
@@ -149,15 +146,15 @@ class ModelRepositoryTest extends TestCase
      */
     public function testCount()
     {
-        $this->assertEquals(1, $this->userRepository->count());
-        $this->assertEquals(1, $this->userRepository->includeSoftDeleted()->count());
+        $this->assertEquals(1, $this->repository->count());
+        $this->assertEquals(1, $this->repository->includeSoftDeleted()->count());
 
-        $this->userRepository->delete($this->model);
-        $this->assertEquals(0, $this->userRepository->count());
-        $this->assertEquals(1, $this->userRepository->includeSoftDeleted()->count());
+        $this->repository->delete($this->model);
+        $this->assertEquals(0, $this->repository->count());
+        $this->assertEquals(1, $this->repository->includeSoftDeleted()->count());
 
-        $this->userRepository->forceDelete($this->model);
-        $this->assertEquals(0, $this->userRepository->count());
-        $this->assertEquals(0, $this->userRepository->includeSoftDeleted()->count());
+        $this->repository->forceDelete($this->model);
+        $this->assertEquals(0, $this->repository->count());
+        $this->assertEquals(0, $this->repository->includeSoftDeleted()->count());
     }
 }

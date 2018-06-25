@@ -5,7 +5,7 @@ namespace Tests\Unit\Repositories\Contracts;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Traits\AttachesRepositories;
-use Tests\RefreshDatabase;
+use Tests\Traits\RefreshDatabase;
 use Tests\TestCase;
 
 class RoleRepositoryTest extends TestCase

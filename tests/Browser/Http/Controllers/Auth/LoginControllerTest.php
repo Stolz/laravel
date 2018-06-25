@@ -3,14 +3,14 @@
 namespace Tests\Browser\Http\Controllers\Auth;
 
 use App\Models\User;
-use App\Traits\AttachesRepositories;
+use Tests\Traits\CreatesUsers;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
 class LoginControllerTest extends DuskTestCase
 {
-    use DatabaseMigrations, AttachesRepositories;
+    use DatabaseMigrations, CreatesUsers;
 
     /**
      * Run before each test.
@@ -21,13 +21,8 @@ class LoginControllerTest extends DuskTestCase
     {
         parent::setUp();
 
-        // Create test role
-        $role = \App\Models\Role::make(['name' => str_random(6)]);
-        $this->roleRepository->create($role);
-
         // Create test user
-        $this->user = factory(User::class)->make(['password' => 'secret', 'role' => $role]);
-        $this->userRepository->create($this->user);
+        $this->user = $this->createUser();
     }
 
     /**

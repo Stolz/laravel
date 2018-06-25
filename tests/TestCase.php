@@ -3,26 +3,10 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Tests\Traits\CreatesApplication;
+use Tests\Traits\SetsUpTraits;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication;
-
-    /**
-     * Boot the testing helper traits.
-     *
-     * @return array
-     */
-    protected function setUpTraits()
-    {
-        $uses = parent::setUpTraits();
-
-        if (isset($uses[\App\Traits\AttachesRepositories::class])) {
-            $this->afterApplicationCreated(function () {
-                $this->attachRepositories();
-            });
-        }
-
-        return $uses;
-    }
+    use CreatesApplication, SetsUpTraits;
 }
