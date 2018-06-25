@@ -21,7 +21,12 @@ class MeControllerTest extends DuskTestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->make(['password' => 'secret']);
+        // Create test role
+        $role = \App\Models\Role::make(['name' => str_random(6)]);
+        $this->roleRepository->create($role);
+
+        // Create test user
+        $this->user = factory(User::class)->make(['password' => 'secret', 'role' => $role]);
         $this->userRepository->create($this->user);
     }
 

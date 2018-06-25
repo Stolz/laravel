@@ -18,7 +18,12 @@ class RedirectIfAuthenticatedTest extends DuskTestCase
      */
     protected function createUser()
     {
-        $this->user = factory(\App\Models\User::class)->make(['password' => 'secret']);
+        // Create test role
+        $role = \App\Models\Role::make(['name' => str_random(6)]);
+        $this->roleRepository->create($role);
+
+        // Create test user
+        $this->user = factory(\App\Models\User::class)->make(['password' => 'secret', 'role' => $role]);
         $this->userRepository->create($this->user);
 
         return $this;
