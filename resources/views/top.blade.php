@@ -25,7 +25,7 @@
 
             {{-- Links for authenticated users --}}
             @auth
-                <li class="nav-item dropdown @route(['me', 'me.notifications', 'me.password']) active @endroute">
+                <li class="nav-item dropdown @route(['me', 'me.*']) active @endroute">
                     <a class="nav-link dropdown-toggle" href="{{ route('me') }}" id="meDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ Auth::user() }}
                         @inject('notificationRepository', 'App\Repositories\Contracts\NotificationRepository')
