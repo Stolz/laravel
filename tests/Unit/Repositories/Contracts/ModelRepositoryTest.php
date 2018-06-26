@@ -3,8 +3,9 @@
 namespace Tests\Unit\Repositories\Contracts;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tests\Traits\CreatesUsers;
+use Tests\Traits\RefreshDatabase;
 
 /**
  * This class is meant to tests both \App\Repositories\Contracts\{ModelRepository,SoftDeletableModelRepository}.
@@ -13,7 +14,7 @@ use Tests\TestCase;
  */
 class ModelRepositoryTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, CreatesUsers;
 
     /**
      * Run before each test.
@@ -24,33 +25,10 @@ class ModelRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        // Create test role
-        $role = \App\Models\Role::make(['name' => str_random(6)]);
-        $this->roleRepository = app(\App\Repositories\Contracts\RoleRepository::class);
-        $this->roleRepository->create($role);
+        $this->repository = $this->userRepository;
 
         // Create test user
-        $this->repository = app(\App\Repositories\Contracts\UserRepository::class);
-        $this->model = factory(User::class)->make(['name' => 'test', 'role' => $role]);
-        $this->repository->create($this->model);
-    }
-
-    /**
-     * Run after each test.
-     *
-     * @return void
-     */
-    public function tearDown()
-    {
-        // Transactions from RefreshDatabase trait don't work for Doctrine based repositories
-        $this->repository->includeSoftDeleted()->all()->each(function ($user) {
-            $this->repository->forceDelete($user);
-        });
-        $this->roleRepository->all()->each(function ($role) {
-            $this->roleRepository->delete($role);
-        });
-
-        parent::tearDown();
+        $this->model = $this->createUser(['name' => 'test']);
     }
 
     /**

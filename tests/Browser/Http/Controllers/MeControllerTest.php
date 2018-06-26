@@ -6,10 +6,11 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
+use Tests\Traits\CreatesUsers;
 
 class MeControllerTest extends DuskTestCase
 {
-    use DatabaseMigrations;
+    use DatabaseMigrations, CreatesUsers;
 
     /**
      * Run before each test.
@@ -20,9 +21,8 @@ class MeControllerTest extends DuskTestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->make(['password' => 'secret']);
-        $this->userRepository = app(\App\Repositories\Contracts\UserRepository::class);
-        $this->userRepository->create($this->user);
+        // Create test user
+        $this->user = $this->createUser();
     }
 
     /**

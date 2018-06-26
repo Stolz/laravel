@@ -22,4 +22,15 @@ class UserRepository extends SoftDeletableModelRepository implements UserReposit
      * @var string
      */
     protected $modelAlias = 'user';
+
+    /**
+     * Retrieve the users of the given role.
+     *
+     * @param  \App\Models\Role $role
+     * @return \Illuminate\Support\Collection of \App\Models\User
+     */
+    public function allFromRole(\App\Models\Role $role): \Illuminate\Support\Collection
+    {
+        return collect($this->repository->findBy(['role' => $role]));
+    }
 }

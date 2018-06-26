@@ -2,27 +2,14 @@
 
 namespace Tests\Browser\Http\Middleware;
 
+use Tests\Traits\CreatesUsers;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
 class RedirectIfAuthenticatedTest extends DuskTestCase
 {
-    use DatabaseMigrations;
-
-    /**
-     * Create a test user.
-     *
-     * @return self
-     */
-    protected function createUser()
-    {
-        $this->user = factory(\App\Models\User::class)->make(['password' => 'secret']);
-        $userRepository = app(\App\Repositories\Contracts\UserRepository::class);
-        $userRepository->create($this->user);
-
-        return $this;
-    }
+    use DatabaseMigrations, CreatesUsers;
 
     /**
      * Test guests cannot access authenticated users area.
@@ -45,9 +32,11 @@ class RedirectIfAuthenticatedTest extends DuskTestCase
      */
     public function testAuthAccess()
     {
-        $this->createUser()->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) {
+            $user = $this->createUser();
+
             $browser
-            ->loginAs($this->user->getAuthIdentifier())
+            ->loginAs($user->getAuthIdentifier())
             ->visit(route('login'))
             ->assertRouteIs('me');
         });
@@ -60,11 +49,13 @@ class RedirectIfAuthenticatedTest extends DuskTestCase
      */
     public function testRedirectToIntended()
     {
-        $this->createUser()->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) {
+            $user = $this->createUser();
+
             $browser
             ->visit(route('me.password'))
             ->assertRouteIs('login')
-            ->type('email', $this->user->getEmail())
+            ->type('email', $user->getEmail())
             ->type('password', 'secret')
             ->press(_('Login'))
             ->assertRouteIs('me.password');

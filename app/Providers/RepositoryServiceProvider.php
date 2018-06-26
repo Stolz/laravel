@@ -12,6 +12,19 @@ use Illuminate\Support\ServiceProvider;
 class RepositoryServiceProvider extends ServiceProvider
 {
     /**
+     * List of all the repository contracts.
+     *
+     * @const array
+     */
+    const CONTRACTS = [
+        CountryRepository::class,
+        NotificationRepository::class,
+        PermissionRepository::class,
+        RoleRepository::class,
+        UserRepository::class,
+    ];
+
+    /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
@@ -53,12 +66,6 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [
-            CountryRepository::class,
-            NotificationRepository::class,
-            PermissionRepository::class,
-            RoleRepository::class,
-            UserRepository::class,
-        ];
+        return static::CONTRACTS;
     }
 }

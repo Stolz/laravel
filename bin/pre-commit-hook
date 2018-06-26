@@ -1,0 +1,42 @@
+#!/bin/bash
+
+PROJECT=`php -r "echo dirname(dirname(realpath('$0')));"`
+source "$PROJECT/bin/common" || exit 1
+
+# Get staged PHP files
+STAGED_FILES=`git diff --cached --name-only --diff-filter=ACMR HEAD | grep \\\\.php`
+
+if [ "${STAGED_FILES}" == "" ]; then
+	exit 0
+fi
+
+color "Checking files with PHP linter" cyan
+for FILE in ${STAGED_FILES}; do
+	php -l -d display_errors=0 ${PROJECT}/${FILE} || exit_error "Aborting commit due to file ${PROJECT}/${FILE} syntax error"
+	FILES="${FILES} $PROJECT/$FILE"
+done
+
+# Check if PHP CodeSniffer is installed
+if [[ -f "vendor/bin/phpcs" ]]; then
+	color "Checking files with PHP CodeSniffer" cyan
+	phpcs="./vendor/bin/phpcs --standard=phpcodesniffer.xml --encoding=utf-8 -s -n -p --report-width=100 --tab-width=4"
+	$phpcs ${FILES}
+	if [ $? != 0 ]; then
+		exec < /dev/tty
+		color "PHP CodeSniffer found errors. Try to automatically fix them? [Y/n]" yellow
+		read proceed
+		if [[ ! ("$proceed" == 'y' || "$proceed" == 'Y' || "$proceed" == '') ]]; then
+			exit_error "Aborting commit due to detected PHP CodeSniffer errors"
+		else
+			color "Trying to automatically fix files" cyan
+			./vendor/bin/phpcbf -p --standard=phpcodesniffer.xml ${FILES}
+
+			color "Re-staging fixed files and re-checking" cyan
+			git add ${FILES}
+			$phpcs ${FILES} || exit_error "Aborting commit due to detected PHP CodeSniffer errors"
+		fi
+	fi
+	color "Proceeding with commit"
+else
+	color 'PHP CodeSniffer not installed. Skipping check' yellow
+fi
