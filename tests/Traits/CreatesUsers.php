@@ -13,19 +13,20 @@ trait CreatesUsers
     /**
      * Create a test user.
      *
-     * @param  array $attributes
+     * @param  array $userAttributes
+     * @param  array $roleAttributes
      * @return \App\Models\User
      */
-    protected function createUser(array $attributes = []): User
+    protected function createUser(array $userAttributes = [], array $roleAttributes = []): User
     {
         // Create test role if none was provided
-        if (! isset($attributes['role'])) {
-            $attributes['role'] = Role::make(['name' => str_random(6)]);
-            $this->roleRepository->create($attributes['role']);
+        if (! isset($userAttributes['role'])) {
+            $userAttributes['role'] = factory(Role::class)->make($roleAttributes);
+            $this->roleRepository->create($userAttributes['role']);
         }
 
         // Create test user
-        $user = factory(User::class)->make($attributes);
+        $user = factory(User::class)->make($userAttributes);
         $this->userRepository->create($user);
 
         return $user;
