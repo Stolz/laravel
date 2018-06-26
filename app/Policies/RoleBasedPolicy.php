@@ -59,7 +59,7 @@ abstract class RoleBasedPolicy
     }
 
     /**
-     * Determine whether the role of the given user don't have the given permission name.
+     * Determine whether the role of the given user does NOT have the given permission name.
      *
      * @param  \App\Models\User $user
      * @param  string $permission Permission name
