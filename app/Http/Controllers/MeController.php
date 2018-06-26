@@ -77,7 +77,7 @@ class MeController extends Controller
     public function showNotifications(Request $request, NotificationRepository $notificationRepository): View
     {
         $user = $request->user();
-        $perPage = (int) $request->input('perPage', 15);
+        $perPage = (int) $request->input('perPage', 10);
         $page = (int) $request->input('page', 1);
         $sortBy = $request->input('sortBy');
         $sortDirection = $request->input('sortDir', 'asc');
