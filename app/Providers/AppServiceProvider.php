@@ -15,6 +15,26 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerBlade();
+    }
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+
+    /**
+     * Register Blade directives and components.
+     *
+     * @return void
+     */
+    protected function registerBlade()
+    {
         // Custom Blade directives
         Blade::if('route', function ($routes) {
             return str_is((array) $routes, Route::currentRouteName());
@@ -32,15 +52,5 @@ class AppServiceProvider extends ServiceProvider
         foreach ($components as $path => $name) {
             Blade::component($path, $name);
         }
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
     }
 }
