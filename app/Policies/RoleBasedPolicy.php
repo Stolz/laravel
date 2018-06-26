@@ -30,7 +30,9 @@ abstract class RoleBasedPolicy
     /**
      * Run before any ability checks.
      *
-     * NOTE: This method will not be called unless there is a method in this
+     * If null is returned, the authorization will fall through to the policy method.
+     *
+     * WARNING: This method will not be called unless there is a method in this
      * class with a name matching $ability.
      *
      * @param  \App\Models\User $user
@@ -63,7 +65,7 @@ abstract class RoleBasedPolicy
      * @param  string $permission Permission name
      * @return bool
      */
-    protected function userRoleCant(User $user, string $permission): bool
+    protected function userRoleCannot(User $user, string $permission): bool
     {
         return ! $this->userRoleCan($user, $permission);
     }
