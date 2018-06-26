@@ -2,7 +2,7 @@
 
 @section('page.title', _('Notifications'))
 
-@section('content')
+@section('main')
 
     @if(! $notifications->count())
         {{ _('There are no notifications') }}

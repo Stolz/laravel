@@ -2,12 +2,11 @@
 
 @section('page.title', _('Login'))
 
-@section('content')
-<form method="POST" action="{{ route('login.attempt') }}">
-    @csrf
-
-    <div class="row justify-content-md-center">
-        <div class="col col-md-10 col-lg-4">
+@section('main')
+<div class="row justify-content-md-center">
+    <div class="col col-md-10 col-lg-4">
+        <form method="POST" action="{{ route('login.attempt') }}">
+            @csrf
 
             @input(['type' => 'email', 'name' => 'email', 'value' => old('email'), 'attributes' => 'required autofocus'])
                 {{ _('E-Mail') }}
@@ -29,9 +28,7 @@
             </div>
 
             <button type="submit" class="btn btn-outline-primary btn-block mt-4" role="button" aria-pressed="true">{{ _('Login') }}</button>
-
-        </div><!--.col-->
-    </div><!--.row-->
-
-</form>
+        </form>
+    </div>
+</div>
 @endsection

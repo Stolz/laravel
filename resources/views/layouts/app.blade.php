@@ -9,12 +9,20 @@
 @endpush
 
 @section('body')
+<div id="container" class="bmd-layout-container bmd-drawer-f-l">
 
-    @include('top')
+    <header id="header" class="bmd-layout-header">
+        @include('top')
+    </header>
 
-    <main class="container-fluid">
+    <aside id="aside" class="bmd-layout-drawer">
+        @yield('side')
+    </aside>
+
+    <main id="main" class="bmd-layout-content container-fluid h-100">
         @include('flash-messages')
-        @yield('content')
+        @yield('main')
     </main>
 
+</div>
 @stop

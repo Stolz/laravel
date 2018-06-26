@@ -2,7 +2,7 @@
 
 @section('page.title', _('Change password'))
 
-@section('content')
+@section('main')
 <div class="row justify-content-md-center">
     <div class="col col-md-10 col-lg-4">
         <form method="POST" action="{{ route('me.password.change') }}" autocomplete="off">

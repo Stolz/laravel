@@ -21,3 +21,13 @@ $bmd-label-color: $blue-800;
 
 // BMD must be loaded afer our customization
 @import "~bootstrap-material-design/scss/_core.scss";
+
+// Required for .h-100 Bootstrap utility to work
+html, body{
+    height:100%;
+}
+
+// Used only while developing for testing purpouses
+.debug {
+    border: 1px dashed red !important;
+}

@@ -1,21 +1,27 @@
 <nav class="navbar navbar-dark bg-primary navbar-expand-sm">{{-- .navbar-expand-sm collapses the bar for small devices --}}
 
+    {{-- Button to show side navigation --}}
+    @hasSection('side')
+    <button type="button" class="btn" data-toggle="drawer" data-target="#aside" aria-controls="aside" aria-expanded="false" aria-label="{{ ('Toggle side navigation') }}">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    @endif
+
     {{-- Branding and page title --}}
     <a class="navbar-brand d-none d-sm-block" href="{{ route('home') }}" title="{{ _('Home') }}">{{ config('app.name') }}</a>
     <span class="navbar-text">@yield('page.title')</span>
 
-    {{-- Button to show navigation on small devices --}}
-    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#topBarNavigation" aria-controls="topBarNavigation" aria-expanded="false" aria-label="{{ ('Toggle navigation') }}">
+    {{-- Button to show top navigation on small devices --}}
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#top-nav" aria-controls="top-nav" aria-expanded="false" aria-label="{{ ('Toggle top navigation') }}">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     {{-- Navigation links --}}
-    <div id="topBarNavigation" class="collapse navbar-collapse">
+    <div id="top-nav" class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">{{-- .ml-auto move links to the right --}}
 
-            <li class="nav-item @route('home') active @endroute">
-                <a class="nav-link" href="{{ route('home') }}">{{ _('Home') }}</a>
-            </li>
+            {{-- Allow other views to insert their own navigation links --}}
+            @stack('top')
 
             {{-- Links for authenticated users --}}
             @auth
