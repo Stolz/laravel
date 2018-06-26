@@ -2,26 +2,33 @@
 
 @section('page.title', _('Login'))
 
-@section('content')
+@section('main')
+<div class="row justify-content-md-center">
+    <div class="col col-md-10 col-lg-4">
+        <form method="POST" action="{{ route('login.attempt') }}">
+            @csrf
 
-    <form method="POST" action="{{ route('login.attempt') }}">
-        @csrf
+            @input(['type' => 'email', 'name' => 'email', 'value' => old('email'), 'attributes' => 'required autofocus'])
+                {{ _('E-Mail') }}
+            @endinput
 
-        <label for="email">{{ _('E-Mail') }}</label>
-        <input type="email" name="email" value="{{ old('email') }}" required autofocus>
-        @if($errors->has('email'))<p class="error">{{ $errors->first('email') }}</p>@endif
+            @input(['type' => 'password', 'name' => 'password', 'attributes' => 'required'])
+                {{ _('Password') }}
+            @endinput
 
-        <label for="password">{{ _('Password') }}</label>
-        <input type="password"  name="password" required>
-        @if($errors->has('password'))<p class="error">{{ $errors->first('password') }}</p>@endif
+            <div class="row">
+                <div class="col">
+                    @checkbox(['name' => 'remember', 'checked' => old('remember')])
+                        {{ _('Remember me') }}
+                    @endcheckbox
+                </div>
+                <div class="col text-right">
+                    <a href="{{ route('password.request') }}"> {{ _('Forgot your password?') }}</a>
+                </div>
+            </div>
 
-        <label>
-            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ _('Remember Me') }}
-        </label>
-
-        <input type="submit" value="{{ _('Login') }}"/>
-
-        <a href="{{ route('password.request') }}"> {{ _('Forgot your password?') }} </a>
-    </form>
-
+            <button type="submit" class="btn btn-outline-primary btn-block mt-4" role="button" aria-pressed="true">{{ _('Login') }}</button>
+        </form>
+    </div>
+</div>
 @endsection

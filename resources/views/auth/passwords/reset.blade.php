@@ -2,25 +2,32 @@
 
 @section('page.title', _('Reset password'))
 
-@section('content')
+@section('main')
+<div class="row justify-content-md-center">
+    <div class="col col-md-10 col-lg-4">
 
-    <form method="POST" action="{{ route('password.request') }}">
-        <input type="hidden" name="token" value="{{ $token }}">
-        @csrf
+        <form method="POST" action="{{ route('password.request') }}">
+            <input type="hidden" name="token" value="{{ $token }}">
+            @csrf
 
-        <label for="email">{{ _('E-Mail') }}</label>
-        <input type="email" name="email" value="{{ $email or old('email') }}" required autofocus>
-        @if($errors->has('email'))<p class="error">{{ $errors->first('email') }}</p>@endif
+            @input(['type' => 'email', 'name' => 'email', 'value' => old('email'), 'attributes' => 'required autofocus'])
+                {{ _('E-Mail') }}
+            @endinput
 
-        <label for="password">{{ _('New password') }}</label>
-        <input type="password"  name="password" required>
-        @if($errors->has('password'))<p class="error">{{ $errors->first('password') }}</p>@endif
+            @input(['type' => 'password', 'name' => 'password', 'attributes' => 'required autofocus'])
+                {{ _('New password') }}
+                @slot('hint')
+                    {{ sprintf(_('Your password must be at least %d characters long'), \App\Models\User::MIN_PASSWORD_LENGTH) }}
+                @endslot
+            @endinput
 
-        <label for="password_confirmation">{{ _('Repeat new password') }}</label>
-        <input type="password"  name="password_confirmation" required>
-        @if($errors->has('password_confirmation'))<p class="error">{{ $errors->first('password_confirmation') }}</p>@endif
+            @input(['type' => 'password', 'name' => 'password_confirmation', 'attributes' => 'required'])
+                {{ _('Repeat new password') }}
+             @endinput
 
-        <input type="submit" value="{{ _('Reset password') }}"/>
-    </form>
+            <button type="submit" class="btn btn-outline-primary btn-block mt-4" role="button" aria-pressed="true">{{ _('Reset password') }}</button>
+        </form>
 
+    </div>
+</div>
 @endsection

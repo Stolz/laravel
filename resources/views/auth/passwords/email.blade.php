@@ -2,20 +2,26 @@
 
 @section('page.title', _('Send password reset link'))
 
-@section('content')
+@section('main')
+<div class="row justify-content-md-center">
+    <div class="col col-md-10 col-lg-4">
 
-    <form method="POST" action="{{ route('password.email') }}">
-        @csrf
+        @if(session('status'))
+            @alert(['type' => 'success'])
+                {{ session('status') }}
+            @endalert
+        @endif
 
-        <label for="email">{{ _('E-Mail') }}</label>
-        <input type="email" name="email" value="{{ old('email') }}" required autofocus>
-        @if($errors->has('email'))<p class="error">{{ $errors->first('email') }}</p>@endif
+        <form method="POST" action="{{ route('password.email') }}">
+            @csrf
 
-        <input type="submit" value="{{ _('Send password reset link') }}"/>
-    </form>
+            @input(['type' => 'email', 'name' => 'email', 'value' => old('email'), 'attributes' => 'required autofocus'])
+                {{ _('E-Mail') }}
+            @endinput
 
-    @if(session('status'))
-        <div class="success">{{ session('status') }}</div>
-    @endif
+            <button type="submit" class="btn btn-outline-primary btn-block mt-4" role="button" aria-pressed="true">{{ _('Send reset link to my e-mail') }}</button>
+        </form>
 
+    </div>
+</div>
 @endsection

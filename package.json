@@ -9,6 +9,14 @@
         "prod": "npm run production",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
+    "dependencies": {
+        "jquery": "^3.2.1",
+        "popper.js": "^1.12.6",
+        "typeface-roboto": "0.0.54",
+        "material-icons": "^0.2.3",
+        "bootstrap": "^4.0.0",
+        "bootstrap-material-design": "^4.1.1"
+    },
     "devDependencies": {
         "cross-env": "^5.2.0",
         "laravel-mix": "^2.1.11"

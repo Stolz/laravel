@@ -1,7 +1,6 @@
 @extends('layouts.base')
 
 @push('css')
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chango|Exo&subset=latin,latin-ext">
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 @endpush
 
@@ -10,35 +9,20 @@
 @endpush
 
 @section('body')
+<div id="container" class="bmd-layout-container bmd-drawer-f-l">
 
-    <nav>
-        <ul>
-            @notroute('home')<li><a href="{{ route('home') }}">{{ _('Home') }}</a></li>@endnotroute
+    <header id="header" class="bmd-layout-header">
+        @include('top')
+    </header>
 
-            {{-- Links for authenticated users --}}
-            @auth
-                <li>
-                    <a href="{{ route('me') }}">{{ _('Me') }}</a>
-                    @inject('notificationRepository', 'App\Repositories\Contracts\NotificationRepository')
-                    @if($unreadCount = $notificationRepository->countUnread(Auth::user()))
-                    (<a href="{{ route('me.notifications') }}">{{ $unreadCount }}</a>)
-                    @endif
-                </li>
-                <li><a href="{{ route('logout') }}">{{ _('Log out') }}</a></li>
+    <aside id="aside" class="bmd-layout-drawer">
+        @yield('side')
+    </aside>
 
-            {{-- Links for guests --}}
-            @else
-                @notroute('login')<li><a href="{{ route('login') }}">{{ _('Login') }}</a></li>@endnotroute
-            @endauth
-        </ul>
-    </nav>
-
-    <div id="content">
-        <h1>{{ config('app.name') }} <small>@yield('page.title')</small></h1>
-
+    <main id="main" class="bmd-layout-content container-fluid h-100">
         @include('flash-messages')
+        @yield('main')
+    </main>
 
-        @yield('content')
-    </div>
-
+</div>
 @stop

@@ -1,0 +1,33 @@
+// Google Roboto font
+@import "~typeface-roboto/index.css";
+
+// Google Material design icons
+@import "~material-icons/iconfont/material-icons.scss";
+
+// To customize Bootstrap and BMD override here any of the values of ~/bootstrap-material-design/scss/_variables.scss
+// More info at https://fezvrasta.github.io/bootstrap-material-design/docs/4.0/getting-started/theming/
+
+@import "~bootstrap-material-design/scss/variables/colors";
+$theme-colors: (
+    primary: $blue-900,
+    success: $green,
+    info: $light-blue,
+    warning: $orange,
+    danger: $red,
+    light: $grey-100,
+    dark: $grey-800
+);
+$bmd-label-color: $blue-800;
+
+// BMD must be loaded afer our customization
+@import "~bootstrap-material-design/scss/_core.scss";
+
+// Required for .h-100 Bootstrap utility to work
+html, body{
+    height:100%;
+}
+
+// Used only while developing for testing purpouses
+.debug {
+    border: 1px dashed red !important;
+}

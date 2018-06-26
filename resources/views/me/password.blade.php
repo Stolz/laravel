@@ -2,26 +2,29 @@
 
 @section('page.title', _('Change password'))
 
-@section('content')
+@section('main')
+<div class="row justify-content-md-center">
+    <div class="col col-md-10 col-lg-4">
+        <form method="POST" action="{{ route('me.password.change') }}" autocomplete="off">
+            @csrf
 
-    @include('me.nav')
+            @input(['type' => 'password', 'name' => 'password', 'attributes' => 'required autofocus'])
+                {{ _('Current password') }}
+            @endinput
 
-    <form method="POST" action="{{ route('me.password.change') }}">
-        @csrf
+            @input(['type' => 'password', 'name' => 'new_password', 'attributes' => 'required'])
+                {{ _('New password') }}
+                @slot('hint')
+                    {{ sprintf(_('Your password must be at least %d characters long'), \App\Models\User::MIN_PASSWORD_LENGTH) }}
+                @endslot
+            @endinput
 
-        <label for="password">{{ _('Current password') }}</label>
-        <input type="password"  name="password" required>
-        @if($errors->has('password'))<p class="error">{{ $errors->first('password') }}</p>@endif
+            @input(['type' => 'password', 'name' => 'new_password_confirmation', 'attributes' => 'required'])
+                {{ _('Repeat new password') }}
+            @endinput
 
-        <label for="new_password">{{ _('New password') }}</label>
-        <input type="password"  name="new_password" required>
-        @if($errors->has('new_password'))<p class="error">{{ $errors->first('new_password') }}</p>@endif
-
-        <label for="new_password_confirmation">{{ _('Repeat new password') }}</label>
-        <input type="password"  name="new_password_confirmation" required>
-        @if($errors->has('new_password_confirmation'))<p class="error">{{ $errors->first('new_password_confirmation') }}</p>@endif
-
-        <input type="submit" value="{{ _('Change password') }}"/>
-    </form>
-
+            <button type="submit" class="btn btn-outline-primary btn-block mt-4" role="button" aria-pressed="true">{{ _('Change password') }}</button>
+        </form>
+    </div>
+</div>
 @endsection
