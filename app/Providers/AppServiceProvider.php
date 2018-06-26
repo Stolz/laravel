@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
             return str_is((array) $routes, Route::currentRouteName());
         });
         Blade::if('notroute', function ($routes) {
-            return str_is((array) $routes, Route::currentRouteName());
+            return ! str_is((array) $routes, Route::currentRouteName());
         });
 
         // Custom Blade components

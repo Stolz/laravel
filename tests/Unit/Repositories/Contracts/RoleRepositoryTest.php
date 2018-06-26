@@ -112,7 +112,6 @@ class RoleRepositoryTest extends TestCase
         $this->assertTrue($this->roleRepository->hasPermission($this->role, 'first'));
     }
 
-
     /**
      * Test remove permission to role.
      *
