@@ -16,6 +16,13 @@ class PermissionsSeeder extends Seeder
             /// Access module
             ['name' => 'use-access-module'],
 
+            // Role
+            ['name' => 'role-list'],
+            ['name' => 'role-view'],
+            ['name' => 'role-create'],
+            ['name' => 'role-update'],
+            ['name' => 'role-delete'],
+
             // User
             ['name' => 'user-list'],
             ['name' => 'user-view'],
