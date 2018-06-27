@@ -7,13 +7,13 @@
     <div class="col col-md-10 col-lg-4">
         <dl>
             <dt>{{ _('Name') }}</dt>
-            <dd>{{ $user->getName() }}</dd>
+            <dd>{{ $user['name'] }}</dd>
 
             <dt>{{ _('E-mail') }}</dt>
-            <dd>{{ $user->getEmail() }}</dd>
+            <dd>{{ $user['email'] }}</dd>
 
             <dt>{{ _('Role') }}</dt>
-            <dd>{{ $user->getRole() }}</dd>
+            <dd>{{ $user['role'] }}</dd>
         </dl>
     </div>
 </div>
