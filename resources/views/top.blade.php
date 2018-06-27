@@ -43,7 +43,6 @@
                         @inject('notificationRepository', 'App\Repositories\Contracts\NotificationRepository')
                         @if($unreadNotifications = $notificationRepository->countUnread(Auth::user()))
                              <span class="badge badge-pill badge-info">{{ $unreadNotifications }}</span>
-                        </a>
                         @endif
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="meDropdown">
