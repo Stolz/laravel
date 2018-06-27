@@ -23,6 +23,18 @@
             {{-- Allow other views to insert their own navigation links --}}
             @stack('top')
 
+            @can('access', 'module')
+            <li class="nav-item">
+                <a class="nav-link @route(['access', 'access.*']) active @endroute" href="{{ route('access.home') }}">{{ _('Access') }}</a>
+            </li>
+            @endcan
+
+            @can('master', 'module')
+            <li class="nav-item">
+                <a class="nav-link @route(['master', 'master.*']) active @endroute" href="{{ route('master.home') }}">{{ _('Master') }}</a>
+            </li>
+            @endcan
+
             {{-- Links for authenticated users --}}
             @auth
                 <li class="nav-item dropdown @route(['me', 'me.*']) active @endroute">

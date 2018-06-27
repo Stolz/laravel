@@ -32,4 +32,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('notifications', 'MeController@showNotifications')->name('me.notifications');
         Route::post('notifications', 'MeController@markNotificationAsRead')->name('me.notification.read');
     });
+
+    // Access module
+    Route::middleware(['can:access,module'])->prefix('module/access')->namespace('Access')->name('access.')->group(function () {
+        Route::view('/', 'module/access')->name('home');
+        Route::resource('role', 'RoleController');
+        Route::resource('user', 'UserController');
+    });
+
+    // Master module
+    Route::middleware(['can:master,module'])->prefix('module/master')->namespace('Master')->name('master.')->group(function () {
+        Route::view('/', 'module/master')->name('home');
+        Route::resource('country', 'CountryController');
+    });
 });
