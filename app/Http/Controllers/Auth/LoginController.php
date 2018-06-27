@@ -30,6 +30,6 @@ class LoginController extends Controller
      */
     public function redirectPath()
     {
-        return route('me');
+        return route('home');
     }
 }
