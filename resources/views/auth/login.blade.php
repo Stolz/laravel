@@ -5,7 +5,7 @@
 @section('main')
 <div class="row justify-content-md-center">
     <div class="col col-md-10 col-lg-4">
-        <form method="POST" action="{{ route('login.attempt') }}">
+        <form method="post" action="{{ route('login.attempt') }}">
             @csrf
 
             @input(['type' => 'email', 'name' => 'email', 'value' => old('email'), 'attributes' => 'required autofocus'])

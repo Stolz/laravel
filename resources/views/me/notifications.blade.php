@@ -7,7 +7,7 @@
     @if(! $notifications->count())
         {{ _('There are no notifications') }}
     @else
-        <form method="POST" action="{{ route('me.notification.read') }}">
+        <form method="post" action="{{ route('me.notification.read') }}">
             @csrf
             @foreach($notifications as $notification)
                 <?php $type = ($notification->isUnread()) ? $notification->getLevel() : 'secondary' ?>
