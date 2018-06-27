@@ -27,6 +27,12 @@ html, body{
     height:100%;
 }
 
+// Show table caption on top of the table
+.table caption {
+    //text-align: center;
+    caption-side: top;
+}
+
 // Used only while developing for testing purpouses
 .debug {
     border: 1px dashed red !important;
