@@ -26,10 +26,15 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot();
 
         // Regiter route model bindings
-        Route::bind('user', function ($id) {
-            $userRepository = app(\App\Repositories\Contracts\UserRepository::class);
-            return $userRepository->find($id) ?? abort(404, _("User with id '$id' not found"));
-        });
+        $modelRouteBindings = [
+            'country' => \App\Repositories\Contracts\CountryRepository::class,
+            'user' => \App\Repositories\Contracts\UserRepository::class,
+        ];
+        foreach ($modelRouteBindings as $name => $repository) {
+            Route::bind($name, function ($id) use ($name, $repository) {
+                return app($repository)->find($id) ?? abort(404, sprintf(_("%s with id '%s' not found", studly_case($name), $id)));
+            });
+        }
     }
 
     /**
