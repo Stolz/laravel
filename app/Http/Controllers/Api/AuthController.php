@@ -18,7 +18,7 @@ class AuthController extends Controller
     {
         $credentials = $request->validate([
             'email' => 'required|email',
-            'password' => 'required|min:' . User::MIN_PASSWORD_LENGTH,
+            'password' => 'required',
         ]);
 
         if (! $token = auth('api')->attempt($credentials))
