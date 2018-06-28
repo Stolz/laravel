@@ -28,6 +28,7 @@ class RouteServiceProvider extends ServiceProvider
         // Regiter route model bindings
         $modelRouteBindings = [
             'country' => \App\Repositories\Contracts\CountryRepository::class,
+            'role' => \App\Repositories\Contracts\RoleRepository::class,
             'user' => \App\Repositories\Contracts\UserRepository::class,
         ];
         foreach ($modelRouteBindings as $name => $repository) {
