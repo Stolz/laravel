@@ -9,8 +9,9 @@ class ChangePassword extends Request
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
+        // An user is always authorize to change its own password
         return true;
     }
 
@@ -19,7 +20,7 @@ class ChangePassword extends Request
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $minLength = \App\Models\User::MIN_PASSWORD_LENGTH;
 
