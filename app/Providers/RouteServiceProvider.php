@@ -32,7 +32,7 @@ class RouteServiceProvider extends ServiceProvider
         ];
         foreach ($modelRouteBindings as $name => $repository) {
             Route::bind($name, function ($id) use ($name, $repository) {
-                return app($repository)->find($id) ?? abort(404, sprintf(_("%s with id '%s' not found", studly_case($name), $id)));
+                return app($repository)->find((int) $id) ?? abort(404, sprintf(_("%s with id '%s' not found"), title_case(snake_case($name, ' ')), $id));
             });
         }
     }
