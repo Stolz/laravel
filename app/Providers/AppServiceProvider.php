@@ -46,9 +46,10 @@ class AppServiceProvider extends ServiceProvider
         // Custom Blade components
         $components = [
             'components.alert' => 'alert',
-            'components.modals.delete-model' => 'deleteModelModal',
             'components.form.checkbox' => 'checkbox',
             'components.form.input' => 'input',
+            'components.form.select' => 'select',
+            'components.modals.delete-model' => 'deleteModelModal',
         ];
         foreach ($components as $path => $name) {
             Blade::component($path, $name);
