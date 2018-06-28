@@ -1,6 +1,6 @@
 <div id="delete-modal-{{ $model['id'] }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete-modal-title-{{ $model['id'] }}"  aria-hidden="true">
     <form method="post" action="{{ $action }}" class="modal-dialog modal-dialog-centered" role="document">
-        {!! csrf_field(), method_field('DELETE') !!}
+        @csrf @method('delete')
 
         <div class="modal-content">
 
