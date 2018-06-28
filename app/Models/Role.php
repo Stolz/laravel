@@ -62,4 +62,14 @@ class Role extends Model
     }
 
     // Domain logic ================================================================
+
+    /**
+     * Determine whether the the role has full privileges.
+     *
+     * @return bool
+     */
+    public function isSuperAdmin(): bool
+    {
+        return ($this->getName() === 'Admin' and \EntityManager::contains($this));
+    }
 }

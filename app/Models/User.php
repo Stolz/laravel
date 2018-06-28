@@ -219,7 +219,7 @@ class User extends Model implements AuthenticatableContract, JWTSubject, CanRese
     {
         $role = $this->getRole();
 
-        return ($role instanceof Role and $role->getName() === 'Admin');
+        return ($role instanceof Role and $role->isSuperAdmin());
     }
 
     /**

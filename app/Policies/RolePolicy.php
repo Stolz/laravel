@@ -74,7 +74,7 @@ class RolePolicy extends RoleBasedPolicy
      */
     public function update(User $user, Role $role)
     {
-        return $this->userRoleCan($user, 'role-update');
+        return ! $role->isSuperAdmin() and $this->userRoleCan($user, 'role-update');
     }
 
     /**
@@ -86,6 +86,6 @@ class RolePolicy extends RoleBasedPolicy
      */
     public function delete(User $user, Role $role)
     {
-        return $this->userRoleCan($user, 'role-delete');
+        return ! $role->isSuperAdmin() and $this->userRoleCan($user, 'role-delete');
     }
 }
