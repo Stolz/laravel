@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Country;
 
-use App\Http\Requests\Request as FormRequest;
+use App\Http\Requests\Request;
 
-class Delete extends FormRequest
+class Delete extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
