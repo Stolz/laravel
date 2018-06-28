@@ -24,9 +24,21 @@
         <tr>
             <td>
                 <div class="btn-group-sm" role="group" aria-label="{{ _('Actions') }}">
-                    <a href="{{ route('master.country.show', [$country['id']]) }}" class="btn btn-info">{{ _('View') }}</a>
-                    <a href="{{ route('master.country.edit', [$country['id']]) }}" class="btn btn-primary">{{ _('Edit') }}</a>
-                    <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#delete-modal-{{ $country['id'] }}">{{ _('Delete') }}</a>
+                    @can('view', $country)
+                        <a href="{{ route('master.country.show', [$country['id']]) }}" class="btn btn-info">{{ _('View') }}</a>
+                    @else
+                        <a href="#" class="btn btn-info disabled">{{ _('View') }}</a>
+                    @endcan
+                    @can('edit', $country)
+                        <a href="{{ route('master.country.edit', [$country['id']]) }}" class="btn btn-primary">{{ _('Edit') }}</a>
+                    @else
+                        <a href="#" class="btn btn-primary disabled">{{ _('Edit') }}</a>
+                    @endcan
+                    @can('delete', $country)
+                        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#delete-modal-{{ $country['id'] }}">{{ _('Delete') }}</a>
+                    @else
+                        <a href="#" class="btn btn-danger disabled">{{ _('Delete') }}</a>
+                    @endcan
                 </div>
             </td>
             <td>{{ $country['name'] }}</td>
