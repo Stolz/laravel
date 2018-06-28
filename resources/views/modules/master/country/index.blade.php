@@ -29,7 +29,7 @@
                     @else
                         <a href="#" class="btn btn-info disabled">{{ _('View') }}</a>
                     @endcan
-                    @can('edit', $country)
+                    @can('update', $country)
                         <a href="{{ route('master.country.edit', [$country['id']]) }}" class="btn btn-primary">{{ _('Edit') }}</a>
                     @else
                         <a href="#" class="btn btn-primary disabled">{{ _('Edit') }}</a>
