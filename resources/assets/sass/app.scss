@@ -6,7 +6,6 @@
 
 // To customize Bootstrap and BMD override here any of the values of ~/bootstrap-material-design/scss/_variables.scss
 // More info at https://fezvrasta.github.io/bootstrap-material-design/docs/4.0/getting-started/theming/
-
 @import "~bootstrap-material-design/scss/variables/colors";
 $theme-colors: (
     primary: $blue-900,
@@ -27,13 +26,9 @@ html, body{
     height:100%;
 }
 
-// Show table caption on top of the table
-.table caption {
-    //text-align: center;
-    caption-side: top;
-}
-
 // Used only while developing for testing purpouses
 .debug {
     border: 1px dashed red !important;
 }
+
+@import "tables";

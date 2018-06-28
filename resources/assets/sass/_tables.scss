@@ -1,0 +1,9 @@
+.table tbody td {
+    vertical-align: middle;
+}
+
+// Show table caption on top of the table
+.table caption {
+    //text-align: center;
+    caption-side: top;
+}
