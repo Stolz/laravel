@@ -24,7 +24,7 @@ class Update extends Request
     public function rules(): array
     {
         return [
-            'name' => 'required|min:3|max:255|max:255|unique:App\Models\Role,name,' . $this->role->getId(),
+            'name' => 'required|min:3|max:255|unique:App\Models\Role,name,' . $this->role->getId(),
             'description' => 'max:255',
         ];
     }
