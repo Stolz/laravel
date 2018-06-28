@@ -46,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
         // Custom Blade components
         $components = [
             'components.alert' => 'alert',
+            'components.modals.delete-model' => 'deleteModelModal',
             'components.form.checkbox' => 'checkbox',
             'components.form.input' => 'input',
         ];
