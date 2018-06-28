@@ -24,7 +24,7 @@ class Update extends Request
     public function rules(): array
     {
         return [
-            'name' => 'required|max:255|unique:countries,name,' . $this->country->getId(),
+            'name' => 'required|max:255|unique:App\Models\Country,name,' . $this->country->getId(),
         ];
     }
 }
