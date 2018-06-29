@@ -65,8 +65,11 @@ class CountryController extends Controller
      */
     public function store(\App\Http\Requests\Country\Create $request)
     {
-        // Create a country with the provided data
-        $country = Country::make($request->only('name'));
+        // Get request input
+        $attrtibutes = $request->only('name');
+
+        // Create a country with the provided input
+        $country = Country::make($attrtibutes);
 
         // Attempt to save country into the repository
         $created = $this->countryRepository->create($country);
@@ -119,8 +122,11 @@ class CountryController extends Controller
      */
     public function update(\App\Http\Requests\Country\Update $request, Country $country)
     {
+        // Get request input
+        $attrtibutes = $request->only('name');
+
         // Apply changes to the country
-        $country->set($request->only('name'));
+        $country->set($attrtibutes);
 
         // Attempt to update country
         $updated = $this->countryRepository->update($country);

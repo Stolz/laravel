@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('page.title', _('Country'))
+@section('page.title', _('Create country'))
 
 @section('main')
 <div class="row justify-content-md-center">
@@ -9,7 +9,7 @@
         <form method="post" action="{{ route('master.country.store') }}" role="form">
             @csrf
             @include('modules.master.country.form')
-            <button type="submit" class="btn btn-success">{{ _('Create country') }}</button>
+            <button type="submit" class="btn btn-primary">{{ _('Create country') }}</button>
         </form>
 
     </div>

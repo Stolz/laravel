@@ -65,8 +65,11 @@ class RoleController extends Controller
      */
     public function store(\App\Http\Requests\Role\Create $request)
     {
-        // Create a role with the provided data
-        $role = Role::make($request->only('name', 'description'));
+        // Get request input
+        $attrtibutes = $request->only('name', 'description');
+
+        // Create a role with the provided input
+        $role = Role::make($attrtibutes);
 
         // Attempt to save role into the repository
         $created = $this->roleRepository->create($role);
@@ -119,8 +122,11 @@ class RoleController extends Controller
      */
     public function update(\App\Http\Requests\Role\Update $request, Role $role)
     {
+        // Get request input
+        $attrtibutes = $request->only('name', 'description');
+
         // Apply changes to the role
-        $role->set($request->only('name', 'description'));
+        $role->set($attrtibutes);
 
         // Attempt to update role
         $updated = $this->roleRepository->update($role);

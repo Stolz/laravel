@@ -31,7 +31,7 @@ abstract class Request extends FormRequest
      * @param  array|mixed  $keys
      * @return array
      */
-    public function exceptNonFillable($keys)
+    public function exceptNonFillable($keys = [])
     {
         $keys = is_array($keys) ? $keys : func_get_args();
 

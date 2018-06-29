@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('page.title', _('Edit country'))
+@section('page.title', _('Update country'))
 
 @section('main')
 <div class="row justify-content-md-center">
