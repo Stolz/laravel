@@ -1,0 +1,4 @@
+/*
+TODO add this alias to $policies array
+'App\Models\Dummy' => 'App\Policies\DummyPolicy',
+*/

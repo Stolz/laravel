@@ -1,0 +1,10 @@
+/*
+TODO add permissions to the propper module
+
+            // Dummy
+            ['name' => 'dummy-list'],
+            ['name' => 'dummy-view'],
+            ['name' => 'dummy-create'],
+            ['name' => 'dummy-update'],
+            ['name' => 'dummy-delete'],
+*/

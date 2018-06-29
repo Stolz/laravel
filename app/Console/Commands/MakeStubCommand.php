@@ -61,28 +61,14 @@ class MakeStubCommand extends Command
             return $this->error('Model already exists');
 
         // Create file stubs
-        $this->createModel()
+        $this
+        ->createModel()
         ->createMigration()
         ->createMapping()
         ->createRepositoryContract()
         ->createRepository()
-        ->createRepositoryBinding();
-    }
-
-    /**
-     * Inflect the placeholder values.
-     *
-     * @param  string $original
-     * @return self
-     */
-    protected function inflect($original): self
-    {
-        $this->singular = Str::camel(Str::singular($original));
-        $this->plural = Str::plural($this->singular);
-        $this->classSingular = Str::studly($this->singular);
-        $this->classPlural = Str::studly($this->plural);
-
-        return $this;
+        ->createRepositoryBinding()
+        ->createPolicy();
     }
 
     /**
@@ -180,7 +166,49 @@ class MakeStubCommand extends Command
         $stub = $this->getStub('repositoryBinding');
 
         $this->files->append($path, $this->replacePlaceholders($stub));
-        $this->info('Repository binding created successfully');
+        $this->info('Repository binding updated successfully');
+
+        return $this;
+    }
+
+    /**
+     * Create the gate policy stub.
+     *
+     * @return self
+     */
+    protected function createPolicy(): self
+    {
+        $path = app_path("Policies/{$this->classSingular}Policy.php");
+        $stub = $this->getStub('policy');
+
+        $this->files->put($path, $this->replacePlaceholders($stub));
+        $this->info('Gate policy created successfully');
+
+        $path = app_path('Providers/AuthServiceProvider.php');
+        $stub = $this->getStub('policyMapping');
+        $this->files->append($path, $this->replacePlaceholders($stub));
+        $this->info('Gate policy mapping updated successfully');
+
+        $path = database_path('seeds/PermissionsSeeder.php');
+        $stub = $this->getStub('permissionsSeeder');
+        $this->files->append($path, $this->replacePlaceholders($stub));
+        $this->info('Permissions seeder updated successfully');
+
+        return $this;
+    }
+
+    /**
+     * Inflect the placeholder values.
+     *
+     * @param  string $original
+     * @return self
+     */
+    protected function inflect($original): self
+    {
+        $this->singular = Str::camel(Str::singular($original));
+        $this->plural = Str::plural($this->singular);
+        $this->classSingular = Str::studly($this->singular);
+        $this->classPlural = Str::studly($this->plural);
 
         return $this;
     }
