@@ -50,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
             'components.form.input' => 'input',
             'components.form.select' => 'select',
             'components.modals.delete-model' => 'deleteModelModal',
+            'components.table' => 'table',
         ];
         foreach ($components as $path => $name) {
             Blade::component($path, $name);
