@@ -9,8 +9,8 @@ command -v cloc >/dev/null 2>&1 || exit_error "'cloc' program not found. Install
 
 echo
 color "Code stats (lines)" purple
-cloc app bin database resources tests resources
+cloc app bin database resources routes tests resources
 
 echo
 color "Code stats (percentage)" purple
-cloc app bin database resources tests resources --by-percent c
+cloc app bin database resources routes tests resources --by-percent c
