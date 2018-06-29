@@ -9,6 +9,10 @@
         @endalert
     @else
         @table
+            @slot('caption')
+                {{ sprintf(_('Showing results %d to %d out of %d'), $countries->firstItem(), $countries->lastItem(), $countries->total()) }}
+            @endslot
+
             @slot('header')
             <tr>
                 <th>{{ _('Actions') }}</th>
