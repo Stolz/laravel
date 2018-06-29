@@ -24,7 +24,7 @@
 
             @foreach($roles as $role)
             <tr>
-                <td>
+                <td class="actions">
                     <div class="btn-group-sm" role="group" aria-label="{{ _('Actions') }}">
                         @can('view', $role)
                             <a href="{{ route('access.role.show', [$role['id']]) }}" class="btn btn-info">{{ _('View') }}</a>

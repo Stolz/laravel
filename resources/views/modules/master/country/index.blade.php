@@ -18,7 +18,7 @@
 
             @foreach($countries as $country)
             <tr>
-                <td>
+                <td class="actions">
                     <div class="btn-group-sm" role="group" aria-label="{{ _('Actions') }}">
                         @can('view', $country)
                             <a href="{{ route('master.country.show', [$country['id']]) }}" class="btn btn-info">{{ _('View') }}</a>

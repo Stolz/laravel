@@ -8,11 +8,23 @@
     caption-side: top;
 }
 
-// Sortable links in table headers
-th.sortable {
-    a {color: $gray; text-decoration:none}
+// Decorate sortable links in table headers
+.table th.sortable {
+    a {color: $gray; text-decoration:none; white-space: nowrap;}
     a.active {color: $bmd-label-color;}
     a.asc:after, a.desc:after {color: $gray; margin-left: .3em}
     a.asc:after {content: "↓"}
     a.desc:after {content: "↑"}
+}
+
+// Compact buttons in tables
+table.table .btn {
+    padding-top:0.1em;
+    padding-bottom:0.1em;
+}
+
+// Fit with to content for .actions column
+.table td.actions {
+    width:1em;
+    white-space: nowrap;
 }

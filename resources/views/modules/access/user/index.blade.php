@@ -25,8 +25,8 @@
 
             @foreach($users as $user)
             <tr>
-                <td>
-                    <div class="btn-group-sm" user="group" aria-label="{{ _('Actions') }}">
+                <td class="actions">
+                    <div class="btn-group-sm" role="group" aria-label="{{ _('Actions') }}">
                         @can('view', $user)
                             <a href="{{ route('access.user.show', [$user['id']]) }}" class="btn btn-info">{{ _('View') }}</a>
                         @else
