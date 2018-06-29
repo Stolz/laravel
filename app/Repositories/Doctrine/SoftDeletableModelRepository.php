@@ -8,7 +8,7 @@ use App\Repositories\Contracts\SoftDeletableModelRepository as SoftDeletableMode
 abstract class SoftDeletableModelRepository extends ModelRepository implements SoftDeletableModelRepositoryContract
 {
     /**
-     * Whether or not include soft deleted models in the next query.
+     * Whether to include soft deleted models in the next query.
      *
      * @var bool
      */
