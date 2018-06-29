@@ -72,6 +72,19 @@ abstract class ModelRepository implements ModelRepositoryContract
     }
 
     /**
+     * Determine whether the model has the given field.
+     *
+     * @param  string $field
+     * @return bool
+     */
+    protected function modelHasField($field): bool
+    {
+        $modelReflectionProperties = $this->entityManager->getClassMetadata($this->modelClass)->getReflectionProperties();
+
+        return in_array($field, array_keys($modelReflectionProperties));
+    }
+
+    /**
      * Save a new model.
      *
      * @param \App\Models\Model $model
@@ -169,7 +182,7 @@ abstract class ModelRepository implements ModelRepositoryContract
         // Validate parameters
         $perPage = max(1, min($perPage, static::MAX_PER_PAGE));
         $page = max(1, $page);
-        $sortBy = ($sortBy !== null and \Schema::hasColumn($this->getTable(), snake_case($sortBy))) ? $sortBy : null;
+        $sortBy = ($sortBy !== null and $this->modelHasField($sortBy = camel_case($sortBy))) ? $sortBy : null;
         $sortDirection = ($sortDirection === 'desc') ? 'desc' : 'asc';
 
         // Reuse query builder defined by child classes
