@@ -12,7 +12,7 @@
             @slot('header')
             <tr>
                 <th>{{ _('Actions') }}</th>
-                <th>{{ _('Name') }}</th>
+                @sortableHeaders(['headers' => ['name' => _('Name')]])@endsortableHeaders
             </tr>
             @endslot
 

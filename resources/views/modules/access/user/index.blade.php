@@ -12,9 +12,14 @@
             @slot('header')
             <tr>
                 <th>{{ _('Actions') }}</th>
-                <th>{{ _('Name') }}</th>
-                <th>{{ _('E-mail') }}</th>
-                <th>{{ _('Role') }}</th>
+                @sortableHeaders(['headers' => [
+                    'name' => _('Name'),
+                    'email' => _('E-mail'),
+                    'role' => _('Role'),
+                    'createdAt' => _('Created'),
+                    'updatedAt' => _('Updated'),
+                ]])
+                @endsortableHeaders
             </tr>
             @endslot
 
@@ -42,6 +47,8 @@
                 <td>{{ $user['name'] }}</td>
                 <td>{{ $user['email'] }}</td>
                 <td>{{ $user['role'] }}</td>
+                <td>{{ $user['createdAt'] ? $user['createdAt']->diffForHumans() : null }}</td>
+                <td>{{ $user['updatedAt'] ? $user['updatedAt']->diffForHumans() : null }}</td>
             </tr>
             @endforeach
         @endtable

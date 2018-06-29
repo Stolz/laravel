@@ -12,8 +12,13 @@
             @slot('header')
             <tr>
                 <th>{{ _('Actions') }}</th>
-                <th>{{ _('Name') }}</th>
-                <th>{{ _('Description') }}</th>
+                @sortableHeaders(['headers' => [
+                    'name' => _('Name'),
+                    'description' => _('Description'),
+                    'createdAt' => _('Created'),
+                    'updatedAt' => _('Updated'),
+                ]])
+                @endsortableHeaders
             </tr>
             @endslot
 
@@ -40,6 +45,8 @@
                 </td>
                 <td>{{ $role['name'] }}</td>
                 <td>{{ $role['description'] }}</td>
+                <td>{{ $role['createdAt'] ? $role['createdAt']->diffForHumans() : null }}</td>
+                <td>{{ $role['updatedAt'] ? $role['updatedAt']->diffForHumans() : null }}</td>
             </tr>
             @endforeach
         @endtable

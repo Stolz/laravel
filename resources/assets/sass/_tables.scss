@@ -7,3 +7,12 @@
     //text-align: center;
     caption-side: top;
 }
+
+// Sortable links in table headers
+th.sortable {
+    a {color: $gray; text-decoration:none}
+    a.active {color: $bmd-label-color;}
+    a.asc:after, a.desc:after {color: $gray; margin-left: .3em}
+    a.asc:after {content: "↓"}
+    a.desc:after {content: "↑"}
+}
