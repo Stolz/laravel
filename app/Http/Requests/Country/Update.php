@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests\Country;
 
-use App\Http\Requests\Request;
-
-class Update extends Request
+class Update extends Create
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,6 +23,6 @@ class Update extends Request
     {
         return [
             'name' => 'required|max:255|unique:App\Models\Country,name,' . $this->country->getId(),
-        ];
+        ] + parent::rules();
     }
 }
