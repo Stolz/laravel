@@ -8,13 +8,6 @@ use App\Models\User;
 class UserController extends Controller
 {
     /**
-     * Instance of the service used to interact with users.
-     *
-     * @var \App\Repositories\Contracts\UserRepository
-     */
-    protected $userRepository;
-
-    /**
      * Instance of the service used to interact with roles.
      *
      * @var \App\Repositories\Contracts\RoleRepository
@@ -22,16 +15,23 @@ class UserController extends Controller
     protected $roleRepository;
 
     /**
+     * Instance of the service used to interact with users.
+     *
+     * @var \App\Repositories\Contracts\UserRepository
+     */
+    protected $userRepository;
+
+    /**
      * Create a new controller instance.
      *
-     * @param  \App\Repositories\Contracts\UserRepository $userRepository
      * @param  \App\Repositories\Contracts\RoleRepository $roleRepository
+     * @param  \App\Repositories\Contracts\UserRepository $userRepository
      * @return void
      */
-    public function __construct(\App\Repositories\Contracts\UserRepository $userRepository, \App\Repositories\Contracts\RoleRepository $roleRepository)
+    public function __construct(\App\Repositories\Contracts\RoleRepository $roleRepository, \App\Repositories\Contracts\UserRepository $userRepository)
     {
-        $this->userRepository = $userRepository;
         $this->roleRepository = $roleRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
