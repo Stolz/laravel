@@ -4,10 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    /**
+     * Instance of the service used to interact with roles.
+     *
+     * @var \App\Repositories\Contracts\RoleRepository
+     */
+    protected $roleRepository;
+
     /**
      * Instance of the service used to interact with users.
      *
@@ -18,27 +24,26 @@ class UserController extends Controller
     /**
      * Create a new controller instance.
      *
+     * @param  \App\Repositories\Contracts\RoleRepository $roleRepository
      * @param  \App\Repositories\Contracts\UserRepository $userRepository
      * @return void
      */
-    public function __construct(\App\Repositories\Contracts\UserRepository $userRepository)
+    public function __construct(\App\Repositories\Contracts\RoleRepository $roleRepository, \App\Repositories\Contracts\UserRepository $userRepository)
     {
+        $this->roleRepository = $roleRepository;
         $this->userRepository = $userRepository;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\User\Index $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request): JsonResponse
+    public function index(\App\Http\Requests\User\Index $request): JsonResponse
     {
-        // Ensure the user has permission to perform this acction
-        $this->authorize('list', User::class);
-
         // Get pagination options
-        list($perPage, $page, $sortBy, $sortDirection) = $this->getPaginationOptionsFromRequest($request);
+        list($perPage, $page, $sortBy, $sortDirection) = $this->getPaginationOptionsFromRequest($request, 15, 'name');
 
         // Get users from repository
         $users = $this->userRepository->paginate($perPage, $page, $sortBy, $sortDirection)->transform(function ($user) {
@@ -51,68 +56,61 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\User\Create $request
      * @param  \App\Repositories\Contracts\RoleRepository $roleRepository
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, \App\Repositories\Contracts\RoleRepository $roleRepository): JsonResponse
+    public function store(\App\Http\Requests\User\Create $request, \App\Repositories\Contracts\RoleRepository $roleRepository): JsonResponse
     {
-        // Ensure the user has permission to perform this acction
-        $this->authorize('create', User::class);
+        // Get request input
+        $request->merge(['role' => $this->roleRepository->find($request->role)]);
+        $attributes = $request->exceptNonFillable();
 
-        // Validate input
-        $attributes = $request->validate([
-            'name' => 'required|min:2|max:255',
-            'email' => 'required|email|max:255|unique:App\Models\User',
-            'password' => 'required|min:5',
-            'role' => 'required|exists:App\Models\Role,name',
-        ]);
-
-        // Add user to repository
-        $attributes['role'] = $roleRepository->findBy('name', $attributes['role']);
+        // Create a user with the provided input
         $user = User::make($attributes);
-        if ($this->userRepository->create($user))
+
+        // Attempt to save user into the repository
+        $created = $this->userRepository->create($user);
+
+        // Success
+        if ($created)
             return $this->json(['created' => true, 'id' => $user->getId()], 201);
 
+        // Something went wrong
         return $this->json(['created' => false], 500);
     }
 
     /**
      * Display the specified resource.
      *
+     * @param  \App\Http\Requests\User\View $request
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(User $user): JsonResponse
+    public function show(\App\Http\Requests\User\View $request, User $user): JsonResponse
     {
-        // Ensure the user has permission to perform this acction
-        $this->authorize('view', $user);
-
         return $this->json($user);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\User\Update $request
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, User $user): JsonResponse
+    public function update(\App\Http\Requests\User\Update $request, User $user): JsonResponse
     {
-        // Ensure the user has permission to perform this acction
-        $this->authorize('update', $user);
+        // Get request input
+        $request->merge(['role' => $this->roleRepository->find($request->role)]);
+        $except = ($request->filled('password')) ? [] : ['password'];
+        $attributes = $request->exceptNonFillable($except);
 
-        // Validate input
-        $attributes = $request->validate([
-            'name' => 'min:2|max:255',
-            'email' => 'email|max:255|unique:App\Models\User,email,' . $user->getId(),
-            'password' => 'min:5',
-        ]);
-
-        // Update user in repository
+        // Apply changes to the user
         $user->set($attributes);
-        $updated = $this->userRepository->update($user, array_keys($attributes));
+
+        // Attempt to update user
+        $updated = $this->userRepository->update($user);
 
         return $this->json(['updated' => $updated], $updated ? 200 : 500);
     }
@@ -120,14 +118,12 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \App\Http\Requests\User\Delete $request
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(User $user): JsonResponse
+    public function destroy(\App\Http\Requests\User\Delete $request, User $user): JsonResponse
     {
-        // Ensure the user has permission to perform this acction
-        $this->authorize('delete', $user);
-
         // Delete user from repository
         $deleted = $this->userRepository->delete($user);
 
