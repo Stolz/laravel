@@ -68,7 +68,8 @@ class MakeStubCommand extends Command
         ->createRepositoryContract()
         ->createRepository()
         ->createRepositoryBinding()
-        ->createPolicy();
+        ->createPolicy()
+        ->createRoute();
     }
 
     /**
@@ -198,6 +199,22 @@ class MakeStubCommand extends Command
     }
 
     /**
+     * Create the route and the route model binding.
+     *
+     * @return self
+     */
+    protected function createRoute(): self
+    {
+        $path = base_path('routes/web.php');
+        $this->files->append($path, '// TO' . "DO Route::resource('{$this->singular}', '{$this->classSingular}Controller');\n");
+
+        $path = app_path('Providers/RouteServiceProvider.php');
+        $this->files->append($path, '// TO' . "DO '{$this->singular}' => \App\Repositories\Contracts\\{$this->classSingular}Repository::class,\n");
+
+        return $this;
+    }
+
+    /**
      * Inflect the placeholder values.
      *
      * @param  string $original
@@ -205,10 +222,10 @@ class MakeStubCommand extends Command
      */
     protected function inflect($original): self
     {
-        $this->singular = Str::camel(Str::singular($original));
-        $this->plural = Str::plural($this->singular);
-        $this->classSingular = Str::studly($this->singular);
-        $this->classPlural = Str::studly($this->plural);
+        $this->singular = Str::camel(Str::singular($original)); // fooBar
+        $this->plural = Str::plural($this->singular);           // fooBars
+        $this->classSingular = Str::studly($this->singular);    // FooBar
+        $this->classPlural = Str::studly($this->plural);        // FooBars
 
         return $this;
     }
