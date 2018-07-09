@@ -17,7 +17,7 @@ class LocalUsersSeeder extends Seeder
             $user = factory(User::class)->make([
                 'name' => $name = $role->getName(),
                 'email' => str_slug($name, '.') . '@example.com',
-                'role' => $role
+                'role' => $role,
             ]);
 
             $this->userRepository->create($user);

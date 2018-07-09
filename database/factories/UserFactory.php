@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\User;
-use App\Repositories\Contracts\RoleRepository;
 use Faker\Generator as Faker;
 
 $factory->define(User::class, function (Faker $faker) {
