@@ -13,7 +13,7 @@ class MakeStubCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'make:stub {name : Name of the domain model}';
+    protected $signature = 'make:stub {name : Name of the domain model} {--M|module=master}';
 
     /**
      * The console command description.
@@ -54,10 +54,10 @@ class MakeStubCommand extends Command
             return $this->error('Command only available for local environment');
 
         // Inflect placeholder values
-        $this->inflect(trim($this->argument('name')));
+        $this->inflect(trim($this->argument('name')), trim($this->option('module')));
 
         // Do not overwite files
-        if ($this->files->exists(app_path("Models/{$this->classSingular}.php")))
+        if ($this->files->exists(app_path("Models/{$this->singularClass}.php")))
             return $this->error('Model already exists');
 
         // Create file stubs
@@ -69,7 +69,9 @@ class MakeStubCommand extends Command
         ->createRepository()
         ->createRepositoryBinding()
         ->createPolicy()
-        ->createRoute();
+        ->createRoute()
+        ->createController()
+        ->createFormRequests();
     }
 
     /**
@@ -79,7 +81,7 @@ class MakeStubCommand extends Command
      */
     protected function createModel(): self
     {
-        $path = app_path("Models/{$this->classSingular}.php");
+        $path = app_path("Models/{$this->singularClass}.php");
         $stub = $this->getStub('model');
 
         $this->files->put($path, $this->replacePlaceholders($stub));
@@ -112,14 +114,14 @@ class MakeStubCommand extends Command
      */
     protected function createMapping(): self
     {
-        $path = database_path("mappings/{$this->classSingular}.php");
+        $path = database_path("mappings/{$this->singularClass}.php");
         $stub = $this->getStub('mapping');
 
         $this->files->put($path, $this->replacePlaceholders($stub));
         $this->info('Database mapping created successfully');
 
         $path = database_path('mappings/all.php');
-        $this->files->append($path, '// TO' . "DO Doctrine\Mappings\\{$this->classSingular}::class,\n");
+        $this->files->append($path, '// TO' . "DO Doctrine\Mappings\\{$this->singularClass}::class,\n");
 
         return $this;
     }
@@ -131,7 +133,7 @@ class MakeStubCommand extends Command
      */
     protected function createRepositoryContract(): self
     {
-        $path = app_path("Repositories/Contracts/{$this->classSingular}Repository.php");
+        $path = app_path("Repositories/Contracts/{$this->singularClass}Repository.php");
         $stub = $this->getStub('repositoryContract');
 
         $this->files->put($path, $this->replacePlaceholders($stub));
@@ -147,7 +149,7 @@ class MakeStubCommand extends Command
      */
     protected function createRepository(): self
     {
-        $path = app_path("Repositories/Doctrine/{$this->classSingular}Repository.php");
+        $path = app_path("Repositories/Doctrine/{$this->singularClass}Repository.php");
         $stub = $this->getStub('repository');
 
         $this->files->put($path, $this->replacePlaceholders($stub));
@@ -179,7 +181,7 @@ class MakeStubCommand extends Command
      */
     protected function createPolicy(): self
     {
-        $path = app_path("Policies/{$this->classSingular}Policy.php");
+        $path = app_path("Policies/{$this->singularClass}Policy.php");
         $stub = $this->getStub('policy');
 
         $this->files->put($path, $this->replacePlaceholders($stub));
@@ -206,10 +208,47 @@ class MakeStubCommand extends Command
     protected function createRoute(): self
     {
         $path = base_path('routes/web.php');
-        $this->files->append($path, '// TO' . "DO Route::resource('{$this->singular}', '{$this->classSingular}Controller');\n");
+        $this->files->append($path, '// TO' . "DO Route::resource('{$this->singular}', '{$this->singularClass}Controller');\n");
 
         $path = app_path('Providers/RouteServiceProvider.php');
-        $this->files->append($path, '// TO' . "DO '{$this->singular}' => \App\Repositories\Contracts\\{$this->classSingular}Repository::class,\n");
+        $this->files->append($path, '// TO' . "DO '{$this->singular}' => \App\Repositories\Contracts\\{$this->singularClass}Repository::class,\n");
+
+        return $this;
+    }
+
+    /**
+     * Create the controller stub.
+     *
+     * @return self
+     */
+    protected function createController(): self
+    {
+        $path = app_path("Http/Controllers/{$this->moduleClass}/{$this->singularClass}Controller.php");
+        $stub = $this->getStub('controller');
+
+        $this->files->put($path, $this->replacePlaceholders($stub));
+        $this->info('Controller created successfully');
+
+        return $this;
+    }
+
+    /**
+     * Create form requests.
+     *
+     * @return self
+     */
+    protected function createFormRequests(): self
+    {
+        $directory = app_path("Http/Requests/{$this->singularClass}");
+        $this->files->makeDirectory($directory);
+
+        $stubs = $this->getStubs('requests');
+        foreach ($stubs as $name => $stub) {
+            $path = $directory . DIRECTORY_SEPARATOR . studly_case($name) . '.php';
+            $this->files->put($path, $this->replacePlaceholders($stub));
+        }
+
+        $this->info('Form request created successfully');
 
         return $this;
     }
@@ -217,15 +256,19 @@ class MakeStubCommand extends Command
     /**
      * Inflect the placeholder values.
      *
-     * @param  string $original
+     * @param  string $model
+     * @param  string $module
      * @return self
      */
-    protected function inflect($original): self
+    protected function inflect(string $model, string $module): self
     {
-        $this->singular = Str::camel(Str::singular($original)); // fooBar
+        $this->singular = Str::camel(Str::singular($model));    // fooBar
+        $this->singularClass = Str::studly($this->singular);    // FooBar
         $this->plural = Str::plural($this->singular);           // fooBars
-        $this->classSingular = Str::studly($this->singular);    // FooBar
-        $this->classPlural = Str::studly($this->plural);        // FooBars
+        $this->pluralClass = Str::studly($this->plural);        // FooBars
+
+        $this->module = Str::camel($module);                    // master
+        $this->moduleClass = Str::studly($this->module);        // Master
 
         return $this;
     }
@@ -244,6 +287,24 @@ class MakeStubCommand extends Command
     }
 
     /**
+     * Get the contents of the stubs in a directory.
+     *
+     * @param  string $directory
+     * @return array
+     */
+    protected function getStubs(string $directory): array
+    {
+        $path = resource_path("stubs/$directory");
+        $files = $this->files->files($path);
+
+        $stubs = [];
+        foreach ($files as $file)
+            $stubs[$file->getBasename('.stub')] = $this->files->get($file->getPathname());
+
+        return $stubs;
+    }
+
+    /**
      * Replace the placeholders for the given stub.
      *
      * @param  string  $stub
@@ -255,8 +316,9 @@ class MakeStubCommand extends Command
         if ($extraReplacements)
             $stub = str_replace(array_keys($extraReplacements), $extraReplacements, $stub);
 
-        $stub = str_replace(['Dummies', 'dummies'], [$this->classPlural, $this->plural], $stub);
+        $stub = str_replace(['Bogus', 'bogus'], [$this->moduleClass, $this->module], $stub);
+        $stub = str_replace(['Dummies', 'dummies'], [$this->pluralClass, $this->plural], $stub);
 
-        return str_replace(['Dummy', 'dummy'], [$this->classSingular, $this->singular], $stub);
+        return str_replace(['Dummy', 'dummy'], [$this->singularClass, $this->singular], $stub);
     }
 }

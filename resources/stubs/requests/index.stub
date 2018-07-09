@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Http\Requests\Dummy;
+
+use App\Http\Requests\Request;
+use App\Models\Dummy;
+
+class Index extends Request
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize(): bool
+    {
+        return $this->user()->can('list', Dummy::class);
+    }
+}

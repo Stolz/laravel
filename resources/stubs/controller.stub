@@ -1,0 +1,169 @@
+<?php
+
+namespace App\Http\Controllers\Bogus;
+
+use App\Http\Controllers\Controller;
+use App\Models\Dummy;
+
+class DummyController extends Controller
+{
+    /**
+     * Instance of the service used to interact with dummies.
+     *
+     * @var \App\Repositories\Contracts\DummyRepository
+     */
+    protected $dummyRepository;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param  \App\Repositories\Contracts\DummyRepository $dummyRepository
+     * @return void
+     */
+    public function __construct(\App\Repositories\Contracts\DummyRepository $dummyRepository)
+    {
+        $this->dummyRepository = $dummyRepository;
+    }
+
+    /**
+     * Display a list of dummies.
+     *
+     * @param  \App\Http\Requests\Dummy\Index $request
+     * @return \Illuminate\Http\Response
+     */
+    public function index(\App\Http\Requests\Dummy\Index $request)
+    {
+        // Get pagination options
+        list($perPage, $page, $sortBy, $sortDirection) = $this->getPaginationOptionsFromRequest($request, 15, 'name');
+
+        // Get dummies from repository
+        $dummies = $this->dummyRepository->paginate($perPage, $page, $sortBy, $sortDirection);
+
+        // Load view
+        return view('modules.bogus.dummy.index')->withDummies($dummies);
+    }
+
+    /**
+     * Show the form for creating a new dummy.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        // Create an empty dummy
+        $dummy = Dummy::make();
+
+        // Load view
+        return view('modules.bogus.dummy.create')->withDummy($dummy);
+    }
+
+    /**
+     * Store a newly created dummy in storage.
+     *
+     * @param  \App\Http\Requests\Dummy\Create $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(\App\Http\Requests\Dummy\Create $request)
+    {
+        // Get request input
+        $attrtibutes = $request->only('name'); // TODO $request->exceptNonFillable();
+
+        // Create a dummy with the provided input
+        $dummy = Dummy::make($attrtibutes);
+
+        // Attempt to save dummy into the repository
+        $created = $this->dummyRepository->create($dummy);
+
+        // Success
+        if ($created) {
+            session()->flash('success', sprintf("Dummy '%s' successfully created", $dummy));
+
+            return redirect()->route('bogus.dummy.index');
+        }
+
+        // Something went wrong
+        session()->flash('error', sprintf("Unable to create dummy '%s'", $dummy));
+
+        return redirect()->back()->withInput();
+    }
+
+    /**
+     * Display the specified dummy.
+     *
+     * @param  \App\Http\Requests\Dummy\View $request
+     * @param  \App\Models\Dummy  $dummy
+     * @return \Illuminate\Http\Response
+     */
+    public function show(\App\Http\Requests\Dummy\View $request, Dummy $dummy)
+    {
+        // Load view
+        return view('modules.bogus.dummy.show')->withDummy($dummy);
+    }
+
+    /**
+     * Show the form for editing the specified dummy.
+     *
+     * @param  \App\Http\Requests\Dummy\View $request
+     * @param  \App\Models\Dummy  $dummy
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(\App\Http\Requests\Dummy\View $request, Dummy $dummy)
+    {
+        // Load view
+        return view('modules.bogus.dummy.update')->withDummy($dummy);
+    }
+
+    /**
+     * Update the specified dummy in storage.
+     *
+     * @param  \App\Http\Requests\Dummy\Update $request
+     * @param  \App\Models\Dummy  $dummy
+     * @return \Illuminate\Http\Response
+     */
+    public function update(\App\Http\Requests\Dummy\Update $request, Dummy $dummy)
+    {
+        // Get request input
+        $attrtibutes = $request->only('name'); // TODO $request->exceptNonFillable();
+
+        // Apply changes to the dummy
+        $dummy->set($attrtibutes);
+
+        // Attempt to update dummy
+        $updated = $this->dummyRepository->update($dummy);
+
+        // Success
+        if ($updated) {
+            session()->flash('success', sprintf("Dummy '%s' successfully updated", $dummy));
+
+            return redirect()->route('bogus.dummy.show', $dummy->getId());
+        }
+
+        // Something went wrong
+        session()->flash('error', sprintf("Unable to update dummy '%s'", $dummy));
+
+        return redirect()->back()->withInput();
+    }
+
+    /**
+     * Remove the specified dummy from storage.
+     *
+     * @param  \App\Http\Requests\Dummy\Delete $request
+     * @param  \App\Models\Dummy  $dummy
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(\App\Http\Requests\Dummy\Delete $request, Dummy $dummy)
+    {
+        // Attempt to delete dummy
+        $deleted = $this->dummyRepository->delete($dummy);
+
+        // Set feedback message
+        if ($deleted) {
+            session()->flash('success', sprintf("Dummy '%s' successfully deleted", $dummy));
+        } else {
+            session()->flash('error', sprintf("Unable to delete dummy '%s'", $dummy));
+        }
+
+        // Return to the requesting page
+        return redirect()->back();
+    }
+}
