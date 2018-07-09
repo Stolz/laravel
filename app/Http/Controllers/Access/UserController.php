@@ -61,9 +61,9 @@ class UserController extends Controller
     {
         // Load view
         return view('modules.access.user.create')->with([
-            'user' => User::make(),
             'minPasswordLength' => User::MIN_PASSWORD_LENGTH,
             'roles' => $this->roleRepository->all(),
+            'user' => User::make(),
         ]);
     }
 
@@ -122,8 +122,8 @@ class UserController extends Controller
     {
         // Load view
         return view('modules.access.user.update')->with([
-            'user' => $user,
             'roles' => $this->roleRepository->all(),
+            'user' => $user,
         ]);
     }
 

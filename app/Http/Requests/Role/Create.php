@@ -25,8 +25,8 @@ class Create extends Request
     public function rules(): array
     {
         return [
-            'name' => 'required|min:3|max:255|unique:App\Models\Role',
             'description' => 'max:255',
+            'name' => 'required|min:3|max:255|unique:App\Models\Role',
         ];
     }
 }
