@@ -27,7 +27,7 @@ class CountryPolicy extends RoleBasedPolicy
             return $preCheck;
 
         // If the user cannot use the 'master' module no need to further check the policy method
-        if ($this->userCountryCannot($user, 'use-master-module'))
+        if ($this->userRoleCannot($user, 'use-master-module'))
             return false;
     }
 
@@ -39,7 +39,7 @@ class CountryPolicy extends RoleBasedPolicy
      */
     public function list(User $user)
     {
-        return $this->userCountryCan($user, 'country-list');
+        return $this->userRoleCan($user, 'country-list');
     }
 
     /**
@@ -50,7 +50,7 @@ class CountryPolicy extends RoleBasedPolicy
      */
     public function create(User $user)
     {
-        return $this->userCountryCan($user, 'country-create');
+        return $this->userRoleCan($user, 'country-create');
     }
 
     /**
@@ -62,7 +62,7 @@ class CountryPolicy extends RoleBasedPolicy
      */
     public function view(User $user, Country $country)
     {
-        return $this->userCountryCan($user, 'country-view');
+        return $this->userRoleCan($user, 'country-view');
     }
 
     /**
@@ -74,7 +74,7 @@ class CountryPolicy extends RoleBasedPolicy
      */
     public function update(User $user, Country $country)
     {
-        return $this->userCountryCan($user, 'country-update');
+        return $this->userRoleCan($user, 'country-update');
     }
 
     /**
@@ -86,6 +86,6 @@ class CountryPolicy extends RoleBasedPolicy
      */
     public function delete(User $user, Country $country)
     {
-        return $this->userCountryCan($user, 'country-delete');
+        return $this->userRoleCan($user, 'country-delete');
     }
 }
