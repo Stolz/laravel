@@ -25,10 +25,8 @@ class Create extends Request
      */
     public function rules(): array
     {
-        $roleIds = app(RoleRepository::class)->all()->map->getId()->implode(',');
-
         return [
-            'role' => "required|integer|in:$roleIds",
+            'role' => 'required|integer|exists:App\Models\Role,id',
             'name' => 'required|min:3|max:255',
             'email' => 'required|email|max:255|unique:App\Models\User',
             'password' => 'required|min:' . \App\Models\User::MIN_PASSWORD_LENGTH,
