@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Traits\Nameable; // TODO remove if not applicable
 use App\Traits\Timestampable; // TODO remove if not applicable
 
 class Dummy extends Model
 {
-    use Timestampable; // TODO remove if not applicable
+    use Nameable, Timestampable; // TODO remove if not applicable
 
     /**
      * Fields to hide when converting the dummy to JSON.
@@ -44,7 +45,8 @@ class Dummy extends Model
     {
         return [
             'id' => $this->getId(),
-        ] + $this->getTimestampsAsArray();  // TODO remove if not applicable
+            'name' => $this->getName(),    // TODO remove if not applicable
+        ] + $this->getTimestampsAsArray(); // TODO remove if not applicable
     }
 
     // Domain logic ================================================================
