@@ -1,0 +1,17 @@
+@extends('layouts.app')
+
+@section('page.title', _('Create dummy'))
+
+@section('main')
+<div class="row justify-content-md-center">
+    <div class="col col-md-10 col-lg-4">
+
+        <form method="post" action="{{ route('bogus.dummy.store') }}" role="form">
+            @csrf
+            @include('modules.bogus.dummy.form')
+            <button type="submit" class="btn btn-primary">{{ _('Create dummy') }}</button>
+        </form>
+
+    </div>
+</div>
+@stop

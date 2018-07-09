@@ -1,0 +1,4 @@
+{{-- TODO remove if not applicable --}}
+@input(['name' => 'name', 'value' => old('name', $dummy['name']), 'attributes' => 'required autofocus autocomplete=off'])
+    {{ _('Name') }}
+@endinput

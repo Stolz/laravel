@@ -1,0 +1,65 @@
+@extends('layouts.app')
+
+@section('page.title', _('Dummies'))
+
+@section('main')
+    @if($dummies->isEmpty())
+        @alert(['type' => 'info'])
+            {{ _('No dummies found') }}
+        @endalert
+    @else
+        @table
+            @slot('caption')
+                {{ sprintf(_('Showing results %d to %d out of %d'), $dummies->firstItem(), $dummies->lastItem(), $dummies->total()) }}
+            @endslot
+
+            @slot('header')
+            <tr>
+                <th>{{ _('Actions') }}</th>
+                @sortableHeaders(['headers' => [
+                    'name' => _('Name'),
+                ]])@endsortableHeaders
+            </tr>
+            @endslot
+
+            @foreach($dummies as $dummy)
+            <tr>
+                <td class="actions">
+                    <div class="btn-group-sm" role="group" aria-label="{{ _('Actions') }}">
+                        @can('view', $dummy)
+                            <a href="{{ route('bogus.dummy.show', [$dummy['id']]) }}" class="btn btn-info">{{ _('View') }}</a>
+                        @else
+                            <a href="#" class="btn btn-info disabled">{{ _('View') }}</a>
+                        @endcan
+                        @can('update', $dummy)
+                            <a href="{{ route('bogus.dummy.edit', [$dummy['id']]) }}" class="btn btn-primary">{{ _('Edit') }}</a>
+                        @else
+                            <a href="#" class="btn btn-primary disabled">{{ _('Edit') }}</a>
+                        @endcan
+                        @can('delete', $dummy)
+                            <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#delete-modal-{{ $dummy['id'] }}">{{ _('Delete') }}</a>
+                        @else
+                            <a href="#" class="btn btn-danger disabled">{{ _('Delete') }}</a>
+                        @endcan
+                    </div>
+                </td>
+                <td>{{ $dummy['name'] }}</td>
+            </tr>
+            @endforeach
+        @endtable
+
+        {{ $dummies->links('pagination') }}
+
+        @foreach ($dummies as $dummy)
+            @deleteModelModal([
+                'model' => $dummy,
+                'action' => route('bogus.dummy.destroy', [$dummy['id']]),
+            ])
+            @enddeleteModelModal
+        @endforeach
+    @endif
+
+    @can('create', 'App\Models\Dummy')
+        <a href="{{ route('bogus.dummy.create') }}" class="btn btn-success" >{{ _('Create new dummy') }}</a>
+    @endcan
+@stop

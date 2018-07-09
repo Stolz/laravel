@@ -19,10 +19,9 @@ Repository contract, implementation and binding
 Permissions seeder, policy implementation and binding
 
     ✓ M database/seeds/PermissionsSeeder.php
-    M app/Policies/ModulePolicy.php  (Only if its a new module)
+    M app/Policies/ModulePolicy.php (Only if its a new module)
     ✓ A app/Policies/DummyPolicy.php
     ✓ M app/Providers/AuthServiceProvider.php
-
 
 Route and route parameter binding
 
@@ -54,11 +53,11 @@ Navigation views
 
 CRUD views
 
-    A resources/views/modules/bogus/dummy/create.blade.php
-    A resources/views/modules/bogus/dummy/form.blade.php
-    A resources/views/modules/bogus/dummy/index.blade.php
-    A resources/views/modules/bogus/dummy/show.blade.php
-    A resources/views/modules/bogus/dummy/update.blade.php
+    ✓ A resources/views/modules/bogus/dummy/create.blade.php
+    ✓ A resources/views/modules/bogus/dummy/form.blade.php
+    ✓ A resources/views/modules/bogus/dummy/index.blade.php
+    ✓ A resources/views/modules/bogus/dummy/show.blade.php
+    ✓ A resources/views/modules/bogus/dummy/update.blade.php
 
 TODO
 

@@ -71,7 +71,8 @@ class MakeStubCommand extends Command
         ->createPolicy()
         ->createRoute()
         ->createController()
-        ->createFormRequests();
+        ->createFormRequests()
+        ->createResourceViews();
     }
 
     /**
@@ -208,7 +209,7 @@ class MakeStubCommand extends Command
     protected function createRoute(): self
     {
         $path = base_path('routes/web.php');
-        $this->files->append($path, '// TO' . "DO Route::resource('{$this->singular}', '{$this->singularClass}Controller');\n");
+        $this->files->append($path, '// TO' . "DO Add to {$this->module} module Route::resource('{$this->singular}', '{$this->singularClass}Controller');\n");
 
         $path = app_path('Providers/RouteServiceProvider.php');
         $this->files->append($path, '// TO' . "DO '{$this->singular}' => \App\Repositories\Contracts\\{$this->singularClass}Repository::class,\n");
@@ -249,6 +250,27 @@ class MakeStubCommand extends Command
         }
 
         $this->info('Form request created successfully');
+
+        return $this;
+    }
+
+    /**
+     * Create form requests.
+     *
+     * @return self
+     */
+    protected function createResourceViews(): self
+    {
+        $directory = resource_path("views/modules/{$this->module}/{$this->singular}");
+        $this->files->makeDirectory($directory, 0755, true);
+
+        $stubs = $this->getStubs('resource-views');
+        foreach ($stubs as $name => $stub) {
+            $path = "$directory/$name.php";
+            $this->files->put($path, $this->replacePlaceholders($stub));
+        }
+
+        $this->info('Resource views created successfully');
 
         return $this;
     }

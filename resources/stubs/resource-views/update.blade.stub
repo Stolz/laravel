@@ -1,0 +1,17 @@
+@extends('layouts.app')
+
+@section('page.title', _('Update dummy'))
+
+@section('main')
+<div class="row justify-content-md-center">
+    <div class="col col-md-10 col-lg-4">
+
+        <form method="post" action="{{ route('bogus.dummy.update', $dummy['id']) }}" role="form">
+            @csrf @method('put')
+            @include('modules.bogus.dummy.form')
+            <button type="submit" class="btn btn-primary">{{ _('Update dummy') }}</button>
+        </form>
+
+    </div>
+</div>
+@stop

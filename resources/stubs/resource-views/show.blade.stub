@@ -1,0 +1,27 @@
+@extends('layouts.app')
+
+@section('page.title', _('Dummy'))
+
+@section('main')
+<div class="row justify-content-md-center">
+    <div class="col col-md-10 col-lg-4">
+        <dl>
+            {{-- TODO remove if not applicable --}}
+            <dt>{{ _('Name') }}</dt>
+            <dd>{{ $dummy['name'] }}</dd>
+
+            {{-- TODO remove if not applicable --}}
+            @if ( ! empty($dummy['createdAt']))
+                <dt>{{ _('Created') }}</dt>
+                <dd>{{ $dummy['createdAt']->diffForHumans() }}</dd>
+            @endif
+
+            {{-- TODO remove if not applicable --}}
+            @if ( ! empty($dummy['updatedAt']))
+                <dt>{{ _('Updated') }}</dt>
+                <dd>{{ $dummy['updatedAt']->diffForHumans() }}</dd>
+            @endif
+        </dl>
+    </div>
+</div>
+@stop
