@@ -35,8 +35,8 @@ abstract class Request extends FormRequest
     {
         $keys = is_array($keys) ? $keys : func_get_args();
 
-        // Automatically generated field are never fillable via request and it doesn't make sense
-        // include them in the request unless the sender is up to something shady. Therefore
+        // Automatically generated fields are never fillable via request and it doesn't make sense
+        // to include them in the request unless the sender is up to something shady. Therefore
         // we remove them from the request to prevent the system from using them
         $nonFillableFields = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
