@@ -66,10 +66,10 @@ class DummyController extends Controller
     public function store(\App\Http\Requests\Dummy\Create $request)
     {
         // Get request input
-        $attrtibutes = $request->only('name'); // TODO $request->exceptNonFillable();
+        $attributes = $request->only('name'); // TODO $request->exceptNonFillable();
 
         // Create a dummy with the provided input
-        $dummy = Dummy::make($attrtibutes);
+        $dummy = Dummy::make($attributes);
 
         // Attempt to save dummy into the repository
         $created = $this->dummyRepository->create($dummy);
@@ -123,10 +123,10 @@ class DummyController extends Controller
     public function update(\App\Http\Requests\Dummy\Update $request, Dummy $dummy)
     {
         // Get request input
-        $attrtibutes = $request->only('name'); // TODO $request->exceptNonFillable();
+        $attributes = $request->only('name'); // TODO $request->exceptNonFillable();
 
         // Apply changes to the dummy
-        $dummy->set($attrtibutes);
+        $dummy->set($attributes);
 
         // Attempt to update dummy
         $updated = $this->dummyRepository->update($dummy);
