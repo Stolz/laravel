@@ -19,7 +19,7 @@ Repository contract, implementation and binding
 Permissions seeder, policy implementation and binding
 
     ✓ M database/seeds/PermissionsSeeder.php
-    M app/Policies/ModulePolicy.php (Only if its a new module)
+    ✓ M app/Policies/ModulePolicy.php (Only if its a new module)
     ✓ A app/Policies/DummyPolicy.php
     ✓ M app/Providers/AuthServiceProvider.php
 
@@ -48,8 +48,8 @@ Seeder and factory
 
 Navigation views
 
-    M resources/views/top.blade.php (Only if its a new module)
-    M resources/views/modules/bogus.blade.php
+    ✓ M resources/views/top.blade.php (Only if its a new module)
+    ✓ M resources/views/modules/bogus.blade.php
 
 CRUD views
 

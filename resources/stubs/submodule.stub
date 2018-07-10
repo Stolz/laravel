@@ -1,0 +1,16 @@
+    @can('list', 'App\Models\Dummy')
+    <div class="col-md-2 col-lg-3 col-xg-4">
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ _('Dummies submodule') }}</h5>
+                <p class="card-text">{{ _('Available options for your role') }}</p>
+                @can('list', 'App\Models\Dummy')
+                    <a class="btn btn-sm btn-outline-primary" href="{{ route('bogus.dummy.index') }}">{{ _('List all') }}</a>
+                @endcan
+                @can('create', 'App\Models\Dummy')
+                    <a class="btn btn-sm btn-outline-primary" href="{{ route('bogus.dummy.create') }}">{{ _('Create new') }}</a>
+                @endcan
+            </div>
+        </div>
+    </div>
+    @endcan

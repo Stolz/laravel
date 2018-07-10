@@ -1,0 +1,10 @@
+    /**
+     * Determine whether the current user can use the 'bogus' module.
+     *
+     * @param  \App\Models\User $user
+     * @return mixed
+     */
+    public function bogus(User $user)
+    {
+        return $this->userRoleCan($user, 'use-bogus-module');
+    }

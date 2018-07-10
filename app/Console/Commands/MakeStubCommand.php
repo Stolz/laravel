@@ -62,6 +62,7 @@ class MakeStubCommand extends Command
 
         // Create file stubs
         $this
+        ->createModule()
         ->createModel()
         ->createMigration()
         ->createMapping()
@@ -72,9 +73,59 @@ class MakeStubCommand extends Command
         ->createRoute()
         ->createController()
         ->createFormRequests()
-        ->createResourceViews();
+        ->createResourceViews()
+        ->createSubmodule();
     }
 
+    /**
+     * Create new module.
+     *
+     * @return self
+     */
+    protected function createModule(): self
+    {
+        $path = app_path("Http/Controllers/{$this->moduleClass}");
+
+        // If the module exists, skip
+        if (is_dir($path))
+            return $this;
+
+        $this->files->makeDirectory($path);
+        $path = resource_path("views/modules/{$this->module}");
+        $this->files->makeDirectory($path);
+
+        $path = resource_path('views/top.blade.php');
+        $stub = $this->getStub('top');
+        $this->files->append($path, $this->replacePlaceholders($stub));
+        $this->info('Top navigation view updated successfully');
+
+        $path = resource_path("views/modules/{$this->module}.blade.php");
+        $stub = $this->getStub('module');
+        $this->files->put($path, $this->replacePlaceholders($stub));
+        $this->info('Module view created successfully');
+
+        $path = resource_path('"views/home.blade.php');
+        $stub = $this->getStub('home');
+        $this->files->put($path, $this->replacePlaceholders($stub));
+        $this->info('Home view updated successfully');
+
+        $path = app_path('Policies/ModulePolicy.php');
+        $stub = $this->getStub('modulePolicy');
+        $this->files->append($path, $this->replacePlaceholders($stub));
+        $this->info('Module policy updated successfully');
+
+        $path = database_path('seeds/PermissionsSeeder.php');
+        $stub = $this->getStub('permissionsSeederModule');
+        $this->files->append($path, $this->replacePlaceholders($stub));
+        $this->info('Permissions seeder updated successfully');
+
+        $path = base_path('routes/web.php');
+        $stub = $this->getStub('routeModule');
+        $this->files->append($path, $this->replacePlaceholders($stub));
+        $this->info('Routes updated successfully');
+
+        return $this;
+    }
     /**
      * Create the model stub.
      *
@@ -117,12 +168,11 @@ class MakeStubCommand extends Command
     {
         $path = database_path("mappings/{$this->singularClass}.php");
         $stub = $this->getStub('mapping');
-
         $this->files->put($path, $this->replacePlaceholders($stub));
-        $this->info('Database mapping created successfully');
 
         $path = database_path('mappings/all.php');
-        $this->files->append($path, '// TO' . "DO Doctrine\Mappings\\{$this->singularClass}::class,\n");
+        $this->files->append($path, '// TO' . "DO Add to the mappings array Doctrine\Mappings\\{$this->singularClass}::class,\n");
+        $this->info('Database mapping created successfully');
 
         return $this;
     }
@@ -210,9 +260,11 @@ class MakeStubCommand extends Command
     {
         $path = base_path('routes/web.php');
         $this->files->append($path, '// TO' . "DO Add to {$this->module} module Route::resource('{$this->singular}', '{$this->singularClass}Controller');\n");
+        $this->info('Routes updated successfully');
 
         $path = app_path('Providers/RouteServiceProvider.php');
-        $this->files->append($path, '// TO' . "DO '{$this->singular}' => \App\Repositories\Contracts\\{$this->singularClass}Repository::class,\n");
+        $this->files->append($path, '// TO' . "DO Add to \$modelRouteBindings '{$this->singular}' => \App\Repositories\Contracts\\{$this->singularClass}Repository::class,\n");
+        $this->info('Route bindings updated successfully');
 
         return $this;
     }
@@ -249,7 +301,7 @@ class MakeStubCommand extends Command
             $this->files->put($path, $this->replacePlaceholders($stub));
         }
 
-        $this->info('Form request created successfully');
+        $this->info('Form requests created successfully');
 
         return $this;
     }
@@ -262,7 +314,7 @@ class MakeStubCommand extends Command
     protected function createResourceViews(): self
     {
         $directory = resource_path("views/modules/{$this->module}/{$this->singular}");
-        $this->files->makeDirectory($directory, 0755, true);
+        $this->files->makeDirectory($directory);
 
         $stubs = $this->getStubs('resource-views');
         foreach ($stubs as $name => $stub) {
@@ -271,6 +323,21 @@ class MakeStubCommand extends Command
         }
 
         $this->info('Resource views created successfully');
+
+        return $this;
+    }
+
+    /**
+     * Create the submodule navigation.
+     *
+     * @return self
+     */
+    protected function createSubmodule(): self
+    {
+        $path = resource_path("views/modules/{$this->module}.blade.php");
+        $stub = $this->getStub('submodule');
+        $this->files->append($path, $this->replacePlaceholders($stub));
+        $this->info('Submodule view updated successfully');
 
         return $this;
     }
