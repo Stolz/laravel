@@ -104,9 +104,9 @@ class MakeStubCommand extends Command
         $this->files->put($path, $this->replacePlaceholders($stub));
         $this->info('Module view created successfully');
 
-        $path = resource_path('"views/home.blade.php');
+        $path = resource_path('views/home.blade.php');
         $stub = $this->getStub('home');
-        $this->files->put($path, $this->replacePlaceholders($stub));
+        $this->files->append($path, $this->replacePlaceholders($stub));
         $this->info('Home view updated successfully');
 
         $path = app_path('Policies/ModulePolicy.php');
