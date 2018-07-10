@@ -39,4 +39,5 @@
     </div>
     @endcan
 
-</div>@endsection
+</div>
+@endsection

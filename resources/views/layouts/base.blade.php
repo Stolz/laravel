@@ -14,7 +14,7 @@
     <meta name="author" content="twitter: @Stolz" />
     <meta name="csrf-token" content="{{ csrf_token() }}">{{-- Used for AJAX CSRF --}}
     <meta name="viewport" content="width=device-width, initial-scale=1">{{-- Webkit. To disable zooming add ", maximum-scale=1, user-scalable=no" --}}
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />{{-- Favicon  --}}
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />{{-- Favicon  TODO --}}
 
     {{-- CSS  --}}
     @stack('css')
