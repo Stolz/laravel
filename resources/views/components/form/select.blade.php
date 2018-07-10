@@ -11,9 +11,12 @@
         class="custom-select {{ $class or null }} @if($errors->has($name)) is-invalid @endif"
         {{ $attributes or null }}>
 
-        @foreach($options as $option)
-            <?php $selectCurrent = (is_scalar($selected)) ? ($selected == $option['id']) : ($selected['id'] == $option['id']); ?>
-            <option value="{{ $option['id'] }}" @if($selectCurrent) selected @endif>
+        @foreach($options as $value => $option)
+            <?php
+            $value = (is_array($options)) ? $value : $option['id'];
+            $selectCurrent = (is_scalar($selected)) ? $selected == $value : $selected['id'] == $value;
+            ?>
+            <option value="{{ $value }}" @if($selectCurrent) selected @endif>
                 {{ $option }}
             </option>
         @endforeach
