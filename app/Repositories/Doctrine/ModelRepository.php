@@ -16,6 +16,7 @@ abstract class ModelRepository implements ModelRepositoryContract
 
     /**
      * Full class name of the model this repository is in charge of.
+     * Constructor ensures child classes define it.
      *
      * @var string
      */
@@ -23,7 +24,7 @@ abstract class ModelRepository implements ModelRepositoryContract
 
     /**
      * Alias to be used to reference the model within query builder.
-     * constructor ensures child classes define it.
+     * Constructor ensures child classes define it.
      *
      * @var string
      */
@@ -56,6 +57,9 @@ abstract class ModelRepository implements ModelRepositoryContract
     {
         if (! $this->modelClass)
             throw new \RuntimeException('Missing repository model class name');
+
+        if (! $this->modelAlias)
+            throw new \RuntimeException('Missing repository model alias name');
 
         $this->entityManager = $entityManager;
         $this->repository = $this->entityManager->getRepository($this->modelClass);
