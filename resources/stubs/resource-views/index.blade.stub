@@ -60,6 +60,6 @@
     @endif
 
     @can('create', 'App\Models\Dummy')
-        <a href="{{ route('bogus.dummy.create') }}" class="btn btn-success" >{{ _('Create new dummy') }}</a>
+        <a href="{{ route('bogus.dummy.create') }}" class="btn btn-success btn-raised" >{{ _('Create new dummy') }}</a>
     @endcan
 @stop

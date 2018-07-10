@@ -67,6 +67,6 @@
     @endif
 
     @can('create', 'App\Models\Role')
-        <a href="{{ route('access.role.create') }}" class="btn btn-success" >{{ _('Create new role') }}</a>
+        <a href="{{ route('access.role.create') }}" class="btn btn-success btn-raised" >{{ _('Create new role') }}</a>
     @endcan
 @stop

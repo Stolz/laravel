@@ -9,7 +9,7 @@
         <form method="post" action="{{ route('access.role.store') }}" role="form">
             @csrf
             @include('modules.access.role.form')
-            <button type="submit" class="btn btn-primary">{{ _('Create role') }}</button>
+            <button type="submit" class="btn btn-outline-primary btn-block">{{ _('Create role') }}</button>
         </form>
 
     </div>

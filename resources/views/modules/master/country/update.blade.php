@@ -9,7 +9,7 @@
         <form method="post" action="{{ route('master.country.update', $country['id']) }}" role="form">
             @csrf @method('put')
             @include('modules.master.country.form')
-            <button type="submit" class="btn btn-primary">{{ _('Update country') }}</button>
+            <button type="submit" class="btn btn-outline-primary btn-block">{{ _('Update country') }}</button>
         </form>
 
     </div>

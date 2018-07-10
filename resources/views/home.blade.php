@@ -29,7 +29,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ _('Access module') }}</h5>
                     <p class="card-text">{{ _('Manage users, roles and permissions') }}</p>
-                    <a class="btn btn-primary" href="{{ route('access.home') }}">{{ _('Go to module') }}</a>
+                    <a class="btn btn-primary btn-raised" href="{{ route('access.home') }}">{{ _('Go to module') }}</a>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ _('Master module') }}</h5>
                     <p class="card-text">{{ _('Manage countries') }}</p>
-                    <a class="btn btn-primary" href="{{ route('master.home') }}">{{ _('Go to module') }}</a>
+                    <a class="btn btn-primary btn-raised" href="{{ route('master.home') }}">{{ _('Go to module') }}</a>
                 </div>
             </div>
         </div>

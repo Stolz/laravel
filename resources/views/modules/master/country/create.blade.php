@@ -9,7 +9,7 @@
         <form method="post" action="{{ route('master.country.store') }}" role="form">
             @csrf
             @include('modules.master.country.form')
-            <button type="submit" class="btn btn-primary">{{ _('Create country') }}</button>
+            <button type="submit" class="btn btn-outline-primary btn-block">{{ _('Create country') }}</button>
         </form>
 
     </div>

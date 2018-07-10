@@ -58,6 +58,6 @@
     @endif
 
     @can('create', 'App\Models\Country')
-        <a href="{{ route('master.country.create') }}" class="btn btn-success" >{{ _('Create new country') }}</a>
+        <a href="{{ route('master.country.create') }}" class="btn btn-success btn-raised" >{{ _('Create new country') }}</a>
     @endcan
 @stop

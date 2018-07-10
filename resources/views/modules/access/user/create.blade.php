@@ -17,7 +17,7 @@
                 @endslot
             @endinput
 
-            <button type="submit" class="btn btn-primary">{{ _('Create user') }}</button>
+            <button type="submit" class="btn btn-outline-primary btn-block btn-raised ">{{ _('Create user') }}</button>
         </form>
 
     </div>
