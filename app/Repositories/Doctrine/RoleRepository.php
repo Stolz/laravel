@@ -75,6 +75,7 @@ class RoleRepository extends ModelRepository implements RoleRepositoryContract
         // Persist changes
         return $this->update($role);
     }
+
     /**
      * Determine whether the role has all of the given permissions by name
      *

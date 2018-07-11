@@ -4,6 +4,7 @@ namespace App\Repositories\Doctrine;
 
 use App\Models\Model;
 use App\Repositories\Contracts\ModelRepository as ModelRepositoryContract;
+use Illuminate\Support\Collection;
 
 abstract class ModelRepository implements ModelRepositoryContract
 {
@@ -163,11 +164,23 @@ abstract class ModelRepository implements ModelRepositoryContract
     }
 
     /**
+     * Retrieve multiple models by the values of a given field.
+     *
+     * @param string $field
+     * @param mixed  $value
+     * @return \Illuminate\Support\Collection of \App\Models\Model
+     */
+    public function getBy($field, $value): Collection
+    {
+        return collect($this->repository->findBy([camel_case($field) => $value]));
+    }
+
+    /**
      * Retrieve all models.
      *
      * @return \Illuminate\Support\Collection of \App\Models\Model
      */
-    public function all(): \Illuminate\Support\Collection
+    public function all(): Collection
     {
         return collect($this->repository->findAll());
     }

@@ -3,6 +3,7 @@
 namespace App\Repositories\Contracts;
 
 use App\Models\Model;
+use Illuminate\Support\Collection;
 
 interface ModelRepository
 {
@@ -49,11 +50,20 @@ interface ModelRepository
     public function findBy($field, $value): ?Model;
 
     /**
+     * Retrieve multiple models by the values of a given field.
+     *
+     * @param string $field
+     * @param mixed  $value
+     * @return \Illuminate\Support\Collection of \App\Models\Model
+     */
+    public function getBy($field, $value): Collection;
+
+    /**
      * Retrieve all models.
      *
      * @return \Illuminate\Support\Collection of \App\Models\Model
      */
-    public function all(): \Illuminate\Support\Collection;
+    public function all(): Collection;
 
     /**
      * Retrieve a page of a paginated result of all models.
