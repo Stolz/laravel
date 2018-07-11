@@ -31,8 +31,8 @@
                         @endif
 
                         {{-- Notifification relative date --}}
-                        <div class="col-md-2 col-lg-1 text-right">
-                            {{ $notification->getCreatedAt()->diffForHumans() }}
+                        <div class="col-md-2 col-lg-1 text-right" title="{{ $createdAt = $notification->getCreatedAt() }}">
+                            {{ $createdAt->diffForHumans() }}
                         </div>
                     </div>
 

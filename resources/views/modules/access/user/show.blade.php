@@ -19,14 +19,14 @@
                 <dd>{{ $user['role'] }}</dd>
             @endcan
 
-            @if ( ! empty($user['createdAt']))
+            @if (! empty($user['createdAt']))
                 <dt>{{ _('Created') }}</dt>
-                <dd>{{ $user['createdAt']->diffForHumans() }}</dd>
+                <dd title="{{ $user['createdAt'] }}">{{ $user['createdAt']->diffForHumans() }}</dd>
             @endif
 
-            @if ( ! empty($user['updatedAt']))
+            @if (! empty($user['updatedAt']))
                 <dt>{{ _('Updated') }}</dt>
-                <dd>{{ $user['updatedAt']->diffForHumans() }}</dd>
+                <dd title="{{ $user['updatedAt'] }}">{{ $user['updatedAt']->diffForHumans() }}</dd>
             @endif
         </dl>
     </div>

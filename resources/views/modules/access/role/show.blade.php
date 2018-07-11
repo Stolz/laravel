@@ -9,19 +9,19 @@
             <dt>{{ _('Name') }}</dt>
             <dd>{{ $role['name'] }}</dd>
 
-            @if ( ! empty($role['description']))
+            @if (! empty($role['description']))
                 <dt>{{ _('Description') }}</dt>
                 <dd>{{ $role['description'] }}</dd>
             @endif
 
-            @if ( ! empty($role['createdAt']))
+            @if (! empty($role['createdAt']))
                 <dt>{{ _('Created') }}</dt>
-                <dd>{{ $role['createdAt']->diffForHumans() }}</dd>
+                <dd title="{{ $role['createdAt'] }}">{{ $role['createdAt']->diffForHumans() }}</dd>
             @endif
 
-            @if ( ! empty($role['updatedAt']))
+            @if (! empty($role['updatedAt']))
                 <dt>{{ _('Updated') }}</dt>
-                <dd>{{ $role['updatedAt']->diffForHumans() }}</dd>
+                <dd title="{{ $role['updatedAt'] }}">{{ $role['updatedAt']->diffForHumans() }}</dd>
             @endif
         </dl>
     </div>

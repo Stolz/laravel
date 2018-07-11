@@ -11,15 +11,15 @@
             <dd>{{ $dummy['name'] }}</dd>
 
             {{-- TODO remove if not applicable --}}
-            @if ( ! empty($dummy['createdAt']))
+            @if (! empty($dummy['createdAt']))
                 <dt>{{ _('Created') }}</dt>
-                <dd>{{ $dummy['createdAt']->diffForHumans() }}</dd>
+                <dd title="{{ $dummy['createdAt'] }}">{{ $dummy['createdAt']->diffForHumans() }}</dd>
             @endif
 
             {{-- TODO remove if not applicable --}}
-            @if ( ! empty($dummy['updatedAt']))
+            @if (! empty($dummy['updatedAt']))
                 <dt>{{ _('Updated') }}</dt>
-                <dd>{{ $dummy['updatedAt']->diffForHumans() }}</dd>
+                <dd title="{{ $dummy['updatedAt'] }}">{{ $dummy['updatedAt']->diffForHumans() }}</dd>
             @endif
         </dl>
     </div>
