@@ -48,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
             'alert' => 'alert',
             'form.checkbox' => 'checkbox',
             'form.input' => 'input',
+            'form.radios' => 'radios',
             'form.select' => 'select',
             'modals.delete-model' => 'deleteModelModal',
             'table.sortable-headers' => 'sortableHeaders',
