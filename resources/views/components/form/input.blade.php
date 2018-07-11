@@ -25,7 +25,7 @@
     @endisset
 
     @isset($help)
-        <small id="passwordHelpBlock" class="form-text text-muted">{{ $help }}</small>
+        <small class="form-text text-muted">{{ $help }}</small>
     @endisset
 </div>
 

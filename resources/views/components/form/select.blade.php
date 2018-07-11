@@ -25,4 +25,8 @@
     @if($errors->has($name))
         <div class="invalid-feedback">{{ $errors->first($name) }}</div>
     @endif
+
+    @isset($help)
+        <small class="form-text text-muted">{{ $help }}</small>
+    @endisset
 </div>
