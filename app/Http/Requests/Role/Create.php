@@ -27,6 +27,7 @@ class Create extends Request
         return [
             'description' => 'max:255',
             'name' => 'required|min:3|max:255|unique:App\Models\Role',
+            'permissions' => 'required|array|min:1',
         ];
     }
 }

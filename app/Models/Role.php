@@ -32,7 +32,7 @@ class Role extends Model
     // Gettets =====================================================================
 
     /**
-     * Get the he permissions of the role.
+     * Get the permissions of the role.
      *
      * @return \Doctrine\Common\Collections\Collection of Bar
      */
@@ -71,5 +71,15 @@ class Role extends Model
     public function isSuperAdmin(): bool
     {
         return ($this->getName() === 'Admin' and \EntityManager::contains($this));
+    }
+
+    /**
+     * Get the names of the permissions of the role.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getPermissionsNames(): \Illuminate\Support\Collection
+    {
+        return collect($this->getPermissions()->getValues())->map->getName();
     }
 }

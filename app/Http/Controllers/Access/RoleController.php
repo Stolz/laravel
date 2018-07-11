@@ -8,6 +8,13 @@ use App\Models\Role;
 class RoleController extends Controller
 {
     /**
+     * Instance of the service used to interact with permissions.
+     *
+     * @var \App\Repositories\Contracts\PermissionRepository
+     */
+    protected $permissionRepository;
+
+    /**
      * Instance of the service used to interact with roles.
      *
      * @var \App\Repositories\Contracts\RoleRepository
@@ -17,11 +24,13 @@ class RoleController extends Controller
     /**
      * Create a new controller instance.
      *
+     * @param  \App\Repositories\Contracts\PermissionRepository $permissionRepository
      * @param  \App\Repositories\Contracts\RoleRepository $roleRepository
      * @return void
      */
-    public function __construct(\App\Repositories\Contracts\RoleRepository $roleRepository)
+    public function __construct(\App\Repositories\Contracts\PermissionRepository $permissionRepository, \App\Repositories\Contracts\RoleRepository $roleRepository)
     {
+        $this->permissionRepository = $permissionRepository;
         $this->roleRepository = $roleRepository;
     }
 
@@ -50,11 +59,12 @@ class RoleController extends Controller
      */
     public function create()
     {
-        // Create an empty role
-        $role = Role::make();
-
         // Load view
-        return view('modules.access.role.create')->withRole($role);
+        return view('modules.access.role.create')->with([
+            'permissionsTree' => \PermissionsSeeder::tree(),
+            'role' => Role::make(),
+            'selectedPermissions' => collect(),
+        ]);
     }
 
     /**
@@ -67,12 +77,13 @@ class RoleController extends Controller
     {
         // Get request input
         $attributes = $request->only('name', 'description');
+        $permissions = $this->permissionRepository->getBy('name', array_keys($request->permissions));
 
         // Create a role with the provided input
         $role = Role::make($attributes);
 
         // Attempt to save role into the repository
-        $created = $this->roleRepository->create($role);
+        $created = $this->roleRepository->create($role) and $this->roleRepository->replacePermissions($role, $permissions);
 
         // Success
         if ($created) {
@@ -110,7 +121,11 @@ class RoleController extends Controller
     public function edit(\App\Http\Requests\Role\View $request, Role $role)
     {
         // Load view
-        return view('modules.access.role.update')->withRole($role);
+        return view('modules.access.role.update')->with([
+            'permissionsTree' => \PermissionsSeeder::tree(),
+            'role' => $role,
+            'selectedPermissions' => $role->getPermissionsNames(),
+        ]);
     }
 
     /**
@@ -124,15 +139,17 @@ class RoleController extends Controller
     {
         // Get request input
         $attributes = $request->only('name', 'description');
+        $permissions = $this->permissionRepository->getBy('name', array_keys($request->permissions));
 
         // Apply changes to the role
         $role->set($attributes);
 
         // Attempt to update role
         $updated = $this->roleRepository->update($role);
+        $permissionsUpdated = $this->roleRepository->replacePermissions($role, $permissions);
 
         // Success
-        if ($updated) {
+        if ($updated and $permissionsUpdated) {
             session()->flash('success', sprintf("Role '%s' successfully updated", $role));
 
             return redirect()->route('access.role.show', $role->getId());

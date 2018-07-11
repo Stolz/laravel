@@ -23,6 +23,13 @@
                 <dt>{{ _('Updated') }}</dt>
                 <dd title="{{ $role['updatedAt'] }}">{{ $role['updatedAt']->diffForHumans() }}</dd>
             @endif
+
+            @if (! empty($role['permissions']))
+                <dt>{{ _('Permissions') }}</dt>
+                @foreach($role['permissions'] as $permission)
+                    <dd title="$permission['description']">{{ $permission }}</dd>
+                @endforeach
+            @endif
         </dl>
     </div>
 </div>
