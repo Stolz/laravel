@@ -1,7 +1,7 @@
-<div class="form-group-DISABLED">
+<div class="form-group-DISABLED {{ $parentClass or null }}">
     <label
         for="{{ $id or $name }}"
-        class="bmd-label-floating {{ $labelClass or null }}">
+        class="bmd-label {{ $labelClass or null }}">
         {{ $slot }}
     </label>
 

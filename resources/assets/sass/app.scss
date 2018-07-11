@@ -26,9 +26,13 @@ html, body{
     height:100%;
 }
 
+@import "tables";
+
+// BMD hides all form errors by default and then shows only the non empty ones via JS. This fails to show proper errors on select/radio/checkboxes.
+// Since we are using server side validation we never generate empty errors so this fix solves the issue
+form .invalid-feedback {display:block}
+
 // Used only while developing for testing purpouses
 .debug {
     border: 1px dashed red !important;
 }
-
-@import "tables";
