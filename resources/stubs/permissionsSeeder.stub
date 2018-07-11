@@ -1,10 +1,11 @@
 /*
-TODO add permissions to the bogus module
+TODO add to tree() function under bogus module categories
 
-            // Dummy
-            ['name' => 'dummy-list'],
-            ['name' => 'dummy-view'],
-            ['name' => 'dummy-create'],
-            ['name' => 'dummy-update'],
-            ['name' => 'dummy-delete'],
+                    _('Dummy') => [
+                        ['name' => 'dummy-list', 'description' => _('List')],
+                        ['name' => 'dummy-view', 'description' => _('View')],
+                        ['name' => 'dummy-create', 'description' => _('Create')],
+                        ['name' => 'dummy-update', 'description' => _('Update')],
+                        ['name' => 'dummy-delete', 'description' => _('Delete')],
+                    ],
 */

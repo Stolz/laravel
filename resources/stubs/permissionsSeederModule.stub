@@ -1,4 +1,10 @@
-/* TODO Add module global permission
-            /// Bogus module
-            ['name' => 'use-bogus-module'],
+/* TODO Add module to tree() function
+
+            [
+                'name' => 'use-bogus-module',
+                'description' => _('Bogus module'),
+                'categories' => [
+                    // TODO
+                ],
+            ],
 */
