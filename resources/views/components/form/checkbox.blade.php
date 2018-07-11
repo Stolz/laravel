@@ -4,7 +4,7 @@
         id="{{ $id or $name }}"
         name="{{ $name }}"
         class="custom-control-input {{ $class or null }} @if($errors->has($name)) is-invalid @endif"
-        @isset($checked) checked @endisset>
+        @if(! empty($checked)) checked @endif>
     <label
         for="{{ $id or $name }}"
         class="custom-control-label {{ $labelClass or null }}">
