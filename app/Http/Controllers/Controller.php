@@ -20,14 +20,15 @@ abstract class Controller extends BaseController
      * @param  \Illuminate\Http\Request $request
      * @param  int $perPage
      * @param  string $sortBy
+     * @param  string $sortDirection
      * @return array
      */
-    protected function getPaginationOptionsFromRequest(Request $request, int $perPage = 15, string $sortBy = null): array
+    protected function getPaginationOptionsFromRequest(Request $request, int $perPage = 15, string $sortBy = null, string $sortDirection = 'asc'): array
     {
         $perPage = (int) $request->input('perPage', $perPage);
         $page = (int) $request->input('page', 1);
         $sortBy = $request->input('sortBy', $sortBy);
-        $sortDirection = $request->input('sortDir', 'asc');
+        $sortDirection = $request->input('sortDir', $sortDirection);
 
         return [$perPage, $page, $sortBy, $sortDirection];
     }
