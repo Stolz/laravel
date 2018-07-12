@@ -13,6 +13,17 @@ abstract class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
+     * Get the search options from a request.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return array
+     */
+    protected function getSearchOptionsFromRequest(Request $request): array
+    {
+        return array_filter($request->input('search', []));
+    }
+
+    /**
      * Get the pagination options from a request.
      *
      * Set sensible defaults in case the request lacks pagination options.
@@ -31,5 +42,24 @@ abstract class Controller extends BaseController
         $sortDirection = $request->input('sortDir', $sortDirection);
 
         return [$perPage, $page, $sortBy, $sortDirection];
+    }
+
+    /**
+     * Get the search and the pagination options from a request.
+     *
+     * Set sensible defaults in case the request lacks pagination options.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $perPage
+     * @param  string $sortBy
+     * @param  string $sortDirection
+     * @return array
+     */
+    protected function getSearchPaginationOptionsFromRequest(Request $request, int $perPage = 15, string $sortBy = null, string $sortDirection = 'asc'): array
+    {
+        return array_merge(
+            [$this->getSearchOptionsFromRequest($request)],
+            $this->getPaginationOptionsFromRequest($request, $perPage, $sortBy, $sortDirection)
+        );
     }
 }
