@@ -77,6 +77,16 @@ abstract class ModelRepository implements ModelRepositoryContract
     }
 
     /**
+     * Get the base query builder for querying the repository.
+     *
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    protected function getQueryBuilder(): \Doctrine\ORM\QueryBuilder
+    {
+        return $this->repository->createQueryBuilder($this->modelAlias);
+    }
+
+    /**
      * Determine whether the model has the given field.
      *
      * @param  string $field
@@ -196,19 +206,35 @@ abstract class ModelRepository implements ModelRepositoryContract
      */
     public function paginate(int $perPage = 15, int $page = 1, string $sortBy = null, string $sortDirection = 'asc'): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
+        // Use default query builder
+        $queryBuilder = $this->getQueryBuilder();
+
+        return $this->paginateQueryBuilder($queryBuilder, $perPage, $page, $sortBy, $sortDirection);
+    }
+
+    /**
+     * Retrieve a page of a paginated result of all models using the given query builder.
+     *
+     * @param  \Doctrine\ORM\QueryBuilder $queryBuilder
+     * @param  int $perPage
+     * @param  int $page
+     * @param  string $sortBy
+     * @param  string $sortDirection Either 'asc' or 'desc'
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    protected function paginateQueryBuilder(\Doctrine\ORM\QueryBuilder $queryBuilder, int $perPage, int $page, string $sortBy, string $sortDirection): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    {
         // Validate parameters
         $perPage = max(1, min($perPage, static::MAX_PER_PAGE));
         $page = max(1, $page);
         $sortBy = ($sortBy !== null and $this->modelHasField($sortBy = camel_case($sortBy))) ? $sortBy : null;
         $sortDirection = ($sortDirection === 'desc') ? 'desc' : 'asc';
 
-        // Reuse query builder defined by child classes
-        $queryBuilder = (isset($this->paginateQueryBuilder)) ? $this->paginateQueryBuilder : $this->repository->createQueryBuilder($this->modelAlias);
-
         // Apply sorting parameters
         if ($sortBy !== null)
             $queryBuilder->addOrderBy("{$this->modelAlias}.$sortBy", strtoupper($sortDirection));
 
+        // Get resutls
         $paginator = \LaravelDoctrine\ORM\Pagination\PaginatorAdapter::fromParams(
             $queryBuilder->getQuery(),
             $perPage,

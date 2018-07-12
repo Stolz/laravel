@@ -32,14 +32,15 @@ abstract class SoftDeletableModelRepository extends ModelRepository implements S
     }
 
     /**
-     * Create a soft delete aware query builder.
+     * Get the base query builder for querying the repository.
      *
      * @return \Doctrine\ORM\QueryBuilder
      */
-    protected function softDeleteAwareQueryBuilder(): \Doctrine\ORM\QueryBuilder
+    protected function getQueryBuilder(): \Doctrine\ORM\QueryBuilder
     {
-        $queryBuilder = $this->repository->createQueryBuilder($this->modelAlias);
+        $queryBuilder = parent::getQueryBuilder();
 
+        // Apply soft delete flag
         if ($this->withSoftDeleted) {
             $this->withSoftDeleted = false; // Ensure the flag is used only once per query
         } else {
@@ -131,22 +132,6 @@ abstract class SoftDeletableModelRepository extends ModelRepository implements S
         $criteria = $this->softDeleteAwareCriteria();
 
         return collect($this->repository->findBy($criteria));
-    }
-
-    /**
-     * Retrieve a page of a paginated result of all models.
-     *
-     * @param  int $perPage
-     * @param  int $page
-     * @param  string $sortBy
-     * @param  string $sortDirection Either 'asc' or 'desc'
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     */
-    public function paginate(int $perPage = 15, int $page = 1, string $sortBy = null, string $sortDirection = 'asc'): \Illuminate\Contracts\Pagination\LengthAwarePaginator
-    {
-        $this->paginateQueryBuilder = $this->softDeleteAwareQueryBuilder();
-
-        return parent::paginate($perPage, $page, $sortBy, $sortDirection);
     }
 
     /**

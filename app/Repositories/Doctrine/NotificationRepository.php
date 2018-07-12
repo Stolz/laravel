@@ -29,7 +29,7 @@ class NotificationRepository extends ModelRepository implements NotificationRepo
      */
     protected function userAwareQueryBuilder(User $user): \Doctrine\ORM\QueryBuilder
     {
-        return $this->repository->createQueryBuilder($this->modelAlias)->andWhere("{$this->modelAlias}.user = :user")->setParameter('user', $user);
+        return parent::getQueryBuilder()->andWhere("{$this->modelAlias}.user = :user")->setParameter('user', $user);
     }
 
     /**
@@ -44,14 +44,14 @@ class NotificationRepository extends ModelRepository implements NotificationRepo
      */
     public function paginateUser(User $user, int $perPage = 15, int $page = 1, string $sortBy = null, string $sortDirection = 'asc'): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
-        $this->paginateQueryBuilder = $this->userAwareQueryBuilder($user);
-
         if ($sortBy === null) {
             $sortBy = 'createdAt';
             $sortDirection = 'desc';
         }
 
-        return parent::paginate($perPage, $page, $sortBy, $sortDirection);
+        $queryBuilder = $this->userAwareQueryBuilder($user);
+
+        return $this->paginateQueryBuilder($queryBuilder, $perPage, $page, $sortBy, $sortDirection);
     }
 
     /**
