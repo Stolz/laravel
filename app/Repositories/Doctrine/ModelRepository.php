@@ -4,6 +4,8 @@ namespace App\Repositories\Doctrine;
 
 use App\Models\Model;
 use App\Repositories\Contracts\ModelRepository as ModelRepositoryContract;
+use Doctrine\ORM\QueryBuilder;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 abstract class ModelRepository implements ModelRepositoryContract
@@ -64,39 +66,6 @@ abstract class ModelRepository implements ModelRepositoryContract
 
         $this->entityManager = $entityManager;
         $this->repository = $this->entityManager->getRepository($this->modelClass);
-    }
-
-    /**
-     * Get database table name used by the repository.
-     *
-     * @return string
-     */
-    protected function getTable(): string
-    {
-        return $this->entityManager->getClassMetadata($this->modelClass)->getTableName();
-    }
-
-    /**
-     * Get the base query builder for querying the repository.
-     *
-     * @return \Doctrine\ORM\QueryBuilder
-     */
-    protected function getQueryBuilder(): \Doctrine\ORM\QueryBuilder
-    {
-        return $this->repository->createQueryBuilder($this->modelAlias);
-    }
-
-    /**
-     * Determine whether the model has the given field.
-     *
-     * @param  string $field
-     * @return bool
-     */
-    protected function modelHasField($field): bool
-    {
-        $modelReflectionProperties = $this->entityManager->getClassMetadata($this->modelClass)->getReflectionProperties();
-
-        return in_array($field, array_keys($modelReflectionProperties));
     }
 
     /**
@@ -174,6 +143,16 @@ abstract class ModelRepository implements ModelRepositoryContract
     }
 
     /**
+     * Retrieve all models.
+     *
+     * @return \Illuminate\Support\Collection of \App\Models\Model
+     */
+    public function all(): Collection
+    {
+        return collect($this->repository->findAll());
+    }
+
+    /**
      * Retrieve multiple models by the values of a given field.
      *
      * @param string $field
@@ -186,13 +165,13 @@ abstract class ModelRepository implements ModelRepositoryContract
     }
 
     /**
-     * Retrieve all models.
+     * Count the number of models.
      *
-     * @return \Illuminate\Support\Collection of \App\Models\Model
+     * @return int
      */
-    public function all(): Collection
+    public function count(): int
     {
-        return collect($this->repository->findAll());
+        return $this->repository->count([]);
     }
 
     /**
@@ -204,12 +183,82 @@ abstract class ModelRepository implements ModelRepositoryContract
      * @param  string $sortDirection Either 'asc' or 'desc'
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginate(int $perPage = 15, int $page = 1, string $sortBy = null, string $sortDirection = 'asc'): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public function paginate(int $perPage = 15, int $page = 1, string $sortBy = null, string $sortDirection = 'asc'): LengthAwarePaginator
     {
         // Use default query builder
         $queryBuilder = $this->getQueryBuilder();
 
         return $this->paginateQueryBuilder($queryBuilder, $perPage, $page, $sortBy, $sortDirection);
+    }
+
+    /**
+     * Retrieve all models matching a search criteria.
+     *
+     * @param  array $criteria
+     * @return \Illuminate\Support\Collection of \App\Models\Model
+     */
+    public function search(array $criteria): \Illuminate\Support\Collection
+    {
+        $queryBuilder = $this->getSearchAwareQueryBuilder($criteria); // This method must be defined in the child class
+
+        return collect($queryBuilder->getQuery()->getResult());
+    }
+
+    /**
+     * Retrieve a page of a paginated result of models matching a search criteria.
+     *
+     * @param  array $criteria
+     * @param  int $perPage
+     * @param  int $page
+     * @param  string $sortBy
+     * @param  string $sortDirection Either 'asc' or 'desc'
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function paginateSearch(array $criteria, int $perPage = 15, int $page = 1, string $sortBy = null, string $sortDirection = 'asc'): LengthAwarePaginator
+    {
+        // Initialize query builder
+        $queryBuilder = $this->getSearchAwareQueryBuilder($criteria); // This method must be defined in the child class
+
+        // Paginate results
+        $paginator = $this->paginateQueryBuilder($queryBuilder, $perPage, $page, $sortBy, $sortDirection);
+
+        // Include search parameters in query string
+        $paginator->appends(['search' => $criteria]);
+
+        return $paginator;
+    }
+
+    /**
+     * Get database table name used by the repository.
+     *
+     * @return string
+     */
+    protected function getTable(): string
+    {
+        return $this->entityManager->getClassMetadata($this->modelClass)->getTableName();
+    }
+
+    /**
+     * Get the base query builder for querying the repository.
+     *
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    protected function getQueryBuilder(): QueryBuilder
+    {
+        return $this->repository->createQueryBuilder($this->modelAlias);
+    }
+
+    /**
+     * Determine whether the model has the given field.
+     *
+     * @param  string $field
+     * @return bool
+     */
+    protected function modelHasField($field): bool
+    {
+        $modelReflectionProperties = $this->entityManager->getClassMetadata($this->modelClass)->getReflectionProperties();
+
+        return in_array($field, array_keys($modelReflectionProperties));
     }
 
     /**
@@ -222,7 +271,7 @@ abstract class ModelRepository implements ModelRepositoryContract
      * @param  string $sortDirection Either 'asc' or 'desc'
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    protected function paginateQueryBuilder(\Doctrine\ORM\QueryBuilder $queryBuilder, int $perPage, int $page, string $sortBy, string $sortDirection): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    protected function paginateQueryBuilder(QueryBuilder $queryBuilder, int $perPage, int $page, string $sortBy, string $sortDirection): LengthAwarePaginator
     {
         // Validate parameters
         $perPage = max(1, min($perPage, static::MAX_PER_PAGE));
@@ -248,15 +297,5 @@ abstract class ModelRepository implements ModelRepositoryContract
             $paginator->appends(['sortDir' => $sortDirection]);
 
         return $paginator;
-    }
-
-    /**
-     * Count the number of models.
-     *
-     * @return int
-     */
-    public function count(): int
-    {
-        return $this->repository->count([]);
     }
 }

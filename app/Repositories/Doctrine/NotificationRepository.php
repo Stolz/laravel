@@ -29,7 +29,7 @@ class NotificationRepository extends ModelRepository implements NotificationRepo
      */
     protected function userAwareQueryBuilder(User $user): \Doctrine\ORM\QueryBuilder
     {
-        return parent::getQueryBuilder()->andWhere("{$this->modelAlias}.user = :user")->setParameter('user', $user);
+        return $this->getQueryBuilder()->andWhere("{$this->modelAlias}.user = :user")->setParameter('user', $user);
     }
 
     /**

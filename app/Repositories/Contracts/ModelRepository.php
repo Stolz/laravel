@@ -50,6 +50,13 @@ interface ModelRepository
     public function findBy($field, $value): ?Model;
 
     /**
+     * Retrieve all models.
+     *
+     * @return \Illuminate\Support\Collection of \App\Models\Model
+     */
+    public function all(): Collection;
+
+    /**
      * Retrieve multiple models by the values of a given field.
      *
      * @param string $field
@@ -59,11 +66,11 @@ interface ModelRepository
     public function getBy($field, $value): Collection;
 
     /**
-     * Retrieve all models.
+     * Count the number of models.
      *
-     * @return \Illuminate\Support\Collection of \App\Models\Model
+     * @return int
      */
-    public function all(): Collection;
+    public function count(): int;
 
     /**
      * Retrieve a page of a paginated result of all models.
@@ -75,11 +82,4 @@ interface ModelRepository
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function paginate(int $perPage = 15, int $page = 1, string $sortBy = null, string $sortDirection = 'asc'): \Illuminate\Contracts\Pagination\LengthAwarePaginator;
-
-    /**
-     * Count the number of models.
-     *
-     * @return int
-     */
-    public function count(): int;
 }
