@@ -140,6 +140,28 @@ class ModelRepositoryTest extends TestCase
     }
 
     /**
+     * Test retrieve multiple models by the values of a given field.
+     *
+     * @return void
+     */
+    public function testGetBy()
+    {
+        $this->assertEquals(0, $this->repository->getBy('name', 'xxx')->count());
+
+        $users = $this->repository->getBy('name', 'test');
+        $this->assertEquals(1, $users->count());
+        $this->assertEquals('test', $users->first()->getName());
+
+        $this->createUser(['name' => 'foo']);
+        $users = $this->repository->getBy('name', 'foo');
+        $this->assertEquals(1, $users->count());
+        $this->assertEquals('foo', $users->first()->getName());
+
+        $users = $this->repository->getBy('name', ['test', 'foo']);
+        $this->assertEquals(2, $users->count());
+    }
+
+    /**
      * Test count the number of models.
      *
      * @return void
