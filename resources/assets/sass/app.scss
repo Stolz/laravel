@@ -17,8 +17,9 @@ $theme-colors: (
     dark: $grey-800
 );
 $bmd-label-color: $blue-800;
+$bmd-drawer-x-size: 350px;
 
-// BMD must be loaded afer our customization
+// BMD must be loaded afer all our customization
 @import "~bootstrap-material-design/scss/_core.scss";
 
 // Required for .h-100 Bootstrap utility to work
@@ -26,13 +27,10 @@ html, body{
     height:100%;
 }
 
-@import "tables";
-
-// BMD hides all form errors by default and then shows only the non empty ones via JS. This fails to show proper errors on select/radio/checkboxes.
-// Since we are using server side validation we never generate empty errors so this fix solves the issue
-form .invalid-feedback {display:block}
-
 // Used only while developing for testing purpouses
 .debug {
     border: 1px dashed red !important;
 }
+
+@import "forms";
+@import "tables";
