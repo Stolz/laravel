@@ -55,17 +55,6 @@ class NotificationRepository extends ModelRepository implements NotificationRepo
     }
 
     /**
-     * Retrieve the notifications of the given user.
-     *
-     * @param  \App\Models\User $user
-     * @return \Illuminate\Support\Collection of \App\Models\Notification
-     */
-    public function allFromUser(User $user): \Illuminate\Support\Collection
-    {
-        return collect($this->repository->findBy(['user' => $user]));
-    }
-
-    /**
      * Count the number of unread notifications for the given user.
      *
      * @param  \App\Models\User $user

@@ -19,14 +19,6 @@ interface NotificationRepository extends ModelRepository
     public function paginateUser(User $user, int $perPage = 15, int $page = 1, string $sortBy = null, string $sortDirection = 'asc'): \Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
     /**
-     * Retrieve the notifications of the given user.
-     *
-     * @param  \App\Models\User $user
-     * @return \Illuminate\Support\Collection of \App\Models\Notification
-     */
-    public function allFromUser(User $user): \Illuminate\Support\Collection;
-
-    /**
      * Count the number of unread notifications for the given user.
      *
      * @param  \App\Models\User $user
