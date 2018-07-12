@@ -11,13 +11,20 @@
         @alert(['type' => 'info'])
             {{ _('No users found') }}
             @if(request()->has('search'))
-                . {{ _('Try with different search options') }}
+                .  <a class="alert-link" href="{{ route('access.user.index') }}">{{ _('Reset search options') }}</a>
+                {{ _('or') }}
+                <a href="#" onclick="return false" class="alert-link" data-toggle="drawer" data-target="#aside">{{ _('try with with different ones') }}</a>
             @endif
         @endalert
     @else
         @table
             @slot('caption')
                 {{ sprintf(_('Showing results %d to %d out of %d'), $users->firstItem(), $users->lastItem(), $users->total()) }}
+                @if(request()->has('search'))
+                    . <a class="alert-link" href="{{ route('access.user.index') }}">{{ _('Reset search options') }}</a>
+                    {{ _('or') }}
+                    <a href="#" onclick="return false" class="alert-link" data-toggle="drawer" data-target="#aside">{{ _('try with with different ones') }}</a>
+                @endif
             @endslot
 
             @slot('header')
