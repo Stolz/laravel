@@ -2,10 +2,17 @@
 
 @section('page.title', _('Users'))
 
+@section('side')
+    @include('modules.access.user.search')
+@endsection
+
 @section('main')
     @if($users->isEmpty())
         @alert(['type' => 'info'])
-           {{ _('No users found') }}
+            {{ _('No users found') }}
+            @if(request()->has('search'))
+                . {{ _('Try with different search options') }}
+            @endif
         @endalert
     @else
         @table
