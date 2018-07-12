@@ -162,6 +162,33 @@ class ModelRepositoryTest extends TestCase
     }
 
     /**
+     * Test retrieve a page of a paginated result of all models.
+     *
+     * @return void
+     */
+    public function testPaginate()
+    {
+        $first = $this->createUser(['name' => 'first']);
+        $second = $this->createUser(['name' => 'second']);
+
+        $paginator = $this->repository->paginate($perPage = 1, $page = 1, $sortBy = 'name', $sortDirection = 'asc');
+        $this->assertEquals(3, $paginator->total());
+        $this->assertEquals($page, $paginator->currentPage());
+        $this->assertEquals('first', $paginator->first()->getName());
+
+        $paginator = $this->repository->paginate($perPage = 1, $page = 2, $sortBy = 'name', $sortDirection = 'asc');
+        $this->assertEquals($page, $paginator->currentPage());
+        $this->assertEquals('second', $paginator->first()->getName());
+
+        $paginator = $this->repository->paginate($perPage = 1, $page = 3, $sortBy = 'name', $sortDirection = 'asc');
+        $this->assertEquals($page, $paginator->currentPage());
+        $this->assertEquals('test', $paginator->first()->getName());
+
+        $paginator = $this->repository->paginate($perPage = 1, $page = 1, $sortBy = 'name', $sortDirection = 'desc');
+        $this->assertEquals('test', $paginator->first()->getName());
+    }
+
+    /**
      * Test count the number of models.
      *
      * @return void
