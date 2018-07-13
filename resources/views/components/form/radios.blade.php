@@ -7,7 +7,7 @@
 
     @foreach($options as $value => $option)
         <?php
-        $value = (is_array($options)) ? $value : $option['id'];
+        $value = ($option instanceof \App\Models\Model) ? $option['id'] : $value;
         $selectCurrent = (is_scalar($selected)) ? $selected == $value : $selected['id'] == $value;
         ?>
         <div class="custom-control custom-radio">
