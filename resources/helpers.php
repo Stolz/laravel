@@ -124,9 +124,11 @@ if (! function_exists('previous_index_url')) {
     {
         $previousUrl = url()->previous();
 
-        foreach (['?page=', '&page=', '?sortBy=', '&sortBy='] as $parameter) {
-            if (strpos($previousUrl, $parameter))
-                return $previousUrl;
+        foreach (['page', 'sortBy', 'search'] as $parameter) {
+            foreach (['?', '&'] as $delimiter) {
+                if (strpos($previousUrl, "{$delimiter}{$parameter}="))
+                    return $previousUrl;
+            }
         }
 
         return $fallbackUrl;
