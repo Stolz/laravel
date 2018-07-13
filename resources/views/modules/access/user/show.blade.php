@@ -29,6 +29,26 @@
                 <dd title="{{ $user['updatedAt'] }}">{{ $user['updatedAt']->diffForHumans() }}</dd>
             @endif
         </dl>
+
+        <div class="row">
+            @can('list', 'App\Models\User')
+                <div class="col">
+                    <a href="{{ previous_index_url(route('access.user.index')) }}" class="btn btn-outline-secondary btn-block">{{ _('Return') }}</a>
+                </div>
+            @endcan
+            @can('update', $user)
+                <div class="col">
+                    <a href="{{ route('access.user.edit', [$user['id']]) }}" class="btn btn btn-primary active btn-block">{{ _('Edit') }}</a>
+                </div>
+            @endcan
+            @can('delete', $user)
+                <div class="col">
+                    <a href="#" class="btn btn btn-danger active btn-block" data-toggle="modal" data-target="#delete-modal-{{ $user['id'] }}">{{ _('Delete') }}</a>
+                </div>
+                @deleteModelModal(['model' => $user, 'action' => route('access.user.destroy', [$user['id']])])
+                @enddeleteModelModal
+            @endcan
+        </div>
     </div>
 </div>
 @stop

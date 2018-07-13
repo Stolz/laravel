@@ -22,6 +22,26 @@
                 <dd title="{{ $dummy['updatedAt'] }}">{{ $dummy['updatedAt']->diffForHumans() }}</dd>
             @endif
         </dl>
+
+        <div class="row">
+            @can('list', 'App\Models\Dummy')
+                <div class="col">
+                    <a href="{{ previous_index_url(route('bogus.dummy.index')) }}" class="btn btn-outline-secondary btn-block">{{ _('Return') }}</a>
+                </div>
+            @endcan
+            @can('update', $dummy)
+                <div class="col">
+                    <a href="{{ route('bogus.dummy.edit', [$dummy['id']]) }}" class="btn btn btn-primary active btn-block">{{ _('Edit') }}</a>
+                </div>
+            @endcan
+            @can('delete', $dummy)
+                <div class="col">
+                    <a href="#" class="btn btn btn-danger active btn-block" data-toggle="modal" data-target="#delete-modal-{{ $dummy['id'] }}">{{ _('Delete') }}</a>
+                </div>
+                @deleteModelModal(['model' => $dummy, 'action' => route('bogus.dummy.destroy', [$dummy['id']])])
+                @enddeleteModelModal
+            @endcan
+        </div>
     </div>
 </div>
 @stop

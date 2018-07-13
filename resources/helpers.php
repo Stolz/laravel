@@ -112,3 +112,23 @@ if (! function_exists('convert_date_to_string')) {
         return $date;
     }
 }
+
+if (! function_exists('previous_index_url')) {
+    /**
+     * Get the URL of the previous resource listing.
+     *
+     * @param  string $fallbackUrl
+     * @return string
+     */
+    function previous_index_url(string $fallbackUrl): string
+    {
+        $previousUrl = url()->previous();
+
+        foreach (['?page=', '&page=', '?sortBy=', '&sortBy='] as $parameter) {
+            if (strpos($previousUrl, $parameter))
+                return $previousUrl;
+        }
+
+        return $fallbackUrl;
+    }
+}

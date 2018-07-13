@@ -9,7 +9,17 @@
         <form method="post" action="{{ route('bogus.dummy.update', $dummy['id']) }}" role="form">
             @csrf @method('put')
             @include('modules.bogus.dummy.form')
-            <button type="submit" class="btn btn-outline-primary btn-block">{{ _('Update dummy') }}</button>
+
+            <div class="row">
+                @can('list', 'App\Models\Dummy')
+                    <div class="col">
+                        <a href="{{ previous_index_url(route('bogus.dummy.index')) }}" class="btn btn-outline-secondary btn-block">{{ _('Cancel') }}</a>
+                    </div>
+                @endcan
+                <div class="col">
+                    <button type="submit" class="btn btn-primary active btn-block">{{ _('Update dummy') }}</button>
+                </div>
+            </div>
         </form>
 
     </div>
