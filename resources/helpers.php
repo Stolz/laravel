@@ -123,13 +123,10 @@ if (! function_exists('previous_index_url')) {
     function previous_index_url(string $fallbackUrl): string
     {
         $previousUrl = url()->previous();
+        parse_str(parse_url($previousUrl, PHP_URL_QUERY), $urlParameters);
 
-        foreach (['page', 'sortBy', 'search'] as $parameter) {
-            foreach (['?', '&'] as $delimiter) {
-                if (strpos($previousUrl, "{$delimiter}{$parameter}="))
-                    return $previousUrl;
-            }
-        }
+        if (isset($urlParameters['page']) or isset($urlParameters['search']) or isset($urlParameters['sortBy']))
+            return $previousUrl;
 
         return $fallbackUrl;
     }
