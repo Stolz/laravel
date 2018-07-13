@@ -21,6 +21,7 @@ $buildLinks = function ($labels, $routeParameters = []): array {
                 $routeParameters['sortDir'] = 'desc';
                 $class .= ' desc';
             } else {
+                $routeParameters['sortDir'] = 'asc';
                 $class .= ' asc';
             }
         }
