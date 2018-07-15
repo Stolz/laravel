@@ -1,5 +1,7 @@
 * text=auto
-*.css linguist-vendored
-*.scss linguist-vendored
-*.js linguist-vendored
 CHANGELOG.md export-ignore
+public/css/*.css linguist-vendored
+public/css/app.css binary
+public/js/*.js linguist-vendored
+public/js/app.js binary
+public/mix-manifest.json binary
