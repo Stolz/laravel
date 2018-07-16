@@ -10,7 +10,7 @@ const path = {
 mix.sass(path.assets + 'sass/app.scss', 'public/css/app.css');
 
 mix.scripts([
-    path.jquery + 'dist/jquery.slim.min.js',
+    path.jquery + 'dist/jquery.slim.min.js', // Do not use Slim version if you need AJAX features
     path.popper + 'dist/umd/popper.min.js',
     path.bmd + 'dist/js/bootstrap-material-design.min.js',
     path.assets + 'js/app.js',

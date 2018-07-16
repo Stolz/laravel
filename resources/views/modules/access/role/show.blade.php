@@ -24,7 +24,7 @@
                 <dd title="{{ $role['updatedAt'] }}">{{ $role['updatedAt']->diffForHumans() }}</dd>
             @endif
 
-            @if (! empty($role['permissions']))
+            @if ($role['permissions']->count())
                 <dt>{{ _('Permissions') }}</dt>
                 @foreach($role['permissions'] as $permission)
                     <dd title="$permission['description']">{{ $permission }}</dd>
