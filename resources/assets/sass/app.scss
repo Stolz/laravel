@@ -18,6 +18,7 @@ $theme-colors: (
 );
 $bmd-label-color: $blue-800;
 $bmd-drawer-x-size: 350px;
+$zindex-modal-backdrop: auto;
 
 // BMD must be loaded afer all our customization
 @import "~bootstrap-material-design/scss/_core.scss";
