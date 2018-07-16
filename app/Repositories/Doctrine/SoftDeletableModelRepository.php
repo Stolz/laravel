@@ -125,13 +125,14 @@ abstract class SoftDeletableModelRepository extends ModelRepository implements S
     /**
      * Retrieve all models.
      *
+     * @param array $orderBy For instance ['createdAt' => 'desc', 'name' => 'asc']
      * @return \Illuminate\Support\Collection of \App\Models\Model
      */
-    public function all(): \Illuminate\Support\Collection
+    public function all(array $orderBy = []): \Illuminate\Support\Collection
     {
         $criteria = $this->softDeleteAwareCriteria();
 
-        return collect($this->repository->findBy($criteria));
+        return collect($this->repository->findBy($criteria, $orderBy));
     }
 
     /**

@@ -48,6 +48,12 @@ class ModelRepositoryTest extends TestCase
         $this->repository->forceDelete($this->model);
         $this->assertEquals(0, $this->repository->all()->count());
         $this->assertEquals(0, $this->repository->includeSoftDeleted()->all()->count());
+
+        $this->createUser(['name' => 'aaa']);
+        $this->createUser(['name' => 'zzz']);
+        $all = $this->repository->all(['name' => 'desc']);
+        $this->assertEquals('zzz', $all->first()->getName());
+        $this->assertEquals('aaa', $all->last()->getName());
     }
 
     /**

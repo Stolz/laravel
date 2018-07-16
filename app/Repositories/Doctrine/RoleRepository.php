@@ -24,6 +24,21 @@ class RoleRepository extends ModelRepository implements RoleRepositoryContract
     protected $modelAlias = 'role';
 
     /**
+     * Retrieve all models.
+     *
+     * @param array $orderBy
+     * @return \Illuminate\Support\Collection of \App\Models\User
+     */
+    public function all(array $orderBy = []): \Illuminate\Support\Collection
+    {
+        // Set a default order when none is provided
+        if (! $orderBy)
+            $orderBy = ['name' => 'asc'];
+
+        return parent::all($orderBy);
+    }
+
+    /**
      * Add a permission to a role.
      *
      * @param  \App\Models\Role $role

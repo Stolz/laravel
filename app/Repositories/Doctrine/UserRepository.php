@@ -24,6 +24,21 @@ class UserRepository extends SoftDeletableModelRepository implements UserReposit
     protected $modelAlias = 'user';
 
     /**
+     * Retrieve all models.
+     *
+     * @param array $orderBy
+     * @return \Illuminate\Support\Collection of \App\Models\User
+     */
+    public function all(array $orderBy = []): \Illuminate\Support\Collection
+    {
+        // Set a default order when none is provided
+        if (! $orderBy)
+            $orderBy = ['name' => 'asc'];
+
+        return parent::all($orderBy);
+    }
+
+    /**
      * Get the a query builder with a search criteria applied to it.
      *
      * @param  array $criteria

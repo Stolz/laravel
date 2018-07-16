@@ -52,9 +52,10 @@ interface ModelRepository
     /**
      * Retrieve all models.
      *
+     * @param array $orderBy For instance ['createdAt' => 'desc', 'name' => 'asc']
      * @return \Illuminate\Support\Collection of \App\Models\Model
      */
-    public function all(): Collection;
+    public function all(array $orderBy = []): Collection;
 
     /**
      * Retrieve multiple models by the values of a given field.

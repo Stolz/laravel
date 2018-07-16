@@ -145,11 +145,12 @@ abstract class ModelRepository implements ModelRepositoryContract
     /**
      * Retrieve all models.
      *
+     * @param array $orderBy For instance ['createdAt' => 'desc', 'name' => 'asc']
      * @return \Illuminate\Support\Collection of \App\Models\Model
      */
-    public function all(): Collection
+    public function all(array $orderBy = []): Collection
     {
-        return collect($this->repository->findAll());
+        return collect($this->repository->findBy([], $orderBy));
     }
 
     /**
