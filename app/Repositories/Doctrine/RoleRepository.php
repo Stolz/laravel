@@ -27,7 +27,7 @@ class RoleRepository extends ModelRepository implements RoleRepositoryContract
      * Retrieve all models.
      *
      * @param array $orderBy
-     * @return \Illuminate\Support\Collection of \App\Models\User
+     * @return \Illuminate\Support\Collection of \App\Models\Role
      */
     public function all(array $orderBy = []): \Illuminate\Support\Collection
     {

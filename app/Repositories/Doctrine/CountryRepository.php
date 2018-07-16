@@ -24,7 +24,7 @@ class CountryRepository extends ModelRepository implements CountryRepositoryCont
      * Retrieve all models.
      *
      * @param array $orderBy
-     * @return \Illuminate\Support\Collection of \App\Models\User
+     * @return \Illuminate\Support\Collection of \App\Models\Country
      */
     public function all(array $orderBy = []): \Illuminate\Support\Collection
     {
