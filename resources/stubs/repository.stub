@@ -19,4 +19,19 @@ class DummyRepository extends ModelRepository implements DummyRepositoryContract
      * @var string
      */
     protected $modelAlias = 'dummy';
+
+    /**
+     * Retrieve all models.
+     *
+     * @param array $orderBy
+     * @return \Illuminate\Support\Collection of \App\Models\Model TODO
+     */
+    public function all(array $orderBy = []): \Illuminate\Support\Collection
+    {
+        // Set a default order when none is provided
+        if (! $orderBy)
+            $orderBy = ['name' => 'asc']; // TODO set default order
+
+        return parent::all($orderBy);
+    }
 }
