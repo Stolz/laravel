@@ -1,12 +1,12 @@
 @extends('layouts.base')
 
-@push('css')
+@prepend('css')
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-@endpush
+@endprepend
 
-@push('js')
+@prepend('js')
     <script src="{{ mix('js/app.js') }}"></script>
-@endpush
+@endprepend
 
 @section('body')
 <div id="container" class="bmd-layout-container bmd-drawer-f-l">
