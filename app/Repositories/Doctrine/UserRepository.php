@@ -63,4 +63,20 @@ class UserRepository extends SoftDeletableModelRepository implements UserReposit
 
         return $queryBuilder;
     }
+
+    /**
+     * Get the a query builder with joined related objects required for pagination and a search criteria applied to it.
+     *
+     * @param  array $criteria
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    protected function getPaginateSearchAwareQueryBuilder(array $criteria): \Doctrine\ORM\QueryBuilder
+    {
+        $queryBuilder = $this->getSearchAwareQueryBuilder($criteria);
+
+        // To be able to sort by role name
+        $queryBuilder->innerJoin("{$this->modelAlias}.role", 'role');
+
+        return $queryBuilder;
+    }
 }

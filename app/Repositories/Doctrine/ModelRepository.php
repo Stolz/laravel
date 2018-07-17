@@ -218,7 +218,7 @@ abstract class ModelRepository implements ModelRepositoryContract
     public function paginateSearch(array $criteria, int $perPage = 15, int $page = 1, string $sortBy = null, string $sortDirection = 'asc'): LengthAwarePaginator
     {
         // Initialize query builder
-        $queryBuilder = $this->getSearchAwareQueryBuilder($criteria); // This method must be defined in the child class
+        $queryBuilder = $this->getPaginateSearchAwareQueryBuilder($criteria); // This method must be defined in the child class
 
         // Paginate results
         $paginator = $this->paginateQueryBuilder($queryBuilder, $perPage, $page, $sortBy, $sortDirection);
@@ -263,6 +263,40 @@ abstract class ModelRepository implements ModelRepositoryContract
     }
 
     /**
+     * Replace unsafe pagination parameters with safe ones.
+     *
+     * @param  int $perPage
+     * @param  int $page
+     * @param  string $sortBy
+     * @param  string $sortDirection Either 'asc' or 'desc'
+     * @return array
+     */
+    protected function sanitizePaginationParameter(int $perPage, int $page, $sortBy, string $sortDirection): array
+    {
+        $perPage = max(1, min($perPage, static::MAX_PER_PAGE));
+        $page = max(1, $page);
+        $sortDirection = (strtolower($sortDirection) === 'desc') ? 'desc' : 'asc';
+
+        if ($sortBy !== null) {
+            if (str_contains($sortBy, '.'))
+                list($alias, $sortBy) = explode('.', $sortBy, 2);
+            else $alias = $this->modelAlias;
+
+            // Normal field. Ensure the model has the provided field
+            if ($alias === $this->modelAlias) {
+                $sortBy = ($this->modelHasField($sortBy)) ? "{$alias}.{$sortBy}" : null;
+            // Filed in nested relation
+            } else {
+                // Doctrine does not have a way to access the nested relation model for
+                // us to check if the field exists. Query will fail if it doesn't.
+                $sortBy = "{$alias}.{$sortBy}";
+            }
+        }
+
+        return [$perPage, $page, $sortBy, $sortDirection];
+    }
+
+    /**
      * Retrieve a page of a paginated result of all models using the given query builder.
      *
      * @param  \Doctrine\ORM\QueryBuilder $queryBuilder
@@ -272,28 +306,22 @@ abstract class ModelRepository implements ModelRepositoryContract
      * @param  string $sortDirection Either 'asc' or 'desc'
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    protected function paginateQueryBuilder(QueryBuilder $queryBuilder, int $perPage, int $page, string $sortBy, string $sortDirection): LengthAwarePaginator
+    protected function paginateQueryBuilder(QueryBuilder $queryBuilder, int $perPage, int $page, $sortBy, string $sortDirection): LengthAwarePaginator
     {
-        // Validate parameters
-        $perPage = max(1, min($perPage, static::MAX_PER_PAGE));
-        $page = max(1, $page);
-        $sortBy = ($sortBy !== null and $this->modelHasField($sortBy = camel_case($sortBy))) ? $sortBy : null;
-        $sortDirection = ($sortDirection === 'desc') ? 'desc' : 'asc';
+        // Sanitize pagination parameters
+        $originalSortBy = $sortBy; // Original value without alias prefix
+        list($perPage, $page, $sortBy, $sortDirection) = $this->sanitizePaginationParameter($perPage, $page, $sortBy, $sortDirection);
 
         // Apply sorting parameters
         if ($sortBy !== null)
-            $queryBuilder->addOrderBy("{$this->modelAlias}.$sortBy", strtoupper($sortDirection));
+            $queryBuilder->addOrderBy($sortBy, $sortDirection);
 
         // Get resutls
-        $paginator = \LaravelDoctrine\ORM\Pagination\PaginatorAdapter::fromParams(
-            $queryBuilder->getQuery(),
-            $perPage,
-            $page
-        )->make();
+        $paginator = \LaravelDoctrine\ORM\Pagination\PaginatorAdapter::fromParams($queryBuilder->getQuery(), $perPage, $page)->make();
 
         // Include sorting parameters in query string
         if ($sortBy !== null)
-            $paginator->appends(['sortBy' => $sortBy]);
+            $paginator->appends(['sortBy' => $originalSortBy]);
         if ($sortDirection !== 'asc')
             $paginator->appends(['sortDir' => $sortDirection]);
 

@@ -33,7 +33,7 @@
                 @sortableHeaders(['headers' => [
                     'name' => _('Name'),
                     'email' => _('E-mail'),
-                    'role' => _('Role'),
+                    'role.name' => _('Role'),
                     'createdAt' => _('Created'),
                     'updatedAt' => _('Updated'),
                 ]])
