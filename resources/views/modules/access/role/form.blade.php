@@ -1,10 +1,15 @@
-@input(['name' => 'name', 'value' => old('name', $role['name']), 'attributes' => 'required autofocus autocomplete=off'])
-    {{ _('Name') }}
-@endinput
-
-@input(['name' => 'description', 'value' => old('description', $role['description']), 'attributes' => 'autocomplete=off'])
-    {{ _('Description') }}
-@endinput
+<div class="row">
+    <div class="col-md">
+        @input(['name' => 'name', 'value' => old('name', $role['name']), 'attributes' => 'required autofocus autocomplete=off'])
+            {{ _('Name') }}
+        @endinput
+    </div>
+    <div class="col-md">
+        @input(['name' => 'description', 'value' => old('description', $role['description']), 'attributes' => 'autocomplete=off'])
+            {{ _('Description') }}
+        @endinput
+    </div>
+</div>
 
 <h3 class="display-4">{{ _('Permissions') }}</h3>
 @if($errors->has('permissions'))
