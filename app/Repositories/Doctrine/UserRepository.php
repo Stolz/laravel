@@ -39,7 +39,7 @@ class UserRepository extends SoftDeletableModelRepository implements UserReposit
     }
 
     /**
-     * Get the a query builder with a search criteria applied to it.
+     * Get a query builder with a search criteria applied to it.
      *
      * @param  array $criteria
      * @return \Doctrine\ORM\QueryBuilder
@@ -65,7 +65,7 @@ class UserRepository extends SoftDeletableModelRepository implements UserReposit
     }
 
     /**
-     * Get the a query builder with joined related objects required for pagination and a search criteria applied to it.
+     * Get a query builder with joined related objects required for pagination and a search criteria applied to it.
      *
      * @param  array $criteria
      * @return \Doctrine\ORM\QueryBuilder
