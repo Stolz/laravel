@@ -3,10 +3,10 @@
 @section('page.title', _('Access module'))
 
 @section('main')
-<div class="row justify-content-start">
+<div class="row">
 
     @can('list', 'App\Models\User')
-    <div class="col-md-2 col-lg-3 col-xg-4">
+    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
         <div class="card mt-3">
             <div class="card-body">
                 <h5 class="card-title">{{ _('Users submodule') }}</h5>
@@ -23,7 +23,7 @@
     @endcan
 
     @can('list', 'App\Models\Role')
-    <div class="col-md-2 col-lg-3 col-xg-4">
+    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
         <div class="card mt-3">
             <div class="card-body">
                 <h5 class="card-title">{{ _('Roles submodule') }}</h5>

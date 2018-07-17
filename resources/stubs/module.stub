@@ -3,7 +3,7 @@
 @section('page.title', _('Bogus module'))
 
 @section('main')
-<div class="row justify-content-start">
+<div class="row">
 
 </div>
 @endsection
