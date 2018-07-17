@@ -3,13 +3,13 @@
 @section('page.title', _('Access module'))
 
 @section('main')
-<div class="row">
+<div class="row justify-content-center">
 
     @can('list', 'App\Models\User')
     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
         <div class="card mt-3">
             <div class="card-body">
-                <h5 class="card-title">{{ _('Users submodule') }}</h5>
+                <h5 class="card-title text-truncate">{{ _('Users submodule') }}</h5>
                 <p class="card-text">{{ _('Available options for your role') }}</p>
                 @can('list', 'App\Models\User')
                     <a class="btn btn-sm btn-outline-primary" href="{{ route('access.user.index') }}">{{ _('List all') }}</a>
@@ -26,7 +26,7 @@
     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
         <div class="card mt-3">
             <div class="card-body">
-                <h5 class="card-title">{{ _('Roles submodule') }}</h5>
+                <h5 class="card-title text-truncate">{{ _('Roles submodule') }}</h5>
                 <p class="card-text">{{ _('Available options for your role') }}</p>
                 @can('list', 'App\Models\Role')
                     <a class="btn btn-sm btn-outline-primary" href="{{ route('access.role.index') }}">{{ _('List all') }}</a>
