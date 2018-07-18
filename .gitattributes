@@ -1,7 +1,6 @@
 * text=auto
-CHANGELOG.md export-ignore
-public/css/*.css linguist-vendored
-public/css/app.css binary
-public/js/*.js linguist-vendored
-public/js/app.js binary
+package-lock.json binary
+public/css/*.css linguist-vendored binary
+public/js/*.js linguist-vendored binary
+public/js/*/*.js linguist-vendored binary
 public/mix-manifest.json binary
