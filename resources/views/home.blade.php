@@ -24,7 +24,7 @@
     <div class="row justify-content-center">
 
         @can('access', 'module')
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-flex align-items-stretch">
             <div class="card mt-3">
                 <div class="card-body">
                     <h5 class="card-title text-truncate">{{ _('Access module') }}</h5>
@@ -36,7 +36,7 @@
         @endcan
 
         @can('master', 'module')
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-flex align-items-stretch">
             <div class="card mt-3">
                 <div class="card-body">
                     <h5 class="card-title text-truncate">{{ _('Master module') }}</h5>

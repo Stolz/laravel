@@ -6,7 +6,7 @@
 <div class="row justify-content-center">
 
     @can('list', 'App\Models\User')
-    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-flex align-items-stretch">
         <div class="card mt-3">
             <div class="card-body">
                 <h5 class="card-title text-truncate">{{ _('Users submodule') }}</h5>
@@ -23,7 +23,7 @@
     @endcan
 
     @can('list', 'App\Models\Role')
-    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-flex align-items-stretch">
         <div class="card mt-3">
             <div class="card-body">
                 <h5 class="card-title text-truncate">{{ _('Roles submodule') }}</h5>
