@@ -16,7 +16,7 @@
             $value = ($option instanceof \App\Models\Model) ? $option['id'] : $value;
             $selectCurrent = (is_scalar($selected)) ? $selected == $value : $selected['id'] == $value;
             ?>
-            <option value="{{ $value }}" @if($selectCurrent) selected @endif>
+            <option value="{{ $value }}" @if($selectCurrent) selected @endif @empty($value) disabled @endempty>
                 {{ $option }}
             </option>
         @endforeach
