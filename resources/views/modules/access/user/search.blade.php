@@ -4,7 +4,7 @@
 
     @select(['name' => 'search[role]', 'options' => $roles, 'selected' => request()->input('search.role')])
         {{ _('Role') }}
-    @endinput
+    @endselect
 
     @input(['name' => 'search[name]', 'value' => request()->input('search.name')])
         {{ _('Name') }}

@@ -1,6 +1,6 @@
 @select(['name' => 'role', 'options' => $roles, 'selected' => old('role', $user['role']), 'attributes' => 'required'])
     {{ _('Role') }}
-@endinput
+@endselect
 
 @input(['name' => 'name', 'value' => old('name', $user['name']), 'attributes' => 'required autofocus autocomplete=off'])
     {{ _('Name') }}

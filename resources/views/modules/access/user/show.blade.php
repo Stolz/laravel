@@ -13,11 +13,13 @@
             <dd>{{ $user['email'] }}</dd>
 
             <dt>{{ _('Role') }}</dt>
-            @can('view', $user['role'])
-                <dd><a href="{{ route('access.role.show', [$user['role']['id']]) }}">{{ $user['role'] }}</a></dd>
-            @else
-                <dd>{{ $user['role'] }}</dd>
-            @endcan
+            <dd>
+                @can('view', $user['role'])
+                    <a href="{{ route('access.role.show', [$user['role']['id']]) }}">{{ $user['role'] }}</a>
+                @else
+                    {{ $user['role'] }}
+                @endcan
+            </dd>
 
             @if (! empty($user['createdAt']))
                 <dt>{{ _('Created') }}</dt>
