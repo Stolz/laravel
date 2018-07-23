@@ -75,8 +75,12 @@ class UserRepository extends SoftDeletableModelRepository implements UserReposit
     {
         $queryBuilder = $this->getSearchAwareQueryBuilder($criteria);
 
-        // To be able to sort by role name
-        $queryBuilder->innerJoin("{$this->modelAlias}.role", 'role');
+        // To be able to sort by relations we need to join them but some may already
+        // have been added by the search aware QueryBuilder so we need to check first
+        $aliases = $queryBuilder->getAllAliases();
+
+        if ($sortBy === 'role.name' and ! in_array('role', $aliases, true))
+            $queryBuilder->innerJoin("{$this->modelAlias}.role", 'role');
 
         return $queryBuilder;
     }
