@@ -4,6 +4,7 @@ namespace App\Repositories\Doctrine;
 
 use App\Repositories\Contracts\UserRepository as UserRepositoryContract;
 use App\Repositories\Traits\UserProvider;
+use Doctrine\ORM\QueryBuilder;
 
 class UserRepository extends SoftDeletableModelRepository implements UserRepositoryContract
 {
@@ -44,7 +45,7 @@ class UserRepository extends SoftDeletableModelRepository implements UserReposit
      * @param  array $criteria
      * @return \Doctrine\ORM\QueryBuilder
      */
-    protected function getSearchAwareQueryBuilder(array $criteria): \Doctrine\ORM\QueryBuilder
+    protected function getSearchAwareQueryBuilder(array $criteria): QueryBuilder
     {
         $queryBuilder = $this->getQueryBuilder();
 
@@ -70,7 +71,7 @@ class UserRepository extends SoftDeletableModelRepository implements UserReposit
      * @param  array $criteria
      * @return \Doctrine\ORM\QueryBuilder
      */
-    protected function getPaginateSearchAwareQueryBuilder(array $criteria): \Doctrine\ORM\QueryBuilder
+    protected function getPaginateSearchAwareQueryBuilder(array $criteria): QueryBuilder
     {
         $queryBuilder = $this->getSearchAwareQueryBuilder($criteria);
 

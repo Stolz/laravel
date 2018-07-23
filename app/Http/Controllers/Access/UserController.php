@@ -56,6 +56,19 @@ class UserController extends Controller
     }
 
     /**
+     * Display the specified user.
+     *
+     * @param  \App\Http\Requests\User\View $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function show(\App\Http\Requests\User\View $request, User $user)
+    {
+        // Load view
+        return view('modules.access.user.show')->withUser($user);
+    }
+
+    /**
      * Show the form for creating a new user.
      *
      * @return \Illuminate\Http\Response
@@ -71,6 +84,22 @@ class UserController extends Controller
     }
 
     /**
+     * Show the form for editing the specified user.
+     *
+     * @param  \App\Http\Requests\User\View $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(\App\Http\Requests\User\View $request, User $user)
+    {
+        // Load view
+        return view('modules.access.user.update')->with([
+            'roles' => $this->roleRepository->all(),
+            'user' => $user,
+        ]);
+    }
+
+    /**
      * Store a newly created user in storage.
      *
      * @param  \App\Http\Requests\User\Create $request
@@ -79,8 +108,9 @@ class UserController extends Controller
     public function store(\App\Http\Requests\User\Create $request)
     {
         // Get request input
-        $request->merge(['role' => $this->roleRepository->find($request->role)]);
-        $attributes = $request->exceptNonFillable();
+        $attributes = $request->merge([
+            'role' => $this->roleRepository->find($request->role),
+        ])->exceptNonFillable();
 
         // Create a user with the provided input
         $user = User::make($attributes);
@@ -102,35 +132,6 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified user.
-     *
-     * @param  \App\Http\Requests\User\View $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(\App\Http\Requests\User\View $request, User $user)
-    {
-        // Load view
-        return view('modules.access.user.show')->withUser($user);
-    }
-
-    /**
-     * Show the form for editing the specified user.
-     *
-     * @param  \App\Http\Requests\User\View $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(\App\Http\Requests\User\View $request, User $user)
-    {
-        // Load view
-        return view('modules.access.user.update')->with([
-            'roles' => $this->roleRepository->all(),
-            'user' => $user,
-        ]);
-    }
-
-    /**
      * Update the specified user in storage.
      *
      * @param  \App\Http\Requests\User\Update $request
@@ -140,9 +141,10 @@ class UserController extends Controller
     public function update(\App\Http\Requests\User\Update $request, User $user)
     {
         // Get request input
-        $request->merge(['role' => $this->roleRepository->find($request->role)]);
         $except = ($request->filled('password')) ? [] : ['password'];
-        $attributes = $request->exceptNonFillable($except);
+        $attributes = $request->merge([
+            'role' => $this->roleRepository->find($request->role),
+        ])->exceptNonFillable($except);
 
         // Apply changes to the user
         $user->set($attributes);

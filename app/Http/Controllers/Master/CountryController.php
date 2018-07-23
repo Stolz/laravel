@@ -44,6 +44,19 @@ class CountryController extends Controller
     }
 
     /**
+     * Display the specified country.
+     *
+     * @param  \App\Http\Requests\Country\View $request
+     * @param  \App\Models\Country  $country
+     * @return \Illuminate\Http\Response
+     */
+    public function show(\App\Http\Requests\Country\View $request, Country $country)
+    {
+        // Load view
+        return view('modules.master.country.show')->withCountry($country);
+    }
+
+    /**
      * Show the form for creating a new country.
      *
      * @return \Illuminate\Http\Response
@@ -55,6 +68,19 @@ class CountryController extends Controller
 
         // Load view
         return view('modules.master.country.create')->withCountry($country);
+    }
+
+    /**
+     * Show the form for editing the specified country.
+     *
+     * @param  \App\Http\Requests\Country\View $request
+     * @param  \App\Models\Country  $country
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(\App\Http\Requests\Country\View $request, Country $country)
+    {
+        // Load view
+        return view('modules.master.country.update')->withCountry($country);
     }
 
     /**
@@ -85,32 +111,6 @@ class CountryController extends Controller
         session()->flash('error', sprintf("Unable to create country '%s'", $country));
 
         return redirect()->back()->withInput();
-    }
-
-    /**
-     * Display the specified country.
-     *
-     * @param  \App\Http\Requests\Country\View $request
-     * @param  \App\Models\Country  $country
-     * @return \Illuminate\Http\Response
-     */
-    public function show(\App\Http\Requests\Country\View $request, Country $country)
-    {
-        // Load view
-        return view('modules.master.country.show')->withCountry($country);
-    }
-
-    /**
-     * Show the form for editing the specified country.
-     *
-     * @param  \App\Http\Requests\Country\View $request
-     * @param  \App\Models\Country  $country
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(\App\Http\Requests\Country\View $request, Country $country)
-    {
-        // Load view
-        return view('modules.master.country.update')->withCountry($country);
     }
 
     /**

@@ -54,6 +54,18 @@ class UserController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Http\Requests\User\View $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(\App\Http\Requests\User\View $request, User $user): JsonResponse
+    {
+        return $this->json($user);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\User\Create $request
@@ -63,8 +75,9 @@ class UserController extends Controller
     public function store(\App\Http\Requests\User\Create $request, \App\Repositories\Contracts\RoleRepository $roleRepository): JsonResponse
     {
         // Get request input
-        $request->merge(['role' => $this->roleRepository->find($request->role)]);
-        $attributes = $request->exceptNonFillable();
+        $attributes = $request->merge([
+            'role' => $this->roleRepository->find($request->role),
+        ])->exceptNonFillable();
 
         // Create a user with the provided input
         $user = User::make($attributes);
@@ -78,18 +91,6 @@ class UserController extends Controller
 
         // Something went wrong
         return $this->json(['created' => false], 500);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Http\Requests\User\View $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function show(\App\Http\Requests\User\View $request, User $user): JsonResponse
-    {
-        return $this->json($user);
     }
 
     /**

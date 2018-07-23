@@ -53,6 +53,19 @@ class RoleController extends Controller
     }
 
     /**
+     * Display the specified role.
+     *
+     * @param  \App\Http\Requests\Role\View $request
+     * @param  \App\Models\Role  $role
+     * @return \Illuminate\Http\Response
+     */
+    public function show(\App\Http\Requests\Role\View $request, Role $role)
+    {
+        // Load view
+        return view('modules.access.role.show')->withRole($role);
+    }
+
+    /**
      * Show the form for creating a new role.
      *
      * @return \Illuminate\Http\Response
@@ -64,6 +77,23 @@ class RoleController extends Controller
             'permissionsTree' => \PermissionsSeeder::tree(),
             'role' => Role::make(),
             'selectedPermissions' => collect(),
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified role.
+     *
+     * @param  \App\Http\Requests\Role\View $request
+     * @param  \App\Models\Role  $role
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(\App\Http\Requests\Role\View $request, Role $role)
+    {
+        // Load view
+        return view('modules.access.role.update')->with([
+            'permissionsTree' => \PermissionsSeeder::tree(),
+            'role' => $role,
+            'selectedPermissions' => $role->getPermissionsNames(),
         ]);
     }
 
@@ -96,36 +126,6 @@ class RoleController extends Controller
         session()->flash('error', sprintf("Unable to create role '%s'", $role));
 
         return redirect()->back()->withInput();
-    }
-
-    /**
-     * Display the specified role.
-     *
-     * @param  \App\Http\Requests\Role\View $request
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function show(\App\Http\Requests\Role\View $request, Role $role)
-    {
-        // Load view
-        return view('modules.access.role.show')->withRole($role);
-    }
-
-    /**
-     * Show the form for editing the specified role.
-     *
-     * @param  \App\Http\Requests\Role\View $request
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(\App\Http\Requests\Role\View $request, Role $role)
-    {
-        // Load view
-        return view('modules.access.role.update')->with([
-            'permissionsTree' => \PermissionsSeeder::tree(),
-            'role' => $role,
-            'selectedPermissions' => $role->getPermissionsNames(),
-        ]);
     }
 
     /**
