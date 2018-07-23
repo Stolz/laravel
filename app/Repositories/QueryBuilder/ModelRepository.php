@@ -4,6 +4,7 @@ namespace App\Repositories\QueryBuilder;
 
 use App\Models\Model;
 use App\Repositories\Contracts\ModelRepository as ModelRepositoryContract;
+use Illuminate\Support\Collection;
 
 abstract class ModelRepository implements ModelRepositoryContract
 {
@@ -171,11 +172,31 @@ abstract class ModelRepository implements ModelRepositoryContract
     /**
      * Retrieve all models.
      *
+     * @param array $orderBy For instance ['createdAt' => 'desc', 'name' => 'asc']
      * @return \Illuminate\Support\Collection of \App\Models\Model
      */
-    public function all(): \Illuminate\Support\Collection
+    public function all(array $orderBy = []): Collection
     {
-        return $this->query()->get()->transform(function ($record) {
+        $query = $this->query();
+
+        foreach ($orderBy as $column => $direction)
+            $query->orderBy($column, $direction);
+
+        return $query->get()->transform(function ($record) {
+            return $this->recordToModel($record);
+        });
+    }
+
+    /**
+     * Retrieve multiple models by the values of a given field.
+     *
+     * @param string $field
+     * @param mixed  $value
+     * @return \Illuminate\Support\Collection of \App\Models\Model
+     */
+    public function getBy($field, $value): Collection
+    {
+        return $this->query()->where($field, $value)->get()->transform(function ($record) {
             return $this->recordToModel($record);
         });
     }

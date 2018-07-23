@@ -4,6 +4,7 @@ namespace App\Repositories\QueryBuilder;
 
 use App\Models\Model;
 use App\Repositories\Contracts\SoftDeletableModelRepository as SoftDeletableModelRepositoryContract;
+use Illuminate\Support\Collection;
 
 abstract class SoftDeletableModelRepository extends ModelRepository implements SoftDeletableModelRepositoryContract
 {
@@ -108,11 +109,31 @@ abstract class SoftDeletableModelRepository extends ModelRepository implements S
     /**
      * Retrieve all models.
      *
+     * @param array $orderBy For instance ['createdAt' => 'desc', 'name' => 'asc']
      * @return \Illuminate\Support\Collection of \App\Models\Model
      */
-    public function all(): \Illuminate\Support\Collection
+    public function all(array $orderBy = []): Collection
     {
-        return $this->softDeleteAwareQuery()->get()->transform(function ($record) {
+        $query = $this->softDeleteAwareQuery();
+
+        foreach ($orderBy as $column => $direction)
+            $query->orderBy($column, $direction);
+
+        return $query->get()->transform(function ($record) {
+            return $this->recordToModel($record);
+        });
+    }
+
+    /**
+     * Retrieve multiple models by the values of a given field.
+     *
+     * @param string $field
+     * @param mixed  $value
+     * @return \Illuminate\Support\Collection of \App\Models\Model
+     */
+    public function getBy($field, $value): Collection
+    {
+        return $this->softDeleteAwareQuery()->where($field, $value)->get()->transform(function ($record) {
             return $this->recordToModel($record);
         });
     }
