@@ -102,13 +102,13 @@ class CountryController extends Controller
 
         // Success
         if ($created) {
-            session()->flash('success', sprintf("Country '%s' successfully created", $country));
+            session()->flash('success', sprintf(_("Country '%s' successfully created"), $country));
 
             return redirect()->route('master.country.index');
         }
 
         // Something went wrong
-        session()->flash('error', sprintf("Unable to create country '%s'", $country));
+        session()->flash('error', sprintf(_("Unable to create country '%s'"), $country));
 
         return redirect()->back()->withInput();
     }
@@ -133,13 +133,13 @@ class CountryController extends Controller
 
         // Success
         if ($updated) {
-            session()->flash('success', sprintf("Country '%s' successfully updated", $country));
+            session()->flash('success', sprintf(_("Country '%s' successfully updated"), $country));
 
             return redirect()->route('master.country.show', $country->getId());
         }
 
         // Something went wrong
-        session()->flash('error', sprintf("Unable to update country '%s'", $country));
+        session()->flash('error', sprintf(_("Unable to update country '%s'"), $country));
 
         return redirect()->back()->withInput();
     }
@@ -158,9 +158,9 @@ class CountryController extends Controller
 
         // Set feedback message
         if ($deleted) {
-            session()->flash('success', sprintf("Country '%s' successfully deleted", $country));
+            session()->flash('success', sprintf(_("Country '%s' successfully deleted"), $country));
         } else {
-            session()->flash('error', sprintf("Unable to delete country '%s'", $country));
+            session()->flash('error', sprintf(_("Unable to delete country '%s'"), $country));
         }
 
         // Return to the requesting page

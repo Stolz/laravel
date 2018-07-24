@@ -117,13 +117,13 @@ class RoleController extends Controller
 
         // Success
         if ($created) {
-            session()->flash('success', sprintf("Role '%s' successfully created", $role));
+            session()->flash('success', sprintf(_("Role '%s' successfully created"), $role));
 
             return redirect()->route('access.role.index');
         }
 
         // Something went wrong
-        session()->flash('error', sprintf("Unable to create role '%s'", $role));
+        session()->flash('error', sprintf(_("Unable to create role '%s'"), $role));
 
         return redirect()->back()->withInput();
     }
@@ -150,13 +150,13 @@ class RoleController extends Controller
 
         // Success
         if ($updated and $permissionsUpdated) {
-            session()->flash('success', sprintf("Role '%s' successfully updated", $role));
+            session()->flash('success', sprintf(_("Role '%s' successfully updated"), $role));
 
             return redirect()->route('access.role.show', $role->getId());
         }
 
         // Something went wrong
-        session()->flash('error', sprintf("Unable to update role '%s'", $role));
+        session()->flash('error', sprintf(_("Unable to update role '%s'"), $role));
 
         return redirect()->back()->withInput();
     }
@@ -175,9 +175,9 @@ class RoleController extends Controller
 
         // Set feedback message
         if ($deleted) {
-            session()->flash('success', sprintf("Role '%s' successfully deleted", $role));
+            session()->flash('success', sprintf(_("Role '%s' successfully deleted"), $role));
         } else {
-            session()->flash('error', sprintf("Unable to delete role '%s'", $role));
+            session()->flash('error', sprintf(_("Unable to delete role '%s'"), $role));
         }
 
         // Return to the requesting page

@@ -120,13 +120,13 @@ class UserController extends Controller
 
         // Success
         if ($created) {
-            session()->flash('success', sprintf("User '%s' successfully created", $user));
+            session()->flash('success', sprintf(_("User '%s' successfully created"), $user));
 
             return redirect()->route('access.user.index');
         }
 
         // Something went wrong
-        session()->flash('error', sprintf("Unable to create user '%s'", $user));
+        session()->flash('error', sprintf(_("Unable to create user '%s'"), $user));
 
         return redirect()->back()->exceptInput('password');
     }
@@ -154,13 +154,13 @@ class UserController extends Controller
 
         // Success
         if ($updated) {
-            session()->flash('success', sprintf("User '%s' successfully updated", $user));
+            session()->flash('success', sprintf(_("User '%s' successfully updated"), $user));
 
             return redirect()->route('access.user.show', $user->getId());
         }
 
         // Something went wrong
-        session()->flash('error', sprintf("Unable to update user '%s'", $user));
+        session()->flash('error', sprintf(_("Unable to update user '%s'"), $user));
 
         return redirect()->back()->exceptInput('password');
     }
@@ -179,9 +179,9 @@ class UserController extends Controller
 
         // Set feedback message
         if ($deleted) {
-            session()->flash('success', sprintf("User '%s' successfully deleted", $user));
+            session()->flash('success', sprintf(_("User '%s' successfully deleted"), $user));
         } else {
-            session()->flash('error', sprintf("Unable to delete user '%s'", $user));
+            session()->flash('error', sprintf(_("Unable to delete user '%s'"), $user));
         }
 
         // Return to the requesting page
