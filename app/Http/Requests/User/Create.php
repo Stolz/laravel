@@ -4,7 +4,6 @@ namespace App\Http\Requests\User;
 
 use App\Http\Requests\Request;
 use App\Models\User;
-use App\Repositories\Contracts\RoleRepository;
 
 class Create extends Request
 {
