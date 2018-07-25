@@ -64,6 +64,7 @@ On production environment
 	php artisan config:clear
 	php artisan route:clear
 	php artisan cache:clear
+	php artisan view:clear
 	php artisan doctrine:clear:metadata:cache
 	php artisan doctrine:clear:query:cache
 	php artisan doctrine:clear:result:cache
