@@ -2,10 +2,10 @@
     {{ _('Role') }}
 @endselect
 
-@input(['name' => 'name', 'value' => old('name', $user['name']), 'attributes' => 'required autofocus autocomplete=off'])
+@input(['name' => 'name', 'value' => old('name', $user['name']), 'attributes' => 'required autofocus'])
     {{ _('Name') }}
 @endinput
 
-@input(['type' => 'email', 'name' => 'email', 'value' => old('email', $user['email']), 'attributes' => 'required autocomplete=off'])
+@input(['type' => 'email', 'name' => 'email', 'value' => old('email', $user['email']), 'attributes' => 'required'])
     {{ _('E-mail') }}
 @endinput

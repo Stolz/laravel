@@ -3,7 +3,7 @@
 @section('page.title', _('Create role'))
 
 @section('main')
-    <form method="post" action="{{ route('access.role.store') }}" role="form">
+    <form method="post" action="{{ route('access.role.store') }}" role="form" autocomplete="off">
         @csrf
         @include('modules.access.role.form')
 

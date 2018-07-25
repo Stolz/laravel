@@ -3,7 +3,7 @@
 @section('page.title', _('Update role'))
 
 @section('main')
-    <form method="post" action="{{ route('access.role.update', $role['id']) }}" role="form">
+    <form method="post" action="{{ route('access.role.update', $role['id']) }}" role="form" autocomplete="off">
         @csrf @method('put')
         @include('modules.access.role.form')
 

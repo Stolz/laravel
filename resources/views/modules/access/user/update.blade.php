@@ -6,11 +6,11 @@
 <div class="row justify-content-center">
     <div class="col-sm-9 col-md-7 col-lg-5 col-xl-4">
 
-        <form method="post" action="{{ route('access.user.update', $user['id']) }}" role="form">
+        <form method="post" action="{{ route('access.user.update', $user['id']) }}" role="form" autocomplete="off">
             @csrf @method('put')
             @include('modules.access.user.form')
 
-            @input(['type' => 'password', 'name' => 'password', 'attributes' => 'autocomplete=off'])
+            @input(['type' => 'password', 'name' => 'password', 'attributes' => 'autocomplete=new-password'])
                 {{ _('Password') }}
                 @slot('help')
                     {{ _("Leave it blank if you don't want to update the password") }}

@@ -6,7 +6,7 @@
 <div class="row justify-content-center">
     <div class="col-sm-9 col-md-7 col-lg-5 col-xl-4">
 
-        <form method="post" action="{{ route('password.request') }}">
+        <form method="post" action="{{ route('password.request') }}" role="form" autocomplete="off">
             <input type="hidden" name="token" value="{{ $token }}">
             @csrf
 

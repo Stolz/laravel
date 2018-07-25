@@ -12,7 +12,7 @@
             @endalert
         @endif
 
-        <form method="post" action="{{ route('password.email') }}">
+        <form method="post" action="{{ route('password.email') }}" role="form" autocomplete="off">
             @csrf
 
             @input(['type' => 'email', 'name' => 'email', 'value' => old('email'), 'attributes' => 'required autofocus'])

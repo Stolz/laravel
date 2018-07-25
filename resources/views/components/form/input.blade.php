@@ -11,7 +11,7 @@
         name="{{ $name }}"
         class="form-control {{ $class or null }} @if($errors->has($name)) is-invalid @endif"
         value="{{ $value or null }}"
-        {{ $attributes or null }} {{-- NOTE: To pass attributes with value do not use quotes. i.e: autocomplete=off --}}
+        {{ $attributes or null }} {{-- NOTE: To pass attributes with value do not use quotes. i.e: autocomplete=off min=0 max=1 --}}
     >
 
     @if($errors->has($name))

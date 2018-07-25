@@ -6,7 +6,7 @@
 <div class="row justify-content-center">
     <div class="col-sm-9 col-md-7 col-lg-5 col-xl-4">
 
-        <form method="post" action="{{ route('bogus.dummy.update', $dummy['id']) }}" role="form">
+        <form method="post" action="{{ route('bogus.dummy.update', $dummy['id']) }}" role="form" autocomplete="off">
             @csrf @method('put')
             @include('modules.bogus.dummy.form')
 

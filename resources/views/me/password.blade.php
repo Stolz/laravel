@@ -8,18 +8,18 @@
         <form method="post" action="{{ route('me.password.change') }}" autocomplete="off">
             @csrf
 
-            @input(['type' => 'password', 'name' => 'password', 'attributes' => 'required autofocus'])
+            @input(['type' => 'password', 'name' => 'password', 'attributes' => 'required autofocus autocomplete=new-password'])
                 {{ _('Current password') }}
             @endinput
 
-            @input(['type' => 'password', 'name' => 'new_password', 'attributes' => 'required'])
+            @input(['type' => 'password', 'name' => 'new_password', 'attributes' => 'required autocomplete=new-password'])
                 {{ _('New password') }}
                 @slot('hint')
                     {{ sprintf(_('Your password must be at least %d characters long'), \App\Models\User::MIN_PASSWORD_LENGTH) }}
                 @endslot
             @endinput
 
-            @input(['type' => 'password', 'name' => 'new_password_confirmation', 'attributes' => 'required'])
+            @input(['type' => 'password', 'name' => 'new_password_confirmation', 'attributes' => 'required autocomplete=new-password'])
                 {{ _('Repeat new password') }}
             @endinput
 

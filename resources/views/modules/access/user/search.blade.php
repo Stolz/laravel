@@ -1,6 +1,6 @@
 <h4 class="display-4">{{ _('Search') }}</h4>
 
-<form method="get" role="form">
+<form method="get" role="search" autocomplete="off">
 
     @select(['name' => 'search[role]', 'options' => $roles, 'selected' => request()->input('search.role')])
         {{ _('Role') }}

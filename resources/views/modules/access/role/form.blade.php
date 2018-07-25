@@ -1,11 +1,11 @@
 <div class="row">
     <div class="col-md">
-        @input(['name' => 'name', 'value' => old('name', $role['name']), 'attributes' => 'required autofocus autocomplete=off'])
+        @input(['name' => 'name', 'value' => old('name', $role['name']), 'attributes' => 'required autofocus'])
             {{ _('Name') }}
         @endinput
     </div>
     <div class="col-md">
-        @input(['name' => 'description', 'value' => old('description', $role['description']), 'attributes' => 'autocomplete=off'])
+        @input(['name' => 'description', 'value' => old('description', $role['description'])])
             {{ _('Description') }}
         @endinput
     </div>
