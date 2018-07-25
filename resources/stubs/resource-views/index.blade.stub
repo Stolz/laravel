@@ -4,21 +4,23 @@
 
 @section('main')
     @if($dummies->isEmpty())
-        @alert(['type' => 'info'])
+        @noResultsAlert(['reset' => route('bogus.dummy.index TODO remove if not searchable')])
             {{ _('No dummies found') }}
-        @endalert
+        @endnoResultsAlert
     @else
         @table
             @slot('caption')
-                {{ sprintf(_('Showing results %d to %d out of %d'), $dummies->firstItem(), $dummies->lastItem(), $dummies->total()) }}
+                @tableCaption(['paginator' => $dummies, 'reset' => route('bogus.dummy.index TODO remove if not searchable')])
+                    {{ _('Showing dummies %d to %d out of %d') }}
+                @endtableCaption
             @endslot
 
             @slot('header')
             <tr>
                 <th>{{ _('Actions') }}</th>
-                @sortableHeaders(['headers' => [
+                @tableHeaders(['headers' => [
                     'name' => _('Name'),
-                ]])@endsortableHeaders
+                ]]) @endtableHeaders
             </tr>
             @endslot
 

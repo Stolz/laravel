@@ -45,13 +45,15 @@ class AppServiceProvider extends ServiceProvider
 
         // Custom Blade components
         $components = [
-            'alert' => 'alert',
+            'alert.alert' => 'alert',
+            'alert.no-results' => 'noResultsAlert',
             'form.checkbox' => 'checkbox',
             'form.input' => 'input',
             'form.radios' => 'radios',
             'form.select' => 'select',
-            'modals.delete-model' => 'deleteModelModal',
-            'table.sortable-headers' => 'sortableHeaders',
+            'modal.delete-model' => 'deleteModelModal',
+            'table.pagination-caption' => 'tableCaption',
+            'table.sortable-headers' => 'tableHeaders',
             'table.table' => 'table',
         ];
         foreach ($components as $path => $name) {

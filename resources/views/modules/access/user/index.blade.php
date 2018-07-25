@@ -8,36 +8,27 @@
 
 @section('main')
     @if($users->isEmpty())
-        @alert(['type' => 'info'])
+        @noResultsAlert(['reset' => route('access.user.index')])
             {{ _('No users found') }}
-            @if(request()->has('search'))
-                .  <a class="alert-link" href="{{ route('access.user.index') }}">{{ _('Reset search options') }}</a>
-                {{ _('or') }}
-                <a href="#" onclick="return false" class="alert-link" data-toggle="drawer" data-target="#aside">{{ _('try with with different ones') }}</a>
-            @endif
-        @endalert
+        @endnoResultsAlert
     @else
         @table
             @slot('caption')
-                {{ sprintf(_('Showing results %d to %d out of %d'), $users->firstItem(), $users->lastItem(), $users->total()) }}
-                @if(request()->has('search'))
-                    . <a class="alert-link" href="{{ route('access.user.index') }}">{{ _('Reset search options') }}</a>
-                    {{ _('or') }}
-                    <a href="#" onclick="return false" class="alert-link" data-toggle="drawer" data-target="#aside">{{ _('try with with different ones') }}</a>
-                @endif
+                @tableCaption(['paginator' => $users, 'reset' => route('access.user.index')])
+                    {{ _('Showing users %d to %d out of %d') }}
+                @endtableCaption
             @endslot
 
             @slot('header')
             <tr>
                 <th>{{ _('Actions') }}</th>
-                @sortableHeaders(['headers' => [
+                @tableHeaders(['headers' => [
                     'name' => _('Name'),
                     'email' => _('E-mail'),
                     'role.name' => _('Role'),
                     'createdAt' => _('Created'),
                     'updatedAt' => _('Updated'),
-                ]])
-                @endsortableHeaders
+                ]]) @endtableHeaders
             </tr>
             @endslot
 

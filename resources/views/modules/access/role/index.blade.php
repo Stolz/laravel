@@ -4,25 +4,26 @@
 
 @section('main')
     @if($roles->isEmpty())
-        @alert(['type' => 'info'])
+        @noResultsAlert
             {{ _('No roles found') }}
-        @endalert
+        @endnoResultsAlert
     @else
         @table
             @slot('caption')
-                {{ sprintf(_('Showing results %d to %d out of %d'), $roles->firstItem(), $roles->lastItem(), $roles->total()) }}
+                @tableCaption(['paginator' => $roles])
+                    {{ _('Showing roles %d to %d out of %d') }}
+                @endtableCaption
             @endslot
 
             @slot('header')
             <tr>
                 <th>{{ _('Actions') }}</th>
-                @sortableHeaders(['headers' => [
+                @tableHeaders(['headers' => [
                     'name' => _('Name'),
                     'description' => _('Description'),
                     'createdAt' => _('Created'),
                     'updatedAt' => _('Updated'),
-                ]])
-                @endsortableHeaders
+                ]]) @endtableHeaders
             </tr>
             @endslot
 

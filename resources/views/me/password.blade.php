@@ -5,7 +5,7 @@
 @section('main')
 <div class="row justify-content-center">
     <div class="col-sm-9 col-md-7 col-lg-5 col-xl-4">
-        <form method="post" action="{{ route('me.password.change') }}" autocomplete="off">
+        <form method="post" action="{{ route('me.password.change') }}" role="form" autocomplete="off">
             @csrf
 
             @input(['type' => 'password', 'name' => 'password', 'attributes' => 'required autofocus autocomplete=new-password'])

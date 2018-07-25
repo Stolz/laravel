@@ -4,19 +4,23 @@
 
 @section('main')
     @if($countries->isEmpty())
-        @alert(['type' => 'info'])
+        @noResultsAlert
             {{ _('No countries found') }}
-        @endalert
+        @endnoResultsAlert
     @else
         @table
             @slot('caption')
-                {{ sprintf(_('Showing results %d to %d out of %d'), $countries->firstItem(), $countries->lastItem(), $countries->total()) }}
+                @tableCaption(['paginator' => $countries])
+                    {{ _('Showing countries %d to %d out of %d') }}
+                @endtableCaption
             @endslot
 
             @slot('header')
             <tr>
                 <th>{{ _('Actions') }}</th>
-                @sortableHeaders(['headers' => ['name' => _('Name')]])@endsortableHeaders
+                @tableHeaders(['headers' => [
+                    'name' => _('Name'),
+                ]]) @endtableHeaders
             </tr>
             @endslot
 
