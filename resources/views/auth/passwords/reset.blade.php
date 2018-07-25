@@ -14,7 +14,7 @@
                 {{ _('E-Mail') }}
             @endinput
 
-            @input(['type' => 'password', 'name' => 'password', 'attributes' => 'required autofocus'])
+            @input(['type' => 'password', 'name' => 'password', 'attributes' => 'required'])
                 {{ _('New password') }}
                 @slot('hint')
                     {{ sprintf(_('Your password must be at least %d characters long'), \App\Models\User::MIN_PASSWORD_LENGTH) }}
