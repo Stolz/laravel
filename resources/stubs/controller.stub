@@ -160,14 +160,16 @@ class DummyController extends Controller
         // Attempt to delete dummy
         $deleted = $this->dummyRepository->delete($dummy);
 
-        // Set feedback message
+        // Success
         if ($deleted) {
             session()->flash('success', sprintf(_("Dummy '%s' successfully deleted"), $dummy));
-        } else {
-            session()->flash('error', sprintf(_("Unable to delete dummy '%s'"), $dummy));
+
+            return ($request->input('_from') === 'bogus.dummy.show') ? redirect()->route('bogus.dummy.index') : redirect()->back();
         }
 
-        // Return to the requesting page
+        // Something went wrong
+        session()->flash('error', sprintf(_("Unable to delete dummy '%s'"), $dummy));
+
         return redirect()->back();
     }
 }

@@ -177,14 +177,16 @@ class UserController extends Controller
         // Attempt to delete user
         $deleted = $this->userRepository->delete($user);
 
-        // Set feedback message
+        // Success
         if ($deleted) {
             session()->flash('success', sprintf(_("User '%s' successfully deleted"), $user));
-        } else {
-            session()->flash('error', sprintf(_("Unable to delete user '%s'"), $user));
+
+            return ($request->input('_from') === 'access.user.show') ? redirect()->route('access.user.index') : redirect()->back();
         }
 
-        // Return to the requesting page
+        // Something went wrong
+        session()->flash('error', sprintf(_("Unable to delete user '%s'"), $user));
+
         return redirect()->back();
     }
 }

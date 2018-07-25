@@ -173,14 +173,16 @@ class RoleController extends Controller
         // Attempt to delete role
         $deleted = $this->roleRepository->delete($role);
 
-        // Set feedback message
+        // Success
         if ($deleted) {
             session()->flash('success', sprintf(_("Role '%s' successfully deleted"), $role));
-        } else {
-            session()->flash('error', sprintf(_("Unable to delete role '%s'"), $role));
+
+            return ($request->input('_from') === 'access.role.show') ? redirect()->route('access.role.index') : redirect()->back();
         }
 
-        // Return to the requesting page
+        // Something went wrong
+        session()->flash('error', sprintf(_("Unable to delete role '%s'"), $role));
+
         return redirect()->back();
     }
 }

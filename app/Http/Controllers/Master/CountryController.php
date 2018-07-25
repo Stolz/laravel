@@ -156,14 +156,16 @@ class CountryController extends Controller
         // Attempt to delete country
         $deleted = $this->countryRepository->delete($country);
 
-        // Set feedback message
+        // Success
         if ($deleted) {
             session()->flash('success', sprintf(_("Country '%s' successfully deleted"), $country));
-        } else {
-            session()->flash('error', sprintf(_("Unable to delete country '%s'"), $country));
+
+            return ($request->input('_from') === 'master.country.show') ? redirect()->route('master.country.index') : redirect()->back();
         }
 
-        // Return to the requesting page
+        // Something went wrong
+        session()->flash('error', sprintf(_("Unable to delete country '%s'"), $country));
+
         return redirect()->back();
     }
 }
