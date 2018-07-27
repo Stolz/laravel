@@ -4,7 +4,8 @@
         id="{{ $id or $name }}"
         name="{{ $name }}"
         class="custom-control-input {{ $class or null }} @if($errors->has($name)) is-invalid @endif"
-        @if(! empty($checked)) checked @endif>
+        @if(! empty($checked)) checked @endif
+        {{ $attributes or null }} {{-- NOTE: To pass attributes with value do not use quotes. i.e: value=1 --}}>
     <label
         for="{{ $id or $name }}"
         class="custom-control-label {{ $labelClass or null }}">
