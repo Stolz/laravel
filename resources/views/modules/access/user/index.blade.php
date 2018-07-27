@@ -17,6 +17,7 @@
                 @tableCaption(['paginator' => $users, 'reset' => route('access.user.index')])
                     {{ _('Showing users %d to %d out of %d') }}
                 @endtableCaption
+                <a id="colorize" href="javascript:void(0)">{{ _('Colorize results') }}</a>
             @endslot
 
             @slot('header')
@@ -55,7 +56,7 @@
                 </td>
                 <td>{{ $user['name'] }}</td>
                 <td>{{ $user['email'] }}</td>
-                <td>{{ $user['role'] }}</td>
+                <td>@colorize {{ $user['role'] }} @endcolorize</td>
                 <td>{{ $user['createdAt'] ? $user['createdAt']->diffForHumans() : null }}</td>
                 <td>{{ $user['updatedAt'] ? $user['updatedAt']->diffForHumans() : null }}</td>
             </tr>

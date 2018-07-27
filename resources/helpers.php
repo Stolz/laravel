@@ -113,6 +113,27 @@ if (! function_exists('convert_date_to_string')) {
     }
 }
 
+if (! function_exists('colorize')) {
+    /**
+     * Return a unique and consistent HEX color code for the given text.
+     *
+     * You can enforce RGB values (0-255) to fall within a certain range to prevent colors from being too bright or too dark.
+     *
+     * @param  string $text
+     * @param  int $min  Minimum normalized decimal value
+     * @param  int $max  Maximum normalized decimal value
+     * @return string
+     */
+    function colorize($text, int $min = 0, $max = 255): string
+    {
+        static $colorizer;
+        if ($colorizer === null)
+            $colorizer = new \PHLAK\Colorizer\Colorize();
+
+        return $colorizer->text((string) $text)->normalize($min, $max)->hex();
+    }
+}
+
 if (! function_exists('previous_index_url')) {
     /**
      * Get the URL of the previous resource listing.

@@ -47,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
         $components = [
             'alert.alert' => 'alert',
             'alert.no-results' => 'noResultsAlert',
+            'colorize' => 'colorize',
             'form.checkbox' => 'checkbox',
             'form.input' => 'input',
             'form.radios' => 'radios',
