@@ -218,7 +218,7 @@ abstract class ModelRepository implements ModelRepositoryContract
     public function paginateSearch(array $criteria, int $perPage = 15, int $page = 1, string $sortBy = null, string $sortDirection = 'asc'): LengthAwarePaginator
     {
         // Initialize query builder
-        $queryBuilder = $this->getPaginateSearchAwareQueryBuilder($criteria); // This method must be defined in the child class
+        $queryBuilder = $this->getPaginateSearchAwareQueryBuilder($criteria, $sortBy); // This method must be defined in the child class
 
         // Paginate results
         $paginator = $this->paginateQueryBuilder($queryBuilder, $perPage, $page, $sortBy, $sortDirection);
