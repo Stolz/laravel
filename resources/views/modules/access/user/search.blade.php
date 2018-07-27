@@ -18,4 +18,8 @@
         {{ _('Search') }}
     </button>
 
+    @checkbox(['name' => 'search[all]', 'checked' => request()->has('search.all'), 'attributes' => 'value=1'])
+        {{ _('Include inactive') }}
+    @endcheckbox
+
 </form>

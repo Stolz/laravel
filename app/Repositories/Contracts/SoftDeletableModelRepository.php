@@ -7,11 +7,12 @@ use App\Models\Model;
 interface SoftDeletableModelRepository extends ModelRepository
 {
     /**
-     * Include soft deleted models in operations that normally exclude them.
+     * Whether or not include soft deleted models in next operation.
      *
+     * @param  bool $includeSoftDeleted
      * @return \App\Repositories\Contracts\SoftDeletableModelRepository
      */
-    public function includeSoftDeleted(): SoftDeletableModelRepository;
+    public function includeSoftDeleted(bool $includeSoftDeleted = true): SoftDeletableModelRepository;
 
     /**
      * Force delete a model.

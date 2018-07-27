@@ -46,7 +46,8 @@ class UserController extends Controller
         list($searchCriteria, $perPage, $page, $sortBy, $sortDirection) = $this->getSearchPaginationOptionsFromRequest($request, 15, 'name');
 
         // Get users from repository
-        $users = $this->userRepository->paginateSearch($searchCriteria, $perPage, $page, $sortBy, $sortDirection);
+        $includeSoftDeleted = (bool) $request->input('search.all');
+        $users = $this->userRepository->includeSoftDeleted($includeSoftDeleted)->paginateSearch($searchCriteria, $perPage, $page, $sortBy, $sortDirection);
 
         // Load view
         return view('modules.access.user.index')->with([

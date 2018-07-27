@@ -51,13 +51,14 @@ abstract class SoftDeletableModelRepository extends ModelRepository implements S
     }
 
     /**
-     * Include soft deleted models in operations that normally exclude them.
+     * Whether or not include soft deleted models in next operation.
      *
+     * @param  bool $includeSoftDeleted
      * @return \App\Repositories\Contracts\SoftDeletableModelRepository
      */
-    public function includeSoftDeleted(): SoftDeletableModelRepositoryContract
+    public function includeSoftDeleted(bool $includeSoftDeleted = true): SoftDeletableModelRepositoryContract
     {
-        $this->withSoftDeleted = true;
+        $this->withSoftDeleted = $includeSoftDeleted;
 
         return $this;
     }
