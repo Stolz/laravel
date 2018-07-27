@@ -11,6 +11,7 @@
 /node_modules
 /public/storage
 /storage/*.key
+/storage/debugbar/
 /storage/proxies/
 /storage/sami
 /vendor
