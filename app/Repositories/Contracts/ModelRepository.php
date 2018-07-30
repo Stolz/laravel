@@ -74,6 +74,13 @@ interface ModelRepository
     public function count(): int;
 
     /**
+     * Retrieve the IDs of all models.
+     *
+     * @return array
+     */
+    public function getAllIds(): array;
+
+    /**
      * Retrieve a page of a paginated result of all models.
      *
      * @param  int $perPage

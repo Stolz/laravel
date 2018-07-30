@@ -193,6 +193,17 @@ abstract class ModelRepository implements ModelRepositoryContract
     }
 
     /**
+     * Retrieve the IDs of all models.
+     *
+     * @return array
+     */
+    public function getAllIds(): array
+    {
+        // Use our custom hydrator for maximum efficiency
+        return $this->getQueryBuilder()->select("{$this->modelAlias}.id")->getQuery()->getResult('column');
+    }
+
+    /**
      * Retrieve all models matching a search criteria.
      *
      * @param  array $criteria
