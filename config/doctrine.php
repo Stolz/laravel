@@ -137,7 +137,7 @@ return [
     |--------------------------------------------------------------------------
     */
     'custom_hydration_modes' => [
-        // e.g. 'hydrationModeName' => MyHydrator::class,
+        'column' => \Doctrine\Hydrators\Column::class,
     ],
     /*
     |--------------------------------------------------------------------------
