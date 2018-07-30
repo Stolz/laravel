@@ -30,7 +30,7 @@ class MakeStub extends Command
     protected $files;
 
     /**
-     * Create a new controller creator command instance.
+     * Create a new command instance.
      *
      * @param  \Illuminate\Filesystem\Filesystem  $files
      * @return void
