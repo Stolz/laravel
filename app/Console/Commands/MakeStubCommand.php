@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 
-class MakeStubCommand extends Command
+class MakeStub extends Command
 {
     /**
      * The name and signature of the console command.
