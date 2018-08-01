@@ -15,7 +15,7 @@
         <form method="post" action="{{ route('password.email') }}" role="form" autocomplete="off">
             @csrf
 
-            @input(['type' => 'email', 'name' => 'email', 'value' => old('email'), 'attributes' => 'required autofocus'])
+            @input(['type' => 'email', 'name' => 'email', 'value' => old('email'), 'attributes' => 'required autofocus maxlength=255'])
                 {{ _('E-Mail') }}
             @endinput
 

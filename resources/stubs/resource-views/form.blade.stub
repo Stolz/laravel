@@ -1,4 +1,4 @@
 {{-- TODO remove if not applicable --}}
-@input(['name' => 'name', 'value' => old('name', $dummy['name']), 'attributes' => 'required autofocus'])
+@input(['name' => 'name', 'value' => old('name', $dummy['name']), 'attributes' => 'required autofocus maxlength=255'])
     {{ _('Name') }}
 @endinput

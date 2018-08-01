@@ -27,7 +27,7 @@ class Create extends Request
         return [
             'email' => 'required|email|max:255|unique:App\Models\User',
             'name' => 'required|min:3|max:255',
-            'password' => 'required|min:' . \App\Models\User::MIN_PASSWORD_LENGTH,
+            'password' => 'required|max:255|min:' . \App\Models\User::MIN_PASSWORD_LENGTH,
             'role' => 'required|integer|exists:App\Models\Role,id',
         ];
     }

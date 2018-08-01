@@ -10,18 +10,18 @@
             <input type="hidden" name="token" value="{{ $token }}">
             @csrf
 
-            @input(['type' => 'email', 'name' => 'email', 'value' => old('email'), 'attributes' => 'required autofocus'])
+            @input(['type' => 'email', 'name' => 'email', 'value' => old('email'), 'attributes' => 'required autofocus maxlength=255'])
                 {{ _('E-Mail') }}
             @endinput
 
-            @input(['type' => 'password', 'name' => 'password', 'attributes' => 'required'])
+            @input(['type' => 'password', 'name' => 'password', 'attributes' => 'required maxlength=255'])
                 {{ _('New password') }}
                 @slot('hint')
                     {{ sprintf(_('Your password must be at least %d characters long'), \App\Models\User::MIN_PASSWORD_LENGTH) }}
                 @endslot
             @endinput
 
-            @input(['type' => 'password', 'name' => 'password_confirmation', 'attributes' => 'required'])
+            @input(['type' => 'password', 'name' => 'password_confirmation', 'attributes' => 'required maxlength=255'])
                 {{ _('Repeat new password') }}
              @endinput
 

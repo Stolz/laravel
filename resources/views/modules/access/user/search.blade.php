@@ -6,11 +6,11 @@
         {{ _('Role') }}
     @endselect
 
-    @input(['name' => 'search[name]', 'value' => request()->input('search.name')])
+    @input(['name' => 'search[name]', 'value' => request()->input('search.name'), 'attributes' => 'maxlength=255'])
         {{ _('Name') }}
     @endinput
 
-    @input(['name' => 'search[email]', 'value' => request()->input('search.email')])
+    @input(['name' => 'search[email]', 'value' => request()->input('search.email'), 'attributes' => 'maxlength=255'])
         {{ _('E-mail') }}
     @endinput
 

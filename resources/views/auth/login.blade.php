@@ -8,11 +8,11 @@
         <form method="post" action="{{ route('login.attempt') }}" role="form" autocomplete="off">
             @csrf
 
-            @input(['type' => 'email', 'name' => 'email', 'value' => old('email'), 'attributes' => 'required autofocus'])
+            @input(['type' => 'email', 'name' => 'email', 'value' => old('email'), 'attributes' => 'required autofocus maxlength=255'])
                 {{ _('E-Mail') }}
             @endinput
 
-            @input(['type' => 'password', 'name' => 'password', 'attributes' => 'required'])
+            @input(['type' => 'password', 'name' => 'password', 'attributes' => 'required maxlength=255'])
                 {{ _('Password') }}
             @endinput
 

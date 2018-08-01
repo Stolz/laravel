@@ -10,7 +10,7 @@
             @csrf
             @include('modules.access.user.form')
 
-            @input(['type' => 'password', 'name' => 'password', 'attributes' => 'required autocomplete=new-password'])
+            @input(['type' => 'password', 'name' => 'password', 'attributes' => 'required autocomplete=new-password maxlength=255'])
                 {{ _('Password') }}
                 @slot('hint')
                     {{ sprintf(_('Password must be at least %d characters long'), $minPasswordLength) }}

@@ -10,7 +10,7 @@
             @csrf @method('put')
             @include('modules.access.user.form')
 
-            @input(['type' => 'password', 'name' => 'password', 'attributes' => 'autocomplete=new-password'])
+            @input(['type' => 'password', 'name' => 'password', 'attributes' => 'autocomplete=new-password maxlength=255'])
                 {{ _('Password') }}
                 @slot('help')
                     {{ _("Leave it blank if you don't want to update the password") }}
