@@ -50,15 +50,18 @@ class UserRepository extends SoftDeletableModelRepository implements UserReposit
         $queryBuilder = $this->getQueryBuilder();
 
         // Exact search
-        if (! empty($criteria['role']))
-            $queryBuilder->andWhere($queryBuilder->expr()->eq("{$this->modelAlias}.role", $criteria['role']));
+        if (! empty($criteria['role'])) {
+            $condition = $queryBuilder->expr()->eq("{$this->modelAlias}.role", ':s_role');
+            $queryBuilder->andWhere($condition)->setParameter('s_role', $criteria['role']);
+        }
 
         // Fuzzy search
         foreach (['name', 'email'] as $field) {
             if (! empty($criteria[$field])) {
                 // Oracle LIKE operator is case sensitive. Convert to lower case to make the search really fuzzy
                 $needle = '%' . strtolower($criteria[$field]) . '%';
-                $queryBuilder->andWhere("LOWER({$this->modelAlias}.$field) LIKE :$field")->setParameter($field, $needle);
+                $condition = $queryBuilder->expr()->like("LOWER({$this->modelAlias}.$field)", ":s_{$field}");
+                $queryBuilder->andWhere($condition)->setParameter("s_{$field}", $needle);
             }
         }
 
