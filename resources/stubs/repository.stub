@@ -24,7 +24,7 @@ class DummyRepository extends ModelRepository implements DummyRepositoryContract
      * Retrieve all models.
      *
      * @param array $orderBy
-     * @return \Illuminate\Support\Collection of \App\Models\Model TODO
+     * @return \Illuminate\Support\Collection of \App\Models\Dummy
      */
     public function all(array $orderBy = []): \Illuminate\Support\Collection
     {
