@@ -206,7 +206,7 @@ class Notification extends Model
         if (is_array($user))
             $user = User::make($user);
 
-        if ($user !== null and ! $user instanceof User)
+        elseif ($user !== null and ! $user instanceof User)
             throw new \InvalidArgumentException('Invalid user');
 
         $this->user = $user;
