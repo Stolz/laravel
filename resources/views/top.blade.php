@@ -61,7 +61,7 @@
 
             {{-- Links for guests --}}
             @else
-                @notroute('login')
+                @notroute(['home', 'login'])
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('login') }}">{{ _('Login') }}</a>
                 </li>

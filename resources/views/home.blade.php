@@ -7,15 +7,19 @@
     {{-- What guest users see --}}
     @guest
     <div class="jumbotron" style="margin: 0 -15px">
-        <h1 class="display-4">Welcome to {{ config('app.name') }}</h1>
-        <p class="lead">Version {{ app()::VERSION }}</p>
+        <div class="row justify-content-center">
+            <div class="col-sm-11 col-md-9 col-lg-7 col-xl-5">
+                <h1 class="display-4">{{ sprintf(_('Welcome to %s'), config('app.name')) }}</h1>
+                @if(! app()->environment('production'))
+                    <span class="badge badge-secondary">{{ sprintf(_('%s environment'), app()->environment()) }}</span>
+                @endif
 
-        <hr class="my-4">
+                <hr>
 
-        <p>Front end built with <strong>Material Design for Bootstrap 4<strong>.</p>
-        <p class="lead">
-            <a class="btn btn-primary btn-lg" href="https://fezvrasta.github.io/bootstrap-material-design/" role="button" target="_blank">Learn more</a>
-        </p>
+                <p class="lead">{{ _('Please log in to continue') }}</p>
+                <a class="btn btn-primary active" href="{{ route('login') }}" role="button">{{ _('Login') }}</a>
+            </div>
+        </div>
     </div>
     @endguest
 
