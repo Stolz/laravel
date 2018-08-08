@@ -74,7 +74,11 @@
     <script>
     $(function() {
         // Update unread notifications counter every 5 seconds
-        setInterval(updateUnreadNotificationsCountViaAjax('{{ route('me.notifications.count') }}', $('span.unread-notifications-counter')), 5000);
+        setInterval(function () {
+            var origin = '{{ route('me.notifications.count') }}';
+            var destination = $('span.unread-notifications-counter');
+            updateUnreadNotificationsCountViaAjax(origin, destination);
+        }, 5000);
     });
     </script>
     @endpush
