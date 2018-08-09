@@ -1,13 +1,4 @@
 /*
-TODO add this alias
-use App\Repositories\Contracts\DummyRepository;
-
-TODO add this to CONTRACTS constant
-DummyRepository::class,
-
-TODO add this binding
-
-        $this->app->singleton(DummyRepository::class, function () {
-            return new \App\Repositories\Doctrine\DummyRepository($this->app['em']);
-        });
+TODO add this line to the REPOSITORIES constant
+    'App\Repositories\Doctrine\DummyRepository' => 'App\Repositories\Contracts\DummyRepository',
 */

@@ -2,26 +2,22 @@
 
 namespace App\Providers;
 
-use App\Repositories\Contracts\CountryRepository;
-use App\Repositories\Contracts\NotificationRepository;
-use App\Repositories\Contracts\PermissionRepository;
-use App\Repositories\Contracts\RoleRepository;
-use App\Repositories\Contracts\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
     /**
-     * List of all the repository contracts.
+     * List of all the repositories and their contracts.
      *
      * @const array
      */
-    const CONTRACTS = [
-        CountryRepository::class,
-        NotificationRepository::class,
-        PermissionRepository::class,
-        RoleRepository::class,
-        UserRepository::class,
+    const REPOSITORIES = [
+        // Implementation => Contract
+        'App\Repositories\Doctrine\CountryRepository' => 'App\Repositories\Contracts\CountryRepository',
+        'App\Repositories\Doctrine\NotificationRepository' => 'App\Repositories\Contracts\NotificationRepository',
+        'App\Repositories\Doctrine\PermissionRepository' => 'App\Repositories\Contracts\PermissionRepository',
+        'App\Repositories\Doctrine\RoleRepository' => 'App\Repositories\Contracts\RoleRepository',
+        'App\Repositories\Doctrine\UserRepository' => 'App\Repositories\Contracts\UserRepository',
     ];
 
     /**
@@ -32,31 +28,17 @@ class RepositoryServiceProvider extends ServiceProvider
     protected $defer = true;
 
     /**
-     * Register repository implementations for all countries.
+     * Register implementations for all repository contracts.
      *
      * @return void
      */
     public function register()
     {
-        $this->app->singleton(CountryRepository::class, function () {
-            return new \App\Repositories\Doctrine\CountryRepository($this->app['em']);
-        });
-
-        $this->app->singleton(NotificationRepository::class, function () {
-            return new \App\Repositories\Doctrine\NotificationRepository($this->app['em']);
-        });
-
-        $this->app->singleton(PermissionRepository::class, function () {
-            return new \App\Repositories\Doctrine\PermissionRepository($this->app['em']);
-        });
-
-        $this->app->singleton(RoleRepository::class, function () {
-            return new \App\Repositories\Doctrine\RoleRepository($this->app['em']);
-        });
-
-        $this->app->singleton(UserRepository::class, function () {
-            return new \App\Repositories\Doctrine\UserRepository($this->app['em']);
-        });
+        foreach (self::REPOSITORIES as $repository => $contract) {
+            $this->app->singleton($contract, function ($app) use ($repository) {
+                return $app->make($repository, [$app['em']]);
+            });
+        }
     }
 
     /**
@@ -66,6 +48,6 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return static::CONTRACTS;
+        return static::REPOSITORIES;
     }
 }

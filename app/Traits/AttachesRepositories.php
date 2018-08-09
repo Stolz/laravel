@@ -11,7 +11,7 @@ trait AttachesRepositories
      */
     protected function attachRepositories()
     {
-        $contracts = \App\Providers\RepositoryServiceProvider::CONTRACTS;
+        $contracts = \App\Providers\RepositoryServiceProvider::REPOSITORIES;
 
         foreach ($contracts as $contract) {
             $repository = lcfirst(str_replace('\\', '', str_replace_first('App\Repositories\Contracts\\', '', $contract)));

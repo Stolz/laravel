@@ -102,4 +102,18 @@ class MeController extends Controller
 
         return redirect()->back();
     }
+
+    /**
+     * Count the number of unread notifications.
+     *
+     * Called via AJAX.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Repositories\Contracts\NotificationRepository $notificationRepository
+     * @return int
+     */
+    public function countUnreadNotifications(Request $request, NotificationRepository $notificationRepository)
+    {
+        return $notificationRepository->countUnread($request->user());
+    }
 }

@@ -41,17 +41,14 @@
                     <a class="nav-link dropdown-toggle" href="{{ route('me') }}" id="meDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ Auth::user() }}
                         @inject('notificationRepository', 'App\Repositories\Contracts\NotificationRepository')
-                        @if($unreadNotifications = $notificationRepository->countUnread(Auth::user()))
-                             <span class="badge badge-pill badge-info">{{ $unreadNotifications }}</span>
-                        @endif
+                        <?php $unreadNotifications = $notificationRepository->countUnread(Auth::user()); ?>
+                        <span class="unread-notifications-counter badge badge-pill badge-info" style="display:{{ ($unreadNotifications) ? 'auto' : 'none' }}">{{ $unreadNotifications }}</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="meDropdown">
                         <a class="dropdown-item" href="{{ route('me') }}">{{ _('Me') }}</a>
                         <a class="dropdown-item" href="{{ route('me.notifications') }}">
                             {{ _('Notifications') }}
-                            @if($unreadNotifications)
-                                &nbsp;<span class="badge badge-pill badge-primary">{{ $unreadNotifications }}</span>
-                            @endif
+                            &nbsp;<span class="unread-notifications-counter badge badge-pill badge-primary" style="display:{{ ($unreadNotifications) ? 'auto' : 'none' }}">{{ $unreadNotifications }}</span>
                         </a>
                         <a class="dropdown-item" href="{{ route('me.password') }}">{{ _('Change password') }}</a>
                         <div class="dropdown-divider"></div>
@@ -71,3 +68,18 @@
     </div>
 
 </nav>
+
+@auth
+    @push('js')
+    <script>
+    $(function() {
+        // Update unread notifications counter every 5 seconds
+        setInterval(function () {
+            var origin = '{{ route('me.notifications.count') }}';
+            var destination = $('span.unread-notifications-counter');
+            updateUnreadNotificationsCountViaAjax(origin, destination);
+        }, 5000);
+    });
+    </script>
+    @endpush
+@endauth
