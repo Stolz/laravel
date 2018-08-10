@@ -72,14 +72,19 @@
 @auth
     @push('js')
     <script>
+    var notificationsInterval;
     $(function() {
         // Update unread notifications counter every 5 seconds
-        setInterval(function () {
+        notificationsInterval = setInterval(function () {
             var origin = '{{ route('me.notifications.count') }}';
             var destination = $('span.unread-notifications-counter');
             updateUnreadNotificationsCountViaAjax(origin, destination);
         }, 5000);
     });
+    // Cancel notifications counter update
+    function clearNotificationsInterval () {
+        clearInterval(notificationsInterval);
+    }
     </script>
     @endpush
 @endauth
