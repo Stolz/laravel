@@ -268,7 +268,10 @@ abstract class ModelRepository implements ModelRepositoryContract
      */
     protected function modelHasField($field): bool
     {
-        $modelReflectionProperties = $this->entityManager->getClassMetadata($this->modelClass)->getReflectionProperties();
+        static $modelReflectionProperties;
+
+        if ($modelReflectionProperties === null)
+            $modelReflectionProperties = $this->entityManager->getClassMetadata($this->modelClass)->getReflectionProperties();
 
         return in_array($field, array_keys($modelReflectionProperties));
     }
