@@ -50,8 +50,8 @@
                 </td>
                 <td>{{ $role['name'] }}</td>
                 <td>{{ $role['description'] }}</td>
-                <td>{{ $role['createdAt'] ? $role['createdAt']->diffForHumans() : null }}</td>
-                <td>{{ $role['updatedAt'] ? $role['updatedAt']->diffForHumans() : null }}</td>
+                <td title="{{ $role['createdAt'] }}">{{ $role['createdAt'] ? $role['createdAt']->diffForHumans() : null }}</td>
+                <td title="{{ $role['updatedAt'] }}">{{ $role['updatedAt'] ? $role['updatedAt']->diffForHumans() : null }}</td>
             </tr>
             @endforeach
         @endtable

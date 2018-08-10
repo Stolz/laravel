@@ -57,8 +57,8 @@
                 <td>{{ $user['name'] }}</td>
                 <td>{{ $user['email'] }}</td>
                 <td>@colorize {{ $user['role'] }} @endcolorize</td>
-                <td>{{ $user['createdAt'] ? $user['createdAt']->diffForHumans() : null }}</td>
-                <td>{{ $user['updatedAt'] ? $user['updatedAt']->diffForHumans() : null }}</td>
+                <td title="{{ $user['createdAt'] }}">{{ $user['createdAt'] ? $user['createdAt']->diffForHumans() : null }}</td>
+                <td title="{{ $user['updatedAt'] }}">{{ $user['updatedAt'] ? $user['updatedAt']->diffForHumans() : null }}</td>
             </tr>
             @endforeach
         @endtable
