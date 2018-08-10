@@ -20,6 +20,7 @@
                 <th>{{ _('Actions') }}</th>
                 @tableHeaders(['headers' => [
                     'name' => _('Name'),
+                    'code' => _('Code'),
                 ]]) @endtableHeaders
             </tr>
             @endslot
@@ -46,6 +47,7 @@
                     </div>
                 </td>
                 <td>{{ $country['name'] }}</td>
+                <td>{{ $country['code'] }}</td>
             </tr>
             @endforeach
         @endtable

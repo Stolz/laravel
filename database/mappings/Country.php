@@ -25,6 +25,10 @@ class Country extends EntityMapping
     public function map(\LaravelDoctrine\Fluent\Fluent $builder)
     {
         $builder->smallIncrements('id');
+        $builder->string('code')->length(2)->unique();
         $builder->string('name')->unique();
+        $builder->carbonDateTime('createdAt')->nullable();
+        $builder->carbonDateTime('updatedAt')->nullable();
+        $builder->carbonDateTime('deletedAt')->nullable();
     }
 }

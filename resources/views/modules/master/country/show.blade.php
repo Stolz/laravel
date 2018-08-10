@@ -6,6 +6,9 @@
 <div class="row justify-content-center">
     <div class="col-sm-9 col-md-7 col-lg-5 col-xl-4">
         <dl>
+            <dt>{{ _('Code') }}</dt>
+            <dd>{{ $country['code'] }}</dd>
+
             <dt>{{ _('Name') }}</dt>
             <dd>{{ $country['name'] }}</dd>
         </dl>

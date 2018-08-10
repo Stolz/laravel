@@ -4,7 +4,7 @@ namespace App\Repositories\Doctrine;
 
 use App\Repositories\Contracts\CountryRepository as CountryRepositoryContract;
 
-class CountryRepository extends ModelRepository implements CountryRepositoryContract
+class CountryRepository extends SoftDeletableModelRepository implements CountryRepositoryContract
 {
     /**
      * Full class name of the model this repository is in charge of.

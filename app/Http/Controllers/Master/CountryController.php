@@ -92,7 +92,7 @@ class CountryController extends Controller
     public function store(\App\Http\Requests\Country\Create $request)
     {
         // Get request input
-        $attributes = $request->only('name');
+        $attributes = $request->only('name', 'code');
 
         // Create a country with the provided input
         $country = Country::make($attributes);
@@ -123,7 +123,7 @@ class CountryController extends Controller
     public function update(\App\Http\Requests\Country\Update $request, Country $country)
     {
         // Get request input
-        $attributes = $request->only('name');
+        $attributes = $request->only('name', 'code');
 
         // Apply changes to the country
         $country->set($attributes);

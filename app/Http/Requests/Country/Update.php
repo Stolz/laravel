@@ -21,8 +21,11 @@ class Update extends Create
      */
     public function rules(): array
     {
+        $countryId = $this->country->getId();
+
         return [
-            'name' => 'required|max:255|unique:App\Models\Country,name,' . $this->country->getId(),
+            'code' => "required|alpha|size:2|unique:App\Models\Country,code,$countryId",
+            'name' => "required|max:255|unique:App\Models\Country,name,$countryId",
         ] + parent::rules();
     }
 }

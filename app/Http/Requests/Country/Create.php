@@ -25,7 +25,19 @@ class Create extends Request
     public function rules(): array
     {
         return [
-            'name' => 'required|max:255|unique:App\Models\Country',
+            'code' => 'required|alpha|size:2|unique:App\Models\Country,code',
+            'name' => 'required|max:255|unique:App\Models\Country,name',
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        if ($this->has('code'))
+            $this->merge(['code' => strtoupper($this->input('code'))]);
     }
 }
