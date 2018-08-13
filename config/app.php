@@ -37,9 +37,16 @@ return [
     | stack traces will be shown on every error that occurs within your
     | application. If disabled, a simple generic error page is shown.
     |
+    | `debug_blacklist` masks out some variables from Whoops exception page
+    |
     */
 
     'debug' => env('APP_DEBUG', false),
+    'debug_blacklist' => [
+        '_COOKIE' => array_keys($_COOKIE),
+        '_SERVER' => array_keys($_SERVER),
+        '_ENV' => array_keys($_ENV),
+    ],
 
     /*
     |--------------------------------------------------------------------------
