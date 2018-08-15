@@ -34,7 +34,7 @@
                         @can('view', $role)
                             <a href="{{ route('access.role.show', [$role['id']]) }}" class="btn btn-info">{{ _('View') }}</a>
                         @else
-                            <a href="#" class="btn btn-info">{{ _('View') }}</a>
+                            <a href="#" class="btn btn-info disabled">{{ _('View') }}</a>
                         @endcan
                         @can('update', $role)
                             <a href="{{ route('access.role.edit', [$role['id']]) }}" class="btn btn-primary">{{ _('Edit') }}</a>
@@ -68,6 +68,9 @@
     @endif
 
     @can('create', 'App\Models\Role')
-        <a href="{{ route('access.role.create') }}" class="btn btn-success btn-raised" >{{ _('Create new role') }}</a>
+        <a href="{{ route('access.role.create') }}" class="btn btn-success btn-raised" >
+            <i class="material-icons">add</i>
+            {{ _('Create new role') }}
+        </a>
     @endcan
 @stop

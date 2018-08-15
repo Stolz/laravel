@@ -19,7 +19,10 @@
                 {{ _('E-Mail') }}
             @endinput
 
-            <button type="submit" class="btn btn-outline-primary btn-block mt-4" role="button" aria-pressed="true">{{ _('Send reset link to my e-mail') }}</button>
+            <button type="submit" class="btn btn-outline-primary btn-block mt-4" role="button" aria-pressed="true">
+                <i class="material-icons">mail</i>
+                {{ _('Send reset link to my e-mail') }}
+            </button>
         </form>
 
     </div>

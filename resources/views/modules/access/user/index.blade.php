@@ -40,7 +40,7 @@
                         @can('view', $user)
                             <a href="{{ route('access.user.show', [$user['id']]) }}" class="btn btn-info">{{ _('View') }}</a>
                         @else
-                            <a href="#" class="btn btn-info">{{ _('View') }}</a>
+                            <a href="#" class="btn btn-info disabled">{{ _('View') }}</a>
                         @endcan
                         @can('update', $user)
                             <a href="{{ route('access.user.edit', [$user['id']]) }}" class="btn btn-primary">{{ _('Edit') }}</a>
@@ -75,7 +75,10 @@
     @endif
 
     @can('create', 'App\Models\User')
-        <a href="{{ route('access.user.create') }}" class="btn btn-success btn-raised" >{{ _('Create new user') }}</a>
+        <a href="{{ route('access.user.create') }}" class="btn btn-success btn-raised" >
+            <i class="material-icons">add</i>
+            {{ _('Create new user') }}
+        </a>
     @endcan
 
 @stop

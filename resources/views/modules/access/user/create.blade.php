@@ -20,11 +20,17 @@
             <div class="row">
                 @can('list', 'App\Models\User')
                     <div class="col">
-                        <a href="{{ previous_index_url(route('access.user.index')) }}" class="btn btn-outline-secondary btn-block">{{ _('Cancel') }}</a>
+                        <a href="{{ previous_index_url(route('access.user.index')) }}" class="btn btn-outline-secondary btn-block">
+                            <i class="material-icons">cancel</i>
+                            {{ _('Cancel') }}
+                        </a>
                     </div>
                 @endcan
                 <div class="col">
-                    <button type="submit" class="btn btn-primary active btn-block">{{ _('Create user') }}</button>
+                    <button type="submit" class="btn btn-primary active btn-block">
+                        <i class="material-icons">add</i>
+                        {{ _('Create user') }}
+                    </button>
                 </div>
             </div>
         </form>

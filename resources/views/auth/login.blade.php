@@ -27,7 +27,10 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-outline-primary btn-block mt-4" role="button" aria-pressed="true" tabindex="1">{{ _('Login') }}</button>
+            <button type="submit" class="btn btn-outline-primary btn-block mt-4" role="button" aria-pressed="true" tabindex="1">
+                <i class="material-icons">person</i>
+                {{ _('Login') }}
+            </button>
         </form>
     </div>
 </div>

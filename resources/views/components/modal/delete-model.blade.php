@@ -19,9 +19,11 @@
 
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-raised btn-secondary" data-dismiss="modal">
+                    <i class="material-icons">clear</i>
                     {{ _('Cancel') }}
                 </button>
                 <button type="submit" class="btn btn-raised btn-danger">
+                    <i class="material-icons">delete</i>
                     {{ _('Delete') }}
                 </button>
             </div>

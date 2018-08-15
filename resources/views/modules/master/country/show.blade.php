@@ -16,17 +16,26 @@
         <div class="row">
             @can('list', 'App\Models\Country')
                 <div class="col">
-                    <a href="{{ previous_index_url(route('master.country.index')) }}" class="btn btn-outline-secondary btn-block">{{ _('Return') }}</a>
+                    <a href="{{ previous_index_url(route('master.country.index')) }}" class="btn btn-outline-secondary btn-block">
+                        <i class="material-icons">arrow_back</i>
+                        {{ _('Return') }}
+                    </a>
                 </div>
             @endcan
             @can('update', $country)
                 <div class="col">
-                    <a href="{{ route('master.country.edit', [$country['id']]) }}" class="btn btn btn-primary active btn-block">{{ _('Edit') }}</a>
+                    <a href="{{ route('master.country.edit', [$country['id']]) }}" class="btn btn btn-primary active btn-block">
+                        <i class="material-icons">edit</i>
+                        {{ _('Edit') }}
+                    </a>
                 </div>
             @endcan
             @can('delete', $country)
                 <div class="col">
-                    <a href="#" class="btn btn btn-danger active btn-block" data-toggle="modal" data-target="#delete-modal-{{ $country['id'] }}">{{ _('Delete') }}</a>
+                    <a href="#" class="btn btn btn-danger active btn-block" data-toggle="modal" data-target="#delete-modal-{{ $country['id'] }}">
+                        <i class="material-icons">delete</i>
+                        {{ _('Delete') }}
+                    </a>
                 </div>
                 @deleteModelModal(['model' => $country, 'action' => route('master.country.destroy', [$country['id']])])
                 @enddeleteModelModal

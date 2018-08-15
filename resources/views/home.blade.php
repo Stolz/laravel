@@ -17,7 +17,10 @@
                 <hr>
 
                 <p class="lead">{{ _('Please log in to continue') }}</p>
-                <a class="btn btn-primary active" href="{{ route('login') }}" role="button">{{ _('Login') }}</a>
+                <a class="btn btn-primary active" href="{{ route('login') }}" role="button">
+                    <i class="material-icons">person</i>
+                    {{ _('Log in') }}
+                </a>
             </div>
         </div>
     </div>
@@ -33,7 +36,10 @@
                 <div class="card-body">
                     <h5 class="card-title text-truncate">{{ _('Access module') }}</h5>
                     <p class="card-text">{{ _('Manage users, roles and permissions') }}</p>
-                    <a class="btn btn-primary btn-raised" href="{{ route('access.home') }}">{{ _('Go to module') }}</a>
+                    <a class="btn btn-primary btn-raised" href="{{ route('access.home') }}">
+                        <i class="material-icons">view_module</i>
+                        {{ _('Go to module') }}
+                    </a>
                 </div>
             </div>
         </div>
@@ -45,7 +51,10 @@
                 <div class="card-body">
                     <h5 class="card-title text-truncate">{{ _('Master module') }}</h5>
                     <p class="card-text">{{ _('Manage countries') }}</p>
-                    <a class="btn btn-primary btn-raised" href="{{ route('master.home') }}">{{ _('Go to module') }}</a>
+                    <a class="btn btn-primary btn-raised" href="{{ route('master.home') }}">
+                        <i class="material-icons">view_module</i>
+                        {{ _('Go to module') }}
+                    </a>
                 </div>
             </div>
         </div>

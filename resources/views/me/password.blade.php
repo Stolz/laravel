@@ -23,7 +23,10 @@
                 {{ _('Repeat new password') }}
             @endinput
 
-            <button type="submit" class="btn btn-outline-primary btn-block mt-4" role="button" aria-pressed="true">{{ _('Change password') }}</button>
+            <button type="submit" class="btn btn-outline-primary btn-block mt-4" role="button" aria-pressed="true">
+                <i class="material-icons">security</i>
+                {{ _('Change password') }}
+            </button>
         </form>
     </div>
 </div>

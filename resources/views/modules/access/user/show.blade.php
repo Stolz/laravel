@@ -35,17 +35,26 @@
         <div class="row">
             @can('list', 'App\Models\User')
                 <div class="col">
-                    <a href="{{ previous_index_url(route('access.user.index')) }}" class="btn btn-outline-secondary btn-block">{{ _('Return') }}</a>
+                    <a href="{{ previous_index_url(route('access.user.index')) }}" class="btn btn-outline-secondary btn-block">
+                        <i class="material-icons">arrow_back</i>
+                        {{ _('Return') }}
+                    </a>
                 </div>
             @endcan
             @can('update', $user)
                 <div class="col">
-                    <a href="{{ route('access.user.edit', [$user['id']]) }}" class="btn btn btn-primary active btn-block">{{ _('Edit') }}</a>
+                    <a href="{{ route('access.user.edit', [$user['id']]) }}" class="btn btn btn-primary active btn-block">
+                        <i class="material-icons">edit</i>
+                        {{ _('Edit') }}
+                    </a>
                 </div>
             @endcan
             @can('delete', $user)
                 <div class="col">
-                    <a href="#" class="btn btn btn-danger active btn-block" data-toggle="modal" data-target="#delete-modal-{{ $user['id'] }}">{{ _('Delete') }}</a>
+                    <a href="#" class="btn btn btn-danger active btn-block" data-toggle="modal" data-target="#delete-modal-{{ $user['id'] }}">
+                        <i class="material-icons">delete</i>
+                        {{ _('Delete') }}
+                    </a>
                 </div>
                 @deleteModelModal(['model' => $user, 'action' => route('access.user.destroy', [$user['id']])])
                 @enddeleteModelModal

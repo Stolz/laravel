@@ -11,5 +11,8 @@
 @stop
 
 @section('actions')
-    <a class="btn btn-primary active" href="{{ URL::current() }}" role="button">{{ _('Retry') }}</a>
+    <a class="btn btn-primary active" href="{{ URL::current() }}" role="button">
+        <i class="material-icons">refresh</i>
+        {{ _('Retry') }}
+    </a>
 @stop

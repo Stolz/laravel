@@ -4,6 +4,8 @@
         <h4 class="alert-heading">{{ $title }}</h4>
     @endisset
 
+    <?php $icons = ['info' => 'info', 'success' => 'check_circle', 'warning' => 'warning', 'error' => 'error']; ?>
+    <i class="material-icons">{{ $icons[$type] ?? 'error_outline' }}</i>
     {{ $slot }}
 
     @isset($dismiss)

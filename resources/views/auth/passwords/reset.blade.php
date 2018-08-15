@@ -25,7 +25,10 @@
                 {{ _('Repeat new password') }}
              @endinput
 
-            <button type="submit" class="btn btn-outline-primary btn-block mt-4" role="button" aria-pressed="true">{{ _('Reset password') }}</button>
+            <button type="submit" class="btn btn-outline-primary btn-block mt-4" role="button" aria-pressed="true">
+                <i class="material-icons">settings_backup_restore</i>
+                {{ _('Reset password') }}
+            </button>
         </form>
 
     </div>

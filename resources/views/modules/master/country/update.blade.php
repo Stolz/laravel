@@ -13,11 +13,17 @@
             <div class="row">
                 @can('list', 'App\Models\Country')
                     <div class="col">
-                        <a href="{{ previous_index_url(route('master.country.index')) }}" class="btn btn-outline-secondary btn-block">{{ _('Cancel') }}</a>
+                        <a href="{{ previous_index_url(route('master.country.index')) }}" class="btn btn-outline-secondary btn-block">
+                            <i class="material-icons">cancel</i>
+                            {{ _('Cancel') }}
+                        </a>
                     </div>
                 @endcan
                 <div class="col">
-                    <button type="submit" class="btn btn-primary active btn-block">{{ _('Update country') }}</button>
+                    <button type="submit" class="btn btn-primary active btn-block">
+                        <i class="material-icons">save</i>
+                        {{ _('Update country') }}
+                    </button>
                 </div>
             </div>
         </form>

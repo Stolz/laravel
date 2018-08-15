@@ -36,8 +36,14 @@
                     @show
 
                     @section('actions')
-                        <a class="btn btn-secondary active" href="{{ URL::previous() }}" role="button">{{ _('Go back') }}</a>
-                        <a class="btn btn-primary active" href="{{ route('home') }}" role="button">{{ _('Go to home page') }}</a>
+                        <a class="btn btn-secondary active" href="{{ URL::previous() }}" role="button">
+                            <i class="material-icons">arrow_back</i>
+                            {{ _('Go back') }}
+                        </a>
+                        <a class="btn btn-primary active" href="{{ route('home') }}" role="button">
+                            <i class="material-icons">home</i>
+                            {{ _('Go to home page') }}
+                        </a>
                     @show
 
                 </div>

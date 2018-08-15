@@ -4,7 +4,10 @@
                 <div class="card-body">
                     <h5 class="card-title text-truncate">{{ _('Bogus module') }}</h5>
                     <p class="card-text">{{ _('Manage TODO') }}</p>
-                    <a class="btn btn-primary btn-raised" href="{{ route('bogus.home') }}">{{ _('Go to module') }}</a>
+                    <a class="btn btn-primary btn-raised" href="{{ route('bogus.home') }}">
+                        <i class="material-icons">view_module</i>
+                        {{ _('Go to module') }}
+                    </a>
                 </div>
             </div>
         </div>

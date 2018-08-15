@@ -15,6 +15,7 @@
     @endinput
 
     <button type="submit" class="btn btn-dark btn-raised btn-block">
+        <i class="material-icons">search</i>
         {{ _('Search') }}
     </button>
 

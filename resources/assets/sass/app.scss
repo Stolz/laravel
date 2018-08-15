@@ -3,6 +3,10 @@
 
 // Google Material design icons
 @import "~material-icons/iconfont/material-icons.scss";
+i.material-icons {
+    vertical-align: middle;
+    margin-top: -0.125em
+}
 
 // To customize Bootstrap and BMD override here any of the values of ~/bootstrap-material-design/scss/_variables.scss
 // More info at https://fezvrasta.github.io/bootstrap-material-design/docs/4.0/getting-started/theming/
