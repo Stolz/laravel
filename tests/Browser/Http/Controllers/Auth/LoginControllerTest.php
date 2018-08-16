@@ -37,9 +37,9 @@ class LoginControllerTest extends DuskTestCase
             ->visit(route('login'))
             ->type('email', $this->user->getEmail())
             ->type('password', 'secret')
-            ->press(_('Login'))
-            ->assertRouteIs('me')
-            ->assertSee(_('You are logged in!'))
+            ->press('[type="submit"]')
+            ->assertRouteIs('home')
+            ->assertSee(_('Home page'))
             ->assertAuthenticatedAs($this->user);
         });
     }
@@ -56,7 +56,7 @@ class LoginControllerTest extends DuskTestCase
             ->visit(route('login'))
             ->type('email', $this->user->getEmail())
             ->type('password', str_random(10))
-            ->press(_('Login'))
+            ->press('[type="submit"]')
             ->assertRouteIs('login')
             ->assertSee(_('These credentials do not match our records'))
             ->assertGuest();

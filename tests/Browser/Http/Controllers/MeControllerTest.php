@@ -39,7 +39,7 @@ class MeControllerTest extends DuskTestCase
             ->type('password', 'secret')
             ->type('new_password', 'supersecret')
             ->type('new_password_confirmation', 'supersecret')
-            ->press(_('Change password'))
+            ->press('[type="submit"]')
             ->assertRouteIs('me')
             ->assertSee(_('Password successfully changed'));
         });
@@ -59,7 +59,7 @@ class MeControllerTest extends DuskTestCase
             ->type('password', str_random(10))
             ->type('new_password', 'supersecret')
             ->type('new_password_confirmation', 'supersecret')
-            ->press(_('Change password'))
+            ->press('[type="submit"]')
             ->assertRouteIs('me.password')
             ->assertSee(_('Wrong password'));
         });
