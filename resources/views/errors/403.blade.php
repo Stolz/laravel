@@ -6,7 +6,7 @@
 
 @section('description')
     <p class="lead">
-        {{ _('Sorry but your user is not authorized to perform this action.') }}
+        {{ _('Sorry, your user is not authorized to perform this action.') }}
     </p>
 @stop
 

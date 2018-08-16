@@ -6,6 +6,6 @@
 
 @section('description')
     <p class="lead">
-        {{ _('Sorry but your user is not authorized to access this page.') }}
+        {{ _('Sorry, your user is not authorized to access this page.') }}
     </p>
 @stop

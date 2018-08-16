@@ -6,6 +6,6 @@
 
 @section('description')
     <p class="lead">
-        {{ _('Sorry but the page you have requested does not exist.') }}
+        {{ _('Sorry, the page you are looking for could not be found.') }}
     </p>
 @stop
