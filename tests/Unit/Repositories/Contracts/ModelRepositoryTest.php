@@ -212,4 +212,14 @@ class ModelRepositoryTest extends TestCase
         $this->assertEquals(0, $this->repository->count());
         $this->assertEquals(0, $this->repository->includeSoftDeleted()->count());
     }
+
+    /**
+     * Test tetrieve the IDs of all models.
+     *
+     * @return void
+     */
+    public function testGetAllIds()
+    {
+        $this->assertEquals([$this->model->getId()], $this->repository->getAllIds());
+    }
 }

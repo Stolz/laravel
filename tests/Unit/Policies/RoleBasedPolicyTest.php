@@ -22,15 +22,17 @@ class RoleBasedPolicyTest extends TestCase
 
         // User of super admin role always has permission
         $admin = $this->createUser([], ['name' => 'Admin']);
+        $this->assertTrue($admin->isSuperAdmin());
         $this->assertTrue($admin->can('create', User::class));
 
         // User of normal role does not have permission ...
         $user = $this->createUser();
-        $role = $user->getRole();
+        $this->assertFalse($user->isSuperAdmin());
         $this->assertFalse($user->can('create', User::class));
         $this->assertFalse($user->can('list', User::class));
 
-        // ... even if it has module permission ...
+        // ... even if it has module permission ..
+        $role = $user->getRole();
         $this->roleRepository->addPermission($role, $this->permissionRepository->findBy('name', 'use-access-module'));
         $this->assertTrue($user->can('access', 'module'));
         $this->assertFalse($user->can('master', 'module'));
