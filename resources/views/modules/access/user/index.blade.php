@@ -74,6 +74,11 @@
         @endforeach
     @endif
 
+    <a class="btn btn-secondary btn-raised" href="{{ route('access.home') }}">
+        <i class="material-icons">view_module</i>
+        {{ _('Back to module') }}
+    </a>
+
     @can('create', 'App\Models\User')
         <a href="{{ route('access.user.create') }}" class="btn btn-success btn-raised" >
             <i class="material-icons">add</i>
