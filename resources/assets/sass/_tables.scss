@@ -19,12 +19,21 @@
 
 // Compact buttons in tables
 table.table .btn {
-    padding-top:0.1em;
-    padding-bottom:0.1em;
+    padding: 0;
+    margin: 0;
+    margin-right: 0.1em;
+    &:last-child{
+        margin-right: 0;
+    }
+}
+// Compact button icons in tables
+table.table td.actions .material-icons {
+    margin: 0;
+    padding: 0;
 }
 
-// Fit with to content for .actions column
-.table td.actions {
+// Fit width to content for .actions column
+table.table td.actions {
     width:1em;
     white-space: nowrap;
 }
