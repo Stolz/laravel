@@ -13,6 +13,9 @@
             </div>
 
             <div class="modal-body">
+                @if(! method_exists($model, 'setDeletedAt'))
+                    <p class="text-danger">{{ _('This action cannot be undone.') }}</p>
+                @endif
                 <p class="lead">{{ _('Do you want to proceed?') }}</p>
                 {{ $slot }}
             </div>
