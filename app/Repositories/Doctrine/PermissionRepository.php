@@ -11,12 +11,12 @@ class PermissionRepository extends ModelRepository implements PermissionReposito
      *
      * @var string
      */
-    protected $modelClass = \App\Models\Permission::class;
+    protected $class = \App\Models\Permission::class;
 
     /**
      * Alias to be used to reference the model within query builder.
      *
      * @var string
      */
-    protected $modelAlias = 'permission';
+    protected $alias = 'permission';
 }

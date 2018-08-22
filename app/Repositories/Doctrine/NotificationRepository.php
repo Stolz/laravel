@@ -12,14 +12,14 @@ class NotificationRepository extends ModelRepository implements NotificationRepo
      *
      * @var string
      */
-    protected $modelClass = \App\Models\Notification::class;
+    protected $class = \App\Models\Notification::class;
 
     /**
      * Alias to be used to reference the model within query builder.
      *
      * @var string
      */
-    protected $modelAlias = 'notification';
+    protected $alias = 'notification';
 
     /**
      * Create a query builder that filters by user.
@@ -29,7 +29,7 @@ class NotificationRepository extends ModelRepository implements NotificationRepo
      */
     protected function userAwareQueryBuilder(User $user): \Doctrine\ORM\QueryBuilder
     {
-        return $this->getQueryBuilder()->andWhere("{$this->modelAlias}.user = :user")->setParameter('user', $user);
+        return $this->getQueryBuilder()->andWhere("{$this->alias}.user = :user")->setParameter('user', $user);
     }
 
     /**

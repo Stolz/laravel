@@ -23,7 +23,7 @@ abstract class ModelRepository implements ModelRepositoryContract
      *
      * @var string
      */
-    protected $modelClass;
+    protected $class;
 
     /**
      * Alias to be used to reference the model within query builder.
@@ -31,7 +31,7 @@ abstract class ModelRepository implements ModelRepositoryContract
      *
      * @var string
      */
-    protected $modelAlias;
+    protected $alias;
 
     /**
      * Instance of Doctrine entity manager.
@@ -58,14 +58,14 @@ abstract class ModelRepository implements ModelRepositoryContract
      */
     public function __construct(\Doctrine\ORM\EntityManagerInterface $entityManager)
     {
-        if (! $this->modelClass)
+        if (! $this->class)
             throw new \RuntimeException('Missing repository model class name');
 
-        if (! $this->modelAlias)
+        if (! $this->alias)
             throw new \RuntimeException('Missing repository model alias name');
 
         $this->entityManager = $entityManager;
-        $this->repository = $this->entityManager->getRepository($this->modelClass);
+        $this->repository = $this->entityManager->getRepository($this->class);
     }
 
     /**
@@ -200,7 +200,7 @@ abstract class ModelRepository implements ModelRepositoryContract
     public function getAllIds(): array
     {
         // Use our custom hydrator for maximum efficiency
-        return $this->getQueryBuilder()->select("{$this->modelAlias}.id")->getQuery()->getResult('column');
+        return $this->getQueryBuilder()->select("{$this->alias}.id")->getQuery()->getResult('column');
     }
 
     /**
@@ -247,7 +247,7 @@ abstract class ModelRepository implements ModelRepositoryContract
      */
     protected function getTable(): string
     {
-        return $this->entityManager->getClassMetadata($this->modelClass)->getTableName();
+        return $this->entityManager->getClassMetadata($this->class)->getTableName();
     }
 
     /**
@@ -257,7 +257,47 @@ abstract class ModelRepository implements ModelRepositoryContract
      */
     protected function getQueryBuilder(): QueryBuilder
     {
-        return $this->repository->createQueryBuilder($this->modelAlias);
+        return $this->repository->createQueryBuilder($this->alias);
+    }
+
+    /**
+     * Get the metafields of the model.
+     *
+     * @return array
+     */
+    protected function getModelFields(): array
+    {
+        return $this->entityManager->getClassMetadata($this->class)->getFieldNames();
+    }
+
+    /**
+     * Get the relations of the model.
+     *
+     * @return array
+     */
+    protected function getModelRelations(): array
+    {
+        return $this->entityManager->getClassMetadata($this->class)->getAssociationNames();
+    }
+
+    /**
+     * Get metafields and relations of the model.
+     *
+     * @return array
+     */
+    protected function getModelFieldsAndRelations(): array
+    {
+        return array_keys($this->entityManager->getClassMetadata($this->class)->getReflectionProperties());
+    }
+
+    /**
+     * Get sortable fields of the model (metafields and relations other than manyToMany).
+     *
+     * @return array
+     */
+    protected function getSortableFields(): array
+    {
+        return array_diff($this->getModelFieldsAndRelations(), $this->class::RELATIONSHIPS);
     }
 
     /**
@@ -268,12 +308,12 @@ abstract class ModelRepository implements ModelRepositoryContract
      */
     protected function modelHasField($field): bool
     {
-        static $modelReflectionProperties;
+        static $fields;
 
-        if ($modelReflectionProperties === null)
-            $modelReflectionProperties = $this->entityManager->getClassMetadata($this->modelClass)->getReflectionProperties();
+        if ($fields === null)
+            $fields = $this->getSortableFields();
 
-        return in_array($field, array_keys($modelReflectionProperties));
+        return in_array($field, $fields, true);
     }
 
     /**
@@ -294,10 +334,10 @@ abstract class ModelRepository implements ModelRepositoryContract
         if ($sortBy !== null) {
             if (str_contains($sortBy, '.'))
                 list($alias, $sortBy) = explode('.', $sortBy, 2);
-            else $alias = $this->modelAlias;
+            else $alias = $this->alias;
 
             // Normal field. Ensure the model has the provided field
-            if ($alias === $this->modelAlias) {
+            if ($alias === $this->alias) {
                 $sortBy = ($this->modelHasField($sortBy)) ? "{$alias}.{$sortBy}" : null;
             // Filed in nested relation
             } else {

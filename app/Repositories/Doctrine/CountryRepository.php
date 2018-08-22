@@ -11,14 +11,14 @@ class CountryRepository extends SoftDeletableModelRepository implements CountryR
      *
      * @var string
      */
-    protected $modelClass = \App\Models\Country::class;
+    protected $class = \App\Models\Country::class;
 
     /**
      * Alias to be used to reference the model within query builder.
      *
      * @var string
      */
-    protected $modelAlias = 'country';
+    protected $alias = 'country';
 
     /**
      * Retrieve all models.

@@ -14,14 +14,14 @@ class RoleRepository extends ModelRepository implements RoleRepositoryContract
      *
      * @var string
      */
-    protected $modelClass = Role::class;
+    protected $class = Role::class;
 
     /**
      * Alias to be used to reference the model within query builder.
      *
      * @var string
      */
-    protected $modelAlias = 'role';
+    protected $alias = 'role';
 
     /**
      * Retrieve all models.

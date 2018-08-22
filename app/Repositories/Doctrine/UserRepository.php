@@ -15,14 +15,14 @@ class UserRepository extends SoftDeletableModelRepository implements UserReposit
      *
      * @var string
      */
-    protected $modelClass = \App\Models\User::class;
+    protected $class = \App\Models\User::class;
 
     /**
      * Alias to be used to reference the model within query builder.
      *
      * @var string
      */
-    protected $modelAlias = 'user';
+    protected $alias = 'user';
 
     /**
      * Retrieve all models.
@@ -51,7 +51,7 @@ class UserRepository extends SoftDeletableModelRepository implements UserReposit
 
         // Exact search
         if (! empty($criteria['role'])) {
-            $condition = $queryBuilder->expr()->eq("{$this->modelAlias}.role", ':s_role');
+            $condition = $queryBuilder->expr()->eq("{$this->alias}.role", ':s_role');
             $queryBuilder->andWhere($condition)->setParameter('s_role', $criteria['role']);
         }
 
@@ -60,7 +60,7 @@ class UserRepository extends SoftDeletableModelRepository implements UserReposit
             if (! empty($criteria[$field])) {
                 // Oracle LIKE operator is case sensitive. Convert to lower case to make the search really fuzzy
                 $needle = '%' . strtolower($criteria[$field]) . '%';
-                $condition = $queryBuilder->expr()->like("LOWER({$this->modelAlias}.$field)", ":s_{$field}");
+                $condition = $queryBuilder->expr()->like("LOWER({$this->alias}.$field)", ":s_{$field}");
                 $queryBuilder->andWhere($condition)->setParameter("s_{$field}", $needle);
             }
         }
@@ -84,7 +84,7 @@ class UserRepository extends SoftDeletableModelRepository implements UserReposit
         $aliases = $queryBuilder->getAllAliases();
 
         if ($sortBy === 'role.name' and ! in_array('role', $aliases, true))
-            $queryBuilder->innerJoin("{$this->modelAlias}.role", 'role');
+            $queryBuilder->innerJoin("{$this->alias}.role", 'role');
 
         return $queryBuilder;
     }

@@ -44,7 +44,7 @@ abstract class SoftDeletableModelRepository extends ModelRepository implements S
         if ($this->withSoftDeleted) {
             $this->withSoftDeleted = false; // Ensure the flag is used only once per query
         } else {
-            $queryBuilder->andWhere("{$this->modelAlias}.deletedAt is NULL");
+            $queryBuilder->andWhere("{$this->alias}.deletedAt is NULL");
         }
 
         return $queryBuilder;
