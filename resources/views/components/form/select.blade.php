@@ -1,4 +1,4 @@
-<div class="form-group-DISABLED {{ $parentClass or null }}">
+<div class="form-group-select {{ $parentClass or null }}">
     <label
         for="{{ $id or $name }}"
         class="bmd-label {{ $labelClass or null }}">

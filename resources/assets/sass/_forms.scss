@@ -3,3 +3,8 @@
 form .invalid-feedback {display:block}
 
 .bmd-layout-drawer form {padding: .5em}
+
+// Fix separation between multiple .custom-select
+.form-group-select + .form-group-select {
+    margin-top: .5em;
+}
