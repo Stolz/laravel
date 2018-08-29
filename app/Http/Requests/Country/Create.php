@@ -25,8 +25,8 @@ class Create extends Request
     public function rules(): array
     {
         return [
-            'code' => 'required|alpha|size:2|unique:App\Models\Country,code',
-            'name' => 'required|max:255|unique:App\Models\Country,name',
+            'code' => 'bail|required|alpha|size:2|unique:App\Models\Country,code',
+            'name' => 'bail|required|max:255|unique:App\Models\Country,name',
         ];
     }
 

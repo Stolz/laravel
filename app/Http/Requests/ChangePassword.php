@@ -25,9 +25,9 @@ class ChangePassword extends Request
         $minLength = \App\Models\User::MIN_PASSWORD_LENGTH;
 
         return [
-            'password' => 'required',
-            'new_password' => "required|confirmed|min:$minLength",
-            'new_password_confirmation' => "required|min:$minLength",
+            'password' => 'bail|required',
+            'new_password' => "bail|required|confirmed|min:$minLength",
+            'new_password_confirmation' => "bail|required|min:$minLength",
         ];
     }
 }

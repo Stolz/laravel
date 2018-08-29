@@ -22,7 +22,7 @@ class Update extends Create
     public function rules(): array
     {
         return [
-            'name' => 'required|min:3|max:255|unique:App\Models\Role,name,' . $this->role->getId(),
+            'name' => 'bail|required|min:3|max:255|unique:App\Models\Role,name,' . $this->role->getId(),
         ] + parent::rules();
     }
 }

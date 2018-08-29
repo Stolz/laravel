@@ -22,8 +22,8 @@ class Update extends Create
     public function rules(): array
     {
         return [
-            'email' => 'required|email|max:255|unique:App\Models\User,email,' . $this->user->getId(),
-            'password' => 'nullable|max:255|min:' . \App\Models\User::MIN_PASSWORD_LENGTH,
+            'email' => 'bail|required|email|max:255|unique:App\Models\User,email,' . $this->user->getId(),
+            'password' => 'bail|nullable|max:255|min:' . \App\Models\User::MIN_PASSWORD_LENGTH,
         ] + parent::rules();
     }
 }

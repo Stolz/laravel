@@ -24,8 +24,8 @@ class Update extends Create
         $countryId = $this->country->getId();
 
         return [
-            'code' => "required|alpha|size:2|unique:App\Models\Country,code,$countryId",
-            'name' => "required|max:255|unique:App\Models\Country,name,$countryId",
+            'code' => "bail|required|alpha|size:2|unique:App\Models\Country,code,$countryId",
+            'name' => "bail|required|max:255|unique:App\Models\Country,name,$countryId",
         ] + parent::rules();
     }
 }
