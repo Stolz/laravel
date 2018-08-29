@@ -26,7 +26,7 @@ class Create extends Request
     {
         return [
             // TODO
-            'name' => 'required|max:255|unique:App\Models\Dummy',
+            'name' => 'bail|required|max:255|unique:App\Models\Dummy',
         ];
     }
 }

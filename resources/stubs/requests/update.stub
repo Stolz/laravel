@@ -23,7 +23,7 @@ class Update extends Create
     {
         return [
             // TODO
-            'name' => 'required|max:255|unique:App\Models\Dummy,name,' . $this->dummy->getId(),
+            'name' => 'bail|required|max:255|unique:App\Models\Dummy,name,' . $this->dummy->getId(),
         ] + parent::rules();
     }
 }
