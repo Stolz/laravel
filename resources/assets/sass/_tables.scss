@@ -15,6 +15,7 @@
     a.asc:after, a.desc:after {color: $gray; margin-left: .3em}
     a.asc:after {content: "↓"}
     a.desc:after {content: "↑"}
+    .disabled {cursor: not-allowed}
 }
 
 // Compact buttons in tables
