@@ -6,7 +6,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 id="delete-modal-title-{{ $model['id'] }}" class="modal-title">{{ $title or sprintf(_('Delete %s'), $model) }}</h5>
+                <h5 id="delete-modal-title-{{ $model['id'] }}" class="modal-title">{{ $title or sprintf(_('Delete “%s”'), $model) }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="{{ _('Close') }}">
                     <span aria-hidden="true">&times;</span>
                 </button>
