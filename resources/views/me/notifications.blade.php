@@ -14,7 +14,7 @@
                     $type = ($notification->isUnread()) ? $notification->getLevel() : 'secondary';
                     $icon = ($notification['level'] === 'success') ? 'check_circle' : $notification['level'];
                 ?>
-                @alert(['type' => $type])
+                @alert(['type' => $type, 'icon' => false])
                     <div class="row no-gutters justify-content-between align-items-center">
 
                         {{-- Notifification body --}}
