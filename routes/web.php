@@ -29,9 +29,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', 'MeController@showInfo')->name('me');
         Route::get('password', 'MeController@showChangePasswordForm')->name('me.password');
         Route::post('password', 'MeController@changePassword')->name('me.password.change');
-        Route::get('notifications', 'MeController@showNotifications')->name('me.notifications');
-        Route::get('notifications/count', 'MeController@countUnreadNotifications')->middleware('ajax')->name('me.notifications.count');
-        Route::post('notifications', 'MeController@markNotificationAsRead')->name('me.notification.read');
+        Route::get('notifications', 'NotificationController@index')->name('me.notifications');
+        Route::get('notifications/stream', 'NotificationController@stream')->name('me.notifications.stream');
+        Route::post('notifications', 'NotificationController@markAsRead')->name('me.notification.read');
     });
 
     // Access module

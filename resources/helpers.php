@@ -152,3 +152,31 @@ if (! function_exists('previous_index_url')) {
         return $fallbackUrl;
     }
 }
+
+if (! function_exists('server_sent_event')) {
+    /**
+     * Send a message in server-sent-events (SSE) format.
+     *
+     * @see https://html.spec.whatwg.org/multipage/comms.html#server-sent-events
+     * @param  array $message
+     * @return void
+     */
+    function server_sent_event(array $message)
+    {
+        foreach ($message as $key => $value) {
+            // Convert model to array
+            if ($value instanceof \Illuminate\Contracts\Support\Arrayable)
+                $value = $value->toArray();
+
+            // Convert value to JSON
+            if (! is_null($value) and ! is_scalar($value))
+                $value = json_encode($value);
+
+            echo $key, ': ', $value, PHP_EOL;
+        }
+
+        echo PHP_EOL;
+        ob_flush();
+        flush();
+    }
+}

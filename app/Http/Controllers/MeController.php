@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\Contracts\NotificationRepository;
 use App\Repositories\Contracts\UserRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -65,55 +64,5 @@ class MeController extends Controller
         session()->flash('error', _('Unable to update pasword'));
 
         return redirect()->back();
-    }
-
-    /**
-     * Show page with user notifications.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Repositories\Contracts\NotificationRepository $notificationRepository
-     * @return \Illuminate\Contracts\View\View
-     */
-    public function showNotifications(Request $request, NotificationRepository $notificationRepository): View
-    {
-        $user = $request->user();
-        list($perPage, $page, $sortBy, $sortDirection) = $this->getPaginationOptionsFromRequest($request, 10);
-
-        $notifications = $notificationRepository->paginateUser($user, $perPage, $page, $sortBy, $sortDirection);
-
-        return view('me.notifications')->withNotifications($notifications);
-    }
-
-    /**
-     * Mark user notification as read.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Repositories\Contracts\NotificationRepository $notificationRepository
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function markNotificationAsRead(Request $request, NotificationRepository $notificationRepository): RedirectResponse
-    {
-        $notification = $notificationRepository->find($request->input('notification'));
-
-        if ($notification and $notification->isUnread() and $notification->belongsTo($request->user())) {
-            $notification->setReadAt(now());
-            $notificationRepository->update($notification);
-        }
-
-        return redirect()->back();
-    }
-
-    /**
-     * Count the number of unread notifications.
-     *
-     * Called via AJAX.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Repositories\Contracts\NotificationRepository $notificationRepository
-     * @return int
-     */
-    public function countUnreadNotifications(Request $request, NotificationRepository $notificationRepository)
-    {
-        return $notificationRepository->countUnread($request->user());
     }
 }

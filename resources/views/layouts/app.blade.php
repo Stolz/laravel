@@ -26,3 +26,12 @@
 
 </div>
 @stop
+
+{{-- Notifications via server-sent events --}}
+@auth
+    @push('js')
+    <script>
+        var serverSentEventsUrl = '{{ route('me.notifications.stream') }}';
+    </script>
+    @endpush
+@endauth

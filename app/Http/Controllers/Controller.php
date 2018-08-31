@@ -62,4 +62,24 @@ abstract class Controller extends BaseController
             $this->getPaginationOptionsFromRequest($request, $perPage, $sortBy, $sortDirection)
         );
     }
+
+    /**
+     * Create a event stream response.
+     *
+     * The browser will keep the connection open and the $loop will run indefinitely.
+     * The output of the $loop will be sent to the browser in real time, without buffering.
+     *
+     * @see    https://en.wikipedia.org/wiki/Server-sent_events
+     * @param  callable $loop
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
+    protected function eventStream(callable $loop)
+    {
+        $response = new \Symfony\Component\HttpFoundation\StreamedResponse($loop);
+        $response->headers->set('Content-Type', 'text/event-stream');
+        $response->headers->set('Cache-Control', 'no-cache');
+        $response->headers->set('X-Accel-Buffering', 'no'); // Required for NGINX
+
+        return $response;
+    }
 }
