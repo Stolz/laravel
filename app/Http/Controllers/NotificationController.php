@@ -90,7 +90,7 @@ class NotificationController extends Controller
                 if ($closeConnectionAfter->isPast())
                     return server_sent_event(['event' => 'close', 'data' => _('user seems idle')]);
 
-                // Elastic poll time: The more time the connections stays open, the less ofter we poll
+                // Elastic poll time: The more time the connections stays open, the less often we poll
                 sleep(min($pollFrequency++, 60)); // Never wait more than a minute
             }
         };
