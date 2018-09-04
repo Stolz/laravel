@@ -6,10 +6,8 @@
 
 @prepend('js')
     <script src="{{ mix('js/app.js') }}"></script>
-    @auth
-        {{-- Notifications via server-sent events --}}
-        <script>var serverSentEventsUrl = '{{ route('me.notifications.stream') }}';</script>
-    @endauth
+    {{-- Notifications via server-sent events --}}
+    @auth <script>var serverSentEventsUrl = '{{ route('me.notifications.stream') }}';</script> @endauth
 @endprepend
 
 @section('body')
@@ -29,4 +27,6 @@
     </main>
 
 </div>
+
+<div id="snackbar-container"></div>
 @stop

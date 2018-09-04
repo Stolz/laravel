@@ -2,49 +2,42 @@
 
 export default class ServerSentEvents {
 
-    constructor(label, url) {
-        this.label = label; // Name of the stream
-        this.url = url;     // Url of the stream
+    constructor(tag, url) {
+        this.tag = tag + ': ';
+        this.url = url;
     }
 
     init() {
         if (!! window.EventSource) {
-            console.info(this.label + ': Real time events supported');
+            console.info(this.tag + 'Real time events supported');
             this.sse = new EventSource(this.url);
             this.addGenericListeners();
 
             return true;
         }
 
-        console.error(this.label + ': Real time events not supported');
+        console.error(this.tag + 'Real time events not supported');
         return false;
     }
 
     addGenericListeners() {
-        const sse = this.sse;
-        const label = this.label;
+        const sse = this.sse, tag = this.tag;
 
         // Listener for new connection
-        sse.addEventListener('open', function (event) {
-            console.info(label + ': Connection was opened');
-        }, false);
-
-        // Listener for unamed events
-        sse.addEventListener('message', function (event) {
-            var data = JSON.parse(event.data);
-            console.warn(label + ': Unhandled event. Ensure sent events include a name', data);
+        this.addEventListener('open', function (event) {
+            console.info(tag + 'Connection was opened');
         }, false);
 
         // Listener for connection close request
-        sse.addEventListener('close', function (event) {
-            console.info(label + ': Closing connection as per server request');
+        this.addEventListener('close', function (event) {
+            console.info(tag + 'Closing connection as per server request');
             sse.close();
         }, false);
 
         // Listener for connection errors
-        sse.addEventListener('error', function (event) {
+        this.addEventListener('error', function (event) {
             if (event.readyState == EventSource.CLOSED)
-                console.warn(label + ': Connection was closed');
+                console.warn(tag + 'Connection was closed');
         }, false);
 
         // Close the connection when the browser window is closed
@@ -54,12 +47,20 @@ export default class ServerSentEvents {
         window.addEventListener('beforeunload', function (event) {
             sse.close();
         });
+
+        // Listener for unamed events
+        this.addJsonEventListener('message', function (event) {
+            console.warn(tag + 'Unhandled event. Ensure sent events include a name', event);
+        }, false);
     }
 
-    addEventHandler(event, handler) {
-        this.sse.addEventListener(event, handler, false);
+    addEventListener(event, callback) {
+        this.sse.addEventListener(event, callback);
+    }
+
+    addJsonEventListener(event, callback) {
+        this.addEventListener(event, function (event) {
+            callback(JSON.parse(event.data));
+        }, false);
     }
 }
-
-
-

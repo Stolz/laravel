@@ -25,4 +25,12 @@ interface NotificationRepository extends ModelRepository
      * @return int
      */
     public function countUnread(User $user): int;
+
+    /**
+     * Retrieve the last unread notification for the user.
+     *
+     * @param  \App\Models\User $user
+     * @return \App\Models\Notification|null
+     */
+    public function getLastUnread(User $user): ?\App\Models\Notification;
 }

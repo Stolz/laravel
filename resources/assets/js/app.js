@@ -2,6 +2,7 @@
 
 require('./vendor');
 const ServerSentEvents = require('./serverSentEvents').default;
+const Notifications = require('./notifications').default;
 
 /* Default jQuery AJAX settings. Disabled because we are currently using jQuery Slim version which lacks AJAX support
 $.ajaxSetup({
@@ -19,18 +20,12 @@ $(function () {
 
     // Real time notifications via server-sent events
     if (typeof serverSentEventsUrl != 'undefined') {
-        const notifications = new ServerSentEvents('SSE', serverSentEventsUrl);
-
-        if(notifications.init()) {
-            let $notificationsCount = $('.unread-notifications-counter');
-
-            notifications.addEventHandler('unreadNotificationsCount', function (event) {
-                let data = JSON.parse(event.data);
-                if(data.count)
-                    $notificationsCount.text(data.count).show();
-                else
-                    $notificationsCount.text('').hide();
-            });
+        // Check if SSE are supported
+        const sse = new ServerSentEvents('SSE', serverSentEventsUrl);
+        if(sse.init()) {
+            // Set notification listeners
+            const notifications = new Notifications(sse);
+            notifications.init();
         }
     }
 
@@ -49,4 +44,3 @@ $(function () {
         });
     });
 });
-

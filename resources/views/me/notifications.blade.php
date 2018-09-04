@@ -28,7 +28,7 @@
 
                         {{-- Button to mark notifification as read --}}
                         @if($notification->isUnread())
-                        <div class="col-3 col-md-2 col-xl-1 text-center"">
+                        <div class="col-3 col-md-2 col-xl-1 text-center">
                             {{-- Button to mark notification as read --}}
                             <button name="notification" class="btn btn-outline-{{ ($type === 'error' ? 'danger' : $type) }} btn-sm" value="{{ $notification->getId() }}">
                                 <i class="material-icons">check</i>

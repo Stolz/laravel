@@ -46,18 +46,19 @@ class NotificationController extends Controller
      * Mark a notification as read.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\{RedirectResponse,JsonResponse}
      */
-    public function markAsRead(Request $request): RedirectResponse
+    public function markAsRead(Request $request)
     {
         $notification = $this->notificationRepository->find($request->input('notification'));
 
+        $success = false;
         if ($notification and $notification->isUnread() and $notification->belongsTo($request->user())) {
             $notification->setReadAt(now());
-            $this->notificationRepository->update($notification);
+            $success = $this->notificationRepository->update($notification);
         }
 
-        return redirect()->back();
+        return ($request->ajax()) ? response()->json(compact('success'), $success ? 200 : 400) : redirect()->back();
     }
 
     /**
@@ -81,14 +82,29 @@ class NotificationController extends Controller
             // Initial poll frequency in seconds
             $pollFrequency = 3;
 
+            // Track changes to avoid sending repeated events
+            $start = now();
+            $lastCount = null;
+            $sentNotifications = [];
+
             while (true) {
                 // Send unread notifications count event
                 $count = $this->notificationRepository->countUnread($user);
-                server_sent_event(['event' => 'unreadNotificationsCount', 'data' => ['count' => $count]]);
+                if ($count !== $lastCount)
+                    server_sent_event(['event' => 'unreadNotificationsCount', 'data' => ['count' => $lastCount = $count]]);
+
+                // Send last unread notification event
+                if ($count and $notification = $this->notificationRepository->getLastUnread($user)) {
+                    // Only send the notifications if it is new
+                    if ($notification->isOlderThan($start) and ! in_array($notification->getId(), $sentNotifications, true)) {
+                        $sentNotifications[] = $notification->getId();
+                        server_sent_event(['event' => 'notification', 'data' => $notification]);
+                    }
+                }
 
                 // Check if we are done
                 if ($closeConnectionAfter->isPast())
-                    return server_sent_event(['event' => 'close', 'data' => _('user seems idle')]);
+                    return server_sent_event(['event' => 'close']);
 
                 // Elastic poll time: The more time the connections stays open, the less often we poll
                 sleep(min($pollFrequency++, 60)); // Never wait more than a minute

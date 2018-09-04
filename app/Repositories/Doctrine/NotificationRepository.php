@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Doctrine;
 
+use App\Models\Notification;
 use App\Models\User;
 use App\Repositories\Contracts\NotificationRepository as NotificationRepositoryContract;
 
@@ -12,7 +13,7 @@ class NotificationRepository extends ModelRepository implements NotificationRepo
      *
      * @var string
      */
-    protected $class = \App\Models\Notification::class;
+    protected $class = Notification::class;
 
     /**
      * Alias to be used to reference the model within query builder.
@@ -66,5 +67,16 @@ class NotificationRepository extends ModelRepository implements NotificationRepo
             'user' => $user,
             'readAt' => null,
         ]);
+    }
+
+    /**
+     * Retrieve the last unread notification for the user.
+     *
+     * @param  \App\Models\User $user
+     * @return \App\Models\Notification|null
+     */
+    public function getLastUnread(User $user): ?Notification
+    {
+        return $this->repository->findOneBy(['user' => $user, 'readAt' => null], ['id' => 'desc']);
     }
 }

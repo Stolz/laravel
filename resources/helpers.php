@@ -164,12 +164,12 @@ if (! function_exists('server_sent_event')) {
     function server_sent_event(array $message)
     {
         foreach ($message as $key => $value) {
-            // Convert model to array
-            if ($value instanceof \Illuminate\Contracts\Support\Arrayable)
-                $value = $value->toArray();
-
-            // Convert value to JSON
-            if (! is_null($value) and ! is_scalar($value))
+            // Convert message to JSON
+            if ($value instanceof \JsonSerializable)
+                $value = json_encode($value->jsonSerialize());
+            elseif ($value instanceof \Illuminate\Contracts\Support\Arrayable)
+                $value = json_encode($value->toArray());
+            elseif (! is_null($value) and ! is_scalar($value))
                 $value = json_encode($value);
 
             echo $key, ': ', $value, PHP_EOL;

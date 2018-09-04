@@ -3,10 +3,18 @@
 namespace App\Models;
 
 use App\Traits\CreateTimestampable;
+use Carbon\Carbon;
 
 class Notification extends Model
 {
     use CreateTimestampable;
+
+    /**
+     * Fields to hide when converting the model to JSON.
+     *
+     * @const array
+     */
+    const JSON_HIDDEN = ['user'];
 
     /**
      * Valid levels.
@@ -108,7 +116,7 @@ class Notification extends Model
      *
      * @return \Carbon\Carbon|null
      */
-    public function getReadAt(): ?\Carbon\Carbon
+    public function getReadAt(): ?Carbon
     {
         return $this->readAt;
     }
@@ -345,5 +353,19 @@ class Notification extends Model
     public function belongsTo(User $user): bool
     {
         return $this->getUser() and $user->getId() and $this->getUser()->getId() === $user->getId();
+    }
+
+    /**
+     * Determine whether the notification is older than a given date.
+     *
+     * @param  \Carbon\Carbon $date
+     * @return bool
+     */
+    public function isOlderThan(Carbon $date): bool
+    {
+        if (! $createAt = $this->getCreatedAt())
+            return false;
+
+        return $createAt->greaterThan($date);
     }
 }
