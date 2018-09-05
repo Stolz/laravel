@@ -3,9 +3,13 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use Tests\Traits\CreatesUsers;
+use Tests\Traits\RefreshDatabase;
 
 class BasicTest extends TestCase
 {
+    use RefreshDatabase, CreatesUsers;
+
     /**
      * Tests home page is accessible.
      *
@@ -13,8 +17,19 @@ class BasicTest extends TestCase
      */
     public function testHomePage()
     {
+        // Guest user
+        $this->assertGuest();
         $response = $this->get(route('home'));
-        $response->assertStatus(200);
+        $response->assertOk();
+        $response->assertSee('Home page');
+        $response->assertSee('Please log in to continue');
+
+        // Authenticated user
+        $user = $this->createUser();
+        $response = $this->actingAs($user)->get(route('home'));
+        $response->assertOk();
+        $response->assertSee('Home page');
+        $response->assertSee($user->getName());
     }
 
     /**
