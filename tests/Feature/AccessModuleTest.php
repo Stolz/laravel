@@ -96,8 +96,9 @@ class AccessModuleTest extends TestCase
         $response->assertSessionHasErrors();
 
         // User with permissions. Complete data
-        $data = factory(\App\Models\User::class)->raw();
-        $data['role'] = $this->user['role']['id'];
+        $data = factory(\App\Models\User::class)->raw([
+            'role' => $this->user['role']['id'],
+        ]);
 
         $response = $this->post($route, $data);
         $response->assertRedirect(route('access.user.index'));
@@ -157,8 +158,9 @@ class AccessModuleTest extends TestCase
         $response->assertSessionHasErrors();
 
         // User with permissions. Complete data
-        $data = factory(\App\Models\User::class)->raw();
-        $data['role'] = $this->user['role']['id'];
+        $data = factory(\App\Models\User::class)->raw([
+            'role' => $this->user['role']['id'],
+        ]);
 
         $response = $this->put($route, $data);
         $response->assertRedirect(route('access.user.show', [$id]));
@@ -237,8 +239,9 @@ class AccessModuleTest extends TestCase
         $response->assertSessionHasErrors();
 
         // User with permissions. Complete data
-        $data = factory(\App\Models\Role::class)->raw();
-        $data['permissions'] = ['use-access-module'];
+        $data = factory(\App\Models\Role::class)->raw([
+            'permissions' => ['use-access-module'],
+        ]);
 
         $response = $this->post($route, $data);
         $response->assertRedirect(route('access.role.index'));
@@ -298,8 +301,9 @@ class AccessModuleTest extends TestCase
         $response->assertSessionHasErrors();
 
         // User with permissions. Complete data
-        $data = factory(\App\Models\Role::class)->raw();
-        $data['permissions'] = ['use-access-module'];
+        $data = factory(\App\Models\Role::class)->raw([
+            'permissions' => ['use-access-module'],
+        ]);
 
         $response = $this->put($route, $data);
         $response->assertRedirect(route('access.role.show', [$id]));
