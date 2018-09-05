@@ -1,0 +1,156 @@
+// TODO add these methods
+
+    /**
+     * Tests dummies list page.
+     *
+     * @return void
+     */
+    public function testDummyIndex()
+    {
+        // User without permissions
+        $route = route('bogus.dummy.index');
+        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+
+        // User with permissions
+        $response = $this->actingAs($this->admin)->get($route);
+        $response->assertOk();
+        $response->assertSee('Back to module');
+    }
+
+    /**
+     * Tests create dummy page.
+     *
+     * @return void
+     */
+    public function testDummyCreateForm()
+    {
+        // User without permissions
+        $route = route('bogus.dummy.create');
+        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+
+        // User with permissions
+        $response = $this->actingAs($this->admin)->get($route);
+        $response->assertOk();
+        $response->assertSee('Cancel');
+    }
+
+    /**
+     * Tests create dummy action.
+     *
+     * @return void
+     */
+    public function testDummyCreate()
+    {
+        // User without permissions
+        $route = route('bogus.dummy.store');
+        $response = $this->rejectUnauthorizedRouteAccess($route, 'post');
+
+        // User with permissions. Incomplete data
+        $referer = route('bogus.dummy.create');
+        $response = $this->actingAs($this->admin)->from($referer)->post($route);
+        $response->assertRedirect($referer);
+        $response->assertSessionHasErrors();
+
+        // User with permissions. Complete data
+        $data = factory(\App\Models\Dummy::class)->raw();
+
+        $response = $this->post($route, $data);
+        $response->assertRedirect(route('bogus.dummy.index'));
+        $response->assertSessionHasNoErrors();
+        $response->assertSessionHas('success');
+    }
+
+    /**
+     * Tests show dummy page.
+     *
+     * @return void
+     */
+    public function testDummyShow()
+    {
+        // Create a dummy
+        $dummy = factory(\App\Models\Dummy::class)->make();
+        $this->dummyRepository->create($dummy);
+
+        // User without permissions
+        $route = route('bogus.dummy.show', [$dummy->getId()]);
+        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+
+        // User with permissions
+        $response = $this->actingAs($this->admin)->get($route);
+        $response->assertOk();
+        $response->assertSee('Return');
+    }
+
+    /**
+     * Tests update dummy page.
+     *
+     * @return void
+     */
+    public function testDummyUpdateForm()
+    {
+        // Create a dummy
+        $dummy = factory(\App\Models\Dummy::class)->make();
+        $this->dummyRepository->create($dummy);
+
+        // User without permissions
+        $route = route('bogus.dummy.edit', [$dummy->getId()]);
+        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+
+        // User with permissions
+        $response = $this->actingAs($this->admin)->get($route);
+        $response->assertOk();
+        $response->assertSee('Cancel');
+    }
+
+    /**
+     * Tests update dummy action.
+     *
+     * @return void
+     */
+    public function testDummyUpdate()
+    {
+        // Create a dummy
+        $dummy = factory(\App\Models\Dummy::class)->make();
+        $this->dummyRepository->create($dummy);
+
+        // User without permissions
+        $route = route('bogus.dummy.update', [$id = $dummy->getId()]);
+        $response = $this->rejectUnauthorizedRouteAccess($route, 'put');
+
+        // User with permissions. Incomplete data
+        $referer = route('bogus.dummy.edit', [$id]);
+        $response = $this->actingAs($this->admin)->from($referer)->put($route);
+        $response->assertRedirect($referer);
+        $response->assertSessionHasErrors();
+
+        // User with permissions. Complete data
+        $data = factory(\App\Models\Dummy::class)->raw();
+
+        $response = $this->put($route, $data);
+        $response->assertRedirect(route('bogus.dummy.show', [$id]));
+        $response->assertSessionHasNoErrors();
+        $response->assertSessionHas('success');
+    }
+
+    /**
+     * Tests delete dummy action.
+     *
+     * @return void
+     */
+    public function testDummyDelete()
+    {
+        // Create a dummy
+        $dummy = factory(\App\Models\Dummy::class)->make();
+        $this->dummyRepository->create($dummy);
+
+        // User without permissions
+        $route = route('bogus.dummy.destroy', [$dummy->getId()]);
+        $response = $this->rejectUnauthorizedRouteAccess($route, 'delete');
+
+        // User with permissions
+        $referer = route('bogus.dummy.index');
+        $response = $this->actingAs($this->admin)->from($referer)->delete($route);
+        $response->assertRedirect($referer);
+        $response->assertSessionHasNoErrors();
+        $response->assertSessionHas('success');
+    }

@@ -74,7 +74,8 @@ class MakeStub extends Command
         ->createController()
         ->createFormRequests()
         ->createResourceViews()
-        ->createSubmodule();
+        ->createSubmodule()
+        ->createFeatureTest();
     }
 
     /**
@@ -86,7 +87,7 @@ class MakeStub extends Command
     {
         $path = app_path("Http/Controllers/{$this->moduleClass}");
 
-        // If the module exists, skip
+        // If the module already exists, skip
         if (is_dir($path))
             return $this;
 
@@ -123,6 +124,11 @@ class MakeStub extends Command
         $stub = $this->getStub('routeModule');
         $this->files->append($path, $this->replacePlaceholders($stub));
         $this->info('Routes updated successfully');
+
+        $path = base_path("tests/Feature/{$this->moduleClass}ModuleTest.php");
+        $stub = $this->getStub('tests/Feature/module');
+        $this->files->put($path, $this->replacePlaceholders($stub));
+        $this->info('Module feature tests created successfully');
 
         return $this;
     }
@@ -338,6 +344,21 @@ class MakeStub extends Command
         $stub = $this->getStub('submodule');
         $this->files->append($path, $this->replacePlaceholders($stub));
         $this->info('Submodule view updated successfully');
+
+        return $this;
+    }
+
+    /**
+     * Create the feature tests methods for the model.
+     *
+     * @return self
+     */
+    protected function createFeatureTest(): self
+    {
+        $path = base_path("tests/Feature/{$this->moduleClass}ModuleTest.php");
+        $stub = $this->getStub('tests/Feature/model');
+        $this->files->append($path, $this->replacePlaceholders($stub));
+        $this->info('Model feature tests created successfully');
 
         return $this;
     }
