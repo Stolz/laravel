@@ -3,6 +3,7 @@
 namespace Tests\Browser\Http\Controllers;
 
 use App\Models\User;
+use App\Traits\AttachesRepositories;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
@@ -10,7 +11,7 @@ use Tests\Traits\CreatesUsers;
 
 class MeControllerTest extends DuskTestCase
 {
-    use DatabaseMigrations, CreatesUsers;
+    use DatabaseMigrations, AttachesRepositories, CreatesUsers;
 
     /**
      * Run before each test.

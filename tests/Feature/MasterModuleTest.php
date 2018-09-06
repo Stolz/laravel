@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Traits\AttachesRepositories;
 use Tests\TestCase;
 use Tests\Traits\CreatesUsers;
 use Tests\Traits\RefreshDatabase;
@@ -9,7 +10,7 @@ use Tests\Traits\RejectsUnauthorizedRouteAccess;
 
 class MasterModuleTest extends TestCase
 {
-    use RefreshDatabase, CreatesUsers, RejectsUnauthorizedRouteAccess;
+    use RefreshDatabase, AttachesRepositories, CreatesUsers, RejectsUnauthorizedRouteAccess;
 
     /**
      * Run before each test.

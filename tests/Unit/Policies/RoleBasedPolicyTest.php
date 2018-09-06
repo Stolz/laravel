@@ -3,13 +3,14 @@
 namespace Tests\Unit\Policies;
 
 use App\Models\User;
+use App\Traits\AttachesRepositories;
 use Tests\TestCase;
 use Tests\Traits\CreatesUsers;
 use Tests\Traits\RefreshDatabase;
 
 class RoleBasedPolicyTest extends TestCase
 {
-    use RefreshDatabase, CreatesUsers;
+    use RefreshDatabase, AttachesRepositories, CreatesUsers;
 
     /**
      * Test policiy permission checks.

@@ -4,12 +4,9 @@ namespace Tests\Traits;
 
 use App\Models\Role;
 use App\Models\User;
-use App\Traits\AttachesRepositories;
 
 trait CreatesUsers
 {
-    use AttachesRepositories;
-
     /**
      * Create a test user.
      *

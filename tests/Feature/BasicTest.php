@@ -2,13 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Traits\AttachesRepositories;
 use Tests\TestCase;
 use Tests\Traits\CreatesUsers;
 use Tests\Traits\RefreshDatabase;
 
 class BasicTest extends TestCase
 {
-    use RefreshDatabase, CreatesUsers;
+    use RefreshDatabase, AttachesRepositories, CreatesUsers;
 
     /**
      * Tests home page is accessible.

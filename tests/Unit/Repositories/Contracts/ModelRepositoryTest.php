@@ -3,6 +3,7 @@
 namespace Tests\Unit\Repositories\Contracts;
 
 use App\Models\User;
+use App\Traits\AttachesRepositories;
 use Tests\TestCase;
 use Tests\Traits\CreatesUsers;
 use Tests\Traits\RefreshDatabase;
@@ -14,7 +15,7 @@ use Tests\Traits\RefreshDatabase;
  */
 class ModelRepositoryTest extends TestCase
 {
-    use RefreshDatabase, CreatesUsers;
+    use RefreshDatabase, AttachesRepositories, CreatesUsers;
 
     /**
      * Run before each test.

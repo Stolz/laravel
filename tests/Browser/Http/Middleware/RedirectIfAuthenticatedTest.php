@@ -2,14 +2,15 @@
 
 namespace Tests\Browser\Http\Middleware;
 
-use Tests\Traits\CreatesUsers;
+use App\Traits\AttachesRepositories;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
+use Tests\Traits\CreatesUsers;
 
 class RedirectIfAuthenticatedTest extends DuskTestCase
 {
-    use DatabaseMigrations, CreatesUsers;
+    use DatabaseMigrations, AttachesRepositories, CreatesUsers;
 
     /**
      * Test guests cannot access authenticated users area.
