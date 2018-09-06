@@ -59,7 +59,7 @@ class BasicTest extends TestCase
         $response = $this->actingAs($user)->get(route('home'));
         $response->assertOk();
         $response->assertSee('Home page');
-        $response->assertSee($user->getName());
+        $response->assertSee(e($user->getName()));
     }
 
     /**
