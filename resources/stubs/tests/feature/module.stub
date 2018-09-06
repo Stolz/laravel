@@ -1,38 +1,11 @@
-<?php
-
-namespace Tests\Feature;
-
-use Tests\TestCase;
-use Tests\Traits\CreatesUsers;
-use Tests\Traits\RefreshDatabase;
-use Tests\Traits\RejectsUnauthorizedRouteAccess;
-
-class BogusModuleTest extends TestCase
-{
-    use RefreshDatabase, CreatesUsers, RejectsUnauthorizedRouteAccess;
+// TODO add this method to the class above
 
     /**
-     * Run before each test.
+     * Tests bogus module home page is accessible.
      *
      * @return void
      */
-    public function setUp()
-    {
-        parent::setUp();
-
-        // Create user with no permissions
-        $this->user = $this->createUser();
-
-        // Create user with all permissions
-        $this->admin = $this->createUser([], ['name' => 'Admin']);
-    }
-
-    /**
-     * Tests home page of the module.
-     *
-     * @return void
-     */
-    public function testHomePage()
+    public function testBogusModuleHomePage()
     {
         // User without permissions
         $route = route('bogus.home');
@@ -43,4 +16,3 @@ class BogusModuleTest extends TestCase
         $response->assertOk();
         $response->assertSee('Bogus module');
     }
-}

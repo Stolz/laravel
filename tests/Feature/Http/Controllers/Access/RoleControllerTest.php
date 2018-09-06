@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Http\Controller\Bogus;
+namespace Tests\Feature\Http\Controller\Access;
 
 use App\Traits\AttachesRepositories;
 use Tests\TestCase;
@@ -8,7 +8,7 @@ use Tests\Traits\CreatesUsers;
 use Tests\Traits\RefreshDatabase;
 use Tests\Traits\RejectsUnauthorizedRouteAccess;
 
-class DummyControllerTest extends TestCase
+class RoleControllerTest extends TestCase
 {
     use RefreshDatabase, AttachesRepositories, CreatesUsers, RejectsUnauthorizedRouteAccess;
 
@@ -29,14 +29,14 @@ class DummyControllerTest extends TestCase
     }
 
     /**
-     * Tests display a list of dummies.
+     * Tests display a list of roles.
      *
      * @return void
      */
     public function testIndex()
     {
         // User without permissions
-        $route = route('bogus.dummy.index');
+        $route = route('access.role.index');
         $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
 
         // User with permissions
@@ -46,18 +46,14 @@ class DummyControllerTest extends TestCase
     }
 
     /**
-     * Test display the specified dummy.
+     * Test display the specified role.
      *
      * @return void
      */
     public function testShow()
     {
-        // Create a dummy
-        $dummy = factory(\App\Models\Dummy::class)->make();
-        $this->dummyRepository->create($dummy);
-
         // User without permissions
-        $route = route('bogus.dummy.show', [$dummy->getId()]);
+        $route = route('access.role.show', [$this->user->getRole()->getId()]);
         $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
 
         // User with permissions
@@ -67,14 +63,14 @@ class DummyControllerTest extends TestCase
     }
 
     /**
-     * Test show the form for creating a new dummy.
+     * Test show the form for creating a new role.
      *
      * @return void
      */
     public function testCreate()
     {
         // User without permissions
-        $route = route('bogus.dummy.create');
+        $route = route('access.role.create');
         $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
 
         // User with permissions
@@ -84,18 +80,14 @@ class DummyControllerTest extends TestCase
     }
 
     /**
-     * Tests show the form for editing the specified dummy.
+     * Tests show the form for editing the specified role.
      *
      * @return void
      */
     public function testEdit()
     {
-        // Create a dummy
-        $dummy = factory(\App\Models\Dummy::class)->make();
-        $this->dummyRepository->create($dummy);
-
         // User without permissions
-        $route = route('bogus.dummy.edit', [$dummy->getId()]);
+        $route = route('access.role.edit', [$this->user->getRole()->getId()]);
         $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
 
         // User with permissions
@@ -105,78 +97,77 @@ class DummyControllerTest extends TestCase
     }
 
     /**
-     * Tests store a newly created dummy in storage.
+     * Tests store a newly created role in storage.
      *
      * @return void
      */
     public function testStore()
     {
         // User without permissions
-        $route = route('bogus.dummy.store');
+        $route = route('access.role.store');
         $response = $this->rejectUnauthorizedRouteAccess($route, 'post');
 
         // User with permissions. Incomplete data
-        $referer = route('bogus.dummy.create');
+        $referer = route('access.role.create');
         $response = $this->actingAs($this->admin)->from($referer)->post($route);
         $response->assertRedirect($referer);
         $response->assertSessionHasErrors();
 
         // User with permissions. Complete data
-        $data = factory(\App\Models\Dummy::class)->raw();
+        $data = factory(\App\Models\Role::class)->raw([
+            'permissions' => ['use-access-module'],
+        ]);
 
         $response = $this->post($route, $data);
-        $response->assertRedirect(route('bogus.dummy.index'));
+        $response->assertRedirect(route('access.role.index'));
         $response->assertSessionHasNoErrors();
         $response->assertSessionHas('success');
     }
 
     /**
-     * Tests update the specified dummy in storage.
+     * Tests update the specified role in storage.
      *
      * @return void
      */
     public function testUpdate()
     {
-        // Create a dummy
-        $dummy = factory(\App\Models\Dummy::class)->make();
-        $this->dummyRepository->create($dummy);
-
         // User without permissions
-        $route = route('bogus.dummy.update', [$id = $dummy->getId()]);
+        $route = route('access.role.update', [$id = $this->user->getRole()->getId()]);
         $response = $this->rejectUnauthorizedRouteAccess($route, 'put');
 
         // User with permissions. Incomplete data
-        $referer = route('bogus.dummy.edit', [$id]);
+        $referer = route('access.role.edit', [$id]);
         $response = $this->actingAs($this->admin)->from($referer)->put($route);
         $response->assertRedirect($referer);
         $response->assertSessionHasErrors();
 
         // User with permissions. Complete data
-        $data = factory(\App\Models\Dummy::class)->raw();
+        $data = factory(\App\Models\Role::class)->raw([
+            'permissions' => ['use-access-module'],
+        ]);
 
         $response = $this->put($route, $data);
-        $response->assertRedirect(route('bogus.dummy.show', [$id]));
+        $response->assertRedirect(route('access.role.show', [$id]));
         $response->assertSessionHasNoErrors();
         $response->assertSessionHas('success');
     }
 
     /**
-     * Tests remove the specified dummy from storage.
+     * Tests remove the specified role from storage.
      *
      * @return void
      */
     public function testDestroy()
     {
-        // Create a dummy
-        $dummy = factory(\App\Models\Dummy::class)->make();
-        $this->dummyRepository->create($dummy);
+        $role = factory(\App\Models\Role::class)->make();
+        $this->roleRepository->create($role);
 
         // User without permissions
-        $route = route('bogus.dummy.destroy', [$dummy->getId()]);
+        $route = route('access.role.destroy', [$role->getId()]);
         $response = $this->rejectUnauthorizedRouteAccess($route, 'delete');
 
         // User with permissions
-        $referer = route('bogus.dummy.index');
+        $referer = route('access.role.index');
         $response = $this->actingAs($this->admin)->from($referer)->delete($route);
         $response->assertRedirect($referer);
         $response->assertSessionHasNoErrors();

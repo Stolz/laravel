@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Http\Controllers\Master;
 
 use App\Traits\AttachesRepositories;
 use Tests\TestCase;
@@ -8,7 +8,7 @@ use Tests\Traits\CreatesUsers;
 use Tests\Traits\RefreshDatabase;
 use Tests\Traits\RejectsUnauthorizedRouteAccess;
 
-class MasterModuleTest extends TestCase
+class CountryControllerTest extends TestCase
 {
     use RefreshDatabase, AttachesRepositories, CreatesUsers, RejectsUnauthorizedRouteAccess;
 
@@ -29,28 +29,11 @@ class MasterModuleTest extends TestCase
     }
 
     /**
-     * Tests home page of the module.
+     * Tests display a list of countries.
      *
      * @return void
      */
-    public function testHomePage()
-    {
-        // User without permissions
-        $route = route('master.home');
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
-
-        // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
-        $response->assertOk();
-        $response->assertSee('Master module');
-    }
-
-    /**
-     * Tests countries list page.
-     *
-     * @return void
-     */
-    public function testCountryIndex()
+    public function testIndex()
     {
         // User without permissions
         $route = route('master.country.index');
@@ -63,11 +46,32 @@ class MasterModuleTest extends TestCase
     }
 
     /**
-     * Tests create country page.
+     * Test display the specified country.
      *
      * @return void
      */
-    public function testCountryCreateForm()
+    public function testShow()
+    {
+        // Create a country
+        $country = factory(\App\Models\Country::class)->make();
+        $this->countryRepository->create($country);
+
+        // User without permissions
+        $route = route('master.country.show', [$country->getId()]);
+        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+
+        // User with permissions
+        $response = $this->actingAs($this->admin)->get($route);
+        $response->assertOk();
+        $response->assertSee('Return');
+    }
+
+    /**
+     * Test show the form for creating a new country.
+     *
+     * @return void
+     */
+    public function testCreate()
     {
         // User without permissions
         $route = route('master.country.create');
@@ -80,11 +84,32 @@ class MasterModuleTest extends TestCase
     }
 
     /**
-     * Tests create country action.
+     * Tests show the form for editing the specified country.
      *
      * @return void
      */
-    public function testCountryCreate()
+    public function testEdit()
+    {
+        // Create a country
+        $country = factory(\App\Models\Country::class)->make();
+        $this->countryRepository->create($country);
+
+        // User without permissions
+        $route = route('master.country.edit', [$country->getId()]);
+        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+
+        // User with permissions
+        $response = $this->actingAs($this->admin)->get($route);
+        $response->assertOk();
+        $response->assertSee('Cancel');
+    }
+
+    /**
+     * Tests store a newly created country in storage.
+     *
+     * @return void
+     */
+    public function testStore()
     {
         // User without permissions
         $route = route('master.country.store');
@@ -106,53 +131,11 @@ class MasterModuleTest extends TestCase
     }
 
     /**
-     * Tests show country page.
+     * Tests update the specified country in storage.
      *
      * @return void
      */
-    public function testCountryShow()
-    {
-        // Create a country
-        $country = factory(\App\Models\Country::class)->make();
-        $this->countryRepository->create($country);
-
-        // User without permissions
-        $route = route('master.country.show', [$country->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
-
-        // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
-        $response->assertOk();
-        $response->assertSee('Return');
-    }
-
-    /**
-     * Tests update country page.
-     *
-     * @return void
-     */
-    public function testCountryUpdateForm()
-    {
-        // Create a country
-        $country = factory(\App\Models\Country::class)->make();
-        $this->countryRepository->create($country);
-
-        // User without permissions
-        $route = route('master.country.edit', [$country->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
-
-        // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
-        $response->assertOk();
-        $response->assertSee('Cancel');
-    }
-
-    /**
-     * Tests update country action.
-     *
-     * @return void
-     */
-    public function testCountryUpdate()
+    public function testUpdate()
     {
         // Create a country
         $country = factory(\App\Models\Country::class)->make();
@@ -178,11 +161,11 @@ class MasterModuleTest extends TestCase
     }
 
     /**
-     * Tests delete country action.
+     * Tests remove the specified country from storage.
      *
      * @return void
      */
-    public function testCountryDelete()
+    public function testDestroy()
     {
         // Create a country
         $country = factory(\App\Models\Country::class)->make();
