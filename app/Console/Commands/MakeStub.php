@@ -126,7 +126,7 @@ class MakeStub extends Command
         $this->info('Routes updated successfully');
 
         $path = base_path("tests/Feature/{$this->moduleClass}ModuleTest.php");
-        $stub = $this->getStub('tests/Feature/module');
+        $stub = $this->getStub('tests/feature/module');
         $this->files->put($path, $this->replacePlaceholders($stub));
         $this->info('Module feature tests created successfully');
 
@@ -356,9 +356,9 @@ class MakeStub extends Command
     protected function createFeatureTest(): self
     {
         $path = base_path("tests/Feature/{$this->moduleClass}ModuleTest.php");
-        $stub = $this->getStub('tests/Feature/model');
+        $stub = $this->getStub('tests/feature/submodule');
         $this->files->append($path, $this->replacePlaceholders($stub));
-        $this->info('Model feature tests created successfully');
+        $this->info('Submodule feature tests created successfully');
 
         return $this;
     }
