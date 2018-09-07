@@ -2,6 +2,8 @@
 
 namespace Tests\Traits;
 
+use Illuminate\Contracts\Console\Kernel;
+
 trait RefreshDatabase
 {
     use \Illuminate\Foundation\Testing\RefreshDatabase;
@@ -22,5 +24,17 @@ trait RefreshDatabase
         $this->beforeApplicationDestroyed(function () use ($connection) {
             $connection->rollBack();
         });
+    }
+
+    /**
+     * Refresh the in-memory database.
+     *
+     * @return void
+     */
+    protected function refreshInMemoryDatabase()
+    {
+        $this->artisan('doctrine:schema:create');
+
+        $this->app[Kernel::class]->setArtisan(null);
     }
 }
