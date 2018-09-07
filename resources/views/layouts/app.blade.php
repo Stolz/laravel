@@ -5,6 +5,7 @@
 @endprepend
 
 @prepend('js')
+    <script src="{{ mix('js/vendor.js') }}"></script>
     <script src="{{ mix('js/app.js') }}"></script>
     {{-- Notifications via server-sent events --}}
     @auth <script>var serverSentEventsUrl = '{{ route('me.notifications.stream') }}';</script> @endauth

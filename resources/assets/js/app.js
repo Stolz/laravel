@@ -1,6 +1,5 @@
 'use strict'
 
-require('./vendor');
 const ServerSentEvents = require('./serverSentEvents').default;
 const Notifications = require('./notifications').default;
 
