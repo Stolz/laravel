@@ -32,6 +32,10 @@ html, body{
     height:100%;
 }
 
+.bmd-layout-content {
+    padding-top: .6rem;
+}
+
 // Used only while developing for testing purpouses
 .debug {
     border: 1px dashed red !important;

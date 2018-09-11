@@ -4,8 +4,13 @@
 
 // Show table caption on top of the table
 .table caption {
-    text-align: right;
+    text-align: left;
     caption-side: top;
+}
+@include media-breakpoint-up(md) {
+    .table caption {
+        text-align: center;
+    }
 }
 
 // Decorate sortable links in table headers
