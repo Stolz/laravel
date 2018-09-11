@@ -2,8 +2,6 @@
 
 namespace Tests\Traits;
 
-use Illuminate\Contracts\Console\Kernel;
-
 trait RejectsUnauthorizedRouteAccess
 {
     /**
