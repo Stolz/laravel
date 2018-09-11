@@ -77,7 +77,7 @@ class NotificationController extends Controller
         $user = $request->user();
         $loop = function () use ($user) {
             // Safety net to avoid keeping extremely long connections
-            $closeConnectionAfter = now()->addMinutes(20);
+            $closeConnectionAfter = now()->addMinutes(15);
 
             // Initial poll frequency in seconds
             $pollFrequency = 3;
@@ -102,12 +102,12 @@ class NotificationController extends Controller
                     }
                 }
 
-                // Check if we are done
-                if ($closeConnectionAfter->isPast())
-                    return server_sent_event(['event' => 'close']);
+                // Close the connection if we are done. Browser will try to reconnect after 'retry' miliseconds
+                if ($closeConnectionAfter->isPast() or app()->isDownForMaintenance())
+                    return server_sent_event(['event' => 'close', 'retry' => 60 * 1000]);
 
-                // Elastic poll time: The more time the connections stays open, the less often we poll
-                sleep(min($pollFrequency++, 60)); // Never wait more than a minute
+                // Elastic poll time: The more time the connections stays open, the less often we poll ...
+                sleep(min($pollFrequency++, 60)); // ... but never wait more than a minute
             }
         };
 
