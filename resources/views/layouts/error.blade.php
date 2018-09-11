@@ -7,6 +7,7 @@
 @endprepend
 
 @prepend('js')
+    <script src="{{ mix('js/vendor.js') }}"></script>
     <script src="{{ mix('js/app.js') }}"></script>
 @endprepend
 
@@ -18,7 +19,7 @@
     </header>
 
     <main id="main" class="bmd-layout-content container-fluid">
-        <div class="jumbotron" style="margin: 0 -15px">
+        <div class="jumbotron">
             <div class="row justify-content-center">
                 <div class="col-sm-11 col-md-10 col-lg-9 col-xl-8">
 

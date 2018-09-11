@@ -6,7 +6,7 @@
 
     {{-- What guest users see --}}
     @guest
-    <div class="jumbotron" style="margin: -1rem">
+    <div class="jumbotron">
         <div class="row justify-content-center">
             <div class="col-sm-10 col-md-9 col-lg-7 col-xl-5">
                 <h1 class="display-4">{{ sprintf(_('Welcome to %s'), config('app.name')) }}</h1>
