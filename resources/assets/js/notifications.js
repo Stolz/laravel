@@ -15,20 +15,19 @@ export default class Notifications {
         this.$counter = $('.unread-notifications-counter');
 
         this.sse.addJsonEventListener('unreadNotificationsCount', function (event) {
-           self.updateCounter(event.count);
+            self.updateCounter(event.count);
         });
 
         this.sse.addJsonEventListener('notification', function (event) {
-           self.show(event);
+            self.show(event);
         });
     }
 
     // Update unread notifications counter
     updateCounter(count) {
-        if(count)
+        if (count)
             this.$counter.text(count).show();
-        else
-            this.$counter.text('').hide();
+        else this.$counter.text('').hide();
     }
 
     // Shows a notification in the snackbar
@@ -41,7 +40,7 @@ export default class Notifications {
         .text(notification.message);
 
         // Button of the notification
-        if(notification.action_url) {
+        if (notification.action_url) {
             const type = (notification.level === 'error') ? 'danger' : notification.level;
 
             const $button = $('<a/>')
@@ -82,7 +81,7 @@ export default class Notifications {
         ajax.send('notification=' + notification.id);
 
         if (followUrl && notification.action_url) {
-            ajax.onload = function() {
+            ajax.onload = function () {
                 window.location.replace(notification.action_url);
             };
         }

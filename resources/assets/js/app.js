@@ -21,7 +21,7 @@ $(function () {
     if (typeof serverSentEventsUrl != 'undefined') {
         // Check if SSE are supported
         const sse = new ServerSentEvents('SSE', serverSentEventsUrl);
-        if(sse.init()) {
+        if (sse.init()) {
             // Set notification listeners
             const notifications = new Notifications(sse);
             notifications.init();
