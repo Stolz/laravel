@@ -11,14 +11,14 @@ class DummyRepository extends ModelRepository implements DummyRepositoryContract
      *
      * @var string
      */
-    protected $modelClass = \App\Models\Dummy::class;
+    protected $class = \App\Models\Dummy::class;
 
     /**
      * Alias to be used to reference the model within query builder.
      *
      * @var string
      */
-    protected $modelAlias = 'dummy';
+    protected $alias = 'dummy';
 
     /**
      * Retrieve all models.
