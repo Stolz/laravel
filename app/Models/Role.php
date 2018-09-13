@@ -34,7 +34,7 @@ class Role extends Model
     /**
      * Get the permissions of the role.
      *
-     * @return \Doctrine\Common\Collections\Collection of Bar
+     * @return \Doctrine\Common\Collections\Collection of Permission
      */
     public function getPermissions(): \Doctrine\Common\Collections\Collection
     {

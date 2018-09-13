@@ -103,9 +103,10 @@ class UserController extends Controller
     public function update(\App\Http\Requests\User\Update $request, User $user): JsonResponse
     {
         // Get request input
-        $request->merge(['role' => $this->roleRepository->find($request->role)]);
         $except = ($request->filled('password')) ? [] : ['password'];
-        $attributes = $request->exceptNonFillable($except);
+        $attributes = $request->merge([
+            'role' => $this->roleRepository->find($request->role),
+        ])->exceptNonFillable($except);
 
         // Apply changes to the user
         $user->set($attributes);

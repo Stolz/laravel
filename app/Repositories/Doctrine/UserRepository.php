@@ -49,6 +49,8 @@ class UserRepository extends SoftDeletableModelRepository implements UserReposit
     {
         $queryBuilder = $this->getQueryBuilder();
 
+        // NOTE: Rememer to apply the most restrictive conditions first
+
         // Exact search
         if (! empty($criteria['role'])) {
             $condition = $queryBuilder->expr()->eq("{$this->alias}.role", ':s_role');

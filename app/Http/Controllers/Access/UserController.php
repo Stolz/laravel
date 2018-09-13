@@ -28,8 +28,10 @@ class UserController extends Controller
      * @param  \App\Repositories\Contracts\UserRepository $userRepository
      * @return void
      */
-    public function __construct(\App\Repositories\Contracts\RoleRepository $roleRepository, \App\Repositories\Contracts\UserRepository $userRepository)
-    {
+    public function __construct(
+        \App\Repositories\Contracts\RoleRepository $roleRepository,
+        \App\Repositories\Contracts\UserRepository $userRepository
+    ) {
         $this->roleRepository = $roleRepository;
         $this->userRepository = $userRepository;
     }
