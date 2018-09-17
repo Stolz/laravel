@@ -11,10 +11,21 @@
         class="custom-select {{ $class or null }} @if($errors->has($name)) is-invalid @endif"
         {{ $attributes or null }}>
 
+        <?php
+            // Convert selected value to scalar (or array of scalars when multiple values)
+            if ($selected instanceof \App\Models\Model)
+               $selected = $selected['id'];
+            elseif ($selected instanceof \IteratorAggregate) // This applies to both Doctrine and Laravel collections
+               $selected = collect(iterator_to_array($selected))->map->getId()->all();
+        ?>
         @foreach($options as $value => $option)
             <?php
-            $value = ($option instanceof \App\Models\Model) ? $option['id'] : $value;
-            $selectCurrent = (is_scalar($selected)) ? $selected == $value : $selected['id'] == $value;
+            // Convert current value to scalar
+            if ($option instanceof \App\Models\Model)
+                $value = $option['id'];
+
+            // Check if current value should be selected
+            $selectCurrent = (is_array($selected)) ? in_array($value, $selected) : $selected == $value;
             ?>
             <option value="{{ $value }}" @if($selectCurrent) selected @endif @empty($value) disabled @endempty>
                 {{ $option }}
