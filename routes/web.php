@@ -36,14 +36,12 @@ Route::middleware(['auth'])->group(function () {
 
     // Access module
     Route::middleware(['can:access,module'])->prefix('access')->namespace('Access')->name('access.')->group(function () {
-        Route::view('/', 'modules/access')->name('home');
         Route::resource('role', 'RoleController');
         Route::resource('user', 'UserController');
     });
 
     // Master module
     Route::middleware(['can:master,module'])->prefix('master')->namespace('Master')->name('master.')->group(function () {
-        Route::view('/', 'modules/master')->name('home');
         Route::resource('country', 'CountryController');
     });
 });

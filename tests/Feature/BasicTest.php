@@ -35,9 +35,11 @@ class BasicTest extends TestCase
      */
     public function testRoutes()
     {
-        $this->artisan('route:list');
-        $output = app('Illuminate\Contracts\Console\Kernel')->output();
-        $this->assertRegExp('/Domain.*Method.*URI.*Name.*Action.*Middleware/', $output);
+        $this->artisan('route:list')->assertExitCode(0);
+
+        // Workaround for BUG in Laravel 5.7. The assertExitCode(0) does not trigger
+        // any assertion and PHP Unit flags this tests as risky
+        $this->assertTrue(true);
     }
 
     /**
@@ -60,39 +62,5 @@ class BasicTest extends TestCase
         $response->assertOk();
         $response->assertSee('Home page');
         $response->assertSee(e($user->getName()));
-    }
-
-    /**
-     * Tests access module home page is accessible.
-     *
-     * @return void
-     */
-    public function testAccessModuleHomePage()
-    {
-        // User without permissions
-        $route = route('access.home');
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
-
-        // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
-        $response->assertOk();
-        $response->assertSee('Access module');
-    }
-
-    /**
-     * Tests master module home page is accessible.
-     *
-     * @return void
-     */
-    public function testMasterModuleHomePage()
-    {
-        // User without permissions
-        $route = route('master.home');
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
-
-        // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
-        $response->assertOk();
-        $response->assertSee('Master module');
     }
 }
