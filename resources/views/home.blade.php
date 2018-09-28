@@ -4,63 +4,26 @@
 
 @section('main')
 
-    {{-- What guest users see --}}
-    @guest
-    <div class="jumbotron">
-        <div class="row justify-content-center">
-            <div class="col-sm-10 col-md-9 col-lg-7 col-xl-5">
-                <h1 class="display-4">{{ sprintf(_('Welcome to %s'), config('app.name')) }}</h1>
-                @if(! app()->environment('production'))
-                    <span class="badge badge-secondary">{{ sprintf(_('%s environment'), app()->environment()) }}</span>
-                @endif
+    @auth
+        <i class="h2 float-left fe fe-corner-left-up d-none d-lg-block mx-1"></i>
+        <i class="h2 float-right fe fe-corner-right-up d-lg-none mx-1"></i>
+        <h2 class="text-muted">{{ _('Please use the menu to navigate') }}</h2>
+    @else
+        <div class="text-center">
+            <div class="display-3 text-muted mt-md-9">
+                {{ _('Welcome to') }}
+                <h1 class="display-2">{{ config('app.name') }}</h1>
+            </div>
 
-                <hr>
+            <div class="h2">{{ _('Please log in to continue') }}</div>
 
-                <p class="lead">{{ _('Please log in to continue') }}</p>
-                <a class="btn btn-primary active" href="{{ route('login') }}" role="button">
-                    <i class="material-icons">person</i>
+            <p>
+                <a class="btn btn-primary my-5" href="{{ route('login') }}" role="button">
+                    <i class="fe fe-log-in mr-2"></i>
                     {{ _('Log in') }}
                 </a>
-            </div>
+            </p>
         </div>
-    </div>
-    @endguest
-
-    {{-- What authenticated users see --}}
-    @auth
-    <div class="row justify-content-center">
-
-        @can('access', 'module')
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-flex align-items-stretch">
-            <div class="card mt-3">
-                <div class="card-body">
-                    <h5 class="card-title text-truncate">{{ _('Access module') }}</h5>
-                    <p class="card-text">{{ _('Manage users, roles and permissions') }}</p>
-                    <a class="btn btn-primary btn-raised" href="{{ route('access.home') }}">
-                        <i class="material-icons">view_module</i>
-                        {{ _('Go to module') }}
-                    </a>
-                </div>
-            </div>
-        </div>
-        @endcan
-
-        @can('master', 'module')
-        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 d-flex align-items-stretch">
-            <div class="card mt-3">
-                <div class="card-body">
-                    <h5 class="card-title text-truncate">{{ _('Master module') }}</h5>
-                    <p class="card-text">{{ _('Manage countries') }}</p>
-                    <a class="btn btn-primary btn-raised" href="{{ route('master.home') }}">
-                        <i class="material-icons">view_module</i>
-                        {{ _('Go to module') }}
-                    </a>
-                </div>
-            </div>
-        </div>
-        @endcan
-
-    </div>
     @endauth
 
 @endsection
