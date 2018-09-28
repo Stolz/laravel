@@ -1,33 +1,33 @@
 @extends('layouts.app')
 
-@section('page.title', _('Update country'))
+@section('page.title', $title = _('Update country'))
 
 @section('main')
-<div class="row justify-content-center">
-    <div class="col-sm-9 col-md-7 col-lg-5 col-xl-4">
+    <form method="post" action="{{ route('master.country.update', $country['id']) }}" role="form" autocomplete="off">
+        @csrf @method('put')
+        @card(['footerClass' => 'd-flex justify-content-between'])
+            @slot('header')
+                <div class="card-title">{{ $title }}</div>
+                <div class="card-options">
+                    <a href="#" class="card-options-fullscreen" data-toggle="card-fullscreen" title="{{ _('Toggle full screen') }}"><i class="fe fe-maximize"></i></a>
+                </div>
+            @endslot
 
-        <form method="post" action="{{ route('master.country.update', $country['id']) }}" role="form" autocomplete="off">
-            @csrf @method('put')
             @include('modules.master.country.form')
 
-            <div class="row">
+            @slot('footer')
                 @can('list', 'App\Models\Country')
-                    <div class="col">
-                        <a href="{{ previous_index_url(route('master.country.index')) }}" class="btn btn-outline-secondary btn-block">
-                            <i class="material-icons">cancel</i>
-                            {{ _('Cancel') }}
-                        </a>
-                    </div>
+                    <a href="{{ previous_index_url(route('master.country.index')) }}" class="btn btn-outline-secondary">
+                        <i class="fe fe-x"></i>
+                        {{ _('Cancel') }}
+                    </a>
                 @endcan
-                <div class="col">
-                    <button type="submit" class="btn btn-primary active btn-block">
-                        <i class="material-icons">save</i>
-                        {{ _('Update country') }}
-                    </button>
-                </div>
-            </div>
-        </form>
 
-    </div>
-</div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fe fe-edit-3"></i>
+                    {{ _('Update country') }}
+                </button>
+            @endslot
+        @endcard
+    </form>
 @stop

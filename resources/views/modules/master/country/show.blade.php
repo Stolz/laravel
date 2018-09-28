@@ -1,46 +1,53 @@
 @extends('layouts.app')
 
-@section('page.title', _('Country details'))
+@section('page.title', $title = _('Country details'))
 
 @section('main')
-<div class="row justify-content-center">
-    <div class="col-sm-9 col-md-7 col-lg-5 col-xl-4">
-        <dl>
-            <dt>{{ _('Code') }}</dt>
-            <dd>{{ $country['code'] }}</dd>
+    @card(['footerClass' => 'd-flex justify-content-between'])
+        @slot('header')
+            <div class="card-title">{{ $title }}</div>
+            <div class="card-options">
+                <a href="#" class="card-options-fullscreen" data-toggle="card-fullscreen" title="{{ _('Toggle full screen') }}"><i class="fe fe-maximize"></i></a>
+            </div>
+        @endslot
 
-            <dt>{{ _('Name') }}</dt>
-            <dd>{{ $country['name'] }}</dd>
-        </dl>
-
-        <div class="row">
-            @can('list', 'App\Models\Country')
-                <div class="col">
-                    <a href="{{ previous_index_url(route('master.country.index')) }}" class="btn btn-outline-secondary btn-block">
-                        <i class="material-icons">arrow_back</i>
-                        {{ _('Return') }}
-                    </a>
-                </div>
-            @endcan
-            @can('update', $country)
-                <div class="col">
-                    <a href="{{ route('master.country.edit', [$country['id']]) }}" class="btn btn btn-primary active btn-block">
-                        <i class="material-icons">edit</i>
-                        {{ _('Edit') }}
-                    </a>
-                </div>
-            @endcan
-            @can('delete', $country)
-                <div class="col">
-                    <a href="#" class="btn btn btn-danger active btn-block" data-toggle="modal" data-target="#delete-modal-{{ $country['id'] }}">
-                        <i class="material-icons">delete</i>
-                        {{ _('Delete') }}
-                    </a>
-                </div>
-                @deleteModelModal(['model' => $country, 'action' => route('master.country.destroy', [$country['id']])])
-                @enddeleteModelModal
-            @endcan
+        <div class="d-flex justify-content-between">
+            <dl>
+                <dt>{{ _('Name') }}</dt>
+                <dd>{{ $country['name'] }}</dd>
+            </dl>
+            <dl>
+                <dt>{{ _('Code') }}</dt>
+                <dd>{{ $country['code'] }}</dd>
+            </dl>
+            <dl>
+                <dt>{{ _('Flag') }}</dt>
+                <dd>@flag(['country' => $country])@endflag</dd>
+            </dl>
         </div>
-    </div>
-</div>
+
+        @slot('footer')
+            @can('list', 'App\Models\Country')
+                <a href="{{ previous_index_url(route('master.country.index')) }}" class="btn btn-outline-secondary">
+                    <i class="fe fe-arrow-left"></i>
+                    {{ _('Return') }}
+                </a>
+            @endcan
+
+            @can('update', $country)
+                <a href="{{ route('master.country.edit', [$country['id']]) }}" class="btn btn-primary">
+                    <i class="fe fe-edit-2"></i>
+                    {{ _('Edit') }}
+                </a>
+            @endcan
+
+            @can('delete', $country)
+                <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#delete-modal-{{ $country['id'] }}">
+                    <i class="fe fe-trash-2"></i>
+                    {{ _('Delete') }}
+                </a>
+                @deleteModelModal(['model' => $country, 'action' => route('master.country.destroy', [$country['id']])]) @enddeleteModelModal
+            @endcan
+        @endslot
+    @endcard
 @stop

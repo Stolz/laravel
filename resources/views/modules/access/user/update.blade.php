@@ -1,40 +1,33 @@
 @extends('layouts.app')
 
-@section('page.title', _('Update user'))
+@section('page.title', $title = _('Update user'))
 
 @section('main')
-<div class="row justify-content-center">
-    <div class="col-sm-9 col-md-7 col-lg-5 col-xl-4">
-
-        <form method="post" action="{{ route('access.user.update', $user['id']) }}" role="form" autocomplete="off">
-            @csrf @method('put')
-            @include('modules.access.user.form')
-
-            @input(['type' => 'password', 'name' => 'password', 'attributes' => 'autocomplete=new-password maxlength=255'])
-                {{ _('Password') }}
-                @slot('help')
-                    {{ _("Leave it blank if you don't want to update the password") }}
-                @endslot
-            @endinput
-
-            <div class="row">
-                @can('list', 'App\Models\User')
-                    <div class="col">
-                        <a href="{{ previous_index_url(route('access.user.index')) }}" class="btn btn-outline-secondary btn-block">
-                            <i class="material-icons">cancel</i>
-                            {{ _('Cancel') }}
-                        </a>
-                    </div>
-                @endcan
-                <div class="col">
-                    <button type="submit" class="btn btn-primary active btn-block">
-                        <i class="material-icons">save</i>
-                        {{ _('Update user') }}
-                    </button>
+    <form method="post" action="{{ route('access.user.update', $user['id']) }}" role="form" autocomplete="off">
+        @csrf @method('put')
+        @card(['footerClass' => 'd-flex justify-content-between'])
+            @slot('header')
+                <div class="card-title">{{ $title }}</div>
+                <div class="card-options">
+                    <a href="#" class="card-options-fullscreen" data-toggle="card-fullscreen" title="{{ _('Toggle full screen') }}"><i class="fe fe-maximize"></i></a>
                 </div>
-            </div>
-        </form>
+            @endslot
 
-    </div>
-</div>
+            @include('modules.access.user.form', ['isUpdate' => true])
+
+            @slot('footer')
+                @can('list', 'App\Models\User')
+                    <a href="{{ previous_index_url(route('access.user.index')) }}" class="btn btn-outline-secondary">
+                        <i class="fe fe-x"></i>
+                        {{ _('Cancel') }}
+                    </a>
+                @endcan
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fe fe-edit-3"></i>
+                    {{ _('Update user') }}
+                </button>
+            @endslot
+        @endcard
+    </form>
 @stop
