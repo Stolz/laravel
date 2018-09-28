@@ -1,29 +1,35 @@
 @extends('layouts.app')
 
-@section('page.title', _('Send password reset link'))
+@section('page.title', $title = _('Request password reset'))
 
 @section('main')
-<div class="row justify-content-center">
-    <div class="col-sm-9 col-md-7 col-lg-5 col-xl-4">
+<div class="row mt-md-7">
+    <div class="col col-login mx-auto">
 
         @if(session('status'))
-            @alert(['type' => 'success'])
+            @alert(['type' => 'info'])
                 {{ session('status') }}
             @endalert
         @endif
 
-        <form method="post" action="{{ route('password.email') }}" role="form" autocomplete="off">
-            @csrf
+        @card
+            <form method="post" action="{{ route('password.email') }}" role="form" autocomplete="off">
+                @csrf
+                <div class="card-title">{{ $title }}</div>
+                <p class="text-muted">{{ _('Please enter your e-mail address and we will send you a message with instructions to reset your password.') }}</p>
 
-            @input(['type' => 'email', 'name' => 'email', 'value' => old('email'), 'attributes' => 'required autofocus maxlength=255'])
-                {{ _('E-Mail') }}
-            @endinput
+                @input(['type' => 'email', 'name' => 'email', 'value' => old('email'), 'attributes' => 'required autofocus maxlength=255'])
+                    {{ _('E-Mail') }}
+                @endinput
 
-            <button type="submit" class="btn btn-outline-primary btn-block mt-4" role="button" aria-pressed="true">
-                <i class="material-icons">mail</i>
-                {{ _('Send reset link to my e-mail') }}
-            </button>
-        </form>
+                <div class="form-footer">
+                    <button type="submit" class="btn btn-primary btn-block" role="button">
+                        <i class="fe fe-mail mr-1"></i>
+                        {{ _('Send e-mail') }}
+                    </button>
+                </div>
+            </form>
+        @endcard
 
     </div>
 </div>

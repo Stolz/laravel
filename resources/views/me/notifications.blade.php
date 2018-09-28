@@ -9,39 +9,32 @@
     @else
         <form method="post" action="{{ route('me.notification.read') }}" role="form" autocomplete="off">
             @csrf
+            <?php $icons = ['info' => 'fe fe-info', 'success' => 'fe fe-check-circle', 'warning' => 'fe fe-alert-triangle', 'error' => 'fe fe-alert-octagon']; ?>
             @foreach($notifications as $notification)
-                <?php
-                    $type = ($notification->isUnread()) ? $notification->getLevel() : 'secondary';
-                    $icon = ($notification['level'] === 'success') ? 'check_circle' : $notification['level'];
-                ?>
-                @alert(['type' => $type, 'icon' => false])
-                    <div class="row no-gutters justify-content-between align-items-center">
+                @alert(['type' => $type = ($notification->isUnread()) ? $notification->getLevel() : 'secondary', 'icon' => $icons[$notification->getLevel()]])
 
-                        {{-- Notifification body --}}
-                        <div class="col">
-                            <i class="material-icons">{{ $icon }}</i>
-                            <b>{{ $notification->getMessage() }}</b>
-                            @if($url = $notification->getActionUrl())
-                                <a class="alert-link" href="{{ $url }}">{{ $notification->getActionText() }}</a>
-                            @endif
-                        </div>
-
-                        {{-- Button to mark notifification as read --}}
-                        @if($notification->isUnread())
-                        <div class="col-3 col-md-2 col-xl-1 text-center">
-                            {{-- Button to mark notification as read --}}
-                            <button name="notification" class="btn btn-outline-{{ ($type === 'error' ? 'danger' : $type) }} btn-sm" value="{{ $notification->getId() }}">
-                                <i class="material-icons">check</i>
-                                {{ _('Mark as read') }}
-                            </button>
-                        </div>
+                    {{-- Notifification body --}}
+                    @slot('title')
+                        {{ $notification->getMessage() }}
+                        @if($url = $notification->getActionUrl())
+                            <a class="alert-link" href="{{ $url }}">{{ $notification->getActionText() }}</a>
                         @endif
+                    @endslot
 
-                        {{-- Notifification relative date --}}
-                        <div class="col-sm-3 col-md-2 col-xl-1 text-right" title="{{ $createdAt = $notification->getCreatedAt() }}">
-                            {{ $createdAt->diffForHumans() }}
-                        </div>
-                    </div>
+                    <hr class="mt-0 mb-1">
+
+                    {{-- Notifification relative date --}}
+                    <span title="{{ $createdAt = $notification->getCreatedAt() }}">
+                        {{ $createdAt->diffForHumans() }}
+                    </span>
+
+                    {{-- Button to mark notifification as read --}}
+                    @if($notification->isUnread())
+                    <button name="notification" class="btn btn-{{ ($type === 'error' ? 'danger' : $type) }} btn-sm float-right" value="{{ $notification->getId() }}">
+                        <i class="fe fe-check"></i>
+                        {{ _('Mark as read') }}
+                    </button>
+                    @endif
 
                 @endalert
             @endforeach
