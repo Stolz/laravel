@@ -42,7 +42,7 @@ class CountryControllerTest extends TestCase
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
         $response->assertOk();
-        $response->assertSee('Back to module');
+        $response->assertSee('TEST BEACON index');
     }
 
     /**
