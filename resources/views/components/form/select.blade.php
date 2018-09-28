@@ -1,14 +1,17 @@
-<div class="form-group-select {{ $parentClass or null }}">
+<div class="form-group {{ $parentClass or null }}">
     <label
         for="{{ $id or $name }}"
-        class="bmd-label {{ $labelClass or null }}">
+        class="form-label {{ $labelClass or null }}">
         {{ $slot }}
+        @if(isset($attributes) and str_contains($attributes, 'required'))
+            <span class="form-required">*</span>
+        @endif
     </label>
 
     <select
         id="{{ $id or $name }}"
         name="{{ $name }}"
-        class="custom-select {{ $class or null }} @if($errors->has($name)) is-invalid @endif"
+        class="form-control custom-select {{ $class or null }} @if($errors->has($name)) is-invalid state-invalid @elseif($errors->count()) is-valid state-valid @endif"
         {{ $attributes or null }}>
 
         <?php
@@ -38,6 +41,6 @@
     @endif
 
     @isset($help)
-        <small class="form-text text-muted">{{ $help }}</small>
+        <div class="small text-muted">{{ $help }}</div>
     @endisset
 </div>

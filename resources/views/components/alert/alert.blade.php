@@ -1,20 +1,28 @@
-<div class="alert alert-{{ ($type === 'error' ? 'danger' : $type) }} alert-dismissible fade show" role="alert">
+<?php
+    $icons = ['info' => 'fe fe-info', 'success' => 'fe fe-check-circle', 'warning' => 'fe fe-alert-triangle', 'error' => 'fe fe-alert-octagon'];
 
-    @isset($title)
-        <h4 class="alert-heading">{{ $title }}</h4>
+    // Show icon by default
+    if (! isset($icon))
+        $icon = $icons[$type] ?? 'fe fe-alert-circle';
+?>
+<div class="alert
+    alert-{{ ($type === 'error' ? 'danger' : $type) }}
+    @if($icon ?? true) alert-icon @endif
+    @isset($dismiss) alert-dismissible @endisset
+    " role="alert">
+
+    @isset($dismiss)
+        <button type="button" class="close" data-dismiss="alert" aria-label="{{ _('Close') }}"></button>
     @endisset
 
-    {{-- Show icon by default --}}
-    @if($icon ?? true)
-        <?php $icons = ['info' => 'info', 'success' => 'check_circle', 'warning' => 'warning', 'error' => 'error']; ?>
-        <i class="material-icons">{{ $icons[$type] ?? 'error_outline' }}</i>
+    @isset($title)
+        <div class="alert-heading h4">{{ $title }}</div>
+    @endisset
+
+    @if($icon)
+        <i class="{{ $icon }}" aria-hidden="true"></i>
     @endif
 
     {{ $slot }}
 
-    @isset($dismiss)
-    <button type="button" class="close" data-dismiss="alert" aria-label="{{ _('Close') }}">
-        <span aria-hidden="true">&times;</span>
-    </button>
-    @endisset
 </div>

@@ -3,9 +3,9 @@
     {{ $slot }}.
 
     @if(! empty($reset) and request()->has('search'))
-        <a class="alert-link" href="{{ $reset }}">{{ _('Reset search options') }}</a>
+        <a class="alert-link" href="{{ $reset }}">{{ _('Reset search') }}</a>
         {{ _('or') }}
-        <a href="#" onclick="return false" class="alert-link" data-toggle="drawer" data-target="#aside">{{ _('try with different ones') }}</a>.
+        <a href="#" class="show-side alert-link">{{ _('try another one') }}</a>.
     @endif
 
 @endalert

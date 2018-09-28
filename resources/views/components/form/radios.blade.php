@@ -1,8 +1,19 @@
+<?php
+    if ($errors->has($name))
+        $valid = 'is-invalid state-invalid';
+    elseif ($errors->count())
+        $valid = 'is-valid state-valid';
+else $valid = '';
+?>
+
 <div class="form-group {{ $parentClass or null }}">
     <label
         for="{{ $id or $name }}"
-        class="bmd-label {{ $labelClass or null }}">
+        class="form-label {{ $labelClass or null }} {{$valid}}">
         {{ $slot }}
+        @if(isset($attributes) and str_contains($attributes, 'required'))
+            <span class="form-required">*</span>
+        @endif
     </label>
 
     @foreach($options as $value => $option)
@@ -15,7 +26,7 @@
                 type="radio"
                 id="{{ $id or $name }}{{ $value }}"
                 name="{{ $name }}"
-                class="custom-control-input @if($errors->has($name)) is-invalid @endif"
+                class="custom-control-input {{ $class or null }} {{$valid}}"
                 value="{{ $value }}"
                 @if($selectCurrent) checked @endif>
             <label
@@ -27,8 +38,10 @@
     @endforeach
 
     @if($errors->has($name))
-        <div class="invalid-feedback">{{ $errors->first($name) }}</div>
+        <div class="invalid-feedback">{{ $errors->first($name) }}</div> {{-- TODO not been shown. Some JS replaces it with a comment --}}
     @endif
+
+    @isset($help)
+        <div class="small text-muted">{{ $help }}</div>
+    @endisset
 </div>
-
-
