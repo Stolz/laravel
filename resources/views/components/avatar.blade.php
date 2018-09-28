@@ -10,6 +10,6 @@ $pixels = [
 $size = $size ?? 'default';
 $url = $user->getAvatar($pixels[$size] ?? $pixels['default']);
 ?>
-<span class="avatar avatar-{{ $size }} {{ $class or null }}" style="background-image: url({{ $url }})">
+<span class="avatar avatar-{{ $size }} {{ $class ?? null }}" style="background-image: url({{ $url }})">
     {{ $slot }}
 </span><!--.avatar-->

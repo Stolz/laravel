@@ -1,7 +1,7 @@
-<div class="form-group {{ $parentClass or null }}">
+<div class="form-group {{ $parentClass ?? null }}">
     <label
-        for="{{ $id or $name }}"
-        class="form-label {{ $labelClass or null }}">
+        for="{{ $id ?? $name }}"
+        class="form-label {{ $labelClass ?? null }}">
         {{ $slot }}
         @if(isset($attributes) and str_contains($attributes, 'required'))
             <span class="form-required">*</span>
@@ -13,12 +13,12 @@
     @endisset
 
     <input
-        type="{{ $type or 'text' }}"
-        id="{{ $id or $name }}"
+        type="{{ $type ?? 'text' }}"
+        id="{{ $id ?? $name }}"
         name="{{ $name }}"
-        class="form-control {{ $class or null }} @if($errors->has($name)) is-invalid state-invalid @elseif($errors->count()) is-valid state-valid @endif"
-        value="{{ $value or null }}"
-        {{ $attributes or null }} {{-- NOTE: To pass attributes with value do not use quotes. i.e: autocomplete=off min=0 max=1 --}}
+        class="form-control {{ $class ?? null }} @if($errors->has($name)) is-invalid state-invalid @elseif($errors->count()) is-valid state-valid @endif"
+        value="{{ $value ?? null }}"
+        {{ $attributes ?? null }} {{-- NOTE: To pass attributes with value do not use quotes. i.e: autocomplete=off min=0 max=1 --}}
     >
 
     @isset($icon)

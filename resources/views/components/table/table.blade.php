@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table table-striped table-hover {{ $class or null }}" summary="">
+    <table class="table table-striped table-hover {{ $class ?? null }}" summary="">
         @isset($caption)
         <caption>{{ $caption }}</caption>
         @endisset

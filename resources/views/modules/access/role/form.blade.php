@@ -40,7 +40,7 @@
                                         'parentClass' => 'custom-control-inline',
                                         'name' => "permissions[{$permission['name']}]",
                                         'checked' => old("permissions[{$permission['name']}]", $selectedPermissions->contains($permission['name']))])
-                                        {{ $permission['description'] or $permission['name'] }}
+                                        {{ $permission['description'] ?? $permission['name'] }}
                                     @endcheckbox
                                 @endforeach
                             </div>
