@@ -1,0 +1,7 @@
+{{--TODO move this block up within Bogus module section --}}
+                        @can('list', 'App\Models\Dummy')
+                            <a href="{{ route('bogus.dummy.index') }}" class="dropdown-item @route('bogus.dummy.*') active @endroute">
+                                <i class="fe fe-circle"></i>{{-- TODO change icon --}}
+                                {{ _('Dummies') }}
+                            </a>
+                        @endcan

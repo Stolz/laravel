@@ -1,4 +1,4 @@
-    // TODO Bogus module
+    // Bogus module
     Route::middleware(['can:bogus,module'])->prefix('bogus')->namespace('Bogus')->name('bogus.')->group(function () {
-        Route::view('/', 'modules/bogus')->name('home');
+        // TODO
     });

@@ -1,5 +1,0 @@
-            @can('bogus', 'module')
-            <li class="nav-item">
-                <a class="nav-link @route(['bogus', 'bogus.*']) active @endroute" href="{{ route('bogus.home') }}">{{ _('Bogus') }}</a>
-            </li>
-            @endcan

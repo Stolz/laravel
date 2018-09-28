@@ -1,0 +1,14 @@
+{{--TODO move this block up --}}
+            {{-- Bogus module --}}
+            @can('bogus', 'module')
+                <li class="nav-item">
+                    <a class="nav-link @route('bogus.*') active @endroute" data-toggle="dropdown">
+                        <i class="fe fe-circle"></i>{{-- TODO change icon --}}
+                        {{ _('Bogus') }}
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-arrow">
+                        {{-- TODO insert links to submodlues here--}}
+                    </div>
+                </li>
+            @endcan

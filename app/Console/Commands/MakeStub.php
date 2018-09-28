@@ -73,8 +73,8 @@ class MakeStub extends Command
         ->createRoute()
         ->createController()
         ->createFormRequests()
+        ->createNavigation()
         ->createResourceViews()
-        ->createSubmodule()
         ->createFeatureTest();
     }
 
@@ -94,42 +94,28 @@ class MakeStub extends Command
         $this->files->makeDirectory($path);
         $path = resource_path("views/modules/{$this->module}");
         $this->files->makeDirectory($path);
+        $this->files->makeDirectory("tests/Feature/Http/Controllers/{$this->moduleClass}");
 
         $path = resource_path('views/top.blade.php');
-        $stub = $this->getStub('top');
+        $stub = $this->getStub('module/navigation');
         $this->files->append($path, $this->replacePlaceholders($stub));
-        $this->info('Top navigation view updated successfully');
+        $this->info('Module navigation updated');
 
-        $path = resource_path("views/modules/{$this->module}.blade.php");
-        $stub = $this->getStub('module');
-        $this->files->put($path, $this->replacePlaceholders($stub));
-        $this->info('Module view created successfully');
-
-        $path = resource_path('views/home.blade.php');
-        $stub = $this->getStub('home');
-        $this->files->append($path, $this->replacePlaceholders($stub));
-        $this->info('Home view updated successfully');
 
         $path = app_path('Policies/ModulePolicy.php');
-        $stub = $this->getStub('modulePolicy');
+        $stub = $this->getStub('module/policy');
         $this->files->append($path, $this->replacePlaceholders($stub));
-        $this->info('Module policy updated successfully');
+        $this->info('Module policy updated');
 
         $path = database_path('seeds/PermissionsSeeder.php');
-        $stub = $this->getStub('permissionsSeederModule');
+        $stub = $this->getStub('module/permissionsSeeder');
         $this->files->append($path, $this->replacePlaceholders($stub));
-        $this->info('Permissions seeder updated successfully');
+        $this->info('Module permissions seeder updated');
 
         $path = base_path('routes/web.php');
-        $stub = $this->getStub('routeModule');
+        $stub = $this->getStub('module/route');
         $this->files->append($path, $this->replacePlaceholders($stub));
-        $this->info('Routes updated successfully');
-
-        $path = base_path('tests/Feature/BasicTest.php');
-        $stub = $this->getStub('tests/feature/module');
-        $this->files->append($path, $this->replacePlaceholders($stub));
-        $this->files->makeDirectory("tests/Feature/Http/Controllers/{$this->moduleClass}");
-        $this->info('Module feature test updated successfully');
+        $this->info('Module routes updated');
 
         return $this;
     }
@@ -141,10 +127,10 @@ class MakeStub extends Command
     protected function createModel(): self
     {
         $path = app_path("Models/{$this->singularClass}.php");
-        $stub = $this->getStub('model');
+        $stub = $this->getStub('model/model');
 
         $this->files->put($path, $this->replacePlaceholders($stub));
-        $this->info('Model created successfully');
+        $this->info('Model created');
 
         return $this;
     }
@@ -158,10 +144,10 @@ class MakeStub extends Command
     {
         $table = Str::snake($this->plural);
         $path = database_path("migrations/0000_00_00_xxxxxx_create_{$table}_table.php");
-        $stub = $this->getStub('migration');
+        $stub = $this->getStub('database/migration');
 
         $this->files->put($path, $this->replacePlaceholders($stub, ['dummies_table' => $table]));
-        $this->info('Migration created successfully');
+        $this->info('Model database migration created');
 
         return $this;
     }
@@ -174,12 +160,12 @@ class MakeStub extends Command
     protected function createMapping(): self
     {
         $path = database_path("mappings/{$this->singularClass}.php");
-        $stub = $this->getStub('mapping');
+        $stub = $this->getStub('database/mapping');
         $this->files->put($path, $this->replacePlaceholders($stub));
 
         $path = database_path('mappings/all.php');
         $this->files->append($path, '// TO' . "DO Add to the mappings array Doctrine\Mappings\\{$this->singularClass}::class,\n");
-        $this->info('Database mapping created successfully');
+        $this->info('Model database mapping created');
 
         return $this;
     }
@@ -192,10 +178,10 @@ class MakeStub extends Command
     protected function createRepositoryContract(): self
     {
         $path = app_path("Repositories/Contracts/{$this->singularClass}Repository.php");
-        $stub = $this->getStub('repositoryContract');
+        $stub = $this->getStub('repository/contract');
 
         $this->files->put($path, $this->replacePlaceholders($stub));
-        $this->info('Repository contract created successfully');
+        $this->info('Model repository contract created');
 
         return $this;
     }
@@ -208,10 +194,10 @@ class MakeStub extends Command
     protected function createRepository(): self
     {
         $path = app_path("Repositories/Doctrine/{$this->singularClass}Repository.php");
-        $stub = $this->getStub('repository');
+        $stub = $this->getStub('repository/repository');
 
         $this->files->put($path, $this->replacePlaceholders($stub));
-        $this->info('Repository created successfully');
+        $this->info('Model repository created');
 
         return $this;
     }
@@ -224,10 +210,10 @@ class MakeStub extends Command
     protected function createRepositoryBinding(): self
     {
         $path = app_path('Providers/RepositoryServiceProvider.php');
-        $stub = $this->getStub('repositoryBinding');
+        $stub = $this->getStub('repository/binding');
 
         $this->files->append($path, $this->replacePlaceholders($stub));
-        $this->info('Repository binding updated successfully');
+        $this->info('Repository binding updated');
 
         return $this;
     }
@@ -240,20 +226,20 @@ class MakeStub extends Command
     protected function createPolicy(): self
     {
         $path = app_path("Policies/{$this->singularClass}Policy.php");
-        $stub = $this->getStub('policy');
+        $stub = $this->getStub('policy/policy');
 
         $this->files->put($path, $this->replacePlaceholders($stub));
-        $this->info('Gate policy created successfully');
+        $this->info('Gate policy created');
 
         $path = app_path('Providers/AuthServiceProvider.php');
-        $stub = $this->getStub('policyMapping');
+        $stub = $this->getStub('policy/mapping');
         $this->files->append($path, $this->replacePlaceholders($stub));
-        $this->info('Gate policy mapping updated successfully');
+        $this->info('Gate policy mapping updated');
 
         $path = database_path('seeds/PermissionsSeeder.php');
-        $stub = $this->getStub('permissionsSeeder');
+        $stub = $this->getStub('model/permissionsSeeder');
         $this->files->append($path, $this->replacePlaceholders($stub));
-        $this->info('Permissions seeder updated successfully');
+        $this->info('Permissions seeder updated');
 
         return $this;
     }
@@ -267,11 +253,11 @@ class MakeStub extends Command
     {
         $path = base_path('routes/web.php');
         $this->files->append($path, '// TO' . "DO Add to {$this->module} module Route::resource('{$this->singular}', '{$this->singularClass}Controller');\n");
-        $this->info('Routes updated successfully');
+        $this->info('Model routes updated');
 
         $path = app_path('Providers/RouteServiceProvider.php');
         $this->files->append($path, '// TO' . "DO Add to \$modelRouteBindings '{$this->singular}' => \App\Repositories\Contracts\\{$this->singularClass}Repository::class,\n");
-        $this->info('Route bindings updated successfully');
+        $this->info('Model route bindings updated');
 
         return $this;
     }
@@ -284,10 +270,10 @@ class MakeStub extends Command
     protected function createController(): self
     {
         $path = app_path("Http/Controllers/{$this->moduleClass}/{$this->singularClass}Controller.php");
-        $stub = $this->getStub('controller');
+        $stub = $this->getStub('model/controller');
 
         $this->files->put($path, $this->replacePlaceholders($stub));
-        $this->info('Controller created successfully');
+        $this->info('Model controller created');
 
         return $this;
     }
@@ -308,7 +294,7 @@ class MakeStub extends Command
             $this->files->put($path, $this->replacePlaceholders($stub));
         }
 
-        $this->info('Form requests created successfully');
+        $this->info('Form requests created');
 
         return $this;
     }
@@ -329,22 +315,22 @@ class MakeStub extends Command
             $this->files->put($path, $this->replacePlaceholders($stub));
         }
 
-        $this->info('Resource views created successfully');
+        $this->info('Resource views created');
 
         return $this;
     }
 
     /**
-     * Create the submodule navigation.
+     * Create the top navigation link for the model.
      *
      * @return self
      */
-    protected function createSubmodule(): self
+    protected function createNavigation(): self
     {
-        $path = resource_path("views/modules/{$this->module}.blade.php");
-        $stub = $this->getStub('submodule');
+        $path = resource_path('views/top.blade.php');
+        $stub = $this->getStub('model/navigation');
         $this->files->append($path, $this->replacePlaceholders($stub));
-        $this->info('Submodule view updated successfully');
+        $this->info('Model navigation created');
 
         return $this;
     }
@@ -357,9 +343,9 @@ class MakeStub extends Command
     protected function createFeatureTest(): self
     {
         $path = base_path("tests/Feature/Http/Controllers/{$this->moduleClass}/{$this->singularClass}ControllerTest.php");
-        $stub = $this->getStub('tests/feature/submodule');
+        $stub = $this->getStub('tests/feature/modelController');
         $this->files->put($path, $this->replacePlaceholders($stub));
-        $this->info('Submodule feature tests created successfully');
+        $this->info('Model controller feature tests created');
 
         return $this;
     }

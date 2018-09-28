@@ -1,56 +1,58 @@
 @extends('layouts.app')
 
-@section('page.title', _('Dummy details'))
+@section('page.title', $title = _('Dummy details'))
 
 @section('main')
-<div class="row justify-content-center">
-    <div class="col-sm-9 col-md-7 col-lg-5 col-xl-4">
-        <dl>
-            {{-- TODO remove if not applicable --}}
-            <dt>{{ _('Name') }}</dt>
-            <dd>{{ $dummy['name'] }}</dd>
+    @card(['footerClass' => 'd-flex justify-content-between'])
+        @slot('header')
+            <div class="card-title">{{ $title }}</div>
+            <div class="card-options">
+                <a href="#" class="card-options-fullscreen" data-toggle="card-fullscreen" title="{{ _('Toggle full screen') }}"><i class="fe fe-maximize"></i></a>
+            </div>
+        @endslot
 
-            {{-- TODO remove if not applicable --}}
-            @if (! empty($dummy['createdAt']))
-                <dt>{{ _('Created') }}</dt>
-                <dd title="{{ $dummy['createdAt'] }}">{{ $dummy['createdAt']->diffForHumans() }}</dd>
-            @endif
+        <div class="d-flex justify-content-between">
+            <dl>
+                {{-- TODO remove if not applicable --}}
+                <dt>{{ _('Name') }}</dt>
+                <dd>{{ $dummy['name'] }}</dd>
 
-            {{-- TODO remove if not applicable --}}
-            @if (! empty($dummy['updatedAt']))
-                <dt>{{ _('Updated') }}</dt>
-                <dd title="{{ $dummy['updatedAt'] }}">{{ $dummy['updatedAt']->diffForHumans() }}</dd>
-            @endif
-        </dl>
+                {{-- TODO remove if not applicable --}}
+                @if (! empty($dummy['createdAt']))
+                    <dt>{{ _('Created') }}</dt>
+                    <dd title="{{ $dummy['createdAt'] }}">{{ $dummy['createdAt']->diffForHumans() }}</dd>
+                @endif
 
-        <div class="row">
-            @can('list', 'App\Models\Dummy')
-                <div class="col">
-                    <a href="{{ previous_index_url(route('bogus.dummy.index')) }}" class="btn btn-outline-secondary btn-block">
-                        <i class="material-icons">arrow_back</i>
-                        {{ _('Return') }}
-                    </a>
-                </div>
-            @endcan
-            @can('update', $dummy)
-                <div class="col">
-                    <a href="{{ route('bogus.dummy.edit', [$dummy['id']]) }}" class="btn btn btn-primary active btn-block">
-                        <i class="material-icons">edit</i>
-                        {{ _('Edit') }}
-                    </a>
-                </div>
-            @endcan
-            @can('delete', $dummy)
-                <div class="col">
-                    <a href="#" class="btn btn btn-danger active btn-block" data-toggle="modal" data-target="#delete-modal-{{ $dummy['id'] }}">
-                        <i class="material-icons">delete</i>
-                        {{ _('Delete') }}
-                    </a>
-                </div>
-                @deleteModelModal(['model' => $dummy, 'action' => route('bogus.dummy.destroy', [$dummy['id']])])
-                @enddeleteModelModal
-            @endcan
+                {{-- TODO remove if not applicable --}}
+                @if (! empty($dummy['updatedAt']))
+                    <dt>{{ _('Updated') }}</dt>
+                    <dd title="{{ $dummy['updatedAt'] }}">{{ $dummy['updatedAt']->diffForHumans() }}</dd>
+                @endif
+            </dl>
         </div>
-    </div>
-</div>
+
+        @slot('footer')
+            @can('list', 'App\Models\Dummy')
+                <a href="{{ previous_index_url(route('bogus.dummy.index')) }}" class="btn btn-outline-secondary">
+                    <i class="fe fe-arrow-left"></i>
+                    {{ _('Return') }}
+                </a>
+            @endcan
+
+            @can('update', $dummy)
+                <a href="{{ route('bogus.dummy.edit', [$dummy['id']]) }}" class="btn btn-primary">
+                    <i class="fe fe-edit-2"></i>
+                    {{ _('Edit') }}
+                </a>
+            @endcan
+
+            @can('delete', $dummy)
+                <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#delete-modal-{{ $dummy['id'] }}">
+                    <i class="fe fe-trash-2"></i>
+                    {{ _('Delete') }}
+                </a>
+                @deleteModelModal(['model' => $dummy, 'action' => route('bogus.dummy.destroy', [$dummy['id']])])@enddeleteModelModal
+            @endcan
+        @endslot
+    @endcard
 @stop
