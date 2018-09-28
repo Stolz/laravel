@@ -14,17 +14,21 @@
     <meta name="author" content="twitter: @Stolz" />
     <meta name="csrf-token" content="{{ csrf_token() }}">{{-- Used for AJAX CSRF --}}
     <meta name="viewport" content="width=device-width, initial-scale=1">{{-- Webkit. To disable zooming add ", maximum-scale=1, user-scalable=no" --}}
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />{{-- Favicon  TODO --}}
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />{{-- Favicon TODO --}}
 
     {{-- CSS  --}}
     @stack('css')
 </head>
 <body>
-
-    <!--[if lte IE 9]><h1 style="position:absolute;top:0;z-index:10000; color:black; background-color:orange">
-        You are using an outdated browser.
-        Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.
-    </h1><![endif]-->
+    <!--[if lte IE 9]>
+    <h1 style="position:absolute;bottom:0;z-index:10000; color:black; background-color:orange">
+        {!! sprintf(
+            _('You are using an outdated browser. Please %supgrade your browser%s to improve your experience and security.'),
+            '<a href="https://browsehappy.com/" style="color:blue">',
+            '</a>')
+        !!}
+    </h1>
+    <![endif]-->
 
     @yield('body')
 

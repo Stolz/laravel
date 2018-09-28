@@ -1,11 +1,13 @@
 @extends('layouts.error')
 
-@section('title')
-    <h1 class="display-4">{{ $exception->getMessage() ?: _('Page not found') }}</h1>
+@section('error')
+    {{ $exception->getMessage() ?: _('Page not found') }}
 @stop
 
-@section('description')
-    <p class="lead">
-        {{ _('Sorry, the page you are looking for could not be found.') }}
-    </p>
+@section('message')
+    {{ _('Sorry, the requested resource could not be found.') }}
+@stop
+
+@section('solution')
+    {{ _('The link you clicked may be broken or the resource may have been removed.') }}
 @stop

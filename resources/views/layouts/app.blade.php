@@ -5,6 +5,7 @@
 @endprepend
 
 @prepend('js')
+    <script src="{{ mix('js/manifest.js') }}"></script>
     <script src="{{ mix('js/vendor.js') }}"></script>
     <script src="{{ mix('js/app.js') }}"></script>
     {{-- Notifications via server-sent events --}}
@@ -12,22 +13,51 @@
 @endprepend
 
 @section('body')
-<div id="container" class="bmd-layout-container bmd-drawer-f-l">
+<div class="page">
+    <div class="page-main">
 
-    <header id="header" class="bmd-layout-header">
-        @include('top')
-    </header>
+        {{-- Header --}}
+        <div class="header">
+            <div class="container">
+                @include('header')
+            </div><!--.container-->
+        </div><!--.header-->
 
-    <aside id="aside" class="bmd-layout-drawer">
-        @yield('side')
-    </aside>
+        {{-- Top navigation --}}
+        @auth
+            <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+                <div class="container">
+                    @include('top')
+                </div><!--.container-->
+            </div><!--.header-->
+        @endauth
 
-    <main id="main" class="bmd-layout-content container-fluid h-100">
-        @include('flash-messages')
-        @yield('main')
-    </main>
+        {{-- Main content --}}
+        <div class="@yield('container', 'container') my-3 my-md-5">{{-- i.e: container-liquid --}}
+            <div class="row">
+                @hasSection('side')
+                    <div id="side" class="col-lg-3 order-lg-last" style="display: none">@yield('side')</div>
+                @endif
+                <div class="col-lg">
+                    @include('flash-messages')
+                    @yield('main')
+                </div>
+            </div>
+        </div><!--.container-->
+    </div><!--.page-main-->
 
-</div>
+    {{-- Bottom navigation
+    <div class="footer">
+        <div class="container">
+            @ include('bottom')
+        </div><!--.container-->
+    </div><!--.footer-->--}}
 
-<div id="snackbar-container"></div>
+    {{-- Footer (Copyright and legal) --}}
+    <footer class="footer">
+        <div class="container">
+            @include('footer')
+        </div><!--.container-->
+    </footer>
+</div><!--.page-->
 @stop

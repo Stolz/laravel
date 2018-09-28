@@ -1,18 +1,20 @@
 @extends('layouts.error')
 
-@section('title')
-    <h1 class="display-4">{{ _('Too many requests') }}</h1>
+@section('error')
+    {{ _('Too many requests') }}
 @stop
 
-@section('description')
-    <p class="lead">
-        {{ _('Sorry, you exceeded the limit of requests per minute for the page. Please try again soon.') }}
-    </p>
+@section('message')
+    {{ _('Sorry, you exceeded the limit of requests per minute for the page.') }}
 @stop
 
-@section('actions')
-    <a class="btn btn-secondary active" href="{{ URL::previous() }}" role="button">
-        <i class="material-icons">arrow_back</i>
+@section('solution')
+    {{ _('Please wait a bit and then try again.') }}
+@stop
+
+@section('action')
+    <a class="btn btn-secondary" href="{{ URL::previous() }}" role="button">
+        <i class="fe fe-arrow-left"></i>
         {{ _('Go back') }}
     </a>
 @stop

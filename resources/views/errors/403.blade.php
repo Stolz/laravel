@@ -1,12 +1,13 @@
 @extends('layouts.error')
 
-@section('title')
-    <h1 class="display-4">{{ $exception->getMessage() ?: _('No permission') }}</h1>
+@section('error')
+    {{ $exception->getMessage() ?: _('No permission') }}
 @stop
 
-@section('description')
-    <p class="lead">
-        {{ _('Sorry, your user is not authorized to perform this action.') }}
-    </p>
+@section('message')
+    {{ _('Sorry, your user is not authorized to perform this action.') }}
 @stop
 
+@section('solution')
+    {{ _('Your role lacks the necessary permissions.') }}
+@stop
