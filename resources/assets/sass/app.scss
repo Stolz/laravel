@@ -1,48 +1,29 @@
-// Google Roboto font
-@import "~typeface-roboto/index.css";
+// Fonts
+@import "~source-sans-pro/source-sans-pro.css";
 
-// Google Material design icons
-@import "~material-icons/iconfont/material-icons.scss";
-i.material-icons {
-    vertical-align: middle;
-    margin-top: -0.125em
-}
+// Variables
+@import "variables";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/variables";
 
-// To customize Bootstrap and BMD override here any of the values of ~/bootstrap-material-design/scss/_variables.scss
-// More info at https://fezvrasta.github.io/bootstrap-material-design/docs/4.0/getting-started/theming/
-@import "~bootstrap-material-design/scss/variables/colors";
-$theme-colors: (
-    primary: $blue-900,
-    success: $green,
-    info: $light-blue,
-    warning: $orange,
-    danger: $red,
-    light: $grey-100,
-    dark: $grey-800
-);
-$bmd-label-color: $blue-800;
-$bmd-drawer-x-size: 350px;
-$zindex-modal-backdrop: auto;
+// Icons
+//@import "~font-awesome/scss/font-awesome";
 
-// BMD must be loaded afer all our customization
-@import "~bootstrap-material-design/scss/_core.scss";
+// Bootstrap Datepicker
+//@import "~bootstrap-datepicker/dist/css/bootstrap-datepicker3.css";
 
-// Required for .h-100 Bootstrap utility to work
-html, body{
-    height:100%;
-}
+// Select2
+//@import "~select2/dist/css/select2.css";
 
-.bmd-layout-content {
-    padding-top: .6rem;
-}
-.bmd-layout-content > .jumbotron {
-     margin: -1rem;
-}
+// Select2 Bootstrap Theme
+//@import "~select2-bootstrap-theme/src/select2-bootstrap";
 
-// Used only while developing for testing purpouses
-.debug {
-    border: 1px dashed red !important;
-}
+// Tabler
+@import "~tabler-ui/src/assets/scss/bundle";
+//@import "~tabler-ui/src/assets/plugins/charts-c3/plugin";
+//@import "~tabler-ui/src/assets/plugins/fullcalendar/plugin";
+//@import "~tabler-ui/src/assets/plugins/iconfonts/plugin";
+//@import "~tabler-ui/src/assets/plugins/maps-google/plugin";
+//@import "~tabler-ui/src/assets/plugins/prismjs/plugin";
 
 @import "forms";
 @import "tables";

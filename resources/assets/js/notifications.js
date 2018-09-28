@@ -11,7 +11,8 @@ export default class Notifications {
     init() {
         const self = this;
         this.token = $('meta[name="csrf-token"]').attr('content');
-        this.$container = $('#snackbar-container');
+        this.$container = $('#notifications');
+        this.$indicator = $('.unread-notifications');
         this.$counter = $('.unread-notifications-counter');
 
         this.sse.addJsonEventListener('unreadNotificationsCount', function (event) {
@@ -25,50 +26,47 @@ export default class Notifications {
 
     // Update unread notifications counter
     updateCounter(count) {
-        if (count)
-            this.$counter.text(count).show();
-        else this.$counter.text('').hide();
+        if (count) {
+            this.$counter.text(count);
+            this.$indicator.show();
+        } else {
+            this.$indicator.hide();
+            this.$counter.text('');
+        }
     }
 
-    // Shows a notification in the snackbar
+    // Shows a notification in the notifications preview dropdown
     show(notification) {
         const self = this;
+        const type = (notification.level === 'error') ? 'danger' : notification.level;
 
         // Text of the notification
-        const $message = $('<span/>')
-        .attr('class', 'snackbar-content')
+        const $message = $('<div/>')
+        .attr('class', 'small text-' + type)
         .text(notification.message);
 
         // Button of the notification
         if (notification.action_url) {
-            const type = (notification.level === 'error') ? 'danger' : notification.level;
-
             const $button = $('<a/>')
             .attr('href', notification.action_url)
-            .attr('class', 'btn btn-' + type)
+            .attr('class', 'text-' + type)
             .text(notification.action_text)
             .one('click', function (event) {
                 event.preventDefault();
-                $notification.removeClass('snackbar-opened');
                 self.markAsRead(notification, true);
-            });
+            })
+            .wrapInner('<strong/>');
 
-            $message.append($button);
+            $message.append(' ').append($button);
         }
 
         // Wrapper
         const $notification = $('<div/>')
-        .attr('id', 'snackbar' + notification.id)
-        .attr('class', 'snackbar snackbar-opened')
+        .attr('class', 'dropdown-item d-flex text-' + type)
         .html($message);
 
         // Attach to container
         this.$container.prepend($notification);
-
-        // Auto hide
-        setTimeout(function () {
-            $notification.removeClass('snackbar-opened');
-        }, this.timeout);
     }
 
     markAsRead(notification, followUrl = false) {
