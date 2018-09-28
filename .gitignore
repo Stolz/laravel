@@ -5,6 +5,7 @@
 .directory
 .env
 .kateproject*
+.phpunit.result.cache
 /.idea/
 /.php_cs.cache
 /docs/coverage/
