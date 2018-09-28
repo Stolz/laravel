@@ -45,11 +45,6 @@ class NotificationRepository extends ModelRepository implements NotificationRepo
      */
     public function paginateUser(User $user, int $perPage = 15, int $page = 1, string $sortBy = null, string $sortDirection = 'asc'): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
-        if ($sortBy === null) {
-            $sortBy = 'createdAt';
-            $sortDirection = 'desc';
-        }
-
         $queryBuilder = $this->userAwareQueryBuilder($user);
 
         return $this->paginateQueryBuilder($queryBuilder, $perPage, $page, $sortBy, $sortDirection);

@@ -57,12 +57,16 @@ class RoleController extends Controller
      *
      * @param  \App\Http\Requests\Role\View $request
      * @param  \App\Models\Role  $role
+     * @param  \App\Repositories\Contracts\UserRepository $userRepository
      * @return \Illuminate\Http\Response
      */
-    public function show(\App\Http\Requests\Role\View $request, Role $role)
+    public function show(\App\Http\Requests\Role\View $request, Role $role, \App\Repositories\Contracts\UserRepository $userRepository)
     {
         // Load view
-        return view('modules.access.role.show')->withRole($role);
+        return view('modules.access.role.show')->with([
+            'role' => $role,
+            'users' => $userRepository->getBy('role', $role),
+        ]);
     }
 
     /**

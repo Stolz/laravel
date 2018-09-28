@@ -296,4 +296,15 @@ class User extends Model implements AuthenticatableContract, JWTSubject, CanRese
     {
         return [];
     }
+
+    /**
+     * Get the user's avatar URL.
+     *
+     * @param  int $size
+     * @return string
+     */
+    public function getAvatar(int $size = 32): string
+    {
+        return sprintf('https://www.gravatar.com/avatar/%s?size=%d', md5($this->getEmail()), $size);
+    }
 }

@@ -37,6 +37,10 @@ class NotificationController extends Controller
         $user = $request->user();
         list($perPage, $page, $sortBy, $sortDirection) = $this->getPaginationOptionsFromRequest($request, 10);
 
+        // Hardcode sorting options to prevent user from playing with the parameters in the URL
+        $sortBy = 'id';
+        $sortDirection = 'desc';
+
         $notifications = $this->notificationRepository->paginateUser($user, $perPage, $page, $sortBy, $sortDirection);
 
         return view('me.notifications')->withNotifications($notifications);
@@ -64,6 +68,9 @@ class NotificationController extends Controller
     /**
      * Get notifications in real time using server-sent events (SSE).
      *
+     * With initial poll frequency of 1 second and an increment in elastic poll time of 2 seconds,
+     * the 60 seconds poll time limit should be reached after around 15 minutes of connection.
+     *
      * @param  \Illuminate\Http\Request $request
      * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
@@ -77,10 +84,10 @@ class NotificationController extends Controller
         $user = $request->user();
         $loop = function () use ($user) {
             // Safety net to avoid keeping extremely long connections
-            $closeConnectionAfter = now()->addMinutes(15);
+            $closeConnectionAfter = now()->addMinutes(5);
 
             // Initial poll frequency in seconds
-            $pollFrequency = 3;
+            $pollFrequency = 1;
 
             // Track changes to avoid sending repeated events
             $start = now();
@@ -107,7 +114,7 @@ class NotificationController extends Controller
                     return server_sent_event(['event' => 'close', 'retry' => 60 * 1000]);
 
                 // Elastic poll time: The more time the connections stays open, the less often we poll ...
-                sleep(min($pollFrequency++, 60)); // ... but never wait more than a minute
+                sleep(min($pollFrequency += 2, 60)); // ... but never wait more than a minute
             }
         };
 
