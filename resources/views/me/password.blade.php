@@ -28,7 +28,7 @@
 
                 <div class="form-footer">
                     <button type="submit" class="btn btn-outline-primary btn-block mt-4" role="button" aria-pressed="true">
-                        <i class="material-icons">security</i>
+                        <i class="fe fe-lock mr-2"></i>
                         {{ _('Change password') }}
                     </button>
                 </div>
