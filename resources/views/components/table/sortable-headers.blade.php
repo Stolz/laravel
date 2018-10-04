@@ -13,7 +13,7 @@ $buildLinks = function ($labels, $routeParameters = []): array {
     foreach ($labels as $key => $label) {
         // If key starts with underscore it means it is a non sortable header
         if ($key[0] === '_') {
-            $links[$key] = '<span class="disabled">' . e($label) . '<span>';
+            $links[$key] = '<span class="disabled">' . e($label) . '</span>';
             continue;
         }
         $routeParameters['sortBy'] = $key;
