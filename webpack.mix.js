@@ -25,24 +25,24 @@ mix.autoload({
 // Compile CSS
 mix.sass('resources/assets/sass/app.scss', 'public/css');
 
-
 // Compile JavaScript
 mix.js('resources/assets/js/app.js', 'public/js');
 
+// Keep JavaScript vendors in their own separated file
 mix.extract([
     'bootstrap',
     'bootstrap-datepicker',
-    'bootstrap-sass',
-    'chart.js',
-    'd3',
+    //'bootstrap-sass',
+    //'chart.js',
+    //'d3',
     'jquery',
-    'jquery-circle-progress',
-    'jvectormap',
-    'lodash',
-    'moment',
+    //'jquery-circle-progress',
+    //'jvectormap',
+    //'lodash',
+    //'moment',
     'popper.js',
     'requirejs/require',
-    'select2',
+    //'select2',
     'selectize',
-    'sparkline',
+    //'sparkline',
 ], 'public/js/vendor.js');
