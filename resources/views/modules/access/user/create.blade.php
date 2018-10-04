@@ -23,7 +23,7 @@
                     </a>
                 @endcan
 
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-success">
                     <i class="fe fe-user-plus"></i>
                     {{ _('Create user') }}
                 </button>

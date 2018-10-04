@@ -100,7 +100,7 @@
 
         @can('create', 'App\Models\Role')
             @slot('footer')
-                <a href="{{ route('access.role.create') }}" class="btn btn-success" >
+                <a href="{{ route('access.role.create') }}" class="btn btn-success">
                     <i class="fe fe-plus"></i>
                     {{ _('Create new role') }}
                 </a>

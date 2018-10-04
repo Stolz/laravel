@@ -31,6 +31,7 @@
                         @tableHeaders(['headers' => [
                             'name' => _('Name'),
                             'code' => _('Code'),
+                            '_flag' => _('Flag'),
                             'createdAt' => _('Created'),
                             'updatedAt' => _('Updated'),
                         ]]) @endtableHeaders
@@ -80,6 +81,7 @@
                         </td>
                         <td>{{ $country['name'] }}</td>
                         <td>{{ $country['code'] }}</td>
+                        <td>@flag(['country' => $country])@endflag</td>
                         <td title="{{ $country['createdAt'] }}">{{ $country['createdAt'] ? $country['createdAt']->diffForHumans() : null }}</td>
                         <td title="{{ $country['updatedAt'] }}">{{ $country['updatedAt'] ? $country['updatedAt']->diffForHumans() : null }}</td>
                     </tr>
@@ -100,7 +102,7 @@
 
         @can('create', 'App\Models\Country')
             @slot('footer')
-                <a href="{{ route('master.country.create') }}" class="btn btn-success" >
+                <a href="{{ route('master.country.create') }}" class="btn btn-success">
                     <i class="fe fe-plus"></i>
                     {{ _('Create new country') }}
                 </a>

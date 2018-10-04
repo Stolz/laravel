@@ -8,6 +8,7 @@
 
 @section('main')
 
+    <!--TEST BEACON index-->{{-- Do not remove. Used for automatic testing --}}
     @card
         @slot('header')
             <div class="card-title">{{ $title }}</div>
@@ -107,7 +108,7 @@
 
         @can('create', 'App\Models\Dummy')
             @slot('footer')
-                <a href="{{ route('bogus.dummy.create') }}" class="btn btn-success" >
+                <a href="{{ route('bogus.dummy.create') }}" class="btn btn-success">
                     <i class="fe fe-plus"></i>
                     {{ _('Create new dummy') }}
                 </a>

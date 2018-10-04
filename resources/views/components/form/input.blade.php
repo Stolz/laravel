@@ -16,7 +16,7 @@
         type="{{ $type ?? 'text' }}"
         id="{{ $id ?? $name }}"
         name="{{ $name }}"
-        class="form-control {{ $class ?? null }} @if($errors->has($name)) is-invalid state-invalid @elseif($errors->count()) is-valid state-valid @endif"
+        class="form-control {{ $class ?? null }} @if($errors->has($name)) is-invalid state-invalid @elseif($errors->count() and strlen($value ?? null)) is-valid state-valid @endif"
         value="{{ $value ?? null }}"
         {{ $attributes ?? null }} {{-- NOTE: To pass attributes with value do not use quotes. i.e: autocomplete=off min=0 max=1 --}}
     >

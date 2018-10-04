@@ -37,7 +37,7 @@ $.ajaxSetup({
 $(function () {
 
     // Initialize jQuery plugins
-    $('select').selectize({});
+    $('select').not('.vanilla').selectize();
     //$('.js-datepicker').datepicker({todayHighlight: true, autoclose: true});
     //$('.js-select2').select2({allowClear: true, dropdownAutoWidth: true, theme: 'bootstrap'});
 
@@ -53,7 +53,7 @@ $(function () {
     }
 
     // Disable form button after submitting
-    $('form').not('dont-disable').submit(function () {
+    $('form').not('.dont-disable').submit(function () {
         $(':input[type=submit]', $(this)).prop('disabled', true).addClass('disabled');
         return true;
     });

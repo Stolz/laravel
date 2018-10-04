@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col">
+    <div class="col-lg">
         @select(['name' => 'role', 'options' => $roles, 'selected' => old('role', $user['role']), 'attributes' => 'required'])
             {{ _('Role') }}
         @endselect
@@ -9,7 +9,7 @@
         @endinput
     </div>
 
-    <div class="col">
+    <div class="col-lg">
         @input(['type' => 'email', 'name' => 'email', 'value' => old('email', $user['email']), 'attributes' => 'required maxlength=255'])
             {{ _('E-mail') }}
         @endinput

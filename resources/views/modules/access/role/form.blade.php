@@ -1,11 +1,11 @@
 @unless($doPermissions)
     <div class="row">
-        <div class="col-md">
+        <div class="col-lg">
             @input(['name' => 'name', 'value' => old('name', $role['name']), 'attributes' => 'required autofocus maxlength=255'])
                 {{ _('Name') }}
             @endinput
         </div>
-        <div class="col-md">
+        <div class="col-lg">
             @input(['name' => 'description', 'value' => old('description', $role['description']), 'attributes' => 'maxlength=255'])
                 {{ _('Description') }}
             @endinput

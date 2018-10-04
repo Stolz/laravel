@@ -1,4 +1,8 @@
-{{-- TODO remove if not applicable --}}
-@input(['name' => 'name', 'value' => old('name', $dummy['name']), 'attributes' => 'required autofocus maxlength=255'])
-    {{ _('Name') }}
-@endinput
+<div class="row">
+    <div class="col-lg">
+        {{-- TODO remove if not applicable --}}
+        @input(['name' => 'name', 'value' => old('name', $dummy['name']), 'attributes' => 'required autofocus maxlength=255'])
+            {{ _('Name') }}
+        @endinput
+    </div>
+</div>

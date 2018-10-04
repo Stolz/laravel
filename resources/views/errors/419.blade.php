@@ -13,8 +13,8 @@
 @stop
 
 @section('action')
-    <a class="btn btn-primary active" href="{{ URL::current() }}" role="button">
-        <i class="fe fe-refresh-cw"></i>
+    <a class="btn btn-primary" href="{{ URL::current() }}" role="button">
+        <i class="fe fe-refresh-cw mr-1"></i>
         {{ _('Refresh') }}
     </a>
 @stop

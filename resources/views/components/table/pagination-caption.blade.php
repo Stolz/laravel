@@ -3,5 +3,5 @@
 @if(! empty($reset) and request()->has('search'))
     <a href="{{ $reset }}">{{ _('Reset search') }}</a>
     {{ _('or') }}
-    <a href="#" class="show-side">{{ _('try another one') }}</a>.
+    <a href="#" class="show-side">{{ _('try with other values') }}</a>.
 @endif

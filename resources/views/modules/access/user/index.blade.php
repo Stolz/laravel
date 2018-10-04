@@ -115,7 +115,7 @@
 
         @can('create', 'App\Models\User')
             @slot('footer')
-                <a href="{{ route('access.user.create') }}" class="btn btn-success" >
+                <a href="{{ route('access.user.create') }}" class="btn btn-success">
                     <i class="fe fe-user-plus"></i>
                     {{ _('Create new user') }}
                 </a>
