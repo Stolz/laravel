@@ -3,6 +3,11 @@
     vertical-align: middle;
 }
 
+// Restore .table-hover behaviour which Tabler seems to remove
+.table-hover tbody tr:hover {
+    background-color: $gray-200;
+}
+
 // Center table caption
 .table caption {
     text-align: center;

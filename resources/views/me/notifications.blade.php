@@ -1,11 +1,15 @@
 @extends('layouts.app')
 
-@section('page.title', _('Notifications'))
+@section('page.title', $title = _('Notifications'))
 
 @section('main')
 
+    <h1 class="page-title">{{ $title }}</h1>
+
     @if(! $notifications->count())
-        {{ _('There are no notifications') }}
+        @alert(['type' => 'info'])
+            {{ _('There are no notifications') }}
+        @endalert
     @else
         <form method="post" action="{{ route('me.notification.read') }}" role="form" autocomplete="off">
             @csrf
