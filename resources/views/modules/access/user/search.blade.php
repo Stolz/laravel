@@ -12,11 +12,11 @@
             {{ _('Role') }}
         @endselect
 
-        @input(['name' => 'search[name]', 'value' => request()->input('search.name'), 'attributes' => 'maxlength=255'])
+        @input(['name' => 'search[name]', 'value' => request()->input('search.name'), 'icon' => 'fe fe-user', 'attributes' => 'maxlength=255'])
             {{ _('Name') }}
         @endinput
 
-        @input(['name' => 'search[email]', 'value' => request()->input('search.email'), 'attributes' => 'maxlength=255'])
+        @input(['name' => 'search[email]', 'value' => request()->input('search.email'), 'icon' => 'fe fe-at-sign', 'attributes' => 'maxlength=255'])
             {{ _('E-mail') }}
         @endinput
 

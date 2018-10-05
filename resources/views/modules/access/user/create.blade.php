@@ -7,7 +7,10 @@
         @csrf
         @card(['footerClass' => 'd-flex justify-content-between'])
             @slot('header')
-                <div class="card-title">{{ $title }}</div>
+                <div class="card-title">
+                    <i class="fe fe-user-plus small"></i>
+                    {{ $title }}
+                </div>
                 <div class="card-options">
                     <a href="#" class="card-options-fullscreen" data-toggle="card-fullscreen" title="{{ _('Toggle full screen') }}"><i class="fe fe-maximize"></i></a>
                 </div>

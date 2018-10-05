@@ -5,7 +5,10 @@
 @section('main')
     @card(['footerClass' => 'd-flex justify-content-between'])
         @slot('header')
-            <div class="card-title">{{ $title }}</div>
+            <div class="card-title">
+                <i class="fe fe-shield small"></i>
+                {{ $title }}
+            </div>
             <div class="card-options">
                 <a href="#" class="card-options-fullscreen" data-toggle="card-fullscreen" title="{{ _('Toggle full screen') }}"><i class="fe fe-maximize"></i></a>
             </div>
@@ -46,6 +49,9 @@
                     <dt>{{ _('Users') }}</dt>
                     @foreach($users as $user)
                         <dd>
+                            @avatar(['user' => $user, 'size' => 'sm'])
+                                <span class="avatar-status {{ ($user->isDeleted()) ? 'bg-red' : 'bg-green' }}"></span>
+                            @endavatar
                             @can('view', $user)
                                 <a href="{{ route('access.user.show', [$user['id']]) }}">{{ $user }}</a>
                             @else

@@ -27,7 +27,10 @@
 
                 <div class="text-center">
                     @avatar(['user' => $user, 'size' => 'xxl'])@endavatar<br/>
-                    <a href="https://www.gravatar.com" target="_blank">{{ _('Change avatar' )}}</a>
+                    <a href="https://www.gravatar.com" target="_blank" class="btn btn-link btn-sm">
+                        <i class="fe fe-external-link"></i>
+                        {{ _('Change avatar' )}}
+                    </a>
                 </div>
             </div>
         @endcard

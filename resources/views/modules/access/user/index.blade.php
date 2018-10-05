@@ -11,7 +11,10 @@
     <!--TEST BEACON index-->{{-- Do not remove. Used for automatic testing --}}
     @card
         @slot('header')
-            <div class="card-title">{{ $title }}</div>
+            <div class="card-title">
+                <i class="fe fe-user small"></i>
+                {{ $title }}
+            </div>
             <div class="card-options">
                 @if(! $users->isEmpty())
                     <a href="#" id="colorize" title="{{ _('Colorize results') }}"><i class="fe fe-feather"></i></a>

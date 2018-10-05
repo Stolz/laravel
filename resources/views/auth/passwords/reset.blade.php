@@ -13,18 +13,18 @@
 
                 <div class="card-title">{{ $title }}</div>
 
-                @input(['type' => 'email', 'name' => 'email', 'value' => old('email'), 'attributes' => 'required autofocus maxlength=255'])
+                @input(['type' => 'email', 'name' => 'email', 'value' => old('email'), 'icon' => 'fe fe-at-sign', 'attributes' => 'required autofocus maxlength=255'])
                     {{ _('E-Mail') }}
                 @endinput
 
-                @input(['type' => 'password', 'name' => 'password', 'attributes' => 'required maxlength=255'])
+                @input(['type' => 'password', 'name' => 'password', 'icon' => 'fe fe-lock', 'attributes' => 'required maxlength=255'])
                     {{ _('New password') }}
                     @slot('help')
                         {{ sprintf(_('Your password must be at least %d characters long'), \App\Models\User::MIN_PASSWORD_LENGTH) }}
                     @endslot
                 @endinput
 
-                @input(['type' => 'password', 'name' => 'password_confirmation', 'attributes' => 'required maxlength=255'])
+                @input(['type' => 'password', 'name' => 'password_confirmation', 'icon' => 'fe fe-repeat', 'attributes' => 'required maxlength=255'])
                     {{ _('Repeat new password') }}
                 @endinput
 

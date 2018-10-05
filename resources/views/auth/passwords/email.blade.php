@@ -18,7 +18,7 @@
                 <div class="card-title">{{ $title }}</div>
                 <p class="text-muted">{{ _('Please enter your e-mail address and we will send you a message with instructions to reset your password.') }}</p>
 
-                @input(['type' => 'email', 'name' => 'email', 'value' => old('email'), 'attributes' => 'required autofocus maxlength=255'])
+                @input(['type' => 'email', 'name' => 'email', 'value' => old('email'), 'icon' => 'fe fe-at-sign', 'attributes' => 'required autofocus maxlength=255'])
                     {{ _('E-Mail') }}
                 @endinput
 
