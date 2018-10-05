@@ -26,7 +26,7 @@
     @endisset
 
     @if($errors->has($name))
-        <div class="invalid-feedback">{{ $errors->first($name) }}</div>
+        <div class="invalid-feedback d-block">{{ $errors->first($name) }}</div>
     @endif
 
     @isset($help)
