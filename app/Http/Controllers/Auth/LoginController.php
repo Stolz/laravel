@@ -24,6 +24,20 @@ class LoginController extends Controller
     protected $decayMinutes = 1;
 
     /**
+     * Validate the user login request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
+    protected function validateLogin(\Illuminate\Http\Request $request)
+    {
+        $this->validate($request, [
+            $this->username() => 'required|email',
+            'password' => 'required|string',
+        ]);
+    }
+
+    /**
      * Where to redirect users after login.
      *
      * @return string
