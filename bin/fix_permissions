@@ -21,7 +21,7 @@ else
 fi
 
 # Set owner
-$SUDO chown -R $USER:$GROUP .
+$SUDO chown -R "$USER":"$GROUP" .
 
 # Set default safe permissions
 $SUDO find . -type d -exec chmod 750 {} \;
