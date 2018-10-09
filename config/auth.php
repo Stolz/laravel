@@ -65,11 +65,18 @@ return [
     */
 
     'providers' => [
+        // Doctine
         'users' => [
             'driver' => 'userRepository',
-            'model' => App\Models\User::class,
         ],
 
+        // Eloquent
+        // 'users' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\User::class,
+        // ],
+
+        // Query builder
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
