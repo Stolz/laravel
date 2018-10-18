@@ -38,7 +38,7 @@ else $valid = '';
     @endforeach
 
     @if($errors->has($name))
-        <div class="invalid-feedback d-block">{{ $errors->first($name) }}</div> {{-- TODO not been shown. Some JS replaces it with a comment --}}
+        <div class="invalid-feedback d-block">{{ $errors->first($name) }}</div>
     @endif
 
     @isset($help)

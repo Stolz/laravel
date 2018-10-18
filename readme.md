@@ -101,7 +101,7 @@ To automatically fix some of the detected problems
 
 To make sure all files have proper permissions
 
-	./bin/fix_file_permissions
+	./bin/fix_permissions
 
 To search code for pending tasks (TODO tags)
 
