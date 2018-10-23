@@ -269,7 +269,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Test {{$randomInt}}\",\n\t\"email\": \"{{$randomInt}}@example.com\",\n\t\"password\": \"secret\",\n\t\"role\": \"User\"\n}\n"
+							"raw": "{\n\t\"name\": \"Test {{$randomInt}}\",\n\t\"email\": \"{{$randomInt}}@example.com\",\n\t\"password\": \"secret\",\n\t\"role\": 2\n}\n"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/user",
