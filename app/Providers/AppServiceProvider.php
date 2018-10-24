@@ -55,6 +55,7 @@ class AppServiceProvider extends ServiceProvider
             'form.input' => 'input',
             'form.radios' => 'radios',
             'form.select' => 'select',
+            'form.textarea' => 'textarea',
             'modal.delete-model' => 'deleteModelModal',
             'table.pagination-caption' => 'tableCaption',
             'table.sortable-headers' => 'tableHeaders',
