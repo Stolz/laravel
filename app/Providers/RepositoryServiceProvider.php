@@ -34,11 +34,8 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        foreach (self::REPOSITORIES as $repository => $contract) {
-            $this->app->singleton($contract, function ($app) use ($repository) {
-                return $app->make($repository, [$app['em']]);
-            });
-        }
+        foreach (self::REPOSITORIES as $repository => $contract)
+            $this->app->singleton($contract, $repository);
     }
 
     /**
