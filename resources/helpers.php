@@ -113,6 +113,23 @@ if (! function_exists('convert_date_to_string')) {
     }
 }
 
+if (! function_exists('form_field_name_to_dot')) {
+    /**
+     * Convert nested from fields names to dot notation.
+     *
+     * For creating nested form fields 'foo[bar][baz]' format needs to be used for the field name but
+     * for referencing that field in Laravel (validation rules, getting validation errors, ...) the
+     * name needs to have 'foo.bar.baz format. This function converts from one format to the other.
+     *
+     * @param  string $name
+     * @return string
+     */
+    function form_field_name_to_dot(string $name): string
+    {
+        return str_replace(['[', ']'], ['.', ''], $name);
+    }
+}
+
 if (! function_exists('colorize')) {
     /**
      * Return a unique and consistent HEX color code for the given text.

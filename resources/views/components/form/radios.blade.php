@@ -1,8 +1,10 @@
 <?php
-    if ($errors->has($name))
-        $valid = 'is-invalid state-invalid';
-    elseif ($errors->count())
-        $valid = 'is-valid state-valid';
+$nameDot = form_field_name_to_dot($name);
+
+if ($errors->has($nameDot))
+    $valid = 'is-invalid state-invalid';
+elseif ($errors->count())
+    $valid = 'is-valid state-valid';
 else $valid = '';
 ?>
 
@@ -37,8 +39,8 @@ else $valid = '';
         </div>
     @endforeach
 
-    @if($errors->has($name))
-        <div class="invalid-feedback d-block">{{ $errors->first($name) }}</div>
+    @if($errors->has($nameDot))
+        <div class="invalid-feedback d-block">{{ $errors->first($nameDot) }}</div>
     @endif
 
     @isset($help)

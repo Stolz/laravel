@@ -1,3 +1,4 @@
+<?php $nameDot = form_field_name_to_dot($name); ?>
 <div class="form-group {{ $parentClass ?? null }}">
     <label
         for="{{ $id ?? $name }}"
@@ -11,7 +12,7 @@
     <select
         id="{{ $id ?? $name }}"
         name="{{ $name }}"
-        class="form-control custom-select {{ $class ?? null }} @if($errors->has($name)) is-invalid state-invalid @elseif($errors->count()) is-valid state-valid @endif"
+        class="form-control custom-select {{ $class ?? null }} @if($errors->has($nameDot)) is-invalid state-invalid @elseif($errors->count()) is-valid state-valid @endif"
         {{ $attributes ?? null }}>
 
         <?php
@@ -36,8 +37,8 @@
         @endforeach
     </select>
 
-    @if($errors->has($name))
-        <div class="invalid-feedback d-block">{{ $errors->first($name) }}</div>
+    @if($errors->has($nameDot))
+        <div class="invalid-feedback d-block">{{ $errors->first($nameDot) }}</div>
     @endif
 
     @isset($help)
