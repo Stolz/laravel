@@ -197,3 +197,19 @@ if (! function_exists('server_sent_event')) {
         flush();
     }
 }
+
+if (! function_exists('count_file_lines')) {
+    /**
+     * Count the number of lines in a text file without loading the file in memory.
+     *
+     * @param  string $file
+     * @return int
+     */
+    function count_file_lines(string $file): int
+    {
+        $file = new \SplFileObject($file, 'r');
+        $file->seek(PHP_INT_MAX);
+
+        return $file->key() + 1;
+    }
+}
