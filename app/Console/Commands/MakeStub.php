@@ -29,24 +29,12 @@ class MakeStub extends Command
     protected $files;
 
     /**
-     * Create a new command instance.
-     *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
-     * @return void
-     */
-    public function __construct(Filesystem $files)
-    {
-        parent::__construct();
-
-        $this->files = $files;
-    }
-
-    /**
      * Execute the console command.
      *
+     * @param  \Illuminate\Filesystem\Filesystem  $files
      * @return mixed
      */
-    public function handle()
+    public function handle(Filesystem $files)
     {
         // Do not break things
         if (! app()->environment('local'))
@@ -56,7 +44,7 @@ class MakeStub extends Command
         $this->inflect(trim($this->argument('name')), trim($this->option('module')));
 
         // Do not overwite files
-        if ($this->files->exists(app_path("Models/{$this->singularClass}.php")))
+        if (with($this->files = $files)->exists(app_path("Models/{$this->singularClass}.php")))
             return $this->error('Model already exists');
 
         // Create file stubs
