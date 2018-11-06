@@ -213,3 +213,57 @@ if (! function_exists('count_file_lines')) {
         return $file->key() + 1;
     }
 }
+
+if (! function_exists('csv_chunk')) {
+    /**
+     * Parse a CSV file in chunks and apply a closure to each chunk.
+     *
+     * @param string $file
+     * @param integer $chunkSize
+     * @param \Closure $function
+     * @param string $delimiter
+     * @return array
+     */
+    function csv_chunk($file, $chunkSize, \Closure $function, $delimiter = ','): array
+    {
+        // Open file
+        if (($handle = fopen($file, 'r')) === false)
+            return [];
+
+        // Initialize variables
+        $line = -1;
+        $headers = [];
+        $buffer = [];
+        $results = [];
+
+        // Loop file lines
+        while (($data = fgetcsv($handle, 1024, $delimiter)) !== false) {
+            // Extract headers from first line
+            if (++$line === 0 and ! $headers) {
+                $headers = $data;
+                $headersCount = count($headers);
+                continue;
+            }
+
+            // Ignore columns without header
+            $data = array_slice($data, 0, $headersCount);
+
+            // Add current line to buffer
+            $buffer[] = array_combine($headers, $data);
+
+            // When buffer is complete run the function
+            if ($line === $chunkSize) {
+                $results[] = $function($buffer);
+                $line = 0;
+                $buffer = [];
+            }
+        }
+        fclose($handle);
+
+        // Process last buffer
+        if ($buffer)
+            $results[] = $function($buffer);
+
+        return $results;
+    }
+}
