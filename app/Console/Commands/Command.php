@@ -8,6 +8,16 @@ use Symfony\Component\Console\Helper\ProgressBar;
 abstract class Command extends BaseCommand
 {
     /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
      * Create progress bar.
      *
      * @param  int $total
