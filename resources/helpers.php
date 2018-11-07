@@ -45,6 +45,31 @@ if (! function_exists('array_map_key')) {
     }
 }
 
+if (! function_exists('array_clean_deep')) {
+    /**
+     * Recursively remove empty values from an array.
+     *
+     * Empty values are: NULL, empty strings or empty arrays.
+     *
+     * @param array $array
+     * @return array
+     */
+    function array_clean_deep(array $array)
+    {
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $array[$key] = array_clean_deep($value);
+                if (! $array[$key])
+                    unset($array[$key]);
+            } elseif ($value === null or $value === '') {
+                unset($array[$key]);
+            }
+        }
+
+        return $array;
+    }
+}
+
 if (! function_exists('json')) {
     /**
      * Returns the JSON representation of a value.
