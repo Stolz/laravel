@@ -13,5 +13,6 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('me', 'AuthController@me')->name('me');
     Route::get('logout', 'AuthController@logout')->name('logout');
 
+    Route::apiResource('country', 'CountryController');
     Route::apiResource('user', 'UserController');
 });

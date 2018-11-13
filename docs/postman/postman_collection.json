@@ -7,7 +7,6 @@
 	"item": [
 		{
 			"name": "Auth",
-			"description": "",
 			"item": [
 				{
 					"name": "Get token (login)",
@@ -189,8 +188,207 @@
 			]
 		},
 		{
+			"name": "Country",
+			"item": [
+				{
+					"name": "country.index",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/country?sortBy=id&sortDir=asc&perPage=5&page=1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country"
+							],
+							"query": [
+								{
+									"key": "sortBy",
+									"value": "id"
+								},
+								{
+									"key": "sortDir",
+									"value": "asc"
+								},
+								{
+									"key": "perPage",
+									"value": "5"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						},
+						"description": "All query parameters are optional"
+					},
+					"response": []
+				},
+				{
+					"name": "country.store",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "10d7c515-b35c-471f-a474-6e0d0e4965a5",
+								"exec": [
+									"pm.environment.unset(\"countryId\");",
+									"",
+									"if(responseCode.code == 201)",
+									"{",
+									"    var response = JSON.parse(responseBody);",
+									"    pm.environment.set(\"countryId\", response.id);",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Random country {{$randomInt}}\",\n\t\"code\": \"RC\"\n}\n"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/country",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "country.show",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/country/{{countryId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country",
+								"{{countryId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "country.update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Random country {{$randomInt}}\",\n\t\"code\": \"RC\"\n}\n"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/country/{{countryId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country",
+								"{{countryId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "country.destroy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2c3cb4b2-523e-43d0-9200-f182c05c0200",
+								"exec": [
+									"if(responseCode.code == 200)",
+									"{",
+									"    pm.environment.unset(\"countryId\");",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/country/{{countryId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"country",
+								"{{countryId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "User",
-			"description": "",
 			"item": [
 				{
 					"name": "user.index",
@@ -241,7 +439,6 @@
 							"listen": "test",
 							"script": {
 								"id": "10d7c515-b35c-471f-a474-6e0d0e4965a5",
-								"type": "text/javascript",
 								"exec": [
 									"pm.environment.unset(\"userId\");",
 									"",
@@ -251,7 +448,8 @@
 									"    pm.environment.set(\"userId\", response.id);",
 									"}",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -323,7 +521,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Test {{$guid}}\",\n\t\"email\": \"{{$guid}}@example.com\",\n\t\"password\": \"secret\",\n\t\"role\": 2\n}\n"
+							"raw": "{\n\t\"name\": \"Test {{$randomInt}}\",\n\t\"email\": \"{{$randomInt}}@example.com\",\n\t\"password\": \"secret\",\n\t\"role\": 2\n}\n"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/user/{{userId}}",
