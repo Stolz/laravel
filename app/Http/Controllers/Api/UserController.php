@@ -35,7 +35,7 @@ class UserController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a list of users.
      *
      * @param  \App\Http\Requests\User\Index $request
      * @return \Illuminate\Http\JsonResponse
@@ -46,15 +46,13 @@ class UserController extends Controller
         list($perPage, $page, $sortBy, $sortDirection) = $this->getPaginationOptionsFromRequest($request, 15, 'name');
 
         // Get users from repository
-        $users = $this->userRepository->paginate($perPage, $page, $sortBy, $sortDirection)->transform(function ($user) {
-            return $user->jsonSerialize();
-        });
+        $users = $this->userRepository->paginate($perPage, $page, $sortBy, $sortDirection);
 
         return $this->json($users);
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified user.
      *
      * @param  \App\Http\Requests\User\View $request
      * @param  \App\Models\User  $user
@@ -66,7 +64,7 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created user in storage.
      *
      * @param  \App\Http\Requests\User\Create $request
      * @param  \App\Repositories\Contracts\RoleRepository $roleRepository
@@ -94,7 +92,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified user in storage.
      *
      * @param  \App\Http\Requests\User\Update $request
      * @param  \App\Models\User  $user
@@ -118,7 +116,7 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified user from storage.
      *
      * @param  \App\Http\Requests\User\Delete $request
      * @param  \App\Models\User  $user

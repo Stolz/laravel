@@ -37,9 +37,7 @@ class CountryController extends Controller
         list($perPage, $page, $sortBy, $sortDirection) = $this->getPaginationOptionsFromRequest($request, 15, 'name');
 
         // Get countries from repository
-        $countries = $this->countryRepository->paginate($perPage, $page, $sortBy, $sortDirection)->transform(function ($country) {
-            return $country->jsonSerialize();
-        });
+        $countries = $this->countryRepository->paginate($perPage, $page, $sortBy, $sortDirection);
 
         return $this->json($countries);
     }
