@@ -46,7 +46,14 @@ class AuthController extends Controller
      */
     public function me(): JsonResponse
     {
-        return $this->json(auth('api')->user());
+        $user = auth('api')->user();
+        $response = $user->jsonSerialize();
+
+        // Add permission information
+        $response['is_admin'] = $user->isSuperAdmin();
+        $response['permissions'] = $user->getRole()->getPermissionsNames();
+
+        return $this->json($response);
     }
 
     /**
