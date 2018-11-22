@@ -53,16 +53,11 @@ class MeController extends Controller
         $user->setPassword($request->get('new_password'))->setRememberToken(str_random(60));
 
         // Update user in repository
-        if ($userRepository->update($user)) {
+        if ($userRepository->update($user))
             // Success
-            session()->flash('success', _('Password successfully changed'));
-
-            return redirect()->route('me');
-        }
+            return redirect()->route('me')->with('success', _('Password successfully changed'));
 
         // Error
-        session()->flash('error', _('Unable to update pasword'));
-
-        return redirect()->back();
+        return redirect()->back()->with('error', _('Unable to update pasword'));
     }
 }

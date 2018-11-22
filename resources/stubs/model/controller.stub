@@ -103,16 +103,11 @@ class DummyController extends Controller
         $created = $this->dummyRepository->create($dummy);
 
         // Success
-        if ($created) {
-            session()->flash('success', sprintf(_("Dummy '%s' successfully created"), $dummy));
-
-            return redirect()->route('bogus.dummy.index');
-        }
+        if ($created)
+            return redirect()->route('bogus.dummy.index')->with('success', sprintf(_("Dummy '%s' successfully created"), $dummy));
 
         // Something went wrong
-        session()->flash('error', sprintf(_("Unable to create dummy '%s'"), $dummy));
-
-        return redirect()->back()->withInput();
+        return redirect()->back()->withInput()->with('error', sprintf(_("Unable to create dummy '%s'"), $dummy));
     }
 
     /**
@@ -136,16 +131,11 @@ class DummyController extends Controller
         $updated = $this->dummyRepository->update($dummy);
 
         // Success
-        if ($updated) {
-            session()->flash('success', sprintf(_("Dummy '%s' successfully updated"), $dummy));
-
-            return redirect()->route('bogus.dummy.show', $dummy->getId());
-        }
+        if ($updated)
+            return redirect()->route('bogus.dummy.show', $dummy->getId())->with('success', sprintf(_("Dummy '%s' successfully updated"), $dummy));
 
         // Something went wrong
-        session()->flash('error', sprintf(_("Unable to update dummy '%s'"), $dummy));
-
-        return redirect()->back()->withInput();
+        return redirect()->back()->withInput()->with('error', sprintf(_("Unable to update dummy '%s'"), $dummy));
     }
 
     /**
@@ -160,16 +150,13 @@ class DummyController extends Controller
         // Attempt to delete dummy
         $deleted = $this->dummyRepository->delete($dummy);
 
-        // Success
-        if ($deleted) {
-            session()->flash('success', sprintf(_("Dummy '%s' successfully deleted"), $dummy));
-
-            return ($request->input('_from') === 'bogus.dummy.show') ? redirect()->route('bogus.dummy.index') : redirect()->back();
-        }
-
         // Something went wrong
-        session()->flash('error', sprintf(_("Unable to delete dummy '%s'"), $dummy));
+        if (! $deleted)
+            return redirect()->back()->with('error', sprintf(_("Unable to delete dummy '%s'"), $dummy));
 
-        return redirect()->back();
+        // Success
+        $redirectBack = ($request->input('_from') === 'bogus.dummy.show') ? redirect()->route('bogus.dummy.index') : redirect()->back();
+
+        return $redirectBack->with('success', sprintf(_("Dummy '%s' successfully deleted"), $dummy));
     }
 }

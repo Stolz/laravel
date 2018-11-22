@@ -101,16 +101,11 @@ class CountryController extends Controller
         $created = $this->countryRepository->create($country);
 
         // Success
-        if ($created) {
-            session()->flash('success', sprintf(_("Country '%s' successfully created"), $country));
-
-            return redirect()->route('master.country.index');
-        }
+        if ($created)
+            return redirect()->route('master.country.index')->with('success', sprintf(_("Country '%s' successfully created"), $country));
 
         // Something went wrong
-        session()->flash('error', sprintf(_("Unable to create country '%s'"), $country));
-
-        return redirect()->back()->withInput();
+        return redirect()->back()->withInput()->with('error', sprintf(_("Unable to create country '%s'"), $country));
     }
 
     /**
@@ -132,16 +127,11 @@ class CountryController extends Controller
         $updated = $this->countryRepository->update($country);
 
         // Success
-        if ($updated) {
-            session()->flash('success', sprintf(_("Country '%s' successfully updated"), $country));
-
-            return redirect()->route('master.country.show', $country->getId());
-        }
+        if ($updated)
+            return redirect()->route('master.country.show', $country->getId())->with('success', sprintf(_("Country '%s' successfully updated"), $country));
 
         // Something went wrong
-        session()->flash('error', sprintf(_("Unable to update country '%s'"), $country));
-
-        return redirect()->back()->withInput();
+        return redirect()->back()->withInput()->with('error', sprintf(_("Unable to update country '%s'"), $country));
     }
 
     /**
@@ -156,16 +146,13 @@ class CountryController extends Controller
         // Attempt to delete country
         $deleted = $this->countryRepository->delete($country);
 
-        // Success
-        if ($deleted) {
-            session()->flash('success', sprintf(_("Country '%s' successfully deleted"), $country));
-
-            return ($request->input('_from') === 'master.country.show') ? redirect()->route('master.country.index') : redirect()->back();
-        }
-
         // Something went wrong
-        session()->flash('error', sprintf(_("Unable to delete country '%s'"), $country));
+        if (! $deleted)
+            return redirect()->back()->with('error', sprintf(_("Unable to delete country '%s'"), $country));
 
-        return redirect()->back();
+        // Success
+        $redirectBack = ($request->input('_from') === 'master.country.show') ? redirect()->route('master.country.index') : redirect()->back();
+
+        return $redirectBack->with('success', sprintf(_("Country '%s' successfully deleted"), $country));
     }
 }

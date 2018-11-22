@@ -122,16 +122,11 @@ class UserController extends Controller
         $created = $this->userRepository->create($user);
 
         // Success
-        if ($created) {
-            session()->flash('success', sprintf(_("User '%s' successfully created"), $user));
-
-            return redirect()->route('access.user.index');
-        }
+        if ($created)
+            return redirect()->route('access.user.index')->with('success', sprintf(_("User '%s' successfully created"), $user));
 
         // Something went wrong
-        session()->flash('error', sprintf(_("Unable to create user '%s'"), $user));
-
-        return redirect()->back()->exceptInput('password');
+        return redirect()->back()->exceptInput('password')->with('error', sprintf(_("Unable to create user '%s'"), $user));
     }
 
     /**
@@ -156,16 +151,11 @@ class UserController extends Controller
         $updated = $this->userRepository->update($user);
 
         // Success
-        if ($updated) {
-            session()->flash('success', sprintf(_("User '%s' successfully updated"), $user));
-
-            return redirect()->route('access.user.show', $user->getId());
-        }
+        if ($updated)
+            return redirect()->route('access.user.show', $user->getId())->with('success', sprintf(_("User '%s' successfully updated"), $user));
 
         // Something went wrong
-        session()->flash('error', sprintf(_("Unable to update user '%s'"), $user));
-
-        return redirect()->back()->exceptInput('password');
+        return redirect()->back()->exceptInput('password')->with('error', sprintf(_("Unable to update user '%s'"), $user));
     }
 
     /**
@@ -180,16 +170,13 @@ class UserController extends Controller
         // Attempt to delete user
         $deleted = $this->userRepository->delete($user);
 
-        // Success
-        if ($deleted) {
-            session()->flash('success', sprintf(_("User '%s' successfully deleted"), $user));
-
-            return ($request->input('_from') === 'access.user.show') ? redirect()->route('access.user.index') : redirect()->back();
-        }
-
         // Something went wrong
-        session()->flash('error', sprintf(_("Unable to delete user '%s'"), $user));
+        if (! $deleted)
+            return redirect()->back()->with('error', sprintf(_("Unable to delete user '%s'"), $user));
 
-        return redirect()->back();
+        // Success
+        $redirectBack = ($request->input('_from') === 'access.user.show') ? redirect()->route('access.user.index') : redirect()->back();
+
+        return $redirectBack->with('success', sprintf(_("User '%s' successfully deleted"), $user));
     }
 }
