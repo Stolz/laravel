@@ -22,7 +22,9 @@ trait RefreshDatabase
         $connection->beginTransaction();
 
         $this->beforeApplicationDestroyed(function () use ($connection) {
-            $connection->rollBack();
+            while ($connection->isTransactionActive()) {
+                $connection->rollBack();
+            }
         });
     }
 
