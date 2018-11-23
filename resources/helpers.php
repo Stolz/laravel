@@ -17,15 +17,11 @@ if (! function_exists('d')) {
     /**
      * Dump the passed variables.
      *
-     * @see http://php.net/manual/en/functions.arguments.php#functions.variable-arg-list
-     * @param  mixed  ...$args
      * @return void
      */
-    function d(...$args)
+    function d()
     {
-        foreach ($args as $x) {
-            (new \Illuminate\Support\Debug\Dumper)->dump($x);
-        }
+        call_user_func_array('dump', func_get_args());
     }
 }
 
