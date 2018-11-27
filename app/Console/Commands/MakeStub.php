@@ -62,6 +62,7 @@ class MakeStub extends Command
         ->createFormRequests()
         ->createNavigation()
         ->createResourceViews()
+        ->createFactory()
         ->createFeatureTest();
     }
 
@@ -318,6 +319,21 @@ class MakeStub extends Command
         $stub = $this->getStub('model/navigation');
         $this->files->append($path, $this->replacePlaceholders($stub));
         $this->info('Model navigation created');
+
+        return $this;
+    }
+
+    /**
+     * Create the factory for the model.
+     *
+     * @return self
+     */
+    protected function createFactory(): self
+    {
+        $path = database_path("factories/{$this->moduleClass}Factory.php");
+        $stub = $this->getStub('model/factory');
+        $this->files->put($path, $this->replacePlaceholders($stub));
+        $this->info('Module permissions seeder updated');
 
         return $this;
     }

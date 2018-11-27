@@ -1,0 +1,10 @@
+<?php
+
+use App\Models\Dummy;
+use Faker\Generator as Faker;
+
+$factory->define(Dummy::class, function (Faker $faker) {
+    return [
+        'name' => 'test' . str_random(6),
+    ];
+});
