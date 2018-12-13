@@ -4,6 +4,7 @@
 # - PHP's Native Linter
 # - PHP_CodeSniffer https://github.com/squizlabs/PHP_CodeSniffer
 # - PHP version compatibility https://github.com/wimg/PHPCompatibility
+# - Slevomat https://github.com/slevomat/coding-standard
 
 phpcs="./vendor/bin/phpcs . -s \
 --standard=phpcodesniffer.xml \
@@ -57,7 +58,7 @@ function stan
 	exit $?
 }
 
-# Check PHP_CodeSniffer and PHPCompatibility are installed #####################
+# Check PHP_CodeSniffer and related standards are installed #####################
 
 function check_sniffer_is_installed
 {
@@ -77,6 +78,15 @@ function check_sniffer_is_installed
 		color "Install it with composer:" "yellow"
 		echo
 		color "    composer require wimg/php-compatibility --dev" "yellow"
+		exit 1
+	fi
+
+	if [[ ! -d ./vendor/slevomat ]]; then
+		color "SlevomatCodingStandard not found" "red"
+		echo
+		color "Install it with composer:" "yellow"
+		echo
+		color "    composer require slevomat/coding-standard --dev" "yellow"
 		exit 1
 	fi
 }

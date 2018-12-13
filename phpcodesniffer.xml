@@ -9,6 +9,10 @@
 	<exclude-pattern>/storage/</exclude-pattern>
 	<exclude-pattern>/vendor/</exclude-pattern>
 
+	<!-- Load and configure external standars -->
+	<config name="installed_paths" value="vendor/wimg/php-compatibility,vendor/slevomat/coding-standard" />
+	<config name="testVersion" value="7.2-"/>
+
 	<!--RULES ARE IN ALPHABETICAL ORDER-->
 
 	<!--Only one statemet per line -->
@@ -51,8 +55,6 @@
 	</rule>
 
 	<!--Ensure our code us compatible with the desired PHP version-->
-	<config name="installed_paths" value="vendor/wimg/php-compatibility" />
-	<config name="testVersion" value="7.2-"/>
 	<rule ref="PHPCompatibility"/>
 
 	<!--Single responsability files-->
@@ -71,6 +73,58 @@
 		<!--Allow long lines-->
 		<exclude name="Generic.Files.LineLength.TooLong"/>
 	</rule>
+
+	<!-- Enforces short array syntax and trailing commas in multi-line arrays-->
+	<rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma"/>
+
+	<!--Disallow unnatural Yoda Comparison-->
+	<rule ref="SlevomatCodingStandard.ControlStructures.DisallowYodaComparison"/>
+
+	<!-- Requires use of null coalesce operator when possible-->
+	<rule ref="SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator"/>
+
+	<!-- Find unreachable catch blocks-->
+	<rule ref="SlevomatCodingStandard.Exceptions.DeadCatch"/>
+
+	<!--Looks for unused inherited variables passed to closure via `use ()`-->
+	<rule ref="SlevomatCodingStandard.Functions.UnusedInheritedVariablePassedToClosure"/>
+
+	<!--Checks use statements at the top of a file are alphabetically sorted.-->
+	<rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses"/>
+
+	<!--Disallow grouped use declarations-->
+	<rule ref="SlevomatCodingStandard.Namespaces.DisallowGroupUse"/>
+
+	<!--Enforces fully qualified names of classes and interfaces in phpDocs-->
+	<!--<rule ref="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameInAnnotation"/>-->
+
+	<!--Enforces one space after namespace, disallows content between namespace name and semicolon and disallows use of bracketed syntax-->
+	<rule ref="SlevomatCodingStandard.Namespaces.NamespaceDeclaration"/>
+
+	<!--Looks for unused imports from other namespaces-->
+	<rule ref="SlevomatCodingStandard.Namespaces.UnusedUses"/>
+
+	<!-- Disallows leading backslash in use statement-->
+	<rule ref="SlevomatCodingStandard.Namespaces.UseDoesNotStartWithBackslash"/>
+
+	<!-- Prohibits uses from the same namespace-->
+	<rule ref="SlevomatCodingStandard.Namespaces.UseFromSameNamespace"/>
+
+	<!-- Detect `use` class aliasese that are same as unqualified name-->
+	<rule ref="SlevomatCodingStandard.Namespaces.UselessAlias"/>
+
+	<!-- Enforces using shorthand cast operators, i.e: (int) instead of (integer)-->
+	<rule ref="SlevomatCodingStandard.PHP.TypeCast"/>
+
+	<!-- Enforces using shorthand scalar typehint in phpDocs (i.e: int instead of integer)-->
+	<rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
+
+	<!-- Checks that there's a single space between a typehint and a parameter name: Foo $foo.
+	Checks that there's no whitespace between a nullability symbol and a typehint: ?Foo-->
+	<rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing"/>
+
+	<!-- Enforces space before return typehints-->
+	<rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing"/>
 
 	<!--Do not use spaces gaps for array brakets-->
 	<rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
