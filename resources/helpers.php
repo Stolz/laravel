@@ -240,7 +240,7 @@ if (! function_exists('csv_chunk')) {
      * Parse a CSV file in chunks and apply a closure to each chunk.
      *
      * @param string $file
-     * @param integer $chunkSize
+     * @param int $chunkSize
      * @param \Closure $function
      * @param string $delimiter
      * @return array

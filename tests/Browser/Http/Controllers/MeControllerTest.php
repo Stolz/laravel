@@ -2,7 +2,6 @@
 
 namespace Tests\Browser\Http\Controllers;
 
-use App\Models\User;
 use App\Traits\AttachesRepositories;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;

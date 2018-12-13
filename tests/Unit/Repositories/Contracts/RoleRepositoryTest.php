@@ -5,8 +5,8 @@ namespace Tests\Unit\Repositories\Contracts;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Traits\AttachesRepositories;
-use Tests\Traits\RefreshDatabase;
 use Tests\TestCase;
+use Tests\Traits\RefreshDatabase;
 
 class RoleRepositoryTest extends TestCase
 {
@@ -28,7 +28,7 @@ class RoleRepositoryTest extends TestCase
         // Create test permissions
         $this->permissions = collect([
             Permission::make(['name' => 'first']),
-            Permission::make(['name' => 'last'])
+            Permission::make(['name' => 'last']),
         ]);
         $this->permissionRepository->create($this->permissions->first());
         $this->permissionRepository->create($this->permissions->last());

@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Repositories\Contracts;
 
-use App\Models\User;
 use App\Traits\AttachesRepositories;
 use Tests\TestCase;
 use Tests\Traits\CreatesUsers;

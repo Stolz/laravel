@@ -35,7 +35,7 @@ trait Softdeletable
      * @param  mixed $date
      * @return self
      */
-    public function setDeletedAt($date) : self
+    public function setDeletedAt($date): self
     {
         $this->deletedAt = convert_to_date($date, static::DATETIME_FORMAT);
 

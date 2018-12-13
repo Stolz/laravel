@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Role;
 
-use App\Http\Requests\Request as Request;
+use App\Http\Requests\Request;
 
 class View extends Request
 {
