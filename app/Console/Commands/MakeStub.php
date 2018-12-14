@@ -382,7 +382,7 @@ class MakeStub extends Command
         $this->files->put($path, $this->replacePlaceholders($stub));
         $this->info('Model controller feature tests created');
 
-        $path = base_path("tests/Feature/Http/Controllers/Api/{$this->moduleClass}/{$this->singularClass}ControllerTest.php");
+        $path = base_path("tests/Feature/Http/Controllers/Api/{$this->singularClass}ControllerTest.php");
         $stub = $this->getStub('tests/feature/modelApiController');
         $this->files->put($path, $this->replacePlaceholders($stub));
         $this->info('Model API controller feature tests created');
