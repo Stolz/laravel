@@ -362,7 +362,7 @@ class MakeStub extends Command
      */
     protected function createFactory(): self
     {
-        $path = database_path("factories/{$this->moduleClass}Factory.php");
+        $path = database_path("factories/{$this->singularClass}Factory.php");
         $stub = $this->getStub('model/factory');
         $this->files->put($path, $this->replacePlaceholders($stub));
         $this->info('Module permissions seeder updated');
