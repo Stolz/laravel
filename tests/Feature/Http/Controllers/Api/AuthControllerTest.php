@@ -1,22 +1,14 @@
 <?php
 
-namespace Test\Http\Controllers\Api;
+namespace Tests\Http\Controllers\Api;
 
 use App\Traits\AttachesRepositories;
-use Tests\TestCase;
 use Tests\Traits\CreatesUsers;
 use Tests\Traits\RefreshDatabase;
 
 class AuthControllerTest extends TestCase
 {
     use RefreshDatabase, AttachesRepositories, CreatesUsers;
-
-    /**
-     * Structure of a JWT response.
-     *
-     * @const array
-     */
-    const JWT_JSON = ['access_token', 'token_type', 'expires_in'];
 
     /**
      * Run before each test.
@@ -27,18 +19,18 @@ class AuthControllerTest extends TestCase
     {
         parent::setUp();
 
+        // Disable brute-force attack protection
+        $this->withoutThrottleMiddleware();
+
         // Create user
         $this->user = $this->createUser(['password' => 'secret']);
 
-        // Create a valid JWT for the user
+        // Generate a valid API token for the user
         $this->token = auth('api')->tokenById($this->user->getJWTIdentifier());
-
-        // Set default API request headers
-        $this->withHeaders(['Accept' => 'application/json']);
     }
 
     /**
-     * Test get a JWT for the given credentials.
+     * Test login into the API.
      *
      * @return void
      */
@@ -65,7 +57,7 @@ class AuthControllerTest extends TestCase
             'password' => 'secret',
         ]);
         $response->assertOk();
-        $response->assertJsonStructure(static::JWT_JSON);
+        $response->assertJsonStructure(static::TOKEN_STRUCTURE);
     }
 
     /**
@@ -84,14 +76,14 @@ class AuthControllerTest extends TestCase
 
         // Test with invalid token
         $token = 'invalid';
-        $response = $this->withBearerHeader('invalid')->get($route);
+        $response = $this->withTokenHeader('invalid')->get($route);
         $response->assertStatus(401);
         $response->assertJsonStructure(['message']);
 
         // Test with valid token
-        $response = $this->withBearerHeader($this->token)->get($route);
+        $response = $this->withTokenHeader($this->token)->get($route);
         $response->assertOk();
-        $response->assertJsonStructure(static::JWT_JSON);
+        $response->assertJsonStructure(static::TOKEN_STRUCTURE);
     }
 
     /**
@@ -109,12 +101,12 @@ class AuthControllerTest extends TestCase
         $response->assertJsonStructure(['message']);
 
         // Test with invalid token
-        $response = $this->withBearerHeader('invalid')->get($route);
+        $response = $this->withTokenHeader('invalid')->get($route);
         $response->assertStatus(401);
         $response->assertJsonStructure(['message']);
 
         // Test with valid token
-        $response = $this->withBearerHeader($this->token)->get($route);
+        $response = $this->withTokenHeader($this->token)->get($route);
         $response->assertOk();
         $response->assertJson($this->user->jsonSerialize());
     }
@@ -134,26 +126,13 @@ class AuthControllerTest extends TestCase
         $response->assertJsonStructure(['message']);
 
         // Test with invalid token
-        $response = $this->withBearerHeader('invalid')->get($route);
+        $response = $this->withTokenHeader('invalid')->get($route);
         $response->assertStatus(401);
         $response->assertJsonStructure(['message']);
 
         // Test with valid token
-        $response = $this->withBearerHeader($this->token)->get($route);
+        $response = $this->withTokenHeader($this->token)->get($route);
         $response->assertOk();
         $response->assertJson(['logout' => true]);
-    }
-
-    /**
-     * Add bearer authentication header to the request.
-     *
-     * @param  string $token
-     * @return self
-     */
-    protected function withBearerHeader(string $token)
-    {
-        $this->withHeaders(['Authorization' => "Bearer $token"]);
-
-        return $this;
     }
 }
