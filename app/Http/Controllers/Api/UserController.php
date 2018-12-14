@@ -43,10 +43,10 @@ class UserController extends Controller
     public function index(\App\Http\Requests\User\Index $request): JsonResponse
     {
         // Get pagination options
-        list($perPage, $page, $sortBy, $sortDirection) = $this->getPaginationOptionsFromRequest($request, 15, 'name');
+        list($searchCriteria, $perPage, $page, $sortBy, $sortDirection) = $this->getSearchPaginationOptionsFromRequest($request, 15, 'name');
 
         // Get users from repository
-        $users = $this->userRepository->paginate($perPage, $page, $sortBy, $sortDirection);
+        $users = $this->userRepository->paginateSearch($searchCriteria, $perPage, $page, $sortBy, $sortDirection);
 
         return $this->json($users);
     }
