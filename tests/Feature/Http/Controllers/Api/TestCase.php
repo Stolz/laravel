@@ -14,6 +14,14 @@ abstract class TestCase extends BaseTestCase
     const TOKEN_STRUCTURE = ['access_token', 'token_type', 'expires_in'];
 
     /**
+     * Structure of a pagination response.
+     *
+     * @const array
+     */
+    const PAGINATION_STRUCTURE = ['current_page', 'data', 'first_page_url', 'from',
+    'last_page', 'last_page_url', 'next_page_url', 'path', 'per_page', 'prev_page_url', 'to'];
+
+    /**
      * Run before each test.
      *
      * @return void
