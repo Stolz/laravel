@@ -1,0 +1,121 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Models\Dummy;
+use Illuminate\Http\JsonResponse;
+
+class DummyController extends Controller
+{
+    /**
+     * Instance of the service used to interact with dummies.
+     *
+     * @var \App\Repositories\Contracts\DummyRepository
+     */
+    protected $dummyRepository;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param  \App\Repositories\Contracts\DummyRepository $dummyRepository
+     * @return void
+     */
+    public function __construct(\App\Repositories\Contracts\DummyRepository $dummyRepository)
+    {
+        $this->dummyRepository = $dummyRepository;
+    }
+
+    /**
+     * Display a list of dummies.
+     *
+     * @param  \App\Http\Requests\Dummy\Index $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(\App\Http\Requests\Dummy\Index $request): JsonResponse
+    {
+        // Get pagination options
+        list($perPage, $page, $sortBy, $sortDirection) = $this->getPaginationOptionsFromRequest($request, 15, 'name'); // TODO choose a default order
+
+        // Get dummies from repository
+        $dummies = $this->dummyRepository->paginate($perPage, $page, $sortBy, $sortDirection);
+
+        return $this->json($dummies);
+    }
+
+    /**
+     * Display the specified dummy.
+     *
+     * @param  \App\Http\Requests\Dummy\View $request
+     * @param  \App\Models\Dummy  $dummy
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(\App\Http\Requests\Dummy\View $request, Dummy $dummy): JsonResponse
+    {
+        return $this->json($dummy);
+    }
+
+    /**
+     *  Store a newly created dummy in storage.
+     *
+     * @param  \App\Http\Requests\Dummy\Create $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(\App\Http\Requests\Dummy\Create $request): JsonResponse
+    {
+        // Get request input
+        $attributes = $request->merge([
+            'TODO' => $this->fooRepository->find($request->foo),
+        ])->only('name'); // TODO $request->exceptNonFillable();
+
+        // Create a dummy with the provided input
+        $dummy = Dummy::make($attributes);
+
+        // Attempt to save dummy into the repository
+        $created = $this->dummyRepository->create($dummy);
+
+        // Success
+        if ($created)
+            return $this->json(['created' => true, 'id' => $dummy->getId()], 201);
+
+        // Something went wrong
+        return $this->json(['created' => false], 500);
+    }
+
+    /**
+     * Update the specified dummy in storage.
+     *
+     * @param  \App\Http\Requests\Dummy\Update $request
+     * @param  \App\Models\Dummy  $dummy
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(\App\Http\Requests\Dummy\Update $request, Dummy $dummy): JsonResponse
+    {
+        // Get request input
+        $attributes = $request->merge([
+            'TODO' => $this->fooRepository->find($request->foo),
+        ])->only('name'); // TODO $request->exceptNonFillable();
+
+        // Apply changes to the dummy
+        $dummy->set($attributes);
+
+        // Attempt to update dummy
+        $updated = $this->dummyRepository->update($dummy);
+
+        return $this->json(['updated' => $updated], $updated ? 200 : 500);
+    }
+
+    /**
+     * Remove the specified dummy from storage.
+     *
+     * @param  \App\Http\Requests\Dummy\Delete $request
+     * @param  \App\Models\Dummy  $dummy
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(\App\Http\Requests\Dummy\Delete $request, Dummy $dummy): JsonResponse
+    {
+        // Delete dummy from repository
+        $deleted = $this->dummyRepository->delete($dummy);
+
+        return $this->json(['deleted' => $deleted], $deleted ? 200 : 500);
+    }
+}

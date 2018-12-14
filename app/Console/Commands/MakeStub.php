@@ -58,7 +58,9 @@ class MakeStub extends Command
         ->createRepositoryBinding()
         ->createPolicy()
         ->createRoute()
+        ->createApiRoute()
         ->createController()
+        ->createApiController()
         ->createFormRequests()
         ->createNavigation()
         ->createResourceViews()
@@ -251,6 +253,20 @@ class MakeStub extends Command
     }
 
     /**
+     * Create the API route.
+     *
+     * @return self
+     */
+    protected function createApiRoute(): self
+    {
+        $path = base_path('routes/api.php');
+        $this->files->append($path, '// TO' . "DO Add Route::apiResource('{$this->singular}', '{$this->singularClass}Controller');\n");
+        $this->info('Model API routes updated');
+
+        return $this;
+    }
+
+    /**
      * Create the controller stub.
      *
      * @return self
@@ -262,6 +278,22 @@ class MakeStub extends Command
 
         $this->files->put($path, $this->replacePlaceholders($stub));
         $this->info('Model controller created');
+
+        return $this;
+    }
+
+    /**
+     * Create the API controller stub.
+     *
+     * @return self
+     */
+    protected function createApiController(): self
+    {
+        $path = app_path("Http/Controllers/Api/{$this->singularClass}Controller.php");
+        $stub = $this->getStub('model/apiController');
+
+        $this->files->put($path, $this->replacePlaceholders($stub));
+        $this->info('Model API controller created');
 
         return $this;
     }
