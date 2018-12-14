@@ -4,13 +4,14 @@ namespace Tests\Feature\Http\Controllers\Master;
 
 use App\Traits\AttachesRepositories;
 use Tests\TestCase;
+use Tests\Traits\CreatesCountries;
 use Tests\Traits\CreatesUsers;
 use Tests\Traits\RefreshDatabase;
 use Tests\Traits\RejectsUnauthorizedRouteAccess;
 
 class CountryControllerTest extends TestCase
 {
-    use RefreshDatabase, AttachesRepositories, CreatesUsers, RejectsUnauthorizedRouteAccess;
+    use RefreshDatabase, AttachesRepositories, CreatesUsers, CreatesCountries, RejectsUnauthorizedRouteAccess;
 
     /**
      * Run before each test.
@@ -53,8 +54,7 @@ class CountryControllerTest extends TestCase
     public function testShow()
     {
         // Create a country
-        $country = factory(\App\Models\Country::class)->make();
-        $this->countryRepository->create($country);
+        $country = $this->createCountry();
 
         // User without permissions
         $route = route('master.country.show', [$country->getId()]);
@@ -91,8 +91,7 @@ class CountryControllerTest extends TestCase
     public function testEdit()
     {
         // Create a country
-        $country = factory(\App\Models\Country::class)->make();
-        $this->countryRepository->create($country);
+        $country = $this->createCountry();
 
         // User without permissions
         $route = route('master.country.edit', [$country->getId()]);
