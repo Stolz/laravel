@@ -19,14 +19,25 @@ class AuthControllerTest extends TestCase
     {
         parent::setUp();
 
-        // Disable brute-force attack protection
-        $this->withoutThrottleMiddleware();
-
         // Create user
         $this->user = $this->createUser(['password' => 'secret']);
 
         // Generate a valid API token for the user
         $this->token = auth('api')->tokenById($this->user->getJWTIdentifier());
+    }
+
+    /**
+     * Test brute-force attack protection.
+     *
+     * @return void
+     */
+    public function testThrottle()
+    {
+        $route = route('api.login');
+        for ($i = 1; $i <= 20; $i++)
+            $response = $this->post($route);
+
+        $response->assertStatus(429);
     }
 
     /**
@@ -36,10 +47,12 @@ class AuthControllerTest extends TestCase
      */
     public function testLogin()
     {
+        // Disable brute-force attack protection
+        $this->withoutThrottleMiddleware();
         $route = route('api.login');
 
         // Test incomplete credentials
-        $response = $this->post($route, []);
+        $response = $this->post($route);
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['email', 'password']);
 
@@ -67,6 +80,8 @@ class AuthControllerTest extends TestCase
      */
     public function testRefreshToken()
     {
+        // Disable brute-force attack protection
+        $this->withoutThrottleMiddleware();
         $route = route('api.refresh');
 
         // Test without token
