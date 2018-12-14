@@ -1,0 +1,168 @@
+<?php
+
+namespace Tests\Http\Controllers\Api;
+
+use App\Models\Dummy;
+use App\Traits\AttachesRepositories;
+use Tests\Traits\CreatesUsers;
+use Tests\Traits\RefreshDatabase;
+
+class DummyControllerTest extends TestCase
+{
+    use RefreshDatabase, AttachesRepositories, CreatesUsers;
+
+    /**
+     * Run before each test.
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+
+        // Create user with all permissions ...
+        $this->user = $this->createUser([], ['name' => 'Admin']);
+
+        // ... and authenticate it
+        $this->actingAs($this->user, 'api');
+    }
+
+    /**
+     * Tests display a list of dummies.
+     *
+     * @return void
+     */
+    public function testIndex()
+    {
+        // Test empty list
+        $route = route('api.dummy.index');
+        $response = $this->get($route);
+        $response->assertOk();
+        $response->assertJsonStructure(static::PAGINATION_STRUCTURE);
+        $response->assertJsonCount(0, 'data');
+
+        // Create test dummies
+        $dummyFoo = factory(Dummy::class)->make();
+        $dummyBar = factory(Dummy::class)->make();
+        $this->dummyRepository->create($dummyFoo);
+        $this->dummyRepository->create($dummyBar);
+
+        // Test non empty list
+        $response = $this->get($route);
+        $response->assertOk();
+        $response->assertJsonStructure(static::PAGINATION_STRUCTURE);
+        $response->assertJsonCount(2, 'data');
+
+        // Test sorting results
+        $route = route('api.dummy.index', ['sortBy' => 'id', 'sortDir' => 'desc']);
+        $response = $this->get($route);
+        $response->assertOk();
+        $response->assertJsonStructure(static::PAGINATION_STRUCTURE);
+        $response->assertJsonCount(2, 'data');
+        $this->assertEquals($dummyBar->getId(), $response->json('data')[0]['id']);
+
+        // Test searching results (TODO remove if App\Models\Dummy is not searchable)
+        $route = route('api.dummy.index', ['search' => ['name' => $dummyFoo->getName()]]);
+        $response = $this->get($route);
+        $response->assertOk();
+        $response->assertJsonStructure(static::PAGINATION_STRUCTURE);
+        $response->assertJsonCount(1, 'data');
+        $this->assertEquals($dummyFoo->getId(), $response->json('data')[0]['id']);
+    }
+
+    /**
+     * Test display the specified dummy.
+     *
+     * @return void
+     */
+    public function testShow()
+    {
+        // Test non existing dummy
+        $route = route('api.dummy.show', ['random']);
+        $response = $this->get($route);
+        $response->assertNotFound();
+
+        // Create a dummy
+        $dummy = factory(Dummy::class)->make();
+        $this->dummyRepository->create($dummy);
+
+        // Test existing dummy
+        $route = route('api.dummy.show', $dummy->getId());
+        $response = $this->get($route);
+        $response->assertOk();
+        $response->assertJson($dummy->jsonSerialize());
+    }
+
+    /**
+     * Tests store a newly created dummy in storage.
+     *
+     * @return void
+     */
+    public function testStore()
+    {
+        // Test with incomplete data
+        $route = route('api.dummy.store', ['random']);
+        $response = $this->post($route);
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['name']);
+
+        // Test with complete data
+        $data = factory(Dummy::class)->raw();
+        $response = $this->post($route, $data);
+        $response->assertStatus(201);
+        $response->assertJsonStructure(['id', 'created']);
+        $response->assertJson(['created' => true]);
+    }
+
+    /**
+     * Tests update the specified dummy in storage.
+     *
+     * @return void
+     */
+    public function testUpdate()
+    {
+        // Test non existing dummy
+        $route = route('api.dummy.update', ['random']);
+        $response = $this->get($route);
+        $response->assertNotFound();
+
+        // Create a dummy
+        $dummy = factory(Dummy::class)->make();
+        $this->dummyRepository->create($dummy);
+
+        // Test existing dummy with incomplete data
+        $route = route('api.dummy.update', $dummy->getId());
+        $response = $this->put($route);
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['name']);
+
+        // Test existing dummy with complete data
+        $data = factory(Dummy::class)->raw();
+        $response = $this->put($route, $data);
+        $response->assertOk();
+        $response->assertJson(['updated' => true]);
+    }
+
+    /**
+     * Tests remove the specified dummy from storage.
+     *
+     * @return void
+     */
+    public function testDestroy()
+    {
+        // Test non existing dummy
+        $route = route('api.dummy.destroy', ['random']);
+        $response = $this->delete($route);
+        $response->assertNotFound();
+
+        // Create a dummy
+        $dummy = factory(Dummy::class)->make();
+        $this->dummyRepository->create($dummy);
+
+        // Test existing dummy
+        $route = route('api.dummy.destroy', $dummy->getId());
+        $response = $this->delete($route);
+        $response->assertOk();
+        $response->assertJson(['deleted' => true]);
+    }
+}
