@@ -3,7 +3,7 @@
 # Check code for quality assurance using:
 # - PHP's Native Linter
 # - PHP_CodeSniffer https://github.com/squizlabs/PHP_CodeSniffer
-# - PHP version compatibility https://github.com/wimg/PHPCompatibility
+# - PHPCompatibility https://github.com/PHPCompatibility/PHPCompatibility
 # - Slevomat https://github.com/slevomat/coding-standard
 
 phpcs="./vendor/bin/phpcs . -s \
@@ -72,12 +72,12 @@ function check_sniffer_is_installed
 		exit 1
 	fi
 
-	if [[ ! -d ./vendor/wimg/php-compatibility ]]; then
+	if [[ ! -d ./vendor/phpcompatibility/php-compatibility ]]; then
 		color "PHPCompatibility not found" "red"
 		echo
 		color "Install it with composer:" "yellow"
 		echo
-		color "    composer require wimg/php-compatibility --dev" "yellow"
+		color "    composer require phpcompatibility/php-compatibility --dev" "yellow"
 		exit 1
 	fi
 
