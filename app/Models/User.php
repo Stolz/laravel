@@ -282,7 +282,7 @@ class User extends Model implements AuthenticatableContract, JWTSubject, CanRese
      *
      * @return mixed
      */
-    public function getJWTIdentifier()
+    public function getJWTIdentifier() // phpcs:ignore -- part of an interface from a vendor package
     {
         return $this->getId();
     }
@@ -292,7 +292,7 @@ class User extends Model implements AuthenticatableContract, JWTSubject, CanRese
      *
      * @return array
      */
-    public function getJWTCustomClaims()
+    public function getJWTCustomClaims() // phpcs:ignore -- part of an interface from a vendor package
     {
         return [];
     }
