@@ -144,7 +144,24 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
      */
     public function jsonSerialize()
     {
-        return $this->toArrayExcept(static::JSON_HIDDEN);
+        // Separate hidden field between flat or nested
+        $flat = $nested = [];
+        foreach (static::JSON_HIDDEN as $key => $value) {
+            if (is_array($value))
+                $nested[$key] = $value;
+            else $flat[] = $value;
+        }
+
+        // Remove flat level hidden fields
+        $data = $this->toArrayExcept($flat);
+
+        // Remove nested level hidden fields
+        foreach ($nested as $key => $values) {
+            if (is_array($data[$key] ?? null))
+                $data[$key] = array_except($data[$key], $values);
+        }
+
+        return $data;
     }
 
     // Domain logic ================================================================
