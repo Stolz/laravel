@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         // Seeds for local environment
         if (app()->environment('local')) {
             $this->call([
+                'LocalRolesSeeder',
                 'LocalUsersSeeder',
                 'LocalNotificationsSeeder',
             ]);
