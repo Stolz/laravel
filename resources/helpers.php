@@ -251,6 +251,10 @@ if (! function_exists('csv_chunk')) {
         if (($handle = fopen($file, 'r')) === false)
             return [];
 
+        // Skip BOM (byte order mark) character if present
+        if (fread($handle, 3) !== pack("CCC", 0xef, 0xbb, 0xbf))
+            rewind($handle);
+
         // Initialize variables
         $line = -1;
         $headers = [];
