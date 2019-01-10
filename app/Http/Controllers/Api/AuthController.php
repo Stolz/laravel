@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
     /**
-     * The API guard instance.
+     * Instance of the API auth guard.
      *
      * @var \Illuminate\Contracts\Auth\Guard
      */
-    protected $guard;
+    protected $auth;
 
     /**
      * Class constructor
@@ -22,7 +22,7 @@ class AuthController extends Controller
      */
     public function __construct(\Illuminate\Contracts\Auth\Factory $auth)
     {
-        $this->guard = $auth->guard('api');
+        $this->auth = $auth->guard('api');
     }
 
     /**
@@ -38,7 +38,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (! $token = $this->guard->attempt($credentials))
+        if (! $token = $this->auth->attempt($credentials))
             return $this->json(['error' => 'Unauthorized'], 401);
 
         return $this->respondWithToken($token);
@@ -51,7 +51,7 @@ class AuthController extends Controller
      */
     public function refresh(): JsonResponse
     {
-        $token = $this->guard->refresh();
+        $token = $this->auth->refresh();
 
         return $this->respondWithToken($token);
     }
@@ -64,7 +64,7 @@ class AuthController extends Controller
      */
     public function me(\App\Repositories\Contracts\PermissionRepository $permissionRepository): JsonResponse
     {
-        $user = $this->guard->user();
+        $user = $this->auth->user();
         $response = $user->jsonSerialize();
 
         // Add permission information
@@ -80,7 +80,7 @@ class AuthController extends Controller
      */
     public function logout(): JsonResponse
     {
-        $this->guard->logout();
+        $this->auth->logout();
 
         return $this->json(['logout' => true]);
     }
@@ -96,7 +96,7 @@ class AuthController extends Controller
         return $this->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => $this->guard->factory()->getTTL() * 60,
+            'expires_in' => $this->auth->factory()->getTTL() * 60,
         ]);
     }
 }
