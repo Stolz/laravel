@@ -35,7 +35,7 @@
                 @endif
             </dl>
 
-            @if (! $role['permissions']->isEmpty())
+            @if ($role['permissions']->isNotEmpty())
                 <dl>
                     <dt>{{ _('Permissions') }}</dt>
                     @foreach($role['permissions'] as $permission)
@@ -44,7 +44,7 @@
                 </dl>
             @endif
 
-            @if (! $users->isEmpty())
+            @if ($users->isNotEmpty())
                 <dl>
                     <dt>{{ _('Users') }}</dt>
                     @foreach($users as $user)

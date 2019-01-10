@@ -16,7 +16,7 @@
                 {{ $title }}
             </div>
             <div class="card-options">
-                @if(! $users->isEmpty())
+                @if($users->isNotEmpty())
                     <a href="#" id="colorize" title="{{ _('Colorize results') }}"><i class="fe fe-feather"></i></a>
                 @endif
                 <a href="#" class="toggle-side" title="{{ _('Toggle search') }}"><i class="fe fe-search"></i></a>

@@ -13,7 +13,7 @@
         @slot('header')
             <div class="card-title">{{ $title }}</div>
             <div class="card-options">
-                @if(! $dummies->isEmpty())
+                @if($dummies->isNotEmpty())
                     <a href="#" id="colorize" title="{{ _('Colorize results') }}"><i class="fe fe-feather">TODO remove if not colorizable</i></a>
                 @endif
                 <a href="#" class="toggle-side" title="{{ _('Toggle search') }}"><i class="fe fe-search">TODO remove if not searchable</i></a>
