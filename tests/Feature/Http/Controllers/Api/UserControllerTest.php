@@ -43,7 +43,7 @@ class UserControllerTest extends TestCase
         $response->assertJsonCount(2, 'data');
 
         // Test sorting results
-        $route = route('api.user.index', ['sortBy' => 'name', 'sortDir' => 'desc']);
+        $route = route('api.user.index', ['sort_by' => 'name', 'sort_dir' => 'desc']);
         $response = $this->get($route);
         $response->assertOk();
         $response->assertJsonStructure(static::PAGINATION_STRUCTURE);

@@ -6,8 +6,8 @@ if (request()->has('search'))
 
 $buildLinks = function ($labels, $routeParameters = []): array {
     $route = Route::current()->getName();
-    $column = request('sortBy');
-    $direction = request('sortDir', 'asc');
+    $column = request('sort_by');
+    $direction = request('sort_dir', 'asc');
     $links = [];
 
     foreach ($labels as $key => $label) {
@@ -16,20 +16,20 @@ $buildLinks = function ($labels, $routeParameters = []): array {
             $links[$key] = '<span class="disabled">' . e($label) . '</span>';
             continue;
         }
-        $routeParameters['sortBy'] = $key;
+        $routeParameters['sort_by'] = $key;
 
         if ($key === $column) {
             $class = 'active';
 
             if ($direction !== 'desc') {
-                $routeParameters['sortDir'] = 'desc';
+                $routeParameters['sort_dir'] = 'desc';
                 $class .= ' desc';
             } else {
-                $routeParameters['sortDir'] = 'asc';
+                $routeParameters['sort_dir'] = 'asc';
                 $class .= ' asc';
             }
         } else {
-            $routeParameters['sortDir'] = $direction;
+            $routeParameters['sort_dir'] = $direction;
             $class = null;
         }
 

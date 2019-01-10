@@ -53,7 +53,7 @@ class CountryControllerTest extends TestCase
         $response->assertJsonCount(2, 'data');
 
         // Test sorting results
-        $route = route('api.country.index', ['sortBy' => 'id', 'sortDir' => 'desc']);
+        $route = route('api.country.index', ['sort_by' => 'id', 'sort_dir' => 'desc']);
         $response = $this->get($route);
         $response->assertOk();
         $response->assertJsonStructure(static::PAGINATION_STRUCTURE);

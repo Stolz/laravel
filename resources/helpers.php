@@ -184,7 +184,7 @@ if (! function_exists('previous_index_url')) {
         $previousUrl = url()->previous();
         parse_str(parse_url($previousUrl, PHP_URL_QUERY), $urlParameters);
 
-        if (isset($urlParameters['page']) or isset($urlParameters['search']) or isset($urlParameters['sortBy']))
+        if (isset($urlParameters['page']) or isset($urlParameters['search']) or isset($urlParameters['sort_by']))
             return $previousUrl;
 
         return $fallbackUrl;

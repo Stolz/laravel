@@ -205,7 +205,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{baseUrl}}/country?sortBy=id&sortDir=asc&perPage=5&page=1",
+							"raw": "{{baseUrl}}/country?sort_by=id&sort_dir=asc&per_page=5&page=1",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -214,15 +214,15 @@
 							],
 							"query": [
 								{
-									"key": "sortBy",
+									"key": "sort_by",
 									"value": "id"
 								},
 								{
-									"key": "sortDir",
+									"key": "sort_dir",
 									"value": "asc"
 								},
 								{
-									"key": "perPage",
+									"key": "per_page",
 									"value": "5"
 								},
 								{
@@ -402,7 +402,7 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "{{baseUrl}}/user?sortBy=id&sortDir=asc&perPage=5&page=1",
+							"raw": "{{baseUrl}}/user?sort_by=id&sort_dir=asc&per_page=5&page=1",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -411,15 +411,15 @@
 							],
 							"query": [
 								{
-									"key": "sortBy",
+									"key": "sort_by",
 									"value": "id"
 								},
 								{
-									"key": "sortDir",
+									"key": "sort_dir",
 									"value": "asc"
 								},
 								{
-									"key": "perPage",
+									"key": "per_page",
 									"value": "5"
 								},
 								{
