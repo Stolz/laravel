@@ -8,6 +8,24 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
     /**
+     * The API guard instance.
+     *
+     * @var \Illuminate\Contracts\Auth\Guard
+     */
+    protected $guard;
+
+    /**
+     * Class constructor
+     *
+     * @param  \Illuminate\Contracts\Auth\Factory $auth
+     * @return void
+     */
+    public function __construct(\Illuminate\Contracts\Auth\Factory $auth)
+    {
+        $this->guard = $auth->guard('api');
+    }
+
+    /**
      * Get a JWT for the given credentials.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -20,7 +38,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (! $token = auth('api')->attempt($credentials))
+        if (! $token = $this->guard->attempt($credentials))
             return $this->json(['error' => 'Unauthorized'], 401);
 
         return $this->respondWithToken($token);
@@ -33,24 +51,24 @@ class AuthController extends Controller
      */
     public function refresh(): JsonResponse
     {
-        $token = auth('api')->refresh();
+        $token = $this->guard->refresh();
 
         return $this->respondWithToken($token);
     }
 
     /**
-     * Show current authenticated user.
+     * Show current authenticated user basic information.
      *
+     * @param  \App\Repositories\Contracts\PermissionRepository $permissionRepository
      * @return \Illuminate\Http\JsonResponse
      */
-    public function me(): JsonResponse
+    public function me(\App\Repositories\Contracts\PermissionRepository $permissionRepository): JsonResponse
     {
-        $user = auth('api')->user();
+        $user = $this->guard->user();
         $response = $user->jsonSerialize();
 
         // Add permission information
-        $response['is_admin'] = $user->isSuperAdmin();
-        $response['permissions'] = $user->getRole()->getPermissionsNames();
+        $response['permissions'] = ($user->isSuperAdmin()) ? $permissionRepository->all()->pluck('name') : $user->getRole()->getPermissionsNames();
 
         return $this->json($response);
     }
@@ -62,7 +80,7 @@ class AuthController extends Controller
      */
     public function logout(): JsonResponse
     {
-        auth('api')->logout();
+        $this->guard->logout();
 
         return $this->json(['logout' => true]);
     }
@@ -78,7 +96,7 @@ class AuthController extends Controller
         return $this->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60,
+            'expires_in' => $this->guard->factory()->getTTL() * 60,
         ]);
     }
 }
