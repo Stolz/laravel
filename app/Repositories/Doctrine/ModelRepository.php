@@ -375,9 +375,9 @@ abstract class ModelRepository implements ModelRepositoryContract
 
         // Include sorting parameters in query string
         if ($sortBy !== null)
-            $paginator->appends(['sortBy' => $originalSortBy]);
+            $paginator->appends(['sort_by' => $originalSortBy]);
         if ($sortDirection !== null)
-            $paginator->appends(['sortDir' => $sortDirection]);
+            $paginator->appends(['sort_dir' => $sortDirection]);
 
         return $paginator;
     }

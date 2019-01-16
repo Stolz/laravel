@@ -36,10 +36,10 @@ abstract class Controller extends BaseController
      */
     protected function getPaginationOptionsFromRequest(Request $request, int $perPage = 15, string $sortBy = null, string $sortDirection = 'asc'): array
     {
-        $perPage = (int) $request->input('perPage', $perPage);
+        $perPage = (int) $request->input('per_page', $perPage);
         $page = (int) $request->input('page', 1);
-        $sortBy = $request->input('sortBy', $sortBy);
-        $sortDirection = $request->input('sortDir', $sortDirection);
+        $sortBy = $request->input('sort_by', $sortBy);
+        $sortDirection = $request->input('sort_dir', $sortDirection);
 
         return [$perPage, $page, $sortBy, $sortDirection];
     }
