@@ -123,7 +123,7 @@ class DummyControllerTest extends TestCase
     {
         // Test non existing dummy
         $route = route('api.dummy.update', ['random']);
-        $response = $this->get($route);
+        $response = $this->put($route);
         $response->assertNotFound();
 
         // Create a dummy
