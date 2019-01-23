@@ -111,7 +111,7 @@ class CountryControllerTest extends TestCase
     {
         // Test non existing country
         $route = route('api.country.update', ['random']);
-        $response = $this->get($route);
+        $response = $this->put($route);
         $response->assertNotFound();
 
         // Test existing country with incomplete data

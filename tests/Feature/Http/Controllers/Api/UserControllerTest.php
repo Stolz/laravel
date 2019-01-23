@@ -109,7 +109,7 @@ class UserControllerTest extends TestCase
     {
         // Test non existing user
         $route = route('api.user.update', ['random']);
-        $response = $this->get($route);
+        $response = $this->put($route);
         $response->assertNotFound();
 
         // Test existing user with incomplete data
