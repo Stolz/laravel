@@ -15,5 +15,6 @@ Route::middleware(['auth:api'])->group(function () {
 
     Route::apiResource('country', 'CountryController');
     Route::apiResource('permission', 'PermissionController')->only(['index']);
+    Route::apiResource('role', 'RoleController');
     Route::apiResource('user', 'UserController');
 });

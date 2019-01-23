@@ -402,6 +402,188 @@
 			]
 		},
 		{
+			"name": "Role",
+			"item": [
+				{
+					"name": "role.index",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/role",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"role"
+							]
+						},
+						"description": "Available optional query parameters:\n\n* Pagination:\n\n  - `per_page`: Number of resutls per page. i.e: `15`.\n  - `page`: Page number to show. By default is `1`.\n\n* Sorting:\n\n  - `sort_by`: Name of the field used to sort results. i.e: `name`\n  - `sort_dir`: Sort direction. `asc` for ascending order, `desc` descending order."
+					},
+					"response": []
+				},
+				{
+					"name": "role.store",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "10d7c515-b35c-471f-a474-6e0d0e4965a5",
+								"exec": [
+									"pm.environment.unset(\"roleId\");",
+									"",
+									"if(responseCode.code == 201)",
+									"{",
+									"    var response = JSON.parse(responseBody);",
+									"    pm.environment.set(\"roleId\", response.id);",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Role {{$randomInt}}\",\n\t\"description\": \"Role description {{$randomInt}}\",\n\t\"permissions\": [\"use-master-module\", \"country-list\"]\n}\n"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/role",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"role"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "role.show",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/role/{{roleId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"role",
+								"{{roleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "role.update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Role {{$randomInt}}\",\n\t\"description\": \"New role description {{$randomInt}}\",\n\t\"permissions\": [\"use-master-module\", \"country-list\", \"country-view\"]\n}\n"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/role/{{roleId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"role",
+								"{{roleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "role.destroy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2c3cb4b2-523e-43d0-9200-f182c05c0200",
+								"exec": [
+									"if(responseCode.code == 200)",
+									"{",
+									"    pm.environment.unset(\"roleId\");",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/role/{{roleId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"role",
+								"{{roleId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "User",
 			"item": [
 				{

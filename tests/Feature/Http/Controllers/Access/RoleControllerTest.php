@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controller\Access;
 
+use App\Models\Role;
 use App\Traits\AttachesRepositories;
 use Tests\TestCase;
 use Tests\Traits\CreatesUsers;
@@ -114,7 +115,7 @@ class RoleControllerTest extends TestCase
         $response->assertSessionHasErrors();
 
         // User with permissions. Complete data
-        $data = factory(\App\Models\Role::class)->raw([
+        $data = factory(Role::class)->raw([
             'permissions' => ['use-access-module'],
         ]);
 
@@ -142,7 +143,7 @@ class RoleControllerTest extends TestCase
         $response->assertSessionHasErrors();
 
         // User with permissions. Complete data
-        $data = factory(\App\Models\Role::class)->raw([
+        $data = factory(Role::class)->raw([
             'permissions' => ['use-access-module'],
         ]);
 
@@ -159,7 +160,7 @@ class RoleControllerTest extends TestCase
      */
     public function testDestroy()
     {
-        $role = factory(\App\Models\Role::class)->make();
+        $role = factory(Role::class)->make();
         $this->roleRepository->create($role);
 
         // User without permissions
