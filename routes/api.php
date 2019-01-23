@@ -14,5 +14,6 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('logout', 'AuthController@logout')->name('logout');
 
     Route::apiResource('country', 'CountryController');
+    Route::apiResource('permission', 'PermissionController')->only(['index']);
     Route::apiResource('user', 'UserController');
 });

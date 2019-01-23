@@ -205,33 +205,15 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{baseUrl}}/country?sort_by=id&sort_dir=asc&per_page=5&page=1",
+							"raw": "{{baseUrl}}/country",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"country"
-							],
-							"query": [
-								{
-									"key": "sort_by",
-									"value": "id"
-								},
-								{
-									"key": "sort_dir",
-									"value": "asc"
-								},
-								{
-									"key": "per_page",
-									"value": "5"
-								},
-								{
-									"key": "page",
-									"value": "1"
-								}
 							]
 						},
-						"description": "All query parameters are optional"
+						"description": "Available optional query parameters:\n\n* Pagination:\n\n  - `per_page`: Number of resutls per page. i.e: `15`.\n  - `page`: Page number to show. By default is `1`.\n\n* Sorting:\n\n  - `sort_by`: Name of the field used to sort results. i.e: `name`\n  - `sort_dir`: Sort direction. `asc` for ascending order, `desc` descending order."
 					},
 					"response": []
 				},
@@ -388,6 +370,38 @@
 			]
 		},
 		{
+			"name": "Permission",
+			"item": [
+				{
+					"name": "permission.index",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/permission",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"permission"
+							]
+						},
+						"description": "Available optional query parameters:\n\n* Sorting:\n\n  - `sort_by`: Name of the field used to sort results. i.e: `name`\n  - `sort_dir`: Sort direction. `asc` for ascending order, `desc` descending order."
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "User",
 			"item": [
 				{
@@ -400,35 +414,20 @@
 								"value": "application/json"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "{{baseUrl}}/user?sort_by=id&sort_dir=asc&per_page=5&page=1",
+							"raw": "{{baseUrl}}/user",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"user"
-							],
-							"query": [
-								{
-									"key": "sort_by",
-									"value": "id"
-								},
-								{
-									"key": "sort_dir",
-									"value": "asc"
-								},
-								{
-									"key": "per_page",
-									"value": "5"
-								},
-								{
-									"key": "page",
-									"value": "1"
-								}
 							]
 						},
-						"description": "All query parameters are optional"
+						"description": "Available optional query parameters:\n\n* Pagination:\n\n  - `per_page`: Number of resutls per page. i.e: `15`.\n  - `page`: Page number to show. By default is `1`.\n\n* Sorting:\n\n  - `sort_by`: Name of the field used to sort results. i.e: `email`\n  - `sort_dir`: Sort direction. `asc` for ascending order, `desc` descending order.\n\n* Searching. Use `search[key]` where `key` is one of:\n\n  * Exact match\n\n    - `role`: Role id.\n\n  * Partial match. Case insensitive.\n\n    - `name`.\n    - `email`."
 					},
 					"response": []
 				},
@@ -491,7 +490,10 @@
 								"value": "application/json"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{baseUrl}}/user/{{userId}}",
 							"host": [
@@ -562,7 +564,10 @@
 								"value": "application/json"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{baseUrl}}/user/{{userId}}",
 							"host": [

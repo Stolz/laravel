@@ -24,6 +24,22 @@ abstract class Controller extends BaseController
     }
 
     /**
+     * Get the sorting options from a request.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  string $sortBy
+     * @param  string $sortDirection
+     * @return array
+     */
+    protected function getSortingOptionsFromRequest(Request $request, string $sortBy = null, string $sortDirection = 'asc'): array
+    {
+        $sortBy = $request->input('sort_by', $sortBy);
+        $sortDirection = ($request->input('sort_dir') === 'desc') ? 'desc' : $sortDirection;
+
+        return [$sortBy, $sortDirection];
+    }
+
+    /**
      * Get the pagination options from a request.
      *
      * Set sensible defaults in case the request lacks pagination options.
@@ -38,10 +54,11 @@ abstract class Controller extends BaseController
     {
         $perPage = (int) $request->input('per_page', $perPage);
         $page = (int) $request->input('page', 1);
-        $sortBy = $request->input('sort_by', $sortBy);
-        $sortDirection = $request->input('sort_dir', $sortDirection);
 
-        return [$perPage, $page, $sortBy, $sortDirection];
+        return array_merge(
+            [$perPage, $page],
+            $this->getSortingOptionsFromRequest($request, $sortBy, $sortDirection)
+        );
     }
 
     /**
