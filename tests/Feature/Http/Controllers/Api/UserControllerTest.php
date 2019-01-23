@@ -48,7 +48,7 @@ class UserControllerTest extends TestCase
         $response->assertOk();
         $response->assertJsonStructure(static::PAGINATION_STRUCTURE);
         $response->assertJsonCount(2, 'data');
-        $this->assertEquals($user->getId(), $response->json('data')[0]['id']);
+        $this->assertEquals($user->getId(), $response->json('data.0.id'));
 
         // Test searching results
         $route = route('api.user.index', ['search' => ['email' => $user->getEmail()]]);
@@ -56,7 +56,7 @@ class UserControllerTest extends TestCase
         $response->assertOk();
         $response->assertJsonStructure(static::PAGINATION_STRUCTURE);
         $response->assertJsonCount(1, 'data');
-        $this->assertEquals($user->getId(), $response->json('data')[0]['id']);
+        $this->assertEquals($user->getId(), $response->json('data.0.id'));
     }
 
     /**

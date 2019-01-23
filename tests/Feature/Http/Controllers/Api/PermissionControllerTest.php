@@ -4,13 +4,12 @@ namespace Tests\Http\Controllers\Api;
 
 use App\Models\Permission;
 use App\Traits\AttachesRepositories;
-use Tests\Traits\CreatesCountries;
 use Tests\Traits\CreatesUsers;
 use Tests\Traits\RefreshDatabase;
 
 class PermissionControllerTest extends TestCase
 {
-    use RefreshDatabase, AttachesRepositories, CreatesUsers, CreatesCountries;
+    use RefreshDatabase, AttachesRepositories, CreatesUsers;
 
     /**
      * Run before each test.
@@ -58,6 +57,6 @@ class PermissionControllerTest extends TestCase
         $response = $this->get($route);
         $response->assertOk();
         $response->assertJsonCount($count = count($permissions));
-        $this->assertEquals($permissions[$count - 1]['id'], $response->json(0)['id']);
+        $this->assertEquals($permissions[$count - 1]['id'], $response->json('0.id'));
     }
 }
