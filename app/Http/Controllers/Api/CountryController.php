@@ -55,7 +55,7 @@ class CountryController extends Controller
     }
 
     /**
-     *  Store a newly created country in storage.
+     * Store a newly created country in storage.
      *
      * @param  \App\Http\Requests\Country\Create $request
      * @return \Illuminate\Http\JsonResponse
