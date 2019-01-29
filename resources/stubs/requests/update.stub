@@ -11,7 +11,7 @@ class Update extends Create
      */
     public function authorize(): bool
     {
-        return $this->user()->can('update', $this->dummy);
+        return $this->user()->can('update', $this->route('dummy'));
     }
 
     /**
@@ -23,7 +23,7 @@ class Update extends Create
     {
         return [
             // TODO
-            'name' => 'bail|required|max:255|unique:App\Models\Dummy,name,' . $this->dummy->getId(),
+            'name' => 'bail|required|max:255|unique:App\Models\Dummy,name,' . $this->route('dummy')->getId(),
         ] + parent::rules();
     }
 }

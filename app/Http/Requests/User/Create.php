@@ -24,10 +24,12 @@ class Create extends Request
      */
     public function rules(): array
     {
+        $minLength = \App\Models\User::MIN_PASSWORD_LENGTH;
+
         return [
             'email' => 'bail|required|email|max:255|unique:App\Models\User',
             'name' => 'bail|required|min:3|max:255',
-            'password' => 'bail|required|max:255|min:' . \App\Models\User::MIN_PASSWORD_LENGTH,
+            'password' => "bail|required|max:255|min:$minLength",
             'role' => 'bail|required|integer|exists:App\Models\Role,id',
         ];
     }

@@ -11,7 +11,7 @@ class Update extends Create
      */
     public function authorize(): bool
     {
-        return $this->user()->can('update', $this->user);
+        return $this->user()->can('update', $this->route('user'));
     }
 
     /**
@@ -21,9 +21,12 @@ class Update extends Create
      */
     public function rules(): array
     {
+        $userId = $this->route('user')->getId();
+        $minLength = \App\Models\User::MIN_PASSWORD_LENGTH;
+
         return [
-            'email' => 'bail|required|email|max:255|unique:App\Models\User,email,' . $this->user->getId(),
-            'password' => 'bail|nullable|max:255|min:' . \App\Models\User::MIN_PASSWORD_LENGTH,
+            'email' => "bail|required|email|max:255|unique:App\Models\User,email,$userId",
+            'password' => "bail|nullable|max:255|min:$minLength",
         ] + parent::rules();
     }
 }

@@ -13,6 +13,6 @@ class View extends Request
      */
     public function authorize(): bool
     {
-        return $this->user()->can('view', $this->dummy);
+        return $this->user()->can('view', $this->route('dummy'));
     }
 }

@@ -27,7 +27,7 @@ class Create extends Request
         return [
             'description' => 'bail|max:255',
             'name' => 'bail|required|min:3|max:255|unique:App\Models\Role',
-            'permissions' => 'bail|required|array|min:1',
+            'permissions' => 'bail|required|array|min:1|exists:App\Models\Permission,name',
         ];
     }
 }

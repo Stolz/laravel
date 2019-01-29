@@ -11,7 +11,7 @@ class Update extends Create
      */
     public function authorize(): bool
     {
-        return $this->user()->can('update', $this->role);
+        return $this->user()->can('update', $this->route('role'));
     }
 
     /**
@@ -21,8 +21,10 @@ class Update extends Create
      */
     public function rules(): array
     {
+        $roleId = $this->route('role')->getId();
+
         return [
-            'name' => 'bail|required|min:3|max:255|unique:App\Models\Role,name,' . $this->role->getId(),
+            'name' => "bail|required|min:3|max:255|unique:App\Models\Role,name,$roleId",
         ] + parent::rules();
     }
 }

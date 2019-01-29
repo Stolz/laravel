@@ -13,6 +13,6 @@ class Delete extends Request
      */
     public function authorize(): bool
     {
-        return $this->user()->can('delete', $this->role);
+        return $this->user()->can('delete', $this->route('role'));
     }
 }

@@ -11,7 +11,7 @@ class Update extends Create
      */
     public function authorize(): bool
     {
-        return $this->user()->can('update', $this->country);
+        return $this->user()->can('update', $this->route('country'));
     }
 
     /**
@@ -21,7 +21,7 @@ class Update extends Create
      */
     public function rules(): array
     {
-        $countryId = $this->country->getId();
+        $countryId = $this->route('country')->getId();
 
         return [
             'code' => "bail|required|alpha|size:2|unique:App\Models\Country,code,$countryId",
