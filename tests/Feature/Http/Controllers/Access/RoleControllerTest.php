@@ -5,13 +5,14 @@ namespace Tests\Feature\Http\Controller\Access;
 use App\Models\Role;
 use App\Traits\AttachesRepositories;
 use Tests\TestCase;
+use Tests\Traits\CreatesPermissions;
 use Tests\Traits\CreatesUsers;
 use Tests\Traits\RefreshDatabase;
 use Tests\Traits\RejectsUnauthorizedRouteAccess;
 
 class RoleControllerTest extends TestCase
 {
-    use RefreshDatabase, AttachesRepositories, CreatesUsers, RejectsUnauthorizedRouteAccess;
+    use RefreshDatabase, AttachesRepositories, CreatesUsers, CreatesPermissions, RejectsUnauthorizedRouteAccess;
 
     /**
      * Run before each test.
@@ -115,10 +116,10 @@ class RoleControllerTest extends TestCase
         $response->assertSessionHasErrors();
 
         // User with permissions. Complete data
+        $permission = $this->createPermission();
         $data = factory(Role::class)->raw([
-            'permissions' => ['use-access-module'],
+            'permissions' => [$permission->getName()],
         ]);
-
         $response = $this->post($route, $data);
         $response->assertRedirect(route('access.role.index'));
         $response->assertSessionHasNoErrors();
@@ -143,10 +144,10 @@ class RoleControllerTest extends TestCase
         $response->assertSessionHasErrors();
 
         // User with permissions. Complete data
+        $permission = $this->createPermission();
         $data = factory(Role::class)->raw([
-            'permissions' => ['use-access-module'],
+            'permissions' => [$permission->getName()],
         ]);
-
         $response = $this->put($route, $data);
         $response->assertRedirect(route('access.role.show', [$id]));
         $response->assertSessionHasNoErrors();

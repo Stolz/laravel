@@ -4,12 +4,13 @@ namespace Tests\Http\Controllers\Api;
 
 use App\Models\Role;
 use App\Traits\AttachesRepositories;
+use Tests\Traits\CreatesPermissions;
 use Tests\Traits\CreatesUsers;
 use Tests\Traits\RefreshDatabase;
 
 class RoleControllerTest extends TestCase
 {
-    use RefreshDatabase, AttachesRepositories, CreatesUsers;
+    use RefreshDatabase, AttachesRepositories, CreatesUsers, CreatesPermissions;
 
     /**
      * Run before each test.
@@ -88,8 +89,9 @@ class RoleControllerTest extends TestCase
         $response->assertJsonValidationErrors(['name']);
 
         // Test with complete data
+        $permission = $this->createPermission();
         $data = factory(Role::class)->raw([
-            'permissions' => ['use-access-module'],
+            'permissions' => [$permission->getName()],
         ]);
         $response = $this->post($route, $data);
         $response->assertStatus(201);
@@ -116,8 +118,9 @@ class RoleControllerTest extends TestCase
         $response->assertJsonValidationErrors(['name']);
 
         // Test existing role with complete data
+        $permission = $this->createPermission();
         $data = factory(Role::class)->raw([
-            'permissions' => ['use-access-module'],
+            'permissions' => [$permission->getName()],
         ]);
         $response = $this->put($route, $data);
         $response->assertOk();
