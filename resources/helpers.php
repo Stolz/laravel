@@ -260,6 +260,7 @@ if (! function_exists('csv_chunk')) {
         $headers = [];
         $buffer = [];
         $results = [];
+        $headersCount = null;
 
         // Loop file lines
         while (($data = fgetcsv($handle, 1024, $delimiter)) !== false) {

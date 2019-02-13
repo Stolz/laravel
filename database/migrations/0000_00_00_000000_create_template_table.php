@@ -114,6 +114,9 @@ class CreateTemplateTable extends Migration
         ->virtualAs($expression)  Create a virtual generated column (MySQL)
         */
 
+        // PHP Stan
+        $table = new Blueprint('table');
+
         // Integers (Exact value)
         $table->tinyInteger('column_name');
         $table->smallInteger('column_name');

@@ -49,7 +49,7 @@ class NotificationController extends Controller
      * Mark a notification as read.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\{RedirectResponse,JsonResponse}
+     * @return \Illuminate\Http\Response
      */
     public function markAsRead(Request $request)
     {

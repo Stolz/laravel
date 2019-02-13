@@ -1,0 +1,26 @@
+parameters:
+	level: 1
+	excludes_analyse:
+		- %currentWorkingDirectory%/app/Repositories/QueryBuilder/*
+	ignoreErrors:
+		- '#Call to an undefined static method Illuminate\\Support\\Facades#'
+		- '#Call to static method .* on an unknown class (Auth|Broadcast|EntityManager|Route)#' #FACADES
+		- '#Result of function (abort|server_sent_event) \(void\) is used#'
+		-
+			message: '#Result of method Illuminate\\Console\\Command::error\(\) \(void\) is used#'
+			path: %currentWorkingDirectory%/app/Console/Commands/*
+		-
+			message: '#Undefined variable: \$factory#'
+			path: %currentWorkingDirectory%/database/factories/*
+		-
+			message: '#(Undefined variable)|(might not be defined)#'
+			path: %currentWorkingDirectory%/resources/views/components/*
+		-
+			message: '#Access to an undefined property#'
+			path: %currentWorkingDirectory%/tests/*
+		-
+			message: '#Call to an undefined method .*attachRepositories\(\)\.#'
+			path: %currentWorkingDirectory%/tests/*
+		-
+			message: '#Access to an undefined property .*Repository\.$#'
+			path: %currentWorkingDirectory%/database/seeds/*

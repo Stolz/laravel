@@ -29,6 +29,18 @@ class MakeStub extends Command
     protected $files;
 
     /**
+     * Inflected placeholders.
+     *
+     * @varstring
+     */
+    protected $module;
+    protected $moduleClass;
+    protected $plural;
+    protected $pluralClass;
+    protected $singular;
+    protected $singularClass;
+
+    /**
      * Execute the console command.
      *
      * @param  \Illuminate\Filesystem\Filesystem  $files
