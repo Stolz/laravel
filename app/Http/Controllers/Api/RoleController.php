@@ -77,7 +77,7 @@ class RoleController extends Controller
     {
         // Get request input
         $attributes = $request->only('name', 'description');
-        $permissions = $this->permissionRepository->getBy('name', array_keys($request->permissions));
+        $permissions = $this->permissionRepository->getBy('name', $request->permissions);
 
         // Create a role with the provided input
         $role = Role::make($attributes);
@@ -104,7 +104,7 @@ class RoleController extends Controller
     {
         // Get request input
         $attributes = $request->only('name', 'description');
-        $permissions = $this->permissionRepository->getBy('name', array_keys($request->permissions));
+        $permissions = $this->permissionRepository->getBy('name', $request->permissions);
 
         // Apply changes to the role
         $role->set($attributes);

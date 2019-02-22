@@ -7,6 +7,7 @@
         type="checkbox"
         id="{{ $id ?? $name }}"
         name="{{ $name }}"
+        value="{{ $value ?? 'on' }}"
         class="custom-control-input {{ $class ?? null }} @if($errors->has($nameDot)) is-invalid state-invalid @elseif($required and $errors->count()) is-valid state-valid @endif"
         @if(! empty($checked)) checked @endif
         {{ $attributes ?? null }} {{-- NOTE: To pass attributes with value do not use quotes. i.e: value=1 --}}>

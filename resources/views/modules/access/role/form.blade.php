@@ -21,7 +21,11 @@
     @foreach($permissionsTree as $module)
         @card(['class' => 'card-collapsed'])
             @slot('header')
-                @checkbox(['name' => "permissions[{$module['name']}]", 'checked' => old("permissions[{$module['name']}]", $selectedPermissions->contains($module['name']))])
+                @checkbox([
+                    'name' => "permissions[{$module['name']}]",
+                    'value' => $module['name'],
+                    'checked' => old("permissions[{$module['name']}]", $selectedPermissions->contains($module['name'])),
+                ])
                     <div class="card-title">{{ $module['description'] }}</div>
                 @endcheckbox
                 <div class="card-options">
@@ -39,6 +43,7 @@
                                     @checkbox([
                                         'parentClass' => 'custom-control-inline',
                                         'name' => "permissions[{$permission['name']}]",
+                                        'value' => $permission['name'],
                                         'checked' => old("permissions[{$permission['name']}]", $selectedPermissions->contains($permission['name']))])
                                         {{ $permission['description'] ?? $permission['name'] }}
                                     @endcheckbox
