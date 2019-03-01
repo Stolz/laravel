@@ -37,10 +37,12 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Doctrine\\": "database/"
         },
         "classmap": [
-            "database"
+            "database/migrations",
+            "database/seeds"
         ],
         "files": [
             "resources/helpers.php"
