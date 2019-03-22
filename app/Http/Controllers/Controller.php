@@ -34,7 +34,9 @@ abstract class Controller extends BaseController
     protected function getSortingOptionsFromRequest(Request $request, string $sortBy = null, string $sortDirection = 'asc'): array
     {
         $sortBy = $request->input('sort_by', $sortBy);
-        $sortDirection = ($request->input('sort_dir') === 'desc') ? 'desc' : $sortDirection;
+
+        if ($direction = $request->input('sort_dir') and in_array($direction, ['asc', 'desc'], true))
+           $sortDirection = $direction;
 
         return [$sortBy, $sortDirection];
     }
