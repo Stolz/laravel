@@ -71,7 +71,7 @@ On production environment
 	git pull
 	composer install --no-dev --classmap-authoritative --no-suggest
 	php artisan doctrine:generate:proxies
-	php artisan migrate
+	php artisan migrate --step --force
 	php artisan route:cache
 	php artisan config:cache
 	php artisan up
