@@ -33,4 +33,12 @@ interface NotificationRepository extends ModelRepository
      * @return \App\Models\Notification|null
      */
     public function getLastUnread(User $user): ?\App\Models\Notification;
+
+    /**
+     * Delete read notifications older than the given date.
+     *
+     * @param  \Carbon\Carbon $date
+     * @return int
+     */
+    public function deleteReadOlderThan(\Carbon\Carbon $date): int;
 }

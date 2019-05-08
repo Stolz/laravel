@@ -74,4 +74,24 @@ class NotificationRepository extends ModelRepository implements NotificationRepo
     {
         return $this->repository->findOneBy(['user' => $user, 'readAt' => null], ['id' => 'desc']);
     }
+
+    /**
+     * Delete read notifications older than the given date.
+     *
+     * @param  \Carbon\Carbon $date
+     * @return int
+     */
+    public function deleteReadOlderThan(\Carbon\Carbon $date): int
+    {
+        $queryBuilder = $this->getQueryBuilder();
+        $isRead = $queryBuilder->expr()->isNotNull("{$this->alias}.readAt");
+        $isOld = $queryBuilder->expr()->lte("{$this->alias}.createdAt", ':date');
+
+        return $queryBuilder
+        ->andWhere($isRead)
+        ->andWhere($isOld)->setParameter('date', $date)
+        ->delete()
+        ->getQuery()
+        ->execute();
+    }
 }

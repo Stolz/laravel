@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\CreateUser::class,
         Commands\MakeStub::class,
+        Commands\PurgeNotifications::class,
     ];
 
     /**
@@ -27,6 +28,9 @@ class Kernel extends ConsoleKernel
     {
         // Purge failed jobs
         $schedule->command('queue:flush')->daily();
+
+        // Purge old and read notifications
+        $schedule->command('notifications:purge')->daily();
     }
 
     /**
