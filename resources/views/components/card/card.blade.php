@@ -7,6 +7,10 @@
         <div class="card-header {{ $headerClass ?? null }}">{{ $header }}</div>
     @endisset
 
+    @isset($alert)
+        <div class="card-alert alert {{ $alertClass ?? null }}">{{ $alert }}</div>
+    @endisset
+
     <div class="card-body {{ $bodyClass ?? null }}">{{ $slot }}</div>
 
     @isset($footer)
