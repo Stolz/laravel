@@ -66,6 +66,30 @@ if (! function_exists('array_clean_deep')) {
     }
 }
 
+if (! function_exists('array_only_dot')) {
+    /**
+     * Get a subset of the items from the given array.
+     *
+     * Same as `array_only()` but accepting keys in dot notation.
+     *
+     * @param  array  $array
+     * @param  array|string  $keys
+     * @return array
+     */
+    function array_only_dot($array, $keys)
+    {
+        $only = [];
+
+        foreach ((array) $keys as $key) {
+            $value = array_get($array, $key, $notFound = new \StdClass);
+            if ($value !== $notFound)
+                array_set($only, $key, $value);
+        }
+
+        return $only;
+    }
+}
+
 if (! function_exists('json')) {
     /**
      * Returns the JSON representation of a value.
