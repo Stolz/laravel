@@ -73,7 +73,7 @@ class User extends Model implements AuthenticatableContract, JWTSubject, CanRese
      */
     protected $role;
 
-    // Gettets =====================================================================
+    // Getters =====================================================================
 
     /**
      * Get the e-mail address of the user.

@@ -13,7 +13,7 @@ trait Descriptable
      */
     protected $description;
 
-    // Gettets =====================================================================
+    // Getters =====================================================================
 
     /**
      * Get the description of the model.

@@ -15,7 +15,7 @@ trait CreateTimestampable
      */
     protected $createdAt;
 
-    // Gettets =====================================================================
+    // Getters =====================================================================
 
     /**
      * Get the creation date of the model.

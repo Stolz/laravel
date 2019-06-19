@@ -29,7 +29,7 @@ class Role extends Model
      */
     protected $permissions;
 
-    // Gettets =====================================================================
+    // Getters =====================================================================
 
     /**
      * Get the permissions of the role.

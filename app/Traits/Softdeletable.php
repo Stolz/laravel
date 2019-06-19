@@ -15,7 +15,7 @@ trait Softdeletable
      */
     protected $deletedAt;
 
-    // Gettets =====================================================================
+    // Getters =====================================================================
 
     /**
      * Get the deletion date of the model.

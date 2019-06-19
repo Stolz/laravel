@@ -69,7 +69,7 @@ class Notification extends Model
      */
     protected $user;
 
-    // Gettets =====================================================================
+    // Getters =====================================================================
 
     /**
      * Get the level of the notification.

@@ -15,7 +15,7 @@ trait UpdateTimestampable
      */
     protected $updatedAt;
 
-    // Gettets =====================================================================
+    // Getters =====================================================================
 
     /**
      * Get the date of the last update of the model.
