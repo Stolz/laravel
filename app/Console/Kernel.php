@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\CreateUser::class,
         Commands\MakeStub::class,
         Commands\PurgeNotifications::class,
+        Commands\SynchronizePermissions::class,
     ];
 
     /**

@@ -48,23 +48,38 @@ class PermissionsSeeder extends Seeder
         ];
     }
 
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
-    public function run()
+   /**
+    * Get permissions as a flat list.
+    *
+    * @return array
+    */
+    public static function list(): array
     {
+        $allPermissions = [];
+
         foreach (self::tree() as $module) {
-            $permission = Permission::make($module);
-            $this->permissionRepository->create($permission);
+            $allPermissions[$module['name']] = $module['description'];
 
             foreach ($module['categories'] as $category => $permissions) {
                 foreach ($permissions as $permission) {
-                    $permission = Permission::make($permission);
-                    $this->permissionRepository->create($permission);
+                    $allPermissions[$permission['name']] = $permission['description'];
                 }
             }
+        }
+
+        return $allPermissions;
+    }
+
+   /**
+    * Seed the application's database.
+    *
+    * @return void
+    */
+    public function run()
+    {
+        foreach (self::list() as $name => $description) {
+            $permission = Permission::make()->setName($name)->setDescription($description);
+            $this->permissionRepository->create($permission);
         }
     }
 }
