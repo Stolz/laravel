@@ -39,7 +39,7 @@
                 <dl>
                     <dt>{{ _('Permissions') }}</dt>
                     @foreach($role['permissions'] as $permission)
-                        <dd title="$permission['description']">{{ $permission }}</dd>
+                        <dd title="{{ $permission['description'] }}">{{ $permission }}</dd>
                     @endforeach
                 </dl>
             @endif

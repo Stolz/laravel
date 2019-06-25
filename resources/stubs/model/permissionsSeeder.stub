@@ -2,10 +2,10 @@
 TODO add to tree() function under bogus module categories
 
                     _('Dummy') => [
-                        ['name' => 'dummy-list', 'description' => _('List')],
-                        ['name' => 'dummy-view', 'description' => _('View')],
-                        ['name' => 'dummy-create', 'description' => _('Create')],
-                        ['name' => 'dummy-update', 'description' => _('Update')],
-                        ['name' => 'dummy-delete', 'description' => _('Delete')],
+                        ['name' => 'dummy-list', 'description' => _('See a list of multiple dummies')],
+                        ['name' => 'dummy-view', 'description' => _('See all details of a single dummy')],
+                        ['name' => 'dummy-create', 'description' => _('Add a new dummy')],
+                        ['name' => 'dummy-update', 'description' => _('Edit an existing dummy')],
+                        ['name' => 'dummy-delete', 'description' => _('Remove an existing dummy')],
                     ],
 */

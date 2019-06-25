@@ -2,7 +2,7 @@
 
             [
                 'name' => 'use-bogus-module',
-                'description' => _('Bogus module'),
+                'description' => _('Use the "Bogus" module. Without this permission none of the permissions in this module will be available'),
                 'categories' => [
                     // TODO
                 ],

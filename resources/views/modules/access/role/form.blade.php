@@ -12,6 +12,9 @@
         </div>
     </div>
 @else
+
+    <h3>{{ _('Permissions') }}</h3>
+
     @if($errors->has('permissions'))
         @alert(['type' => 'error'])
             {{ $errors->first('permissions') }}
@@ -26,7 +29,11 @@
                     'value' => $module['name'],
                     'checked' => old("permissions[{$module['name']}]", $selectedPermissions->contains($module['name'])),
                 ])
-                    <div class="card-title">{{ $module['description'] }}</div>
+                    <div class="card-title">
+                        <span data-toggle="tooltip" data-placement="right" title="{{ $module['description'] }}">
+                            {{ $module['name'] }}
+                        </span>
+                    </div>
                 @endcheckbox
                 <div class="card-options">
                     <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
@@ -35,7 +42,7 @@
 
             <div class="row">
                 @foreach($module['categories'] as $category => $permissions)
-                    <div class="col-6 col-lg-4 col-xl-3">
+                    <div class="col-lg-4">
                         <div class="form-fieldset p-2">
                             <div class="form-label">{{ _($category) }}</div>
                             <div class="custom-switches-stacked">
@@ -45,7 +52,9 @@
                                         'name' => "permissions[{$permission['name']}]",
                                         'value' => $permission['name'],
                                         'checked' => old("permissions[{$permission['name']}]", $selectedPermissions->contains($permission['name']))])
-                                        {{ $permission['description'] ?? $permission['name'] }}
+                                        <span data-toggle="tooltip" data-placement="right" title="{{ $permission['description'] }}">
+                                            {{ $permission['name'] }}
+                                        </span>
                                     @endcheckbox
                                 @endforeach
                             </div>
