@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\CreateUser::class,
+        Commands\GenerateApiTokenForUser::class,
         Commands\MakeStub::class,
         Commands\PurgeNotifications::class,
         Commands\SynchronizePermissions::class,
