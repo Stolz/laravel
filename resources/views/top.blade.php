@@ -59,7 +59,7 @@
                         @can('list', 'App\Models\Country')
                             <a href="{{ route('master.country.index') }}" class="dropdown-item @route('master.country.*') active @endroute">
                                 <i class="fe fe-flag"></i>
-                                {{ _('Counties') }}
+                                {{ _('Countries') }}
                             </a>
                         @endcan
                     </div>
