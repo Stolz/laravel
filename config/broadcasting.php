@@ -43,7 +43,7 @@ return [
                  Singapore: ap-southeast-1 aka ap1
                  Mumbai: ap-south-1 aka ap2 */
                 'cluster' => env('PUSHER_APP_CLUSTER'),
-                'encrypted' => true,
+                'useTLS' => true,
             ],
         ],
 

@@ -34,10 +34,8 @@ class CreateUserTest extends TestCase
      */
     public function testUserCreated()
     {
-        $user = User::make([
-            'email' => 'test@example.com',
-            'name' => 'test',
-            'password' => 'testing',
+        $user = factory(User::class)->make([
+            'password' => $password = 'testing!',
             'role' => $role = \App\Models\Role::make(['id' => 1]),
         ]);
 
@@ -56,7 +54,7 @@ class CreateUserTest extends TestCase
         ->expectsQuestion('Enter user role Id', $user->getRole()->getId())
         ->expectsQuestion('Enter user e-mail address', $user->getEmail())
         ->expectsQuestion('Enter user full name', $user->getName())
-        ->expectsQuestion('Enter user password', $user->getPassword())
+        ->expectsQuestion('Enter user password', $password)
         ->expectsQuestion('About to create user. Do you wish to continue?', 'yes')
         ->expectsOutput('User successfully created');
     }

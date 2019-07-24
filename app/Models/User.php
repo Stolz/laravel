@@ -30,7 +30,7 @@ class User extends Model implements AuthenticatableContract, JWTSubject, CanRese
      *
      * @const int
      */
-    const MIN_PASSWORD_LENGTH = 6;
+    const MIN_PASSWORD_LENGTH = 8;
 
     /**
      * Password encryption work factor.
@@ -143,7 +143,7 @@ class User extends Model implements AuthenticatableContract, JWTSubject, CanRese
 
         if (Hash::needsRehash($password, $options)) {
             if (strlen($password) < static::MIN_PASSWORD_LENGTH) {
-                throw new \InvalidArgumentException('Password must be at least 5 characters long');
+                throw new \InvalidArgumentException(sprintf('Password must be at least %d characters long', static::MIN_PASSWORD_LENGTH));
             }
 
             $password = Hash::make($password, $options);

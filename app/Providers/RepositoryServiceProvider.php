@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 
-class RepositoryServiceProvider extends ServiceProvider
+class RepositoryServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * List of all the repositories and their contracts.
@@ -19,13 +20,6 @@ class RepositoryServiceProvider extends ServiceProvider
         'App\Repositories\Doctrine\RoleRepository' => 'App\Repositories\Contracts\RoleRepository',
         'App\Repositories\Doctrine\UserRepository' => 'App\Repositories\Contracts\UserRepository',
     ];
-
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = true;
 
     /**
      * Register implementations for all repository contracts.

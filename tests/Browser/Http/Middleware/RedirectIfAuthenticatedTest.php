@@ -57,7 +57,7 @@ class RedirectIfAuthenticatedTest extends DuskTestCase
             ->visit(route('me.password'))
             ->assertRouteIs('login')
             ->type('email', $user->getEmail())
-            ->type('password', 'secret')
+            ->type('password', 'verysecret')
             ->press('[type="submit"]')
             ->assertRouteIs('me.password');
         });

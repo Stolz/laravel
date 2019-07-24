@@ -17,7 +17,7 @@ class LoginControllerTest extends DuskTestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -36,7 +36,7 @@ class LoginControllerTest extends DuskTestCase
             $browser
             ->visit(route('login'))
             ->type('email', $this->user->getEmail())
-            ->type('password', 'secret')
+            ->type('password', 'verysecret')
             ->press('[type="submit"]')
             ->assertRouteIs('home')
             ->assertSee(_('Home page'))

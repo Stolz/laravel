@@ -8,7 +8,10 @@ use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class ResetPasswordController extends Controller
 {
-    use ResetsPasswords, SendsPasswordResetEmails;
+    use SendsPasswordResetEmails, ResetsPasswords {
+        ResetsPasswords::broker insteadof SendsPasswordResetEmails;
+        ResetsPasswords::credentials insteadof SendsPasswordResetEmails;
+    }
 
     /**
      * Instance of the service used to interact with users.
@@ -36,16 +39,6 @@ class ResetPasswordController extends Controller
     public function redirectTo(): string
     {
         return route('me');
-    }
-
-    /**
-     * Get the broker to be used during password reset.
-     *
-     * @return \Illuminate\Contracts\Auth\PasswordBroker
-     */
-    public function broker()
-    {
-        return \Illuminate\Support\Facades\Password::broker();
     }
 
     /**

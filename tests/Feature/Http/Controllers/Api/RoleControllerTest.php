@@ -17,7 +17,7 @@ class RoleControllerTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -43,7 +43,7 @@ class RoleControllerTest extends TestCase
         $response->assertJsonCount($this->roleRepository->count(), 'data');
 
         // Create test role
-        $role = Role::make(['name' => 'ZZZZZZZZZZZZ']);
+        $role = factory(Role::class)->make();
         $this->roleRepository->create($role);
 
         // Test sorting results
@@ -139,8 +139,12 @@ class RoleControllerTest extends TestCase
         $response = $this->delete($route);
         $response->assertNotFound();
 
+        // Create test role
+        $role = factory(Role::class)->make();
+        $this->roleRepository->create($role);
+
         // Test existing role
-        $route = route('api.role.destroy', $this->user->getRole()->getId());
+        $route = route('api.role.destroy', $role->getId());
         $response = $this->delete($route);
         $response->assertOk();
         $response->assertJson(['deleted' => true]);

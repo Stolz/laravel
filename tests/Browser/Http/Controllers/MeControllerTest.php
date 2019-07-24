@@ -17,7 +17,7 @@ class MeControllerTest extends DuskTestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -36,7 +36,7 @@ class MeControllerTest extends DuskTestCase
             $browser
             ->loginAs($this->user->getAuthIdentifier())
             ->visit(route('me.password'))
-            ->type('password', 'secret')
+            ->type('password', 'verysecret')
             ->type('new_password', 'supersecret')
             ->type('new_password_confirmation', 'supersecret')
             ->press('[type="submit"]')

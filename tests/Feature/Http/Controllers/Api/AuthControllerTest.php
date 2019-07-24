@@ -15,12 +15,12 @@ class AuthControllerTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         // Create user
-        $this->user = $this->createUser(['password' => 'secret']);
+        $this->user = $this->createUser(['password' => 'verysecret']);
 
         // Generate a valid API token for the user
         $this->token = auth('api')->tokenById($this->user->getJWTIdentifier());
@@ -67,7 +67,7 @@ class AuthControllerTest extends TestCase
         // Test valid credentials
         $response = $this->post($route, [
             'email' => $this->user->getEmail(),
-            'password' => 'secret',
+            'password' => 'verysecret',
         ]);
         $response->assertOk();
         $response->assertJsonStructure(static::TOKEN_STRUCTURE);
