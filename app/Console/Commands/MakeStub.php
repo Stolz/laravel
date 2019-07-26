@@ -229,7 +229,6 @@ class MakeStub extends Command
     {
         $path = app_path("Policies/{$this->singularClass}Policy.php");
         $stub = $this->getStub('policy/policy');
-
         $this->files->put($path, $this->replacePlaceholders($stub));
         $this->info('Gate policy created');
 

@@ -1,4 +1,5 @@
 /*
-TODO add this alias to $policies array
-'App\Models\Dummy' => 'App\Policies\DummyPolicy',
+TODO If 'App\Policies\DummyPolicy' follows default naming convention you can delete this comment.
+Otherwise add this alias to the $policies array on this file:
+        'App\Models\Dummy' => 'App\Policies\DummyPolicy',
 */
