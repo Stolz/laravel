@@ -35,7 +35,7 @@ On production environment
 	php artisan doctrine:generate:proxies
 	php artisan config:cache
 	php artisan route:cache
-	php artisan migrate --seed
+	php artisan migrate --force --seed
 
 NOTE: If yo are generating classes at runtime use `--optimize-autoloader` instead of `--classmap-authoritative`.
 
@@ -153,7 +153,7 @@ To automatically recompile assets on local environment whenever a change is dete
 
 	npm run watch
 
-Compile assets for production environment (concatenated a minified)
+Compile assets for production environment (concatenated and minified)
 
 	npm run production
 

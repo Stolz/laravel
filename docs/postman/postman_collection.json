@@ -46,7 +46,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": \"developer@example.com\",\n\t\"password\": \"secret\"\n}\n"
+							"raw": "{\n\t\"email\": \"developer@example.com\",\n\t\"password\": \"verysecret\"\n}\n"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/login",
@@ -648,7 +648,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Test {{$randomInt}}\",\n\t\"email\": \"{{$randomInt}}@example.com\",\n\t\"password\": \"secret\",\n\t\"role\": 2\n}\n"
+							"raw": "{\n\t\"name\": \"Test {{$randomInt}}\",\n\t\"email\": \"{{$randomInt}}@example.com\",\n\t\"password\": \"top-secret\",\n\t\"timezone\": \"UTC\",\n\t\"role\": 2\n}\n"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/user",

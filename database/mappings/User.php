@@ -28,6 +28,7 @@ class User extends EntityMapping
         $builder->string('name');
         $builder->string('email')->unique();
         $builder->string('password');
+        $builder->string('timezone')->length(128)->default('UTC');
         $builder->rememberToken();
         $builder->carbonDateTime('createdAt')->nullable();
         $builder->carbonDateTime('updatedAt')->nullable();

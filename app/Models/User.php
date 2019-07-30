@@ -64,6 +64,13 @@ class User extends Model implements AuthenticatableContract, JWTSubject, CanRese
      */
     protected $rememberToken;
 
+    /**
+     * The time zone of the user.
+     *
+     * @var string
+     */
+    protected $timezone = 'UTC';
+
     // Relationships ===============================================================
 
     /**
@@ -103,6 +110,16 @@ class User extends Model implements AuthenticatableContract, JWTSubject, CanRese
     public function getRememberToken(): ?string
     {
         return $this->rememberToken;
+    }
+
+    /**
+     * Get the time zone of the user.
+     *
+     * @return string
+     */
+    public function getTimezone(): string
+    {
+        return $this->timezone;
     }
 
     /**
@@ -168,6 +185,19 @@ class User extends Model implements AuthenticatableContract, JWTSubject, CanRese
     }
 
     /**
+     * Set the time zone of the user.
+     *
+     * @param  string $timezone
+     * @return self
+     */
+    public function setTimezone(string $timezone): self
+    {
+        $this->timezone = $timezone;
+
+        return $this;
+    }
+
+    /**
      * Set the role of the user.
      *
      * @param  Role|array|null $role
@@ -203,6 +233,7 @@ class User extends Model implements AuthenticatableContract, JWTSubject, CanRese
             'email' => $this->getEmail(),
             'password' => $this->getPassword(),
             'remember_token' => $this->getRememberToken(),
+            'timezone' => $this->getTimezone(),
             'role' => ($role = $this->getRole()) ? $role->toArray() : null,
         ] + $this->getTimestampsAsArray() + $this->getDeletedAtAsArray();
     }

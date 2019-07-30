@@ -82,6 +82,7 @@ class UserController extends Controller
         return view('modules.access.user.create')->with([
             'minPasswordLength' => User::MIN_PASSWORD_LENGTH,
             'roles' => $this->roleRepository->all(),
+            'timezones' => array_combine($timezones = timezone_identifiers_list(), $timezones),
             'user' => User::make(),
         ]);
     }
@@ -98,6 +99,7 @@ class UserController extends Controller
         // Load view
         return view('modules.access.user.update')->with([
             'roles' => $this->roleRepository->all(),
+            'timezones' => array_combine($timezones = timezone_identifiers_list(), $timezones),
             'user' => $user,
         ]);
     }
