@@ -45,8 +45,12 @@
                         <td class="actions">@include('modules.access.role.actions')</td>
                         <td>{{ $role['name'] }}</td>
                         <td>{{ $role['description'] }}</td>
-                        <td title="{{ $role['createdAt'] }}">{{ $role['createdAt'] ? $role['createdAt']->diffForHumans() : null }}</td>
-                        <td title="{{ $role['updatedAt'] }}">{{ $role['updatedAt'] ? $role['updatedAt']->diffForHumans() : null }}</td>
+                        <td title="{{ date_in_user_timezone($role['createdAt']) }}">
+                            {{ $role['createdAt'] ? $role['createdAt']->diffForHumans() : null }}
+                        </td>
+                        <td title="{{ date_in_user_timezone($role['updatedAt']) }}">
+                            {{ $role['updatedAt'] ? $role['updatedAt']->diffForHumans() : null }}
+                        </td>
                     </tr>
                 @endforeach
 

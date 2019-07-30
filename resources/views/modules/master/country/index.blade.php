@@ -47,8 +47,12 @@
                         <td>{{ $country['name'] }}</td>
                         <td>{{ $country['code'] }}</td>
                         <td>@flag(['country' => $country])@endflag</td>
-                        <td title="{{ $country['createdAt'] }}">{{ $country['createdAt'] ? $country['createdAt']->diffForHumans() : null }}</td>
-                        <td title="{{ $country['updatedAt'] }}">{{ $country['updatedAt'] ? $country['updatedAt']->diffForHumans() : null }}</td>
+                        <td title="{{ date_in_user_timezone($country['createdAt']) }}">
+                            {{ $country['createdAt'] ? $country['createdAt']->diffForHumans() : null }}
+                        </td>
+                        <td title="{{ date_in_user_timezone($country['updatedAt']) }}">
+                            {{ $country['updatedAt'] ? $country['updatedAt']->diffForHumans() : null }}
+                        </td>
                     </tr>
                 @endforeach
 

@@ -33,14 +33,21 @@
             </dl>
 
             <dl>
+                <dt>{{ _('Time zone') }}</dt>
+                <dd>{{ $user['timezone'] }}</dd>
+
                 @if (! empty($user['createdAt']))
                     <dt>{{ _('Created') }}</dt>
-                    <dd title="{{ $user['createdAt'] }}">{{ $user['createdAt']->diffForHumans() }}</dd>
+                    <dd title="{{ date_in_user_timezone($user['createdAt']) }}">
+                        {{ $user['createdAt']->diffForHumans() }}
+                    </dd>
                 @endif
 
                 @if (! empty($user['updatedAt']))
                     <dt>{{ _('Updated') }}</dt>
-                    <dd title="{{ $user['updatedAt'] }}">{{ $user['updatedAt']->diffForHumans() }}</dd>
+                    <dd title="{{ date_in_user_timezone($user['updatedAt']) }}">
+                        {{ $user['updatedAt']->diffForHumans() }}
+                    </dd>
                 @endif
             </dl>
 

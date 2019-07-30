@@ -50,8 +50,12 @@
                         <td class="actions">@include('modules.bogus.dummy.actions')</td>
                         <td>{{ $dummy['name'] }}</td>
                         <td>@colorize {{ $dummy['TODO remove if not colorizable'] }} @endcolorize</td>
-                        <td title="{{ $dummy['createdAt'] }}">{{ $dummy['createdAt'] ? $dummy['createdAt']->diffForHumans() : null }}</td>
-                        <td title="{{ $dummy['updatedAt'] }}">{{ $dummy['updatedAt'] ? $dummy['updatedAt']->diffForHumans() : null }}</td>
+                        <td title="{{ date_in_user_timezone($dummy['createdAt']) }}">
+                            {{ $dummy['createdAt'] ? $dummy['createdAt']->diffForHumans() : null }}
+                        </td>
+                        <td title="{{ date_in_user_timezone($dummy['updatedAt']) }}">
+                            {{ $dummy['updatedAt'] ? $dummy['updatedAt']->diffForHumans() : null }}
+                        </td>
                     </tr>
                 @endforeach
 

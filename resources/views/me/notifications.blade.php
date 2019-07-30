@@ -28,8 +28,8 @@
                     <hr class="mt-0 mb-1">
 
                     {{-- Notifification relative date --}}
-                    <span title="{{ $createdAt = $notification->getCreatedAt() }}">
-                        {{ $createdAt->diffForHumans() }}
+                    <span title="{{ date_in_user_timezone($notification->getCreatedAt()) }}">
+                        {{ $notification->getCreatedAt()->diffForHumans() }}
                     </span>
 
                     {{-- Button to mark notifification as read --}}

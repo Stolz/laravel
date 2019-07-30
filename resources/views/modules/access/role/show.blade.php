@@ -26,12 +26,16 @@
 
                 @if (! empty($role['createdAt']))
                     <dt>{{ _('Created') }}</dt>
-                    <dd title="{{ $role['createdAt'] }}">{{ $role['createdAt']->diffForHumans() }}</dd>
+                    <dd title="{{ date_in_user_timezone($role['createdAt']) }}">
+                        {{ $role['createdAt']->diffForHumans() }}
+                    </dd>
                 @endif
 
                 @if (! empty($role['updatedAt']))
                     <dt>{{ _('Updated') }}</dt>
-                    <dd title="{{ $role['updatedAt'] }}">{{ $role['updatedAt']->diffForHumans() }}</dd>
+                    <dd title="{{ date_in_user_timezone($role['updatedAt']) }}">
+                        {{ $role['updatedAt']->diffForHumans() }}
+                    </dd>
                 @endif
             </dl>
 

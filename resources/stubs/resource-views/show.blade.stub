@@ -20,13 +20,17 @@
                 {{-- TODO remove if not applicable --}}
                 @if (! empty($dummy['createdAt']))
                     <dt>{{ _('Created') }}</dt>
-                    <dd title="{{ $dummy['createdAt'] }}">{{ $dummy['createdAt']->diffForHumans() }}</dd>
+                    <dd title="{{ date_in_user_timezone($dummy['createdAt']) }}">
+                        {{ $dummy['createdAt']->diffForHumans() }}
+                    </dd>
                 @endif
 
                 {{-- TODO remove if not applicable --}}
                 @if (! empty($dummy['updatedAt']))
                     <dt>{{ _('Updated') }}</dt>
-                    <dd title="{{ $dummy['updatedAt'] }}">{{ $dummy['updatedAt']->diffForHumans() }}</dd>
+                    <dd title="{{ date_in_user_timezone($dummy['updatedAt']) }}">
+                        {{ $dummy['updatedAt']->diffForHumans() }}
+                    </dd>
                 @endif
             </dl>
         </div>

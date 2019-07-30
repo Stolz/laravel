@@ -21,7 +21,11 @@
             @endslot
         @endinput
     </div>
+
 </div>
 
+@select(['name' => 'timezone', 'options' => $timezones, 'selected' => old('timezone', $user['timezone']), 'attributes' => 'required'])
+    {{ _('Time zone') }}
+@endselect
 
 

@@ -317,3 +317,21 @@ if (! function_exists('csv_chunk')) {
         return $results;
     }
 }
+
+if (! function_exists('date_in_user_timezone')) {
+    /**
+     * Convert the given date to the currently authenticated user timezone.
+     *
+     * @param  \Carbon\Carbon|null $date
+     * @param  string|null $authGuard
+     * @return \Carbon\Carbon|null
+     */
+    function date_in_user_timezone($date, string $authGuard = null)
+    {
+        if ($date instanceof \Carbon\Carbon and $user = \Auth::guard($authGuard)->user())
+            return $date->timezone($user->getTimezone());
+
+        return $date;
+    }
+}
+

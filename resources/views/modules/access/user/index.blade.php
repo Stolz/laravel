@@ -60,8 +60,12 @@
                         </td>
                         <td>{{ $user['email'] }}</td>
                         <td>@colorize {{ $user['role'] }} @endcolorize</td>
-                        <td title="{{ $user['createdAt'] }}">{{ $user['createdAt'] ? $user['createdAt']->diffForHumans() : null }}</td>
-                        <td title="{{ $user['updatedAt'] }}">{{ $user['updatedAt'] ? $user['updatedAt']->diffForHumans() : null }}</td>
+                        <td title="{{ date_in_user_timezone($user['createdAt']) }}">
+                            {{ $user['createdAt'] ? $user['createdAt']->diffForHumans() : null }}
+                        </td>
+                        <td title="{{ date_in_user_timezone($user['updatedAt']) }}">
+                            {{ $user['updatedAt'] ? $user['updatedAt']->diffForHumans() : null }}
+                        </td>
                     </tr>
                 @endforeach
 
