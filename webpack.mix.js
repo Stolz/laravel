@@ -19,7 +19,7 @@ mix.webpackConfig({
 });
 
 mix.autoload({
-    jquery: [ '$', 'jQuery', 'jquery', 'window.jQuery'],
+    jquery: ['$', 'jQuery', 'jquery', 'window.jQuery'],
 });
 
 // Compile CSS

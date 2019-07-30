@@ -14,7 +14,7 @@
 
 @section('body')
 <div class="page">
-    <div class="page-main">
+    <div class="flex-fill">
 
         {{-- Header --}}
         <div class="header">
@@ -44,7 +44,7 @@
                 </div>
             </div>
         </div><!--.container-->
-    </div><!--.page-main-->
+    </div><!--.flex-fill-->
 
     {{-- Bottom navigation
     <div class="footer">

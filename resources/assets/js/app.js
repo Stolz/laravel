@@ -9,7 +9,7 @@ const Notifications = require('./notifications').default;
 try {
     window.$ = window.jQuery = require('jquery');
 
-    // Dependencies and pligins not being used have been disabled
+    // Dependencies and plugins not being used have been disabled
     require('bootstrap');
     //require('bootstrap-datepicker'); // https://github.com/uxsolutions/bootstrap-datepicker",
     //require('chart.js');             // https://www.chartjs.org/
