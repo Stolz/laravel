@@ -8,6 +8,7 @@ $factory->define(User::class, function (Faker $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => 'verysecret',
+        'timezone' => $faker->timezone,
         'remember_token' => str_random(10),
     ];
 });
