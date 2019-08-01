@@ -66,6 +66,6 @@ class CreateUserTest extends TestCase
      */
     protected function runCommand()
     {
-        return $this->artisan('create:user')->assertExitCode(0);
+        return $this->artisan('user:create')->assertExitCode(0);
     }
 }
