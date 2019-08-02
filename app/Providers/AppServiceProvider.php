@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Repositories\Contracts\AnnouncementRepository;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -63,5 +65,12 @@ class AppServiceProvider extends ServiceProvider
         foreach ($components as $path => $name) {
             Blade::component("components.$path", $name);
         }
+
+        // Register view composers
+        View::composer('layouts.app', function ($view) {
+            // Get active announcements
+            $announcements = $this->app[AnnouncementRepository::class]->getBy('active', true);
+            $view->with('activeAnnouncements', $announcements);
+        });
     }
 }

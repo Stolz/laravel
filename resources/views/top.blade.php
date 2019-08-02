@@ -56,6 +56,13 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-arrow">
+                        @can('list', 'App\Models\Announcement')
+                            <a href="{{ route('master.announcement.index') }}" class="dropdown-item @route('master.announcement.*') active @endroute">
+                                <i class="fe fe-rss"></i>
+                                {{ _('Announcements') }}
+                            </a>
+                        @endcan
+
                         @can('list', 'App\Models\Country')
                             <a href="{{ route('master.country.index') }}" class="dropdown-item @route('master.country.*') active @endroute">
                                 <i class="fe fe-flag"></i>

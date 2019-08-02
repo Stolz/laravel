@@ -6,6 +6,188 @@
 	},
 	"item": [
 		{
+			"name": "Announcement",
+			"item": [
+				{
+					"name": "announcement.index",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/announcement",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"announcement"
+							]
+						},
+						"description": "Available optional query parameters:\n\n* Pagination:\n\n  - `per_page`: Number of resutls per page. i.e: `15`.\n  - `page`: Page number to show. By default is `1`.\n\n* Sorting:\n\n  - `sort_by`: Name of the field used to sort results. i.e: `name`\n  - `sort_dir`: Sort direction. `asc` for ascending order, `desc` descending order."
+					},
+					"response": []
+				},
+				{
+					"name": "announcement.store",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "10d7c515-b35c-471f-a474-6e0d0e4965a5",
+								"exec": [
+									"pm.environment.unset(\"announcementId\");",
+									"",
+									"if(responseCode.code == 201)",
+									"{",
+									"    var response = JSON.parse(responseBody);",
+									"    pm.environment.set(\"announcementId\", response.id);",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Random announcement {{$randomInt}}\",\n\t\"description\": \"This _is_ a [Markdown](https://en.wikipedia.org/wiki/Markdown) **announcement**\",\n\t\"active\": false\n}\n"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/announcement",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"announcement"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "announcement.show",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/announcement/{{announcementId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"announcement",
+								"{{announcementId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "announcement.update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Random announcement {{$randomInt}}\",\n\t\"description\": \"This _is_ a [Markdown](https://en.wikipedia.org/wiki/Markdown) **announcement**\",\n\t\"active\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/announcement/{{announcementId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"announcement",
+								"{{announcementId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "announcement.destroy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2c3cb4b2-523e-43d0-9200-f182c05c0200",
+								"exec": [
+									"if(responseCode.code == 200)",
+									"{",
+									"    pm.environment.unset(\"announcementId\");",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/announcement/{{announcementId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"announcement",
+								"{{announcementId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Auth",
 			"item": [
 				{
@@ -15,7 +197,6 @@
 							"listen": "test",
 							"script": {
 								"id": "961ab36e-c2e4-4089-9444-f6f80016a65e",
-								"type": "text/javascript",
 								"exec": [
 									"pm.environment.unset(\"apiToken\");",
 									"",
@@ -25,7 +206,8 @@
 									"    pm.environment.set(\"apiToken\", response.access_token);",
 									"}",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],

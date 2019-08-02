@@ -27,6 +27,7 @@ class RouteServiceProvider extends ServiceProvider
 
         // Register route model bindings
         $modelRouteBindings = [
+            'announcement' => \App\Repositories\Contracts\AnnouncementRepository::class,
             'country' => \App\Repositories\Contracts\CountryRepository::class,
             'role' => \App\Repositories\Contracts\RoleRepository::class,
             'user' => \App\Repositories\Contracts\UserRepository::class,

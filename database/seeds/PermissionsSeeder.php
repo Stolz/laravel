@@ -36,6 +36,13 @@ class PermissionsSeeder extends Seeder
                 'name' => 'use-master-module',
                 'description' => _('Use the "Master" module. Without this permission none of the permissions in this module will be available'),
                 'categories' => [
+                    _('Announcement') => [
+                        ['name' => 'announcement-list', 'description' => _('See a list of multiple announcements')],
+                        ['name' => 'announcement-view', 'description' => _('See all details of a single announcement')],
+                        ['name' => 'announcement-create', 'description' => _('Add a new announcement')],
+                        ['name' => 'announcement-update', 'description' => _('Edit an existing announcement')],
+                        ['name' => 'announcement-delete', 'description' => _('Remove an existing announcement')],
+                    ],
                     _('Country') => [
                         ['name' => 'country-list', 'description' => _('See a list of multiple countries')],
                         ['name' => 'country-view', 'description' => _('See all details of a single country')],

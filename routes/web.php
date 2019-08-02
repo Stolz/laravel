@@ -42,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Master module
     Route::middleware(['can:master,module'])->prefix('master')->namespace('Master')->name('master.')->group(function () {
+        Route::resource('announcement', 'AnnouncementController');
         Route::resource('country', 'CountryController');
     });
 });

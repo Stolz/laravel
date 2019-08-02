@@ -16,6 +16,11 @@
 <div class="page">
     <div class="flex-fill">
 
+        {{-- Active announcements --}}
+        @if($activeAnnouncements->isNotEmpty())
+            @each('modules.master.announcement.alert', $activeAnnouncements, 'announcement')
+        @endif
+
         {{-- Header --}}
         <div class="header">
             <div class="container">

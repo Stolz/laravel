@@ -14,6 +14,7 @@ class RepositoryServiceProvider extends ServiceProvider implements DeferrablePro
      */
     const REPOSITORIES = [
         // Implementation => Contract
+        'App\Repositories\Doctrine\AnnouncementRepository' => 'App\Repositories\Contracts\AnnouncementRepository',
         'App\Repositories\Doctrine\CountryRepository' => 'App\Repositories\Contracts\CountryRepository',
         'App\Repositories\Doctrine\NotificationRepository' => 'App\Repositories\Contracts\NotificationRepository',
         'App\Repositories\Doctrine\PermissionRepository' => 'App\Repositories\Contracts\PermissionRepository',

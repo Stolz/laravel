@@ -5,7 +5,7 @@
     if (! isset($icon))
         $icon = $icons[$type] ?? 'fe fe-alert-circle';
 ?>
-<div class="alert
+<div class="alert {{ $class ?? null }}
     alert-{{ ($type === 'error' ? 'danger' : $type) }}
     @if($icon ?? true) alert-icon @endif
     @isset($dismiss) alert-dismissible @endisset
