@@ -2,5 +2,5 @@
     @slot('title')
         {{ $announcement['name'] }}
     @endslot
-    {!! Illuminate\Mail\Markdown::parse(nl2br(e($announcement['description']))) !!}
+    {!! Illuminate\Mail\Markdown::parse(e($announcement['description'])) !!}
 @endalert
