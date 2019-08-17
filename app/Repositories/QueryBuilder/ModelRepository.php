@@ -123,7 +123,7 @@ abstract class ModelRepository implements ModelRepositoryContract
             $columns['updated_at'] = $updatedAt = now();
 
         // Update record in database
-        if (! $updated = $this->query()->whereId($model->getId())->limit(1)->update($columns))
+        if (! $this->query()->whereId($model->getId())->limit(1)->update($columns))
             return false;
 
         // Apply changes to model

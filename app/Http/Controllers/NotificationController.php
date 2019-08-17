@@ -34,13 +34,10 @@ class NotificationController extends Controller
     public function index(Request $request): View
     {
         $user = $request->user();
-        list($perPage, $page, $sortBy, $sortDirection) = $this->getPaginationOptionsFromRequest($request, 10);
+        list($perPage, $page) = $this->getPaginationOptionsFromRequest($request, 10);
 
         // Hardcode sorting options to prevent user from playing with the parameters in the URL
-        $sortBy = 'id';
-        $sortDirection = 'desc';
-
-        $notifications = $this->notificationRepository->paginateUser($user, $perPage, $page, $sortBy, $sortDirection);
+        $notifications = $this->notificationRepository->paginateUser($user, $perPage, $page, 'id', 'desc');
 
         return view('me.notifications')->withNotifications($notifications);
     }
@@ -99,13 +96,11 @@ class NotificationController extends Controller
                 if ($count !== $lastCount)
                     server_sent_event(['event' => 'unreadNotificationsCount', 'data' => ['count' => $lastCount = $count]]);
 
-                // Send last unread notification event
-                if ($count and $notification = $this->notificationRepository->getLastUnread($user)) {
-                    // Only send the notifications if it is new
-                    if ($notification->isOlderThan($start) and ! in_array($notification->getId(), $sentNotifications, true)) {
-                        $sentNotifications[] = $notification->getId();
-                        server_sent_event(['event' => 'notification', 'data' => $notification]);
-                    }
+                // Send notification event if last unread notification is new
+                if ($count and $notification = $this->notificationRepository->getLastUnread($user) and
+                    $notification->isOlderThan($start) and ! in_array($notification->getId(), $sentNotifications, true)) {
+                    $sentNotifications[] = $notification->getId();
+                    server_sent_event(['event' => 'notification', 'data' => $notification]);
                 }
 
                 // Close the connection if we are done. Browser will try to reconnect after 'retry' miliseconds

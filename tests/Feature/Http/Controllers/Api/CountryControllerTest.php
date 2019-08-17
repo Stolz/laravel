@@ -59,6 +59,7 @@ class CountryControllerTest extends TestCase
         $response->assertJsonStructure(static::PAGINATION_STRUCTURE);
         $response->assertJsonCount(2, 'data');
         $this->assertEquals($countryBar->getId(), $response->json('data.0.id'));
+        $this->assertEquals($countryFoo->getId(), $response->json('data.1.id'));
     }
 
     /**

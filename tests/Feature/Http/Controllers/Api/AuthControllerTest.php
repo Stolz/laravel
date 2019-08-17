@@ -90,7 +90,6 @@ class AuthControllerTest extends TestCase
         $response->assertJsonStructure(['message']);
 
         // Test with invalid token
-        $token = 'invalid';
         $response = $this->withTokenHeader('invalid')->get($route);
         $response->assertStatus(401);
         $response->assertJsonStructure(['message']);
