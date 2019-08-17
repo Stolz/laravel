@@ -37,7 +37,7 @@ class AnnouncementControllerTest extends TestCase
     {
         // User without permissions
         $route = route('master.announcement.index');
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -58,7 +58,7 @@ class AnnouncementControllerTest extends TestCase
 
         // User without permissions
         $route = route('master.announcement.show', [$announcement->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -75,7 +75,7 @@ class AnnouncementControllerTest extends TestCase
     {
         // User without permissions
         $route = route('master.announcement.create');
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -96,7 +96,7 @@ class AnnouncementControllerTest extends TestCase
 
         // User without permissions
         $route = route('master.announcement.edit', [$announcement->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -113,7 +113,7 @@ class AnnouncementControllerTest extends TestCase
     {
         // User without permissions
         $route = route('master.announcement.store');
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'post');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'post');
 
         // User with permissions. Incomplete data
         $referer = route('master.announcement.create');
@@ -143,7 +143,7 @@ class AnnouncementControllerTest extends TestCase
 
         // User without permissions
         $route = route('master.announcement.update', [$id = $announcement->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'put');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'put');
 
         // User with permissions. Incomplete data
         $referer = route('master.announcement.edit', [$id]);
@@ -173,7 +173,7 @@ class AnnouncementControllerTest extends TestCase
 
         // User without permissions
         $route = route('master.announcement.destroy', [$announcement->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'delete');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'delete');
 
         // User with permissions
         $referer = route('master.announcement.index');

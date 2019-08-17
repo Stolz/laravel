@@ -9,9 +9,9 @@ trait RejectsUnauthorizedRouteAccess
      *
      * @param  string $route
      * @param  string $method
-     * @return \Illuminate\Foundation\Testing\TestResponse
+     * @return self
      */
-    protected function rejectUnauthorizedRouteAccess(string $route, string $method)
+    protected function assertRejectsUnauthorizedAccessToRoute(string $route, string $method)
     {
         // Unauthenticated user
         $this->assertGuest();
@@ -26,6 +26,6 @@ trait RejectsUnauthorizedRouteAccess
         $this->app['auth']->logout();
         $this->assertGuest();
 
-        return $response;
+        return $this;
     }
 }

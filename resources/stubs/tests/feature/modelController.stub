@@ -37,7 +37,7 @@ class DummyControllerTest extends TestCase
     {
         // User without permissions
         $route = route('bogus.dummy.index');
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -58,7 +58,7 @@ class DummyControllerTest extends TestCase
 
         // User without permissions
         $route = route('bogus.dummy.show', [$dummy->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -75,7 +75,7 @@ class DummyControllerTest extends TestCase
     {
         // User without permissions
         $route = route('bogus.dummy.create');
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -96,7 +96,7 @@ class DummyControllerTest extends TestCase
 
         // User without permissions
         $route = route('bogus.dummy.edit', [$dummy->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -113,7 +113,7 @@ class DummyControllerTest extends TestCase
     {
         // User without permissions
         $route = route('bogus.dummy.store');
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'post');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'post');
 
         // User with permissions. Incomplete data
         $referer = route('bogus.dummy.create');
@@ -143,7 +143,7 @@ class DummyControllerTest extends TestCase
 
         // User without permissions
         $route = route('bogus.dummy.update', [$id = $dummy->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'put');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'put');
 
         // User with permissions. Incomplete data
         $referer = route('bogus.dummy.edit', [$id]);
@@ -173,7 +173,7 @@ class DummyControllerTest extends TestCase
 
         // User without permissions
         $route = route('bogus.dummy.destroy', [$dummy->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'delete');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'delete');
 
         // User with permissions
         $referer = route('bogus.dummy.index');

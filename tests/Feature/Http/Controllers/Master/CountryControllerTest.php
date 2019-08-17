@@ -38,7 +38,7 @@ class CountryControllerTest extends TestCase
     {
         // User without permissions
         $route = route('master.country.index');
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -58,7 +58,7 @@ class CountryControllerTest extends TestCase
 
         // User without permissions
         $route = route('master.country.show', [$country->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -75,7 +75,7 @@ class CountryControllerTest extends TestCase
     {
         // User without permissions
         $route = route('master.country.create');
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -95,7 +95,7 @@ class CountryControllerTest extends TestCase
 
         // User without permissions
         $route = route('master.country.edit', [$country->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -112,7 +112,7 @@ class CountryControllerTest extends TestCase
     {
         // User without permissions
         $route = route('master.country.store');
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'post');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'post');
 
         // User with permissions. Incomplete data
         $referer = route('master.country.create');
@@ -142,7 +142,7 @@ class CountryControllerTest extends TestCase
 
         // User without permissions
         $route = route('master.country.update', [$id = $country->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'put');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'put');
 
         // User with permissions. Incomplete data
         $referer = route('master.country.edit', [$id]);
@@ -172,7 +172,7 @@ class CountryControllerTest extends TestCase
 
         // User without permissions
         $route = route('master.country.destroy', [$country->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'delete');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'delete');
 
         // User with permissions
         $referer = route('master.country.index');

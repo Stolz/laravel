@@ -39,7 +39,7 @@ class RoleControllerTest extends TestCase
     {
         // User without permissions
         $route = route('access.role.index');
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -56,7 +56,7 @@ class RoleControllerTest extends TestCase
     {
         // User without permissions
         $route = route('access.role.show', [$this->user->getRole()->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -73,7 +73,7 @@ class RoleControllerTest extends TestCase
     {
         // User without permissions
         $route = route('access.role.create');
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -90,7 +90,7 @@ class RoleControllerTest extends TestCase
     {
         // User without permissions
         $route = route('access.role.edit', [$this->user->getRole()->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -107,7 +107,7 @@ class RoleControllerTest extends TestCase
     {
         // User without permissions
         $route = route('access.role.store');
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'post');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'post');
 
         // User with permissions. Incomplete data
         $referer = route('access.role.create');
@@ -135,7 +135,7 @@ class RoleControllerTest extends TestCase
     {
         // User without permissions
         $route = route('access.role.update', [$id = $this->user->getRole()->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'put');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'put');
 
         // User with permissions. Incomplete data
         $referer = route('access.role.edit', [$id]);
@@ -166,7 +166,7 @@ class RoleControllerTest extends TestCase
 
         // User without permissions
         $route = route('access.role.destroy', [$role->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'delete');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'delete');
 
         // User with permissions
         $referer = route('access.role.index');

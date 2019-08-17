@@ -37,7 +37,7 @@ class UserControllerTest extends TestCase
     {
         // User without permissions
         $route = route('access.user.index');
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -54,7 +54,7 @@ class UserControllerTest extends TestCase
     {
         // User without permissions
         $route = route('access.user.show', [$this->user->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -71,7 +71,7 @@ class UserControllerTest extends TestCase
     {
         // User without permissions
         $route = route('access.user.create');
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -88,7 +88,7 @@ class UserControllerTest extends TestCase
     {
         // User without permissions
         $route = route('access.user.edit', [$this->user->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'get');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
@@ -105,7 +105,7 @@ class UserControllerTest extends TestCase
     {
         // User without permissions
         $route = route('access.user.store');
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'post');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'post');
 
         // User with permissions. Incomplete data
         $referer = route('access.user.create');
@@ -133,7 +133,7 @@ class UserControllerTest extends TestCase
     {
         // User without permissions
         $route = route('access.user.update', [$id = $this->user->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'put');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'put');
 
         // User with permissions. Incomplete data
         $referer = route('access.user.edit', [$id]);
@@ -161,7 +161,7 @@ class UserControllerTest extends TestCase
     {
         // User without permissions
         $route = route('access.user.destroy', [$this->user->getId()]);
-        $response = $this->rejectUnauthorizedRouteAccess($route, 'delete');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'delete');
 
         // User with permissions
         $referer = route('access.user.index');
