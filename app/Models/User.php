@@ -206,10 +206,11 @@ class User extends Model implements AuthenticatableContract, JWTSubject, CanRese
      */
     public function setRole($role): self
     {
-        if (is_array($role))
+        if (is_array($role)) {
             $role = Role::make($role);
-        elseif ($role !== null and ! $role instanceof Role)
+        } elseif ($role !== null and ! $role instanceof Role) {
             throw new \InvalidArgumentException('Invalid role');
+        }
 
         $this->role = $role;
 

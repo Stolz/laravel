@@ -38,8 +38,9 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (! $token = $this->auth->attempt($credentials))
+        if (! $token = $this->auth->attempt($credentials)) {
             return $this->json(['error' => 'Unauthorized'], 401);
+        }
 
         return $this->respondWithToken($token);
     }

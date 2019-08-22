@@ -101,8 +101,9 @@ class CountryController extends Controller
         $created = $this->countryRepository->create($country);
 
         // Success
-        if ($created)
+        if ($created) {
             return redirect()->route('master.country.index')->with('success', sprintf(_("Country '%s' successfully created"), $country));
+        }
 
         // Something went wrong
         return redirect()->back()->withInput()->with('error', sprintf(_("Unable to create country '%s'"), $country));
@@ -127,8 +128,9 @@ class CountryController extends Controller
         $updated = $this->countryRepository->update($country);
 
         // Success
-        if ($updated)
+        if ($updated) {
             return redirect()->route('master.country.show', $country->getId())->with('success', sprintf(_("Country '%s' successfully updated"), $country));
+        }
 
         // Something went wrong
         return redirect()->back()->withInput()->with('error', sprintf(_("Unable to update country '%s'"), $country));
@@ -147,8 +149,9 @@ class CountryController extends Controller
         $deleted = $this->countryRepository->delete($country);
 
         // Something went wrong
-        if (! $deleted)
+        if (! $deleted) {
             return redirect()->back()->with('error', sprintf(_("Unable to delete country '%s'"), $country));
+        }
 
         // Success
         $redirectBack = ($request->input('_from') === 'master.country.show') ? redirect()->route('master.country.index') : redirect()->back();

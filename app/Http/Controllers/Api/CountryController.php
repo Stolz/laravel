@@ -72,8 +72,9 @@ class CountryController extends Controller
         $created = $this->countryRepository->create($country);
 
         // Success
-        if ($created)
+        if ($created) {
             return $this->json(['created' => true, 'id' => $country->getId()], 201);
+        }
 
         // Something went wrong
         return $this->json(['created' => false], 500);

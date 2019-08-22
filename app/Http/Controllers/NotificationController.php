@@ -73,8 +73,9 @@ class NotificationController extends Controller
     public function stream(Request $request)
     {
         // Avoid uninvited guests
-        if (! $request->headers->contains('accept', 'text/event-stream') and ! app()->environment('local'))
+        if (! $request->headers->contains('accept', 'text/event-stream') and ! app()->environment('local')) {
             return response('Forbidden.', 403);
+        }
 
         // Build an event loop for server-sent events long polling
         $user = $request->user();
@@ -93,8 +94,9 @@ class NotificationController extends Controller
             while (true) {
                 // Send unread notifications count event
                 $count = $this->notificationRepository->countUnread($user);
-                if ($count !== $lastCount)
+                if ($count !== $lastCount) {
                     server_sent_event(['event' => 'unreadNotificationsCount', 'data' => ['count' => $lastCount = $count]]);
+                }
 
                 // Send notification event if last unread notification is new
                 if ($count and $notification = $this->notificationRepository->getLastUnread($user) and
@@ -104,8 +106,9 @@ class NotificationController extends Controller
                 }
 
                 // Close the connection if we are done. Browser will try to reconnect after 'retry' miliseconds
-                if ($closeConnectionAfter->isPast() or app()->isDownForMaintenance())
+                if ($closeConnectionAfter->isPast() or app()->isDownForMaintenance()) {
                     return server_sent_event(['event' => 'close', 'retry' => 60 * 1000]);
+                }
 
                 // Elastic poll time: The more time the connections stays open, the less often we poll ...
                 sleep(min($pollFrequency += 2, 60)); // ... but never wait more than a minute

@@ -49,15 +49,17 @@ class MakeStub extends Command
     public function handle(Filesystem $files)
     {
         // Do not break things
-        if (! app()->environment('local'))
+        if (! app()->environment('local')) {
             return $this->error('Command only available for local environment');
+        }
 
         // Inflect placeholder values
         $this->inflect(trim($this->argument('name')), trim($this->option('module')));
 
         // Do not overwite files
-        if (with($this->files = $files)->exists(app_path("Models/{$this->singularClass}.php")))
+        if (with($this->files = $files)->exists(app_path("Models/{$this->singularClass}.php"))) {
             return $this->error('Model already exists');
+        }
 
         // Create file stubs
         $this
@@ -90,8 +92,9 @@ class MakeStub extends Command
         $path = app_path("Http/Controllers/{$this->moduleClass}");
 
         // If the module already exists, skip
-        if (is_dir($path))
+        if (is_dir($path)) {
             return $this;
+        }
 
         $this->files->makeDirectory($path);
         $path = resource_path("views/modules/{$this->module}");
@@ -446,8 +449,9 @@ class MakeStub extends Command
         $files = $this->files->files($path);
 
         $stubs = [];
-        foreach ($files as $file)
+        foreach ($files as $file) {
             $stubs[$file->getBasename('.stub')] = $this->files->get($file->getPathname());
+        }
 
         return $stubs;
     }
@@ -461,8 +465,9 @@ class MakeStub extends Command
      */
     protected function replacePlaceholders(string $stub, array $extraReplacements = []): string
     {
-        if ($extraReplacements)
+        if ($extraReplacements) {
             $stub = str_replace(array_keys($extraReplacements), $extraReplacements, $stub);
+        }
 
         $stub = str_replace(['Bogus', 'bogus'], [$this->moduleClass, $this->module], $stub);
         $stub = str_replace(['Dummies', 'dummies'], [$this->pluralClass, $this->plural], $stub);

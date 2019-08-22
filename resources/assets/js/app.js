@@ -23,7 +23,8 @@ try {
     //require('tabler-ui/src/assets/plugins/input-mask/js/jquery.mask.min');
     //require('tabler-ui/src/assets/plugins/prismjs/js/prism.pack');
     //require('vector-map');          // http://jvectormap.com
-} catch (e) {}
+} catch (e) {
+}
 
 /* Default jQuery AJAX settings. Disabled because we are currently using jQuery Slim version which lacks AJAX support
 $.ajaxSetup({
@@ -71,11 +72,12 @@ $(function () {
     $('.toggle-side,.show-side,.hide-side').click(function (event) {
         event.preventDefault();
         const $target = $(event.target);
-        if ($target.hasClass('show-side'))
+        if ($target.hasClass('show-side')) {
             $('#side').show();
-        else if ($target.hasClass('hide-side'))
+        } else if ($target.hasClass('hide-side')) {
             $('#side').hide();
-        else
+        } else {
             $('#side').toggle();
+        }
     });
 });

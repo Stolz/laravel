@@ -55,8 +55,9 @@ if (! function_exists('array_clean_deep')) {
         foreach ($array as $key => $value) {
             if (is_array($value)) {
                 $array[$key] = array_clean_deep($value);
-                if (! $array[$key])
+                if (! $array[$key]) {
                     unset($array[$key]);
+                }
             } elseif ($value === null or $value === '') {
                 unset($array[$key]);
             }
@@ -82,8 +83,9 @@ if (! function_exists('array_only_dot')) {
 
         foreach ((array) $keys as $key) {
             $value = array_get($array, $key, $notFound = new \StdClass);
-            if ($value !== $notFound)
+            if ($value !== $notFound) {
                 array_set($only, $key, $value);
+            }
         }
 
         return $only;
@@ -107,11 +109,13 @@ if (! function_exists('json')) {
         static $prettyJson;
 
         // For performance reasons 'production' environment does not print pretty JSON
-        if ($prettyJson === null)
+        if ($prettyJson === null) {
             $prettyJson = ! app()->environment('production');
+        }
 
-        if ($prettyJson)
+        if ($prettyJson) {
             $options = $options | JSON_PRETTY_PRINT;
+        }
 
         return json_encode($value, $options, $depth);
     }
@@ -129,11 +133,13 @@ if (! function_exists('convert_to_date')) {
      */
     function convert_to_date($date, string $format = 'Y-m-d H:i:s'): ?\Carbon\Carbon
     {
-        if (empty($date))
+        if (empty($date)) {
             return null;
+        }
 
-        if ($date instanceof \Carbon\Carbon)
+        if ($date instanceof \Carbon\Carbon) {
             return $date;
+        }
 
         return \Carbon\Carbon::createFromFormat($format, $date);
     }
@@ -151,8 +157,9 @@ if (! function_exists('convert_date_to_string')) {
      */
     function convert_date_to_string($date, string $format = 'Y-m-d H:i:s')
     {
-        if ($date instanceof \Carbon\Carbon)
+        if ($date instanceof \Carbon\Carbon) {
             return $date->format($format);
+        }
 
         return $date;
     }
@@ -189,8 +196,9 @@ if (! function_exists('colorize')) {
     function colorize($text, int $min = 0, $max = 255): string
     {
         static $colorizer;
-        if ($colorizer === null)
+        if ($colorizer === null) {
             $colorizer = new \PHLAK\Colorizer\Colorize();
+        }
 
         return $colorizer->text((string) $text)->normalize($min, $max)->hex();
     }
@@ -208,8 +216,9 @@ if (! function_exists('previous_index_url')) {
         $previousUrl = url()->previous();
         parse_str(parse_url($previousUrl, PHP_URL_QUERY), $urlParameters);
 
-        if (isset($urlParameters['page']) or isset($urlParameters['search']) or isset($urlParameters['sort_by']))
+        if (isset($urlParameters['page']) or isset($urlParameters['search']) or isset($urlParameters['sort_by'])) {
             return $previousUrl;
+        }
 
         return $fallbackUrl;
     }
@@ -227,12 +236,13 @@ if (! function_exists('server_sent_event')) {
     {
         foreach ($message as $key => $value) {
             // Convert message to JSON
-            if ($value instanceof \JsonSerializable)
+            if ($value instanceof \JsonSerializable) {
                 $value = json_encode($value->jsonSerialize());
-            elseif ($value instanceof \Illuminate\Contracts\Support\Arrayable)
+            } elseif ($value instanceof \Illuminate\Contracts\Support\Arrayable) {
                 $value = json_encode($value->toArray());
-            elseif (! is_null($value) and ! is_scalar($value))
+            } elseif (! is_null($value) and ! is_scalar($value)) {
                 $value = json_encode($value);
+            }
 
             echo $key, ': ', $value, PHP_EOL;
         }
@@ -272,12 +282,14 @@ if (! function_exists('csv_chunk')) {
     function csv_chunk($file, $chunkSize, \Closure $function, $delimiter = ','): array
     {
         // Open file
-        if (($handle = fopen($file, 'r')) === false)
+        if (($handle = fopen($file, 'r')) === false) {
             return [];
+        }
 
         // Skip BOM (byte order mark) character if present
-        if (fread($handle, 3) !== pack("CCC", 0xef, 0xbb, 0xbf))
+        if (fread($handle, 3) !== pack("CCC", 0xef, 0xbb, 0xbf)) {
             rewind($handle);
+        }
 
         // Initialize variables
         $line = -1;
@@ -311,8 +323,9 @@ if (! function_exists('csv_chunk')) {
         fclose($handle);
 
         // Process last buffer
-        if ($buffer)
+        if ($buffer) {
             $results[] = $function($buffer);
+        }
 
         return $results;
     }
@@ -328,8 +341,9 @@ if (! function_exists('date_in_user_timezone')) {
      */
     function date_in_user_timezone($date, string $authGuard = null)
     {
-        if ($date instanceof \Carbon\Carbon and $user = \Auth::guard($authGuard)->user())
+        if ($date instanceof \Carbon\Carbon and $user = \Auth::guard($authGuard)->user()) {
             return $date->timezone($user->getTimezone());
+        }
 
         return $date;
     }

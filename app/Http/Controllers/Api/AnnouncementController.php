@@ -72,8 +72,9 @@ class AnnouncementController extends Controller
         $created = $this->announcementRepository->create($announcement);
 
         // Success
-        if ($created)
+        if ($created) {
             return $this->json(['created' => true, 'id' => $announcement->getId()], 201);
+        }
 
         // Something went wrong
         return $this->json(['created' => false], 500);

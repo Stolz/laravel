@@ -46,16 +46,18 @@ class MeController extends Controller
             'email' => $user->getEmail(),
             'password' => $request->get('password'),
         ];
-        if (! $userRepository->validateCredentials($user, $credentials))
+        if (! $userRepository->validateCredentials($user, $credentials)) {
             return redirect()->back()->withErrors(['password' => _('Wrong password')]);
+        }
 
         // Apply changes to the user
         $user->setPassword($request->get('new_password'))->setRememberToken(str_random(60));
 
         // Update user in repository
-        if ($userRepository->update($user))
+        if ($userRepository->update($user)) {
             // Success
             return redirect()->route('me')->with('success', _('Password successfully changed'));
+        }
 
         // Error
         return redirect()->back()->with('error', _('Unable to update pasword'));

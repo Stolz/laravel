@@ -142,8 +142,9 @@ class Notification extends Model
      */
     public function setLevel(string $level): self
     {
-        if (! in_array($level, static::LEVELS, true))
+        if (! in_array($level, static::LEVELS, true)) {
             throw new \InvalidArgumentException('Invalid notification level');
+        }
 
         $this->level = $level;
 
@@ -211,11 +212,11 @@ class Notification extends Model
      */
     public function setUser($user): self
     {
-        if (is_array($user))
+        if (is_array($user)) {
             $user = User::make($user);
-
-        elseif ($user !== null and ! $user instanceof User)
+        } elseif ($user !== null and ! $user instanceof User) {
             throw new \InvalidArgumentException('Invalid user');
+        }
 
         $this->user = $user;
 
@@ -363,8 +364,9 @@ class Notification extends Model
      */
     public function isOlderThan(Carbon $date): bool
     {
-        if (! $createAt = $this->getCreatedAt())
+        if (! $createAt = $this->getCreatedAt()) {
             return false;
+        }
 
         return $createAt->greaterThan($date);
     }

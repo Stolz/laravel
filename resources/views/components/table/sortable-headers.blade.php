@@ -1,8 +1,9 @@
 <?php
 $routeParameters = (isset($parameters)) ? $parameters : [];
 
-if (request()->has('search'))
+if (request()->has('search')) {
     $routeParameters['search'] = request('search');
+}
 
 $buildLinks = function ($labels, $routeParameters = []): array {
     $route = Route::current()->getName();

@@ -3,10 +3,11 @@ let mix = require('laravel-mix');
 
 mix.setPublicPath('public');
 
-if (mix.inProduction())
+if (mix.inProduction()) {
     mix.version();
-else
+} else {
     mix.sourceMaps();
+}
 
 mix.webpackConfig({
     resolve: {

@@ -34,8 +34,9 @@ class AuthControllerTest extends TestCase
     public function testThrottle()
     {
         $route = route('api.login');
-        for ($i = 1; $i <= 20; $i++)
+        for ($i = 1; $i <= 20; $i++) {
             $response = $this->post($route);
+        }
 
         $response->assertStatus(429);
     }

@@ -2,8 +2,9 @@
     $icons = ['info' => 'fe fe-info', 'success' => 'fe fe-check-circle', 'warning' => 'fe fe-alert-triangle', 'error' => 'fe fe-alert-octagon'];
 
     // Show icon by default
-    if (! isset($icon))
+    if (! isset($icon)) {
         $icon = $icons[$type] ?? 'fe fe-alert-circle';
+    }
 ?>
 <div class="alert {{ $class ?? null }}
     alert-{{ ($type === 'error' ? 'danger' : $type) }}
@@ -24,5 +25,4 @@
     @endif
 
     {{ $slot }}
-
 </div>

@@ -101,8 +101,9 @@ class AnnouncementController extends Controller
         $created = $this->announcementRepository->create($announcement);
 
         // Success
-        if ($created)
+        if ($created) {
             return redirect()->route('master.announcement.index')->with('success', sprintf(_("Announcement '%s' successfully created"), $announcement));
+        }
 
         // Something went wrong
         return redirect()->back()->withInput()->with('error', sprintf(_("Unable to create announcement '%s'"), $announcement));
@@ -127,8 +128,9 @@ class AnnouncementController extends Controller
         $updated = $this->announcementRepository->update($announcement);
 
         // Success
-        if ($updated)
+        if ($updated) {
             return redirect()->route('master.announcement.show', $announcement->getId())->with('success', sprintf(_("Announcement '%s' successfully updated"), $announcement));
+        }
 
         // Something went wrong
         return redirect()->back()->withInput()->with('error', sprintf(_("Unable to update announcement '%s'"), $announcement));
@@ -147,8 +149,9 @@ class AnnouncementController extends Controller
         $deleted = $this->announcementRepository->delete($announcement);
 
         // Something went wrong
-        if (! $deleted)
+        if (! $deleted) {
             return redirect()->back()->with('error', sprintf(_("Unable to delete announcement '%s'"), $announcement));
+        }
 
         // Success
         $redirectBack = ($request->input('_from') === 'master.announcement.show') ? redirect()->route('master.announcement.index') : redirect()->back();

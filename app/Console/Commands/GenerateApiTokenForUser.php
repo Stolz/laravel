@@ -60,8 +60,9 @@ class GenerateApiTokenForUser extends Command
             $ttl->diffForHumans()
         ));
 
-        if (! $this->confirm('Do you wish to continue?'))
+        if (! $this->confirm('Do you wish to continue?')) {
             return;
+        }
 
         // Generate token
         $token = auth('api')->setTTL($ttl->diffInMinutes())->fromUser($user);
@@ -79,8 +80,9 @@ class GenerateApiTokenForUser extends Command
         $user = false;
 
         while (! $user) {
-            if ($user === null)
+            if ($user === null) {
                 $this->error('User not found. Please try again');
+            }
 
             $id = $this->ask('Enter user ID or e-mail address');
             $user = (str_contains($id, '@')) ? $this->userRepository->findBy('email', $id) : $this->userRepository->find($id);
@@ -100,8 +102,9 @@ class GenerateApiTokenForUser extends Command
 
         while (! $date) {
             try {
-                if ($date === null)
+                if ($date === null) {
                     $this->error('Invalid date. Please try again');
+                }
 
                 $description = $this->ask("Enter expiry date of token.\n
                 You can use relative time such:
@@ -116,8 +119,9 @@ class GenerateApiTokenForUser extends Command
                     - 2020-12-31");
 
                 $date = Carbon::parse($description);
-                if (! $date->isFuture())
+                if (! $date->isFuture()) {
                     $date = null;
+                }
             } catch (\Exception $exception) {
                 $date = null;
             }

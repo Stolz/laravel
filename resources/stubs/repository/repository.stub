@@ -29,8 +29,9 @@ class DummyRepository extends ModelRepository implements DummyRepositoryContract
     public function all(array $orderBy = []): \Illuminate\Support\Collection
     {
         // Set a default order when none is provided
-        if (! $orderBy)
+        if (! $orderBy) {
             $orderBy = ['name' => 'asc']; // TODO set default order
+        }
 
         return parent::all($orderBy);
     }

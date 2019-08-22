@@ -36,8 +36,9 @@ class SynchronizePermissions extends Command
         }
 
         // Sync with database
-        if ($permissionRepository->sync($permissions))
-           return $this->info('Permissions successfully synchronized');
+        if ($permissionRepository->sync($permissions)) {
+            return $this->info('Permissions successfully synchronized');
+        }
 
         return $this->error('Unable to synchronize permissions');
     }

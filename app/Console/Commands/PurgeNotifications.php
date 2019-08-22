@@ -35,8 +35,9 @@ class PurgeNotifications extends Command
     {
         // Check number of days
         $days = (int) $this->option('days');
-        if ($days < static::MIN_DAYS)
+        if ($days < static::MIN_DAYS) {
             return $this->error('The minum number of days is ' . static::MIN_DAYS);
+        }
 
         // Delete notifications
         $date = now()->subDays($days);

@@ -58,11 +58,13 @@ abstract class ModelRepository implements ModelRepositoryContract
      */
     public function __construct(\Doctrine\ORM\EntityManagerInterface $entityManager)
     {
-        if (! $this->class)
+        if (! $this->class) {
             throw new \RuntimeException('Missing repository model class name');
+        }
 
-        if (! $this->alias)
+        if (! $this->alias) {
             throw new \RuntimeException('Missing repository model alias name');
+        }
 
         $this->entityManager = $entityManager;
         $this->repository = $this->entityManager->getRepository($this->class);
@@ -76,8 +78,9 @@ abstract class ModelRepository implements ModelRepositoryContract
      */
     public function create(Model $model): bool
     {
-        if (method_exists($model, 'setCreatedAt'))
+        if (method_exists($model, 'setCreatedAt')) {
             $model->setCreatedAt(now());
+        }
 
         $this->entityManager->persist($model);
         $this->entityManager->flush($model);
@@ -97,8 +100,9 @@ abstract class ModelRepository implements ModelRepositoryContract
         // TODO restrict update to only $fields
         // $fields = array_map('camel_case', $fields);
 
-        if (method_exists($model, 'setUpdatedAt'))
+        if (method_exists($model, 'setUpdatedAt')) {
             $model->setUpdatedAt(now());
+        }
 
         $this->entityManager->flush($model);
 
@@ -310,8 +314,9 @@ abstract class ModelRepository implements ModelRepositoryContract
     {
         static $fields;
 
-        if ($fields === null)
+        if ($fields === null) {
             $fields = $this->getSortableFields();
+        }
 
         return in_array($field, $fields, true);
     }
@@ -332,9 +337,11 @@ abstract class ModelRepository implements ModelRepositoryContract
         $sortDirection = (strtolower($sortDirection) === 'desc') ? 'desc' : 'asc';
 
         if ($sortBy !== null) {
-            if (str_contains($sortBy, '.'))
+            if (str_contains($sortBy, '.')) {
                 list($alias, $sortBy) = explode('.', $sortBy, 2);
-            else $alias = $this->alias;
+            } else {
+                $alias = $this->alias;
+            }
 
             // Normal field. Ensure the model has the provided field
             if ($alias === $this->alias) {
@@ -367,17 +374,20 @@ abstract class ModelRepository implements ModelRepositoryContract
         list($perPage, $page, $sortBy, $sortDirection) = $this->sanitizePaginationParameter($perPage, $page, $sortBy, $sortDirection);
 
         // Apply sorting parameters
-        if ($sortBy !== null)
+        if ($sortBy !== null) {
             $queryBuilder->addOrderBy($sortBy, $sortDirection);
+        }
 
         // Get resutls
         $paginator = \LaravelDoctrine\ORM\Pagination\PaginatorAdapter::fromParams($queryBuilder->getQuery(), $perPage, $page)->make();
 
         // Include sorting parameters in query string
-        if ($sortBy !== null)
+        if ($sortBy !== null) {
             $paginator->appends(['sort_by' => $originalSortBy]);
-        if ($sortDirection !== null)
+        }
+        if ($sortDirection !== null) {
             $paginator->appends(['sort_dir' => $sortDirection]);
+        }
 
         return $paginator;
     }

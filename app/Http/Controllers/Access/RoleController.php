@@ -120,8 +120,9 @@ class RoleController extends Controller
         $created = $this->roleRepository->create($role) and $this->roleRepository->replacePermissions($role, $permissions);
 
         // Success
-        if ($created)
+        if ($created) {
             return redirect()->route('access.role.index')->with('success', sprintf(_("Role '%s' successfully created"), $role));
+        }
 
         // Something went wrong
         return redirect()->back()->withInput()->with('error', sprintf(_("Unable to create role '%s'"), $role));
@@ -148,8 +149,9 @@ class RoleController extends Controller
         $permissionsUpdated = $this->roleRepository->replacePermissions($role, $permissions);
 
         // Success
-        if ($updated and $permissionsUpdated)
+        if ($updated and $permissionsUpdated) {
             return redirect()->route('access.role.show', $role->getId())->with('success', sprintf(_("Role '%s' successfully updated"), $role));
+        }
 
         // Something went wrong
         return redirect()->back()->withInput()->with('error', sprintf(_("Unable to update role '%s'"), $role));
@@ -168,8 +170,9 @@ class RoleController extends Controller
         $deleted = $this->roleRepository->delete($role);
 
         // Something went wrong
-        if (! $deleted)
+        if (! $deleted) {
             return redirect()->back()->with('error', sprintf(_("Unable to delete role '%s'"), $role));
+        }
 
         // Success
         $redirectBack = ($request->input('_from') === 'access.role.show') ? redirect()->route('access.role.index') : redirect()->back();

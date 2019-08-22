@@ -22,12 +22,14 @@ class UserPolicy extends RoleBasedPolicy
     {
         // Parent check for super admin has priority
         $preCheck = parent::before($user, $ability);
-        if ($preCheck !== null)
+        if ($preCheck !== null) {
             return $preCheck;
+        }
 
         // If the user cannot use the 'access' module no need to further check the policy method
-        if ($this->userRoleCannot($user, 'use-access-module'))
+        if ($this->userRoleCannot($user, 'use-access-module')) {
             return false;
+        }
     }
 
    /**

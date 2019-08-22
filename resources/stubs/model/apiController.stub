@@ -74,8 +74,9 @@ class DummyController extends Controller
         $created = $this->dummyRepository->create($dummy);
 
         // Success
-        if ($created)
+        if ($created) {
             return $this->json(['created' => true, 'id' => $dummy->getId()], 201);
+        }
 
         // Something went wrong
         return $this->json(['created' => false], 500);

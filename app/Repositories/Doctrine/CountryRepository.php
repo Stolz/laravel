@@ -29,8 +29,9 @@ class CountryRepository extends SoftDeletableModelRepository implements CountryR
     public function all(array $orderBy = []): \Illuminate\Support\Collection
     {
         // Set a default order when none is provided
-        if (! $orderBy)
+        if (! $orderBy) {
             $orderBy = ['name' => 'asc'];
+        }
 
         return parent::all($orderBy);
     }

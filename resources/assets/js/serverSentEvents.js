@@ -36,8 +36,9 @@ export default class ServerSentEvents {
 
         // Listener for connection errors
         this.addEventListener('error', function (event) {
-            if (event.readyState == EventSource.CLOSED)
+            if (event.readyState == EventSource.CLOSED) {
                 console.warn(tag + 'Connection was closed');
+            }
         }, false);
 
         // Close the connection when the browser window is closed

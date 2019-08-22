@@ -40,8 +40,9 @@ abstract class ModelRepository implements ModelRepositoryContract
      */
     public function __construct(\Illuminate\Database\ConnectionResolverInterface $database)
     {
-        if (! $this->table)
+        if (! $this->table) {
             throw new \RuntimeException('Missing database table name');
+        }
 
         $this->db = $database;
     }
@@ -88,18 +89,22 @@ abstract class ModelRepository implements ModelRepositoryContract
         $columns = array_except($this->modelToRecord($model), ['id', 'created_at']);
 
         // Set create time
-        if ($createdAt = method_exists($model, 'setCreatedAt'))
+        if ($createdAt = method_exists($model, 'setCreatedAt')) {
             $columns['created_at'] = $createdAt = now();
+        }
 
         // Insert into database
-        if (! $id = $this->query()->insertGetId($columns))
+        if (! $id = $this->query()->insertGetId($columns)) {
             return false;
+        }
 
         // Apply changes to model
-        if ($createdAt)
+        if ($createdAt) {
             $model->setCreatedAt($createdAt);
-        if (method_exists($model, 'setId'))
+        }
+        if (method_exists($model, 'setId')) {
             $model->setId($id);
+        }
 
         return true;
     }
@@ -115,20 +120,24 @@ abstract class ModelRepository implements ModelRepositoryContract
     {
         // Extract columns to update
         $columns = array_except($this->modelToRecord($model), ['id', 'updated_at']);
-        if ($fields)
+        if ($fields) {
             $columns = array_only($columns, array_map('snake_case', $fields));
+        }
 
         // Set update time
-        if ($updatedAt = method_exists($model, 'setUpdatedAt'))
+        if ($updatedAt = method_exists($model, 'setUpdatedAt')) {
             $columns['updated_at'] = $updatedAt = now();
+        }
 
         // Update record in database
-        if (! $this->query()->whereId($model->getId())->limit(1)->update($columns))
+        if (! $this->query()->whereId($model->getId())->limit(1)->update($columns)) {
             return false;
+        }
 
         // Apply changes to model
-        if ($updatedAt)
+        if ($updatedAt) {
             $model->setUpdatedAt($updatedAt);
+        }
 
         return true;
     }
@@ -179,8 +188,9 @@ abstract class ModelRepository implements ModelRepositoryContract
     {
         $query = $this->query();
 
-        foreach ($orderBy as $column => $direction)
+        foreach ($orderBy as $column => $direction) {
             $query->orderBy($column, $direction);
+        }
 
         return $query->get()->transform(function ($record) {
             return $this->recordToModel($record);
@@ -222,8 +232,9 @@ abstract class ModelRepository implements ModelRepositoryContract
         $query = (isset($this->paginateQuery)) ? $this->paginateQuery : $this->query();
 
         // Apply sorting parameters
-        if ($sortBy !== null)
+        if ($sortBy !== null) {
             $query->orderBy($sortBy, $sortDirection);
+        }
 
         // Fetch results
         $paginator = $query->paginate($perPage, ['*'], 'page', $page);
@@ -232,10 +243,12 @@ abstract class ModelRepository implements ModelRepositoryContract
         });
 
         // Include sorting parameters in query string
-        if ($sortBy !== null)
+        if ($sortBy !== null) {
             $paginator->appends(['sort_by' => $sortBy]);
-        if ($sortDirection !== 'asc')
+        }
+        if ($sortDirection !== 'asc') {
             $paginator->appends(['sort_dir' => $sortDirection]);
+        }
 
         return $paginator;
     }

@@ -35,8 +35,9 @@ abstract class Controller extends BaseController
     {
         $sortBy = $request->input('sort_by', $sortBy);
 
-        if ($direction = $request->input('sort_dir') and in_array($direction, ['asc', 'desc'], true))
-           $sortDirection = $direction;
+        if ($direction = $request->input('sort_dir') and in_array($direction, ['asc', 'desc'], true)) {
+            $sortDirection = $direction;
+        }
 
         return [$sortBy, $sortDirection];
     }

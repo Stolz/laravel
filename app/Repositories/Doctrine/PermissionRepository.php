@@ -28,8 +28,9 @@ class PermissionRepository extends ModelRepository implements PermissionReposito
     */
     public function sync(\Illuminate\Support\Collection $permissions): bool
     {
-        if ($permissions->isEmpty())
-           return false;
+        if ($permissions->isEmpty()) {
+            return false;
+        }
 
         $success = true;
         $names = [];
@@ -50,8 +51,9 @@ class PermissionRepository extends ModelRepository implements PermissionReposito
         $queryBuilder = $this->getQueryBuilder();
         $condition = $queryBuilder->expr()->notIn("{$this->alias}.name", ':names');
         $obsolete = $queryBuilder->where($condition)->setParameter('names', $names)->getQuery()->getResult();
-        foreach ($obsolete as $permission)
-           $this->delete($permission);
+        foreach ($obsolete as $permission) {
+            $this->delete($permission);
+        }
 
         return $success;
     }

@@ -25,15 +25,18 @@ abstract class Controller extends BaseController
         // instance of either Model or Collection. However, when an instance of Paginator is returned, Laravel does
         // not automatically apply the method to the underlying collection. To prevent leaking hidden model fields
         // we need to apply it manually for such case
-        if ($data instanceof Paginator)
+        if ($data instanceof Paginator) {
             $data->setCollection($data->getCollection()->map->jsonSerialize());
+        }
 
         // Force JSON_PRETTY_PRINT option when environment is not production.
-        if ($prettyJson === null)
+        if ($prettyJson === null) {
             $prettyJson = ! app()->environment('production');
+        }
 
-        if ($prettyJson)
+        if ($prettyJson) {
             $options = $options | JSON_PRETTY_PRINT;
+        }
 
         return response()->json($data, $status, $headers, $options);
     }

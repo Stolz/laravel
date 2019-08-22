@@ -2,7 +2,7 @@
 
 <ruleset name="Stolz">
 
-	<description>Custom PSR-2 rules for Laravel</description>
+	<description>Superset of PSR-2 rules for Laravel</description>
 
 	<exclude-pattern>/bootstrap/cache/</exclude-pattern>
 	<exclude-pattern>/public/</exclude-pattern>
@@ -67,9 +67,6 @@
 
 	<!--Use PSR2 standard with a few exceptions-->
 	<rule ref="PSR2">
-		<!--Allow one line control structures to have no curly braces-->
-		<exclude name="Generic.ControlStructures.InlineControlStructure.NotAllowed"/>
-
 		<!--Allow long lines-->
 		<exclude name="Generic.Files.LineLength.TooLong"/>
 	</rule>

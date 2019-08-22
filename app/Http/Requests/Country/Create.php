@@ -37,7 +37,8 @@ class Create extends Request
      */
     protected function prepareForValidation()
     {
-        if ($this->has('code'))
+        if ($this->has('code')) {
             $this->merge(['code' => strtoupper($this->input('code'))]);
+        }
     }
 }

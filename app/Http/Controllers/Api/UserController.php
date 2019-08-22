@@ -84,8 +84,9 @@ class UserController extends Controller
         $created = $this->userRepository->create($user);
 
         // Success
-        if ($created)
+        if ($created) {
             return $this->json(['created' => true, 'id' => $user->getId()], 201);
+        }
 
         // Something went wrong
         return $this->json(['created' => false], 500);

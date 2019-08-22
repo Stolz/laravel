@@ -86,8 +86,9 @@ class RoleController extends Controller
         $created = $this->roleRepository->create($role) and $this->roleRepository->replacePermissions($role, $permissions);
 
         // Success
-        if ($created)
+        if ($created) {
             return $this->json(['created' => true, 'id' => $role->getId()], 201);
+        }
 
         // Something went wrong
         return $this->json(['created' => false], 500);
@@ -114,8 +115,9 @@ class RoleController extends Controller
         $permissionsUpdated = $this->roleRepository->replacePermissions($role, $permissions);
 
         // Success
-        if ($updated and $permissionsUpdated)
+        if ($updated and $permissionsUpdated) {
             return $this->json(['updated' => true]);
+        }
 
         // Something went wrong
         return $this->json(['updated' => false], 500);

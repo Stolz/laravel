@@ -18,8 +18,9 @@ trait AttachesRepositories
      */
     protected function attachRepositories()
     {
-        if ($this->repositoriesAttached)
+        if ($this->repositoriesAttached) {
             return;
+        }
 
         $this->repositoriesAttached = true;
         $contracts = \App\Providers\RepositoryServiceProvider::REPOSITORIES;

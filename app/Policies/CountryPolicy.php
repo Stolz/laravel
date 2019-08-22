@@ -23,12 +23,14 @@ class CountryPolicy extends RoleBasedPolicy
     {
         // Parent check for super admin has priority
         $preCheck = parent::before($user, $ability);
-        if ($preCheck !== null)
+        if ($preCheck !== null) {
             return $preCheck;
+        }
 
         // If the user cannot use the 'master' module no need to further check the policy method
-        if ($this->userRoleCannot($user, 'use-master-module'))
+        if ($this->userRoleCannot($user, 'use-master-module')) {
             return false;
+        }
     }
 
    /**

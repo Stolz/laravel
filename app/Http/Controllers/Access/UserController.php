@@ -124,8 +124,9 @@ class UserController extends Controller
         $created = $this->userRepository->create($user);
 
         // Success
-        if ($created)
+        if ($created) {
             return redirect()->route('access.user.index')->with('success', sprintf(_("User '%s' successfully created"), $user));
+        }
 
         // Something went wrong
         return redirect()->back()->exceptInput('password')->with('error', sprintf(_("Unable to create user '%s'"), $user));
@@ -153,8 +154,9 @@ class UserController extends Controller
         $updated = $this->userRepository->update($user);
 
         // Success
-        if ($updated)
+        if ($updated) {
             return redirect()->route('access.user.show', $user->getId())->with('success', sprintf(_("User '%s' successfully updated"), $user));
+        }
 
         // Something went wrong
         return redirect()->back()->exceptInput('password')->with('error', sprintf(_("Unable to update user '%s'"), $user));
@@ -173,8 +175,9 @@ class UserController extends Controller
         $deleted = $this->userRepository->delete($user);
 
         // Something went wrong
-        if (! $deleted)
+        if (! $deleted) {
             return redirect()->back()->with('error', sprintf(_("Unable to delete user '%s'"), $user));
+        }
 
         // Success
         $redirectBack = ($request->input('_from') === 'access.user.show') ? redirect()->route('access.user.index') : redirect()->back();

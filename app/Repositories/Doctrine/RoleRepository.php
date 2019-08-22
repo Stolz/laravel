@@ -32,8 +32,9 @@ class RoleRepository extends ModelRepository implements RoleRepositoryContract
     public function all(array $orderBy = []): \Illuminate\Support\Collection
     {
         // Set a default order when none is provided
-        if (! $orderBy)
+        if (! $orderBy) {
             $orderBy = ['name' => 'asc'];
+        }
 
         return parent::all($orderBy);
     }
@@ -49,8 +50,9 @@ class RoleRepository extends ModelRepository implements RoleRepositoryContract
     {
         $rolePermissions = $role->getPermissions();
 
-        if (! $rolePermissions->contains($permission))
+        if (! $rolePermissions->contains($permission)) {
             $rolePermissions->add($permission);
+        }
 
         return $this->update($role);
     }
@@ -84,8 +86,9 @@ class RoleRepository extends ModelRepository implements RoleRepositoryContract
         $rolePermissions->clear();
 
         // Assign new permissions
-        foreach ($permissions as $permission)
+        foreach ($permissions as $permission) {
             $rolePermissions->add($permission);
+        }
 
         // Persist changes
         return $this->update($role);
@@ -101,8 +104,9 @@ class RoleRepository extends ModelRepository implements RoleRepositoryContract
     public function hasPermission(Role $role, $permissions): bool
     {
         $permissions = (array) $permissions;
-        if (! $permissions)
+        if (! $permissions) {
             return false;
+        }
 
         $matching = $role->getPermissions()->filter(function ($permission) use ($permissions) {
             return in_array($permission->getName(), $permissions, true);
@@ -121,8 +125,9 @@ class RoleRepository extends ModelRepository implements RoleRepositoryContract
     public function hasAnyPermission(Role $role, $permissions): bool
     {
         $permissions = (array) $permissions;
-        if (! $permissions)
+        if (! $permissions) {
             return false;
+        }
 
         return $role->getPermissions()->exists(function ($key, $permission) use ($permissions) {
             return in_array($permission->getName(), $permissions, true);

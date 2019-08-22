@@ -29,8 +29,9 @@ class AnnouncementRepository extends ModelRepository implements AnnouncementRepo
     public function all(array $orderBy = []): \Illuminate\Support\Collection
     {
         // Set a default order when none is provided
-        if (! $orderBy)
+        if (! $orderBy) {
             $orderBy = ['updatedAt' => 'desc', 'createdAt' => 'desc'];
+        }
 
         return parent::all($orderBy);
     }

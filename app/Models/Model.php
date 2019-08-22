@@ -46,11 +46,13 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     public function __construct(array $attributes = [])
     {
         // Initialize OneToMany/ManyToMany relationships
-        foreach (static::RELATIONSHIPS as $relationship)
+        foreach (static::RELATIONSHIPS as $relationship) {
             $this->{$relationship} = new \Doctrine\Common\Collections\ArrayCollection();
+        }
 
-        if ($attributes)
+        if ($attributes) {
             $this->set($attributes);
+        }
     }
 
     // Relationships ===============================================================
@@ -147,9 +149,11 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
         // Separate hidden field between flat or nested
         $flat = $nested = [];
         foreach (static::JSON_HIDDEN as $key => $value) {
-            if (is_array($value))
+            if (is_array($value)) {
                 $nested[$key] = $value;
-            else $flat[] = $value;
+            } else {
+                $flat[] = $value;
+            }
         }
 
         // Remove flat level hidden fields
@@ -157,8 +161,9 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
         // Remove nested level hidden fields
         foreach ($nested as $key => $values) {
-            if (is_array($data[$key] ?? null))
+            if (is_array($data[$key] ?? null)) {
                 $data[$key] = array_except($data[$key], $values);
+            }
         }
 
         return $data;
@@ -193,8 +198,9 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
      */
     public function offsetGet($key)
     {
-        if (! $this->offsetExists($key))
+        if (! $this->offsetExists($key)) {
             throw new \DomainException(sprintf("Array access of class '%s' is not available for property '%s'", get_class($this), $key));
+        }
 
         $getter = 'get' . studly_case($key);
 

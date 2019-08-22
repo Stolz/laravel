@@ -59,8 +59,9 @@ class CreateUser extends Command
     {
         // Check there are roles available
         $roles = $this->roleRepository->all();
-        if ($roles->isEmpty())
+        if ($roles->isEmpty()) {
             return $this->error('No roles found. Is the database seeded?');
+        }
 
         // Ask for user details
         $user = User::make([
@@ -73,15 +74,17 @@ class CreateUser extends Command
         // Prompt for confirmation
         $userInfo = compact('role', 'name', 'email');
         $this->table(array_keys($userInfo), [$userInfo]);
-        if (! $this->confirm('About to create user. Do you wish to continue?', 'yes'))
+        if (! $this->confirm('About to create user. Do you wish to continue?', 'yes')) {
             return;
+        }
 
         // Attempt to save user into the repository
         $created = $this->userRepository->create($user);
 
         // Success
-        if ($created)
+        if ($created) {
             return $this->info('User successfully created');
+        }
 
         // Something went wrong
         $this->error('Unable to save user into database');
@@ -100,8 +103,9 @@ class CreateUser extends Command
         $answer = null;
 
         while (! in_array($answer, $validAnswers)) {
-            if ($answer !== null)
+            if ($answer !== null) {
                 $this->error('Invalid role ID');
+            }
 
             $this->table(['Id', 'Name', 'Description'], $options);
             $answer = $this->ask("Enter user role Id");
@@ -122,8 +126,9 @@ class CreateUser extends Command
         $ok = null;
 
         while (! $ok) {
-            if ($ok === false)
+            if ($ok === false) {
                 $this->error('Invalid e-mail or already in use');
+            }
 
             $email = $this->ask("Enter user e-mail address");
             $ok = filter_var($email, FILTER_VALIDATE_EMAIL) and ! $this->userRepository->findBy('email', $email);
@@ -145,8 +150,9 @@ class CreateUser extends Command
         $name = $ok = null;
 
         while (! $ok) {
-            if ($name !== null)
+            if ($name !== null) {
                 $this->error("Invalid name. It must be at least $minLenth characters");
+            }
 
             $name = trim($this->anticipate("Enter user full name", [$suggestion]));
             $ok = strlen($name) >= $minLenth;
@@ -166,8 +172,9 @@ class CreateUser extends Command
         $password = $ok = null;
 
         while (! $ok) {
-            if ($password !== null)
+            if ($password !== null) {
                 $this->error("Invalid password. It must be at least $minLenth characters");
+            }
 
             $password = $this->secret("Enter user password");
             $ok = strlen($password) >= $minLenth;

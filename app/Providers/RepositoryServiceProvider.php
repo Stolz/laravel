@@ -29,8 +29,9 @@ class RepositoryServiceProvider extends ServiceProvider implements DeferrablePro
      */
     public function register()
     {
-        foreach (self::REPOSITORIES as $repository => $contract)
+        foreach (self::REPOSITORIES as $repository => $contract) {
             $this->app->singleton($contract, $repository);
+        }
     }
 
     /**

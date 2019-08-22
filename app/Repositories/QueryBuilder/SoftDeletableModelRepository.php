@@ -59,8 +59,9 @@ abstract class SoftDeletableModelRepository extends ModelRepository implements S
         $deletedAt = $model->getDeletedAt();
         $updated = $this->update($model->setDeletedAt(now()));
 
-        if (! $updated)
+        if (! $updated) {
             $model->setDeletedAt($deletedAt);
+        }
 
         return $updated;
     }
@@ -87,8 +88,9 @@ abstract class SoftDeletableModelRepository extends ModelRepository implements S
         $deletedAt = $model->getDeletedAt();
         $updated = $this->update($model->setDeletedAt(null));
 
-        if (! $updated)
+        if (! $updated) {
             $model->setDeletedAt($deletedAt);
+        }
 
         return $updated;
     }
@@ -117,8 +119,9 @@ abstract class SoftDeletableModelRepository extends ModelRepository implements S
     {
         $query = $this->softDeleteAwareQuery();
 
-        foreach ($orderBy as $column => $direction)
+        foreach ($orderBy as $column => $direction) {
             $query->orderBy($column, $direction);
+        }
 
         return $query->get()->transform(function ($record) {
             return $this->recordToModel($record);

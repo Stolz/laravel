@@ -27,8 +27,9 @@ class Country extends Model
      */
     public function setCode(?string $code): self
     {
-        if ($code !== null)
+        if ($code !== null) {
             $code = strtoupper($code);
+        }
 
         $this->code = $code;
 

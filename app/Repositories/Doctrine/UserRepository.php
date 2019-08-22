@@ -33,8 +33,9 @@ class UserRepository extends SoftDeletableModelRepository implements UserReposit
     public function all(array $orderBy = []): \Illuminate\Support\Collection
     {
         // Set a default order when none is provided
-        if (! $orderBy)
+        if (! $orderBy) {
             $orderBy = ['name' => 'asc'];
+        }
 
         return parent::all($orderBy);
     }
@@ -85,8 +86,9 @@ class UserRepository extends SoftDeletableModelRepository implements UserReposit
         // have been added by the search aware QueryBuilder so we need to check first
         $aliases = $queryBuilder->getAllAliases();
 
-        if ($sortBy === 'role.name' and ! in_array('role', $aliases, true))
+        if ($sortBy === 'role.name' and ! in_array('role', $aliases, true)) {
             $queryBuilder->innerJoin("{$this->alias}.role", 'role');
+        }
 
         return $queryBuilder;
     }

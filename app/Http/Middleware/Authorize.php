@@ -17,8 +17,9 @@ class Authorize extends Middleware
         // Class App\Providers\AuthServiceProvider defines a 'module' policy
         // alias which the parent method misinterprets as a route model
         // instead of a class. This work around fixes it.
-        if ($value === 'module')
+        if ($value === 'module') {
             return true;
+        }
 
         return parent::isClassName($value);
     }
