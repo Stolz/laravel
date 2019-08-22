@@ -334,4 +334,3 @@ if (! function_exists('date_in_user_timezone')) {
         return $date;
     }
 }
-

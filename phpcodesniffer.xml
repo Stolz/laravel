@@ -54,7 +54,7 @@
 		<exclude name="PEAR.Commenting.FunctionComment.SpacingAfterParamType"/>
 	</rule>
 
-	<!--Ensure our code us compatible with the desired PHP version-->
+	<!--Ensure our code is compatible with the desired PHP version-->
 	<rule ref="PHPCompatibility"/>
 
 	<!--Single responsability files-->

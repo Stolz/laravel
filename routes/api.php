@@ -19,4 +19,3 @@ Route::middleware(['auth:api'])->group(function () {
     Route::apiResource('role', 'RoleController');
     Route::apiResource('user', 'UserController');
 });
-
