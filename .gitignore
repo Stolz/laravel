@@ -12,6 +12,7 @@
 /docs/sami
 /node_modules
 /public/hot
+/public/images/vendor/
 /public/storage
 /storage/*.key
 /storage/debugbar/
