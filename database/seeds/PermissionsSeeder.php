@@ -67,7 +67,7 @@ class PermissionsSeeder extends Seeder
         foreach (self::tree() as $module) {
             $allPermissions[$module['name']] = $module['description'];
 
-            foreach ($module['categories'] as $category => $permissions) {
+            foreach ($module['categories'] as $permissions) {
                 foreach ($permissions as $permission) {
                     $allPermissions[$permission['name']] = $permission['description'];
                 }

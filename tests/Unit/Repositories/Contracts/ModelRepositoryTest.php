@@ -176,22 +176,25 @@ class ModelRepositoryTest extends TestCase
     {
         $first = $this->createUser(['name' => 'first']);
         $second = $this->createUser(['name' => 'second']);
+        $perPage = 1;
+        $sortBy = 'name';
+        $sortDirection = 'asc';
 
-        $paginator = $this->repository->paginate($perPage = 1, $page = 1, $sortBy = 'name', $sortDirection = 'asc');
+        $paginator = $this->repository->paginate($perPage, $page = 1, $sortBy, $sortDirection);
         $this->assertEquals(3, $paginator->total());
         $this->assertEquals($page, $paginator->currentPage());
-        $this->assertEquals('first', $paginator->first()->getName());
+        $this->assertEquals($first->getName(), $paginator->first()->getName());
 
-        $paginator = $this->repository->paginate($perPage = 1, $page = 2, $sortBy = 'name', $sortDirection = 'asc');
+        $paginator = $this->repository->paginate($perPage, $page = 2, $sortBy, $sortDirection);
         $this->assertEquals($page, $paginator->currentPage());
-        $this->assertEquals('second', $paginator->first()->getName());
+        $this->assertEquals($second->getName(), $paginator->first()->getName());
 
-        $paginator = $this->repository->paginate($perPage = 1, $page = 3, $sortBy = 'name', $sortDirection = 'asc');
+        $paginator = $this->repository->paginate($perPage, $page = 3, $sortBy, $sortDirection);
         $this->assertEquals($page, $paginator->currentPage());
-        $this->assertEquals('test', $paginator->first()->getName());
+        $this->assertEquals($this->model->getName(), $paginator->first()->getName());
 
-        $paginator = $this->repository->paginate($perPage = 1, $page = 1, $sortBy = 'name', $sortDirection = 'desc');
-        $this->assertEquals('test', $paginator->first()->getName());
+        $paginator = $this->repository->paginate($perPage, $page = 1, $sortBy, $sortDirection = 'desc');
+        $this->assertEquals($this->model->getName(), $paginator->first()->getName());
     }
 
     /**
