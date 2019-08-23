@@ -33,7 +33,7 @@ class DummyPolicy extends RoleBasedPolicy
         }
     }
 
-   /**
+    /**
      * Determine whether the current user can list dummies.
      *
      * @param  \App\Models\User $user

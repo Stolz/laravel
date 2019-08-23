@@ -20,12 +20,12 @@ class PermissionRepository extends ModelRepository implements PermissionReposito
      */
     protected $alias = 'permission';
 
-   /**
-    * Synchronize permissions.
-    *
-    * @param \Illuminate\Support\Collection $permissions of \App\Models\Permission
-    * @return bool
-    */
+    /**
+     * Synchronize permissions.
+     *
+     * @param \Illuminate\Support\Collection $permissions of \App\Models\Permission
+     * @return bool
+     */
     public function sync(\Illuminate\Support\Collection $permissions): bool
     {
         if ($permissions->isEmpty()) {

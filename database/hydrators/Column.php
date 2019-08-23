@@ -13,6 +13,6 @@ class Column extends AbstractHydrator
      */
     public function hydrateAllData()
     {
-         return $this->_stmt->fetchAll(\PDO::FETCH_COLUMN);
+        return $this->_stmt->fetchAll(\PDO::FETCH_COLUMN);
     }
 }

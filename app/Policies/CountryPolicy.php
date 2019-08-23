@@ -33,7 +33,7 @@ class CountryPolicy extends RoleBasedPolicy
         }
     }
 
-   /**
+    /**
      * Determine whether the current user can list countries.
      *
      * @param  \App\Models\User $user

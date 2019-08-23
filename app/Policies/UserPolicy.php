@@ -32,7 +32,7 @@ class UserPolicy extends RoleBasedPolicy
         }
     }
 
-   /**
+    /**
      * Determine whether the current user can list users.
      *
      * @param  \App\Models\User $user Current user

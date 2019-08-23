@@ -33,7 +33,7 @@ class AnnouncementPolicy extends RoleBasedPolicy
         }
     }
 
-   /**
+    /**
      * Determine whether the current user can list announcements.
      *
      * @param  \App\Models\User $user

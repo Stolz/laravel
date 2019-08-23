@@ -55,11 +55,11 @@ class PermissionsSeeder extends Seeder
         ];
     }
 
-   /**
-    * Get permissions as a flat list.
-    *
-    * @return array
-    */
+    /**
+     * Get permissions as a flat list.
+     *
+     * @return array
+     */
     public static function list(): array
     {
         $allPermissions = [];
@@ -77,11 +77,11 @@ class PermissionsSeeder extends Seeder
         return $allPermissions;
     }
 
-   /**
-    * Seed the application's database.
-    *
-    * @return void
-    */
+    /**
+     * Seed the application's database.
+     *
+     * @return void
+     */
     public function run()
     {
         foreach (self::list() as $name => $description) {
