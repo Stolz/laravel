@@ -1,15 +1,14 @@
 <?php
-    $nameDot = form_field_name_to_dot($name);
+$nameDot = form_field_name_to_dot($name);
 
-    if ($errors->has($nameDot)) {
-        $valid = 'is-invalid state-invalid';
-    } elseif ($errors->count()) {
-        $valid = 'is-valid state-valid';
-    } else {
-        $valid = '';
-    }
+if ($errors->has($nameDot)) {
+    $valid = 'is-invalid state-invalid';
+} elseif ($errors->count()) {
+    $valid = 'is-valid state-valid';
+} else {
+    $valid = '';
+}
 ?>
-
 <div class="form-group {{ $parentClass ?? null }}">
     <label
         for="{{ $id ?? $name }}"

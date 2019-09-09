@@ -16,12 +16,12 @@
         {{ $attributes ?? null }}>
 
         <?php
-            // Convert selected value to scalar (or array of scalars when multiple values)
-            if ($selected instanceof \App\Models\Model) {
-                $selected = $selected['id'];
-            } elseif ($selected instanceof \IteratorAggregate) { // This applies to both Doctrine and Laravel collections
-                $selected = collect(iterator_to_array($selected))->map->getId()->all();
-            }
+        // Convert selected value to scalar (or array of scalars when multiple values)
+        if ($selected instanceof \App\Models\Model) {
+            $selected = $selected['id'];
+        } elseif ($selected instanceof \IteratorAggregate) { // This applies to both Doctrine and Laravel collections
+            $selected = collect(iterator_to_array($selected))->map->getId()->all();
+        }
         ?>
         @foreach($options as $value => $option)
             <?php
