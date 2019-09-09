@@ -346,7 +346,7 @@ abstract class ModelRepository implements ModelRepositoryContract
             // Normal field. Ensure the model has the provided field
             if ($alias === $this->alias) {
                 $sortBy = ($this->modelHasField($sortBy)) ? "{$alias}.{$sortBy}" : null;
-            // Filed in nested relation
+            // Field in nested relation
             } else {
                 // Doctrine does not have a way to access the nested relation model for
                 // us to check if the field exists. Query will fail if it doesn't.
