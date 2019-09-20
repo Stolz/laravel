@@ -47,3 +47,10 @@ mix.extract([
     'selectize',
     //'sparkline',
 ], 'public/js/vendor.js');
+
+// Compile charts
+/* Remember to also load charts-c3/plugin in app.scss file
+mix.scripts([
+    'node_modules/tabler-ui/dist/assets/plugins/charts-c3/js/d3.v3.min.js',
+    'node_modules/tabler-ui/dist/assets/plugins/charts-c3/js/c3.min.js'
+], 'public/js/charts.js');*/
