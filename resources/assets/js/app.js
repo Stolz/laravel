@@ -59,6 +59,13 @@ $(function () {
         return true;
     });
 
+    // Show filename in custom file fields
+    $('input.custom-file-input:file').change(function () {
+        var file = $(this).val();
+        var label = "label[for='" + $(this).attr('id') + "']";
+        $(label).html(file);
+    });
+
     // Add consistent colors
     $('#colorize').click(function (event) {
         event.preventDefault();
