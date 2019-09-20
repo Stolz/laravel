@@ -2,20 +2,19 @@
 
 window._ = require('lodash');
 window.Popper = require('popper.js').default;
+window.$ = window.jQuery = require('jquery');
 
 const ServerSentEvents = require('./serverSentEvents').default;
 const Notifications = require('./notifications').default;
 
 try {
-    window.$ = window.jQuery = require('jquery');
-
     // Dependencies and plugins not being used have been disabled
-    require('bootstrap');
+    //require('bootstrap');
     //require('bootstrap-datepicker'); // https://github.com/uxsolutions/bootstrap-datepicker",
     //require('chart.js');             // https://www.chartjs.org/
-    require('requirejs/require');    // http://github.com/jrburke/r.js
+    //require('requirejs/require');    // http://github.com/jrburke/r.js
     //require('select2');              // https://select2.org/
-    require('selectize');            // Selectize http://selectize.github.io/selectize.js/
+    //require('selectize');            // Selectize http://selectize.github.io/selectize.js/
     //require('sparkline');            // https://github.com/shiwano/sparkline
     require('tabler-ui/dist/assets/js/dashboard'); // https://tabler.github.io
     //require('tabler-ui/src/assets/plugins/charts-c3/js/c3.min');

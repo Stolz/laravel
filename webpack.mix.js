@@ -14,7 +14,7 @@ mix.webpackConfig({
         alias: {
             'circle-progress': 'jquery-circle-progress',
             'core': path.resolve(__dirname, 'node_modules/tabler-ui/dist/assets/js/core.js'),
-            'vector-map': 'jvectormap'
+            //'vector-map': 'jvectormap'
         }
     }
 });
@@ -32,7 +32,7 @@ mix.js('resources/assets/js/app.js', 'public/js');
 // Keep JavaScript vendors in their own separated file
 mix.extract([
     'bootstrap',
-    'bootstrap-datepicker',
+    //'bootstrap-datepicker',
     //'bootstrap-sass',
     //'chart.js',
     //'d3',
@@ -42,7 +42,7 @@ mix.extract([
     //'lodash',
     //'moment',
     'popper.js',
-    'requirejs/require',
+    //'requirejs/require',
     //'select2',
     'selectize',
     //'sparkline',
