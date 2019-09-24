@@ -16,7 +16,7 @@
             @include('modules.bogus.dummy.form')
 
             @slot('footer')
-                @can('list', 'App\Models\Country')
+                @can('list', 'App\Models\Dummy')
                     <a href="{{ previous_index_url(route('bogus.dummy.index')) }}" class="btn btn-outline-secondary">
                         <i class="fe fe-x"></i>
                         {{ _('Cancel') }}

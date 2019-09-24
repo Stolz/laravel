@@ -16,7 +16,7 @@
             @include('modules.master.announcement.form')
 
             @slot('footer')
-                @can('list', 'App\Models\Country')
+                @can('list', 'App\Models\Announcement')
                     <a href="{{ previous_index_url(route('master.announcement.index')) }}" class="btn btn-outline-secondary">
                         <i class="fe fe-x"></i>
                         {{ _('Cancel') }}
