@@ -36,10 +36,6 @@ class BasicTest extends TestCase
     public function testRoutes()
     {
         $this->artisan('route:list')->assertExitCode(0);
-
-        // Workaround for BUG in Laravel 5.7. The assertExitCode(0) does not trigger
-        // any assertion and PHP Unit flags this tests as risky
-        $this->assertTrue(true);
     }
 
     /**
