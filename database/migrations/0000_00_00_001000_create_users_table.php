@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('timezone', 128)->default('UTC');
-            $table->unsignedInteger('role_id');
+            $table->unsignedInteger('role_id')->index(/*Not required for MySQL*/);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

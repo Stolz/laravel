@@ -15,7 +15,7 @@ class CreateNotificationsTable extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('user_id')->index(/*Not required for MySQL*/);
             $table->enum('level', \App\Models\Notification::LEVELS);
             $table->string('message');
             $table->string('action_text')->nullable();

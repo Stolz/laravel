@@ -45,7 +45,7 @@ class CreateTemplateTable extends Migration
             // NOTE see $this->ordinaryColumns()
 
             // Foreign keys
-            $table->unsignedInteger('zzz_id')->nullable();
+            $table->unsignedInteger('zzz_id')->nullable()->index(/*Not required for MySQL, recommended for PostgreSQL/PostgreSQL*/);
             $table->foreign('zzz_id')->references('id')->on('zzzs')->onUpdate('cascade')->onDelete('cascade');
 
             // Extra keys
