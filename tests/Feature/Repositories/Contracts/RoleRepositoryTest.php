@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Repositories\Contracts;
+namespace Tests\Feature\Repositories\Contracts;
 
 use App\Models\Permission;
 use App\Models\Role;
