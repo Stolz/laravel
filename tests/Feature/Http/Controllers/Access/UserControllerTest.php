@@ -59,7 +59,7 @@ class UserControllerTest extends TestCase
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
         $response->assertOk();
-        $response->assertSee('Return');
+        $response->assertSee('TEST BEACON show');
     }
 
     /**
@@ -76,7 +76,7 @@ class UserControllerTest extends TestCase
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
         $response->assertOk();
-        $response->assertSee('Cancel');
+        $response->assertSee('TEST BEACON create');
     }
 
     /**
@@ -93,7 +93,7 @@ class UserControllerTest extends TestCase
         // User with permissions
         $response = $this->actingAs($this->admin)->get($route);
         $response->assertOk();
-        $response->assertSee('Cancel');
+        $response->assertSee('TEST BEACON update');
     }
 
     /**

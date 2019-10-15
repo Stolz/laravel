@@ -33,4 +33,5 @@
             @endslot
         @endcard
     </form>
+    <!--TEST BEACON update-->{{-- Do not remove. Used for automatic testing --}}
 @stop

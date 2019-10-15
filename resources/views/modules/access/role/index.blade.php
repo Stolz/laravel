@@ -3,8 +3,6 @@
 @section('page.title', $title = _('Roles'))
 
 @section('main')
-
-    <!--TEST BEACON index-->{{-- Do not remove. Used for automatic testing --}}
     @card
         @slot('header')
             <div class="card-title">
@@ -77,5 +75,5 @@
         @endcan
 
     @endcard
-
+    <!--TEST BEACON index-->{{-- Do not remove. Used for automatic testing --}}
 @stop

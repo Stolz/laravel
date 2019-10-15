@@ -35,4 +35,5 @@
 
         @include('modules.access.role.form', ['doPermissions' => true])
     </form>
+    <!--TEST BEACON update-->{{-- Do not remove. Used for automatic testing --}}
 @stop

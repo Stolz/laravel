@@ -37,4 +37,5 @@
             @endcan
         @endslot
     @endcard
+    <!--TEST BEACON show-->{{-- Do not remove. Used for automatic testing --}}
 @stop
