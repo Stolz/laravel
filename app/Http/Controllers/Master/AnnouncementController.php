@@ -59,9 +59,10 @@ class AnnouncementController extends Controller
     /**
      * Show the form for creating a new announcement.
      *
+     * @param  \App\Http\Requests\Announcement\PreCreate $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(\App\Http\Requests\Announcement\PreCreate $request)
     {
         // Create an empty announcement
         $announcement = Announcement::make();
@@ -73,11 +74,11 @@ class AnnouncementController extends Controller
     /**
      * Show the form for editing the specified announcement.
      *
-     * @param  \App\Http\Requests\Announcement\View $request
+     * @param  \App\Http\Requests\Announcement\PreUpdate $request
      * @param  \App\Models\Announcement  $announcement
      * @return \Illuminate\Http\Response
      */
-    public function edit(\App\Http\Requests\Announcement\View $request, Announcement $announcement)
+    public function edit(\App\Http\Requests\Announcement\PreUpdate $request, Announcement $announcement)
     {
         // Load view
         return view('modules.master.announcement.update')->withAnnouncement($announcement);

@@ -59,9 +59,10 @@ class DummyController extends Controller
     /**
      * Show the form for creating a new dummy.
      *
+     * @param  \App\Http\Requests\Dummy\PreCreate $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(\App\Http\Requests\Dummy\PreCreate $request)
     {
         // Create an empty dummy
         $dummy = Dummy::make();
@@ -73,11 +74,11 @@ class DummyController extends Controller
     /**
      * Show the form for editing the specified dummy.
      *
-     * @param  \App\Http\Requests\Dummy\View $request
+     * @param  \App\Http\Requests\Dummy\PreUpdate $request
      * @param  \App\Models\Dummy  $dummy
      * @return \Illuminate\Http\Response
      */
-    public function edit(\App\Http\Requests\Dummy\View $request, Dummy $dummy)
+    public function edit(\App\Http\Requests\Dummy\PreUpdate $request, Dummy $dummy)
     {
         // Load view
         return view('modules.bogus.dummy.update')->withDummy($dummy);

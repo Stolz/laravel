@@ -6,27 +6,10 @@ use App\Traits\AttachesRepositories;
 use Tests\TestCase;
 use Tests\Traits\CreatesUsers;
 use Tests\Traits\RefreshDatabase;
-use Tests\Traits\RejectsUnauthorizedRouteAccess;
 
 class BasicTest extends TestCase
 {
-    use RefreshDatabase, AttachesRepositories, CreatesUsers, RejectsUnauthorizedRouteAccess;
-
-    /**
-     * Run before each test.
-     *
-     * @return void
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        // Create user with no permissions
-        $this->user = $this->createUser();
-
-        // Create user with all permissions
-        $this->admin = $this->createUser([], ['name' => 'Admin']);
-    }
+    use RefreshDatabase, AttachesRepositories, CreatesUsers;
 
     /**
      * Test all routes can be parsed.

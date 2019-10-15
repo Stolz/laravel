@@ -7,10 +7,11 @@ use App\Traits\AttachesRepositories;
 use Tests\Traits\CreatesPermissions;
 use Tests\Traits\CreatesUsers;
 use Tests\Traits\RefreshDatabase;
+use Tests\Traits\RejectsUnauthorizedRouteAccess;
 
 class RoleControllerTest extends TestCase
 {
-    use RefreshDatabase, AttachesRepositories, CreatesUsers, CreatesPermissions;
+    use RefreshDatabase, AttachesRepositories, CreatesUsers, CreatesPermissions, RejectsUnauthorizedRouteAccess;
 
     /**
      * Run before each test.
@@ -21,11 +22,8 @@ class RoleControllerTest extends TestCase
     {
         parent::setUp();
 
-        // Create user with all permissions ...
-        $this->user = $this->createUser([], ['name' => 'Admin']);
-
-        // ... and authenticate it
-        $this->actingAs($this->user, 'api');
+        // Create user with no permissions
+        $this->user = $this->createUser();
     }
 
     /**
@@ -35,8 +33,15 @@ class RoleControllerTest extends TestCase
      */
     public function testIndex()
     {
-        // Test non empty list
+        // User without permissions
         $route = route('api.role.index');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-access-module', 'role-list']]);
+        $this->actingAs($user, 'api');
+
+        // Test non empty list
         $response = $this->get($route);
         $response->assertOk();
         $response->assertJsonStructure(static::PAGINATION_STRUCTURE);
@@ -47,7 +52,7 @@ class RoleControllerTest extends TestCase
         $this->roleRepository->create($role);
 
         // Test sorting results
-        $route = route('api.role.index', ['sort_by' => 'name', 'sort_dir' => 'desc']);
+        $route = route('api.role.index', ['sort_by' => 'id', 'sort_dir' => 'desc']);
         $response = $this->get($route);
         $response->assertOk();
         $response->assertJsonStructure(static::PAGINATION_STRUCTURE);
@@ -62,17 +67,24 @@ class RoleControllerTest extends TestCase
      */
     public function testShow()
     {
-        // Test non existing role
-        $route = route('api.role.show', ['random']);
-        $response = $this->get($route);
-        $response->assertNotFound();
+        // User without permissions
+        $route = route('api.role.show', $this->user->getRole()->getId());
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-access-module', 'role-view']]);
+        $this->actingAs($user, 'api');
 
         // Test existing role
-        $route = route('api.role.show', $this->user->getRole()->getId());
         $response = $this->get($route);
         $response->assertOk();
         $response->assertJson($this->user->getRole()->jsonSerialize());
         $response->assertJsonStructure(['permissions']);
+
+        // Test non existing role
+        $route = route('api.role.show', ['random']);
+        $response = $this->get($route);
+        $response->assertNotFound();
     }
 
     /**
@@ -82,8 +94,15 @@ class RoleControllerTest extends TestCase
      */
     public function testStore()
     {
+        // User without permissions
+        $route = route('api.role.store');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'post', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-access-module', 'role-create']]);
+        $this->actingAs($user, 'api');
+
         // Test with incomplete data
-        $route = route('api.role.store', ['random']);
         $response = $this->post($route);
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['name']);
@@ -106,13 +125,15 @@ class RoleControllerTest extends TestCase
      */
     public function testUpdate()
     {
-        // Test non existing role
-        $route = route('api.role.update', ['random']);
-        $response = $this->put($route);
-        $response->assertNotFound();
+        // User without permissions
+        $route = route('api.role.update', $this->user->getRole()->getId());
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'put', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-access-module', 'role-update']]);
+        $this->actingAs($user, 'api');
 
         // Test existing role with incomplete data
-        $route = route('api.role.update', $this->user->getRole()->getId());
         $response = $this->put($route);
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['name']);
@@ -125,6 +146,11 @@ class RoleControllerTest extends TestCase
         $response = $this->put($route, $data);
         $response->assertOk();
         $response->assertJson(['updated' => true]);
+
+        // Test non existing role
+        $route = route('api.role.update', ['random']);
+        $response = $this->put($route);
+        $response->assertNotFound();
     }
 
     /**
@@ -134,19 +160,26 @@ class RoleControllerTest extends TestCase
      */
     public function testDestroy()
     {
-        // Test non existing role
-        $route = route('api.role.destroy', ['random']);
-        $response = $this->delete($route);
-        $response->assertNotFound();
-
         // Create test role
         $role = factory(Role::class)->make();
         $this->roleRepository->create($role);
 
-        // Test existing role
+        // User without permissions
         $route = route('api.role.destroy', $role->getId());
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'delete', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-access-module', 'role-delete']]);
+        $this->actingAs($user, 'api');
+
+        // Test existing role
         $response = $this->delete($route);
         $response->assertOk();
         $response->assertJson(['deleted' => true]);
+
+        // Test non existing role
+        $route = route('api.role.destroy', ['random']);
+        $response = $this->delete($route);
+        $response->assertNotFound();
     }
 }

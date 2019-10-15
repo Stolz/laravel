@@ -6,10 +6,11 @@ use App\Models\Announcement;
 use App\Traits\AttachesRepositories;
 use Tests\Traits\CreatesUsers;
 use Tests\Traits\RefreshDatabase;
+use Tests\Traits\RejectsUnauthorizedRouteAccess;
 
 class AnnouncementControllerTest extends TestCase
 {
-    use RefreshDatabase, AttachesRepositories, CreatesUsers;
+    use RefreshDatabase, AttachesRepositories, CreatesUsers, RejectsUnauthorizedRouteAccess;
 
     /**
      * Run before each test.
@@ -20,11 +21,8 @@ class AnnouncementControllerTest extends TestCase
     {
         parent::setUp();
 
-        // Create user with all permissions ...
-        $this->user = $this->createUser([], ['name' => 'Admin']);
-
-        // ... and authenticate it
-        $this->actingAs($this->user, 'api');
+        // Create user with no permissions
+        $this->user = $this->createUser();
     }
 
     /**
@@ -34,8 +32,15 @@ class AnnouncementControllerTest extends TestCase
      */
     public function testIndex()
     {
-        // Test empty list
+        // User without permissions
         $route = route('api.announcement.index');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-master-module', 'announcement-list']]);
+        $this->actingAs($user, 'api');
+
+        // Test empty list
         $response = $this->get($route);
         $response->assertOk();
         $response->assertJsonStructure(static::PAGINATION_STRUCTURE);
@@ -69,20 +74,27 @@ class AnnouncementControllerTest extends TestCase
      */
     public function testShow()
     {
-        // Test non existing announcement
-        $route = route('api.announcement.show', ['random']);
-        $response = $this->get($route);
-        $response->assertNotFound();
-
         // Create a announcement
         $announcement = factory(Announcement::class)->make();
         $this->announcementRepository->create($announcement);
 
-        // Test existing announcement
+        // User without permissions
         $route = route('api.announcement.show', $announcement->getId());
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-master-module', 'announcement-view']]);
+        $this->actingAs($user, 'api');
+
+        // Test existing announcement
         $response = $this->get($route);
         $response->assertOk();
         $response->assertJson($announcement->jsonSerialize());
+
+        // Test non existing announcement
+        $route = route('api.announcement.show', ['random']);
+        $response = $this->get($route);
+        $response->assertNotFound();
     }
 
     /**
@@ -92,8 +104,15 @@ class AnnouncementControllerTest extends TestCase
      */
     public function testStore()
     {
+        // User without permissions
+        $route = route('api.announcement.store');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'post', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-master-module', 'announcement-create']]);
+        $this->actingAs($user, 'api');
+
         // Test with incomplete data
-        $route = route('api.announcement.store', ['random']);
         $response = $this->post($route);
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['name']);
@@ -113,17 +132,19 @@ class AnnouncementControllerTest extends TestCase
      */
     public function testUpdate()
     {
-        // Test non existing announcement
-        $route = route('api.announcement.update', ['random']);
-        $response = $this->put($route);
-        $response->assertNotFound();
-
         // Create a announcement
         $announcement = factory(Announcement::class)->make();
         $this->announcementRepository->create($announcement);
 
-        // Test existing announcement with incomplete data
+        // User without permissions
         $route = route('api.announcement.update', $announcement->getId());
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'put', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-master-module', 'announcement-update']]);
+        $this->actingAs($user, 'api');
+
+        // Test existing announcement with incomplete data
         $response = $this->put($route);
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['name']);
@@ -133,6 +154,11 @@ class AnnouncementControllerTest extends TestCase
         $response = $this->put($route, $data);
         $response->assertOk();
         $response->assertJson(['updated' => true]);
+
+        // Test non existing announcement
+        $route = route('api.announcement.update', ['random']);
+        $response = $this->put($route);
+        $response->assertNotFound();
     }
 
     /**
@@ -142,19 +168,26 @@ class AnnouncementControllerTest extends TestCase
      */
     public function testDestroy()
     {
-        // Test non existing announcement
-        $route = route('api.announcement.destroy', ['random']);
-        $response = $this->delete($route);
-        $response->assertNotFound();
-
         // Create a announcement
         $announcement = factory(Announcement::class)->make();
         $this->announcementRepository->create($announcement);
 
-        // Test existing announcement
+        // User without permissions
         $route = route('api.announcement.destroy', $announcement->getId());
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'delete', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-master-module', 'announcement-delete']]);
+        $this->actingAs($user, 'api');
+
+        // Test existing announcement
         $response = $this->delete($route);
         $response->assertOk();
         $response->assertJson(['deleted' => true]);
+
+        // Test non existing announcement
+        $route = route('api.announcement.destroy', ['random']);
+        $response = $this->delete($route);
+        $response->assertNotFound();
     }
 }

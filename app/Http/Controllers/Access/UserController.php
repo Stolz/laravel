@@ -74,9 +74,10 @@ class UserController extends Controller
     /**
      * Show the form for creating a new user.
      *
+     * @param  \App\Http\Requests\User\PreCreate $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(\App\Http\Requests\User\PreCreate $request)
     {
         // Load view
         return view('modules.access.user.create')->with([
@@ -90,11 +91,11 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified user.
      *
-     * @param  \App\Http\Requests\User\View $request
+     * @param  \App\Http\Requests\User\PreUpdate $request
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(\App\Http\Requests\User\View $request, User $user)
+    public function edit(\App\Http\Requests\User\PreUpdate $request, User $user)
     {
         // Load view
         return view('modules.access.user.update')->with([

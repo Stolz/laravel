@@ -23,9 +23,6 @@ class UserControllerTest extends TestCase
 
         // Create user with no permissions
         $this->user = $this->createUser();
-
-        // Create user with all permissions
-        $this->admin = $this->createUser([], ['name' => 'Admin']);
     }
 
     /**
@@ -40,7 +37,8 @@ class UserControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-access-module', 'user-list']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON index');
     }
@@ -57,7 +55,8 @@ class UserControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-access-module', 'user-view']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON show');
     }
@@ -74,7 +73,8 @@ class UserControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-access-module', 'user-create']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON create');
     }
@@ -91,7 +91,8 @@ class UserControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-access-module', 'user-update']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON update');
     }
@@ -108,8 +109,9 @@ class UserControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'post');
 
         // User with permissions. Incomplete data
+        $user = $this->createUser(['permissions' => ['use-access-module', 'user-create']]);
         $referer = route('access.user.create');
-        $response = $this->actingAs($this->admin)->from($referer)->post($route);
+        $response = $this->actingAs($user)->from($referer)->post($route);
         $response->assertRedirect($referer);
         $response->assertSessionHasErrors();
 
@@ -136,8 +138,9 @@ class UserControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'put');
 
         // User with permissions. Incomplete data
+        $user = $this->createUser(['permissions' => ['use-access-module', 'user-update']]);
         $referer = route('access.user.edit', [$id]);
-        $response = $this->actingAs($this->admin)->from($referer)->put($route);
+        $response = $this->actingAs($user)->from($referer)->put($route);
         $response->assertRedirect($referer);
         $response->assertSessionHasErrors();
 
@@ -145,7 +148,6 @@ class UserControllerTest extends TestCase
         $data = factory(\App\Models\User::class)->raw([
             'role' => $this->user['role']['id'],
         ]);
-
         $response = $this->put($route, $data);
         $response->assertRedirect(route('access.user.show', [$id]));
         $response->assertSessionHasNoErrors();
@@ -164,8 +166,9 @@ class UserControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'delete');
 
         // User with permissions
+        $user = $this->createUser(['permissions' => ['use-access-module', 'user-delete']]);
         $referer = route('access.user.index');
-        $response = $this->actingAs($this->admin)->from($referer)->delete($route);
+        $response = $this->actingAs($user)->from($referer)->delete($route);
         $response->assertRedirect($referer);
         $response->assertSessionHasNoErrors();
         $response->assertSessionHas('success');

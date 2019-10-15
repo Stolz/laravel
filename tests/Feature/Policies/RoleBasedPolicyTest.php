@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Policies;
+namespace Tests\Feature\Policies;
 
 use App\Models\User;
 use App\Traits\AttachesRepositories;
@@ -19,10 +19,10 @@ class RoleBasedPolicyTest extends TestCase
      */
     public function testPolicyPermissions()
     {
-        $this->artisan('db:seed', ['--class' => 'PermissionsSeeder']);
-
         // User of super admin role always has permission
-        $admin = $this->createUser([], ['name' => 'Admin']);
+        $role = factory(\App\Models\Role::class)->make(['name' => 'Admin']);
+        $this->roleRepository->create($role);
+        $admin = $this->createUser(['role' => $role]);
         $this->assertTrue($admin->isSuperAdmin());
         $this->assertTrue($admin->can('create', User::class));
 

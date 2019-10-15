@@ -6,10 +6,11 @@ use App\Models\User;
 use App\Traits\AttachesRepositories;
 use Tests\Traits\CreatesUsers;
 use Tests\Traits\RefreshDatabase;
+use Tests\Traits\RejectsUnauthorizedRouteAccess;
 
 class UserControllerTest extends TestCase
 {
-    use RefreshDatabase, AttachesRepositories, CreatesUsers;
+    use RefreshDatabase, AttachesRepositories, CreatesUsers, RejectsUnauthorizedRouteAccess;
 
     /**
      * Run before each test.
@@ -20,11 +21,8 @@ class UserControllerTest extends TestCase
     {
         parent::setUp();
 
-        // Create user with all permissions ...
-        $this->user = $this->createUser([], ['name' => 'Admin']);
-
-        // ... and authenticate it
-        $this->actingAs($this->user, 'api');
+        // Create user with no permissions
+        $this->user = $this->createUser();
     }
 
     /**
@@ -34,20 +32,27 @@ class UserControllerTest extends TestCase
      */
     public function testIndex()
     {
-        // Test non empty list
+        // User without permissions
         $route = route('api.user.index');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-access-module', 'user-list']]);
+        $this->actingAs($user, 'api');
+
+        // Test non empty list
         $user = $this->createUser(['name' => 'zzz']);
         $response = $this->get($route);
         $response->assertOk();
         $response->assertJsonStructure(static::PAGINATION_STRUCTURE);
-        $response->assertJsonCount(2, 'data');
+        $response->assertJsonCount($this->userRepository->count(), 'data');
 
         // Test sorting results
         $route = route('api.user.index', ['sort_by' => 'name', 'sort_dir' => 'desc']);
         $response = $this->get($route);
         $response->assertOk();
         $response->assertJsonStructure(static::PAGINATION_STRUCTURE);
-        $response->assertJsonCount(2, 'data');
+        $response->assertJsonCount($this->userRepository->count(), 'data');
         $this->assertEquals($user->getId(), $response->json('data.0.id'));
 
         // Test searching results
@@ -66,10 +71,13 @@ class UserControllerTest extends TestCase
      */
     public function testShow()
     {
-        // Test non existing user
-        $route = route('api.user.show', ['random']);
-        $response = $this->get($route);
-        $response->assertNotFound();
+        // User without permissions
+        $route = route('api.user.show', $this->user->getId());
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-access-module', 'user-view']]);
+        $this->actingAs($user, 'api');
 
         // Test existing user
         $user = $this->createUser();
@@ -77,6 +85,11 @@ class UserControllerTest extends TestCase
         $response = $this->get($route);
         $response->assertOk();
         $response->assertJson($user->jsonSerialize());
+
+        // Test non existing user
+        $route = route('api.user.show', ['random']);
+        $response = $this->get($route);
+        $response->assertNotFound();
     }
 
     /**
@@ -86,8 +99,15 @@ class UserControllerTest extends TestCase
      */
     public function testStore()
     {
+        // User without permissions
+        $route = route('api.user.store');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'post', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-access-module', 'user-create']]);
+        $this->actingAs($user, 'api');
+
         // Test with incomplete data
-        $route = route('api.user.store', ['random']);
         $response = $this->post($route);
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['name']);
@@ -107,14 +127,16 @@ class UserControllerTest extends TestCase
      */
     public function testUpdate()
     {
-        // Test non existing user
-        $route = route('api.user.update', ['random']);
-        $response = $this->put($route);
-        $response->assertNotFound();
-
-        // Test existing user with incomplete data
+        // User without permissions
         $user = $this->createUser();
         $route = route('api.user.update', $user->getId());
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'put', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-access-module', 'user-update']]);
+        $this->actingAs($user, 'api');
+
+        // Test existing user with incomplete data
         $response = $this->put($route);
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['name']);
@@ -124,6 +146,11 @@ class UserControllerTest extends TestCase
         $response = $this->put($route, $data);
         $response->assertOk();
         $response->assertJson(['updated' => true]);
+
+        // Test non existing user
+        $route = route('api.user.update', ['random']);
+        $response = $this->put($route);
+        $response->assertNotFound();
     }
 
     /**
@@ -133,16 +160,23 @@ class UserControllerTest extends TestCase
      */
     public function testDestroy()
     {
+        // User without permissions
+        $user = $this->createUser();
+        $route = route('api.user.destroy', $user->getId());
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'delete', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-access-module', 'user-delete']]);
+        $this->actingAs($user, 'api');
+
+        // Test existing user
+        $response = $this->delete($route);
+        $response->assertOk();
+        $response->assertJson(['deleted' => true]);
+
         // Test non existing user
         $route = route('api.user.destroy', ['random']);
         $response = $this->delete($route);
         $response->assertNotFound();
-
-        // Test existing user
-        $user = $this->createUser();
-        $route = route('api.user.destroy', $user->getId());
-        $response = $this->delete($route);
-        $response->assertOk();
-        $response->assertJson(['deleted' => true]);
     }
 }

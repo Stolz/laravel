@@ -59,9 +59,10 @@ class CountryController extends Controller
     /**
      * Show the form for creating a new country.
      *
+     * @param  \App\Http\Requests\Country\PreCreate $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(\App\Http\Requests\Country\PreCreate $request)
     {
         // Create an empty country
         $country = Country::make();
@@ -73,11 +74,11 @@ class CountryController extends Controller
     /**
      * Show the form for editing the specified country.
      *
-     * @param  \App\Http\Requests\Country\View $request
+     * @param  \App\Http\Requests\Country\PreUpdate $request
      * @param  \App\Models\Country  $country
      * @return \Illuminate\Http\Response
      */
-    public function edit(\App\Http\Requests\Country\View $request, Country $country)
+    public function edit(\App\Http\Requests\Country\PreUpdate $request, Country $country)
     {
         // Load view
         return view('modules.master.country.update')->withCountry($country);

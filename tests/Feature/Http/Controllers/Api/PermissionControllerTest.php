@@ -2,14 +2,14 @@
 
 namespace Tests\Http\Controllers\Api;
 
-use App\Models\Permission;
 use App\Traits\AttachesRepositories;
 use Tests\Traits\CreatesUsers;
 use Tests\Traits\RefreshDatabase;
+use Tests\Traits\RejectsUnauthorizedRouteAccess;
 
 class PermissionControllerTest extends TestCase
 {
-    use RefreshDatabase, AttachesRepositories, CreatesUsers;
+    use RefreshDatabase, AttachesRepositories, CreatesUsers, RejectsUnauthorizedRouteAccess;
 
     /**
      * Run before each test.
@@ -20,11 +20,8 @@ class PermissionControllerTest extends TestCase
     {
         parent::setUp();
 
-        // Create user with all permissions ...
-        $this->user = $this->createUser([], ['name' => 'Admin']);
-
-        // ... and authenticate it
-        $this->actingAs($this->user, 'api');
+        // Create user with no permissions
+        $this->user = $this->createUser();
     }
 
     /**
@@ -34,29 +31,16 @@ class PermissionControllerTest extends TestCase
      */
     public function testIndex()
     {
-        // Test empty list
+        // User without permissions
         $route = route('api.permission.index');
-        $response = $this->get($route);
-        $response->assertOk();
-        $response->assertJsonCount(0);
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get', 'api');
 
-        // Create test permissions
-        $permissions = ['permission A', 'permission Z'];
-        foreach ($permissions as $key => $name) {
-            $permissions[$key] = Permission::make(['name' => $name, 'description' => $name]);
-            $this->permissionRepository->create($permissions[$key]);
-        }
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-access-module', 'role-list']]);
+        $this->actingAs($user, 'api');
 
         // Test non empty list
         $response = $this->get($route);
         $response->assertOk();
-        $response->assertJsonCount(count($permissions));
-
-        // Test sorting results
-        $route = route('api.permission.index', ['sort_by' => 'description', 'sort_dir' => 'desc']);
-        $response = $this->get($route);
-        $response->assertOk();
-        $response->assertJsonCount($count = count($permissions));
-        $this->assertEquals($permissions[$count - 1]['id'], $response->json('0.id'));
     }
 }

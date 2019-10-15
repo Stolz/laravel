@@ -6,10 +6,11 @@ use App\Models\Dummy;
 use App\Traits\AttachesRepositories;
 use Tests\Traits\CreatesUsers;
 use Tests\Traits\RefreshDatabase;
+use Tests\Traits\RejectsUnauthorizedRouteAccess;
 
 class DummyControllerTest extends TestCase
 {
-    use RefreshDatabase, AttachesRepositories, CreatesUsers;
+    use RefreshDatabase, AttachesRepositories, CreatesUsers, RejectsUnauthorizedRouteAccess;
 
     /**
      * Run before each test.
@@ -20,11 +21,8 @@ class DummyControllerTest extends TestCase
     {
         parent::setUp();
 
-        // Create user with all permissions ...
-        $this->user = $this->createUser([], ['name' => 'Admin']);
-
-        // ... and authenticate it
-        $this->actingAs($this->user, 'api');
+        // Create user with no permissions
+        $this->user = $this->createUser();
     }
 
     /**
@@ -34,8 +32,15 @@ class DummyControllerTest extends TestCase
      */
     public function testIndex()
     {
-        // Test empty list
+        // User without permissions
         $route = route('api.dummy.index');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-bogus-module', 'dummy-list']]);
+        $this->actingAs($user, 'api');
+
+        // Test empty list
         $response = $this->get($route);
         $response->assertOk();
         $response->assertJsonStructure(static::PAGINATION_STRUCTURE);
@@ -77,20 +82,27 @@ class DummyControllerTest extends TestCase
      */
     public function testShow()
     {
-        // Test non existing dummy
-        $route = route('api.dummy.show', ['random']);
-        $response = $this->get($route);
-        $response->assertNotFound();
-
         // Create a dummy
         $dummy = factory(Dummy::class)->make();
         $this->dummyRepository->create($dummy);
 
-        // Test existing dummy
+        // User without permissions
         $route = route('api.dummy.show', $dummy->getId());
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-bogus-module', 'dummy-view']]);
+        $this->actingAs($user, 'api');
+
+        // Test existing dummy
         $response = $this->get($route);
         $response->assertOk();
         $response->assertJson($dummy->jsonSerialize());
+
+        // Test non existing dummy
+        $route = route('api.dummy.show', ['random']);
+        $response = $this->get($route);
+        $response->assertNotFound();
     }
 
     /**
@@ -100,8 +112,15 @@ class DummyControllerTest extends TestCase
      */
     public function testStore()
     {
+        // User without permissions
+        $route = route('api.dummy.store');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'post', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-bogus-module', 'dummy-create']]);
+        $this->actingAs($user, 'api');
+
         // Test with incomplete data
-        $route = route('api.dummy.store', ['random']);
         $response = $this->post($route);
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['name']);
@@ -121,17 +140,19 @@ class DummyControllerTest extends TestCase
      */
     public function testUpdate()
     {
-        // Test non existing dummy
-        $route = route('api.dummy.update', ['random']);
-        $response = $this->put($route);
-        $response->assertNotFound();
-
         // Create a dummy
         $dummy = factory(Dummy::class)->make();
         $this->dummyRepository->create($dummy);
 
-        // Test existing dummy with incomplete data
+        // User without permissions
         $route = route('api.dummy.update', $dummy->getId());
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'put', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-bogus-module', 'dummy-update']]);
+        $this->actingAs($user, 'api');
+
+        // Test existing dummy with incomplete data
         $response = $this->put($route);
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['name']);
@@ -141,6 +162,11 @@ class DummyControllerTest extends TestCase
         $response = $this->put($route, $data);
         $response->assertOk();
         $response->assertJson(['updated' => true]);
+
+        // Test non existing dummy
+        $route = route('api.dummy.update', ['random']);
+        $response = $this->put($route);
+        $response->assertNotFound();
     }
 
     /**
@@ -150,19 +176,26 @@ class DummyControllerTest extends TestCase
      */
     public function testDestroy()
     {
-        // Test non existing dummy
-        $route = route('api.dummy.destroy', ['random']);
-        $response = $this->delete($route);
-        $response->assertNotFound();
-
         // Create a dummy
         $dummy = factory(Dummy::class)->make();
         $this->dummyRepository->create($dummy);
 
-        // Test existing dummy
+        // User without permissions
         $route = route('api.dummy.destroy', $dummy->getId());
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'delete', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-bogus-module', 'dummy-delete']]);
+        $this->actingAs($user, 'api');
+
+        // Test existing dummy
         $response = $this->delete($route);
         $response->assertOk();
         $response->assertJson(['deleted' => true]);
+
+        // Test non existing dummy
+        $route = route('api.dummy.destroy', ['random']);
+        $response = $this->delete($route);
+        $response->assertNotFound();
     }
 }

@@ -25,9 +25,6 @@ class RoleControllerTest extends TestCase
 
         // Create user with no permissions
         $this->user = $this->createUser();
-
-        // Create user with all permissions
-        $this->admin = $this->createUser([], ['name' => 'Admin']);
     }
 
     /**
@@ -42,7 +39,8 @@ class RoleControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-access-module', 'role-list']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON index');
     }
@@ -59,7 +57,8 @@ class RoleControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-access-module', 'role-view']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON show');
     }
@@ -76,7 +75,8 @@ class RoleControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-access-module', 'role-create']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON create');
     }
@@ -93,7 +93,8 @@ class RoleControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-access-module', 'role-update']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON update');
     }
@@ -110,8 +111,9 @@ class RoleControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'post');
 
         // User with permissions. Incomplete data
+        $user = $this->createUser(['permissions' => ['use-access-module', 'role-create']]);
         $referer = route('access.role.create');
-        $response = $this->actingAs($this->admin)->from($referer)->post($route);
+        $response = $this->actingAs($user)->from($referer)->post($route);
         $response->assertRedirect($referer);
         $response->assertSessionHasErrors();
 
@@ -138,8 +140,9 @@ class RoleControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'put');
 
         // User with permissions. Incomplete data
+        $user = $this->createUser(['permissions' => ['use-access-module', 'role-update']]);
         $referer = route('access.role.edit', [$id]);
-        $response = $this->actingAs($this->admin)->from($referer)->put($route);
+        $response = $this->actingAs($user)->from($referer)->put($route);
         $response->assertRedirect($referer);
         $response->assertSessionHasErrors();
 
@@ -165,12 +168,13 @@ class RoleControllerTest extends TestCase
         $this->roleRepository->create($role);
 
         // User without permissions
+        $user = $this->createUser(['permissions' => ['use-access-module', 'role-delete']]);
         $route = route('access.role.destroy', [$role->getId()]);
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'delete');
 
         // User with permissions
         $referer = route('access.role.index');
-        $response = $this->actingAs($this->admin)->from($referer)->delete($route);
+        $response = $this->actingAs($user)->from($referer)->delete($route);
         $response->assertRedirect($referer);
         $response->assertSessionHasNoErrors();
         $response->assertSessionHas('success');

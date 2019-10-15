@@ -23,9 +23,6 @@ class DummyControllerTest extends TestCase
 
         // Create user with no permissions
         $this->user = $this->createUser();
-
-        // Create user with all permissions
-        $this->admin = $this->createUser([], ['name' => 'Admin']);
     }
 
     /**
@@ -40,7 +37,8 @@ class DummyControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-bogus-module', 'dummy-list']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON index');
     }
@@ -61,7 +59,8 @@ class DummyControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-bogus-module', 'dummy-view']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON show');
     }
@@ -78,7 +77,8 @@ class DummyControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-bogus-module', 'dummy-create']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON create');
     }
@@ -99,7 +99,8 @@ class DummyControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-bogus-module', 'dummy-update']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON update');
     }
@@ -116,14 +117,14 @@ class DummyControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'post');
 
         // User with permissions. Incomplete data
+        $user = $this->createUser(['permissions' => ['use-bogus-module', 'dummy-create']]);
         $referer = route('bogus.dummy.create');
-        $response = $this->actingAs($this->admin)->from($referer)->post($route);
+        $response = $this->actingAs($user)->from($referer)->post($route);
         $response->assertRedirect($referer);
         $response->assertSessionHasErrors();
 
         // User with permissions. Complete data
         $data = factory(\App\Models\Dummy::class)->raw();
-
         $response = $this->post($route, $data);
         $response->assertRedirect(route('bogus.dummy.index'));
         $response->assertSessionHasNoErrors();
@@ -146,14 +147,14 @@ class DummyControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'put');
 
         // User with permissions. Incomplete data
+        $user = $this->createUser(['permissions' => ['use-bogus-module', 'dummy-update']]);
         $referer = route('bogus.dummy.edit', [$id]);
-        $response = $this->actingAs($this->admin)->from($referer)->put($route);
+        $response = $this->actingAs($user)->from($referer)->put($route);
         $response->assertRedirect($referer);
         $response->assertSessionHasErrors();
 
         // User with permissions. Complete data
         $data = factory(\App\Models\Dummy::class)->raw();
-
         $response = $this->put($route, $data);
         $response->assertRedirect(route('bogus.dummy.show', [$id]));
         $response->assertSessionHasNoErrors();
@@ -177,7 +178,8 @@ class DummyControllerTest extends TestCase
 
         // User with permissions
         $referer = route('bogus.dummy.index');
-        $response = $this->actingAs($this->admin)->from($referer)->delete($route);
+        $user = $this->createUser(['permissions' => ['use-bogus-module', 'dummy-delete']]);
+        $response = $this->actingAs($user)->from($referer)->delete($route);
         $response->assertRedirect($referer);
         $response->assertSessionHasNoErrors();
         $response->assertSessionHas('success');

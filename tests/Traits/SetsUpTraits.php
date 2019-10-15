@@ -19,6 +19,12 @@ trait SetsUpTraits
             });
         }
 
+        if (isset($uses[\Tests\Traits\CreatesUsers::class])) {
+            $this->afterApplicationCreated(function () {
+                $this->artisan('db:seed', ['--class' => 'PermissionsSeeder']);
+            });
+        }
+
         return $uses;
     }
 }

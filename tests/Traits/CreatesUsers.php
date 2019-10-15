@@ -10,21 +10,26 @@ trait CreatesUsers
     /**
      * Create a test user.
      *
-     * @param  array $userAttributes
-     * @param  array $roleAttributes
+     * @param  array $attributes
      * @return \App\Models\User
      */
-    protected function createUser(array $userAttributes = [], array $roleAttributes = []): User
+    protected function createUser(array $attributes = []): User
     {
         // Create role if none was provided
-        if (! isset($userAttributes['role'])) {
-            $userAttributes['role'] = factory(Role::class)->make($roleAttributes);
-            $this->roleRepository->create($userAttributes['role']);
+        if (! isset($attributes['role'])) {
+            $attributes['role'] = factory(Role::class)->make();
+            $this->roleRepository->create($attributes['role']);
         }
 
         // Create user
-        $user = factory(User::class)->make($userAttributes);
+        $user = factory(User::class)->make(array_except($attributes, 'permissions'));
         $this->userRepository->create($user);
+
+        // Assign permissions to role
+        if ($attributes['permissions'] ?? false) {
+            $newPermissions = $this->permissionRepository->getBy('name', $attributes['permissions']);
+            $this->roleRepository->replacePermissions($attributes['role'], $newPermissions);
+        }
 
         return $user;
     }

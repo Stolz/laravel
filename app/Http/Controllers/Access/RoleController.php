@@ -72,9 +72,10 @@ class RoleController extends Controller
     /**
      * Show the form for creating a new role.
      *
+     * @param  \App\Http\Requests\Role\PreCreate $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(\App\Http\Requests\Role\PreCreate $request)
     {
         // Load view
         return view('modules.access.role.create')->with([
@@ -87,11 +88,11 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified role.
      *
-     * @param  \App\Http\Requests\Role\View $request
+     * @param  \App\Http\Requests\Role\PreUpdate $request
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function edit(\App\Http\Requests\Role\View $request, Role $role)
+    public function edit(\App\Http\Requests\Role\PreUpdate $request, Role $role)
     {
         // Load view
         return view('modules.access.role.update')->with([

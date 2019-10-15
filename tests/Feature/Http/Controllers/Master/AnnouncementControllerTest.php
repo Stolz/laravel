@@ -23,9 +23,6 @@ class AnnouncementControllerTest extends TestCase
 
         // Create user with no permissions
         $this->user = $this->createUser();
-
-        // Create user with all permissions
-        $this->admin = $this->createUser([], ['name' => 'Admin']);
     }
 
     /**
@@ -40,7 +37,8 @@ class AnnouncementControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-master-module', 'announcement-list']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON index');
     }
@@ -61,7 +59,8 @@ class AnnouncementControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-master-module', 'announcement-view']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON show');
     }
@@ -78,7 +77,8 @@ class AnnouncementControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-master-module', 'announcement-create']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON create');
     }
@@ -99,7 +99,8 @@ class AnnouncementControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-master-module', 'announcement-update']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON update');
     }
@@ -116,14 +117,14 @@ class AnnouncementControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'post');
 
         // User with permissions. Incomplete data
+        $user = $this->createUser(['permissions' => ['use-master-module', 'announcement-create']]);
         $referer = route('master.announcement.create');
-        $response = $this->actingAs($this->admin)->from($referer)->post($route);
+        $response = $this->actingAs($user)->from($referer)->post($route);
         $response->assertRedirect($referer);
         $response->assertSessionHasErrors();
 
         // User with permissions. Complete data
         $data = factory(\App\Models\Announcement::class)->raw();
-
         $response = $this->post($route, $data);
         $response->assertRedirect(route('master.announcement.index'));
         $response->assertSessionHasNoErrors();
@@ -146,14 +147,14 @@ class AnnouncementControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'put');
 
         // User with permissions. Incomplete data
+        $user = $this->createUser(['permissions' => ['use-master-module', 'announcement-update']]);
         $referer = route('master.announcement.edit', [$id]);
-        $response = $this->actingAs($this->admin)->from($referer)->put($route);
+        $response = $this->actingAs($user)->from($referer)->put($route);
         $response->assertRedirect($referer);
         $response->assertSessionHasErrors();
 
         // User with permissions. Complete data
         $data = factory(\App\Models\Announcement::class)->raw();
-
         $response = $this->put($route, $data);
         $response->assertRedirect(route('master.announcement.show', [$id]));
         $response->assertSessionHasNoErrors();
@@ -176,8 +177,9 @@ class AnnouncementControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'delete');
 
         // User with permissions
+        $user = $this->createUser(['permissions' => ['use-master-module', 'announcement-delete']]);
         $referer = route('master.announcement.index');
-        $response = $this->actingAs($this->admin)->from($referer)->delete($route);
+        $response = $this->actingAs($user)->from($referer)->delete($route);
         $response->assertRedirect($referer);
         $response->assertSessionHasNoErrors();
         $response->assertSessionHas('success');

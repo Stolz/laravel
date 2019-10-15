@@ -24,9 +24,6 @@ class CountryControllerTest extends TestCase
 
         // Create user with no permissions
         $this->user = $this->createUser();
-
-        // Create user with all permissions
-        $this->admin = $this->createUser([], ['name' => 'Admin']);
     }
 
     /**
@@ -41,7 +38,8 @@ class CountryControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-master-module', 'country-list']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON index');
     }
@@ -53,15 +51,14 @@ class CountryControllerTest extends TestCase
      */
     public function testShow()
     {
-        // Create a country
-        $country = $this->createCountry();
-
         // User without permissions
+        $country = $this->createCountry();
         $route = route('master.country.show', [$country->getId()]);
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-master-module', 'country-view']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON show');
     }
@@ -78,7 +75,8 @@ class CountryControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-master-module', 'country-create']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON create');
     }
@@ -90,15 +88,14 @@ class CountryControllerTest extends TestCase
      */
     public function testEdit()
     {
-        // Create a country
-        $country = $this->createCountry();
-
         // User without permissions
+        $country = $this->createCountry();
         $route = route('master.country.edit', [$country->getId()]);
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'get');
 
         // User with permissions
-        $response = $this->actingAs($this->admin)->get($route);
+        $user = $this->createUser(['permissions' => ['use-master-module', 'country-update']]);
+        $response = $this->actingAs($user)->get($route);
         $response->assertOk();
         $response->assertSee('TEST BEACON update');
     }
@@ -115,14 +112,14 @@ class CountryControllerTest extends TestCase
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'post');
 
         // User with permissions. Incomplete data
+        $user = $this->createUser(['permissions' => ['use-master-module', 'country-create']]);
         $referer = route('master.country.create');
-        $response = $this->actingAs($this->admin)->from($referer)->post($route);
+        $response = $this->actingAs($user)->from($referer)->post($route);
         $response->assertRedirect($referer);
         $response->assertSessionHasErrors();
 
         // User with permissions. Complete data
         $data = factory(\App\Models\Country::class)->raw();
-
         $response = $this->post($route, $data);
         $response->assertRedirect(route('master.country.index'));
         $response->assertSessionHasNoErrors();
@@ -136,23 +133,20 @@ class CountryControllerTest extends TestCase
      */
     public function testUpdate()
     {
-        // Create a country
-        $country = factory(\App\Models\Country::class)->make();
-        $this->countryRepository->create($country);
-
         // User without permissions
+        $country = $this->createCountry();
         $route = route('master.country.update', [$id = $country->getId()]);
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'put');
 
         // User with permissions. Incomplete data
+        $user = $this->createUser(['permissions' => ['use-master-module', 'country-update']]);
         $referer = route('master.country.edit', [$id]);
-        $response = $this->actingAs($this->admin)->from($referer)->put($route);
+        $response = $this->actingAs($user)->from($referer)->put($route);
         $response->assertRedirect($referer);
         $response->assertSessionHasErrors();
 
         // User with permissions. Complete data
         $data = factory(\App\Models\Country::class)->raw();
-
         $response = $this->put($route, $data);
         $response->assertRedirect(route('master.country.show', [$id]));
         $response->assertSessionHasNoErrors();
@@ -166,17 +160,15 @@ class CountryControllerTest extends TestCase
      */
     public function testDestroy()
     {
-        // Create a country
-        $country = factory(\App\Models\Country::class)->make();
-        $this->countryRepository->create($country);
-
         // User without permissions
+        $country = $this->createCountry();
         $route = route('master.country.destroy', [$country->getId()]);
         $this->assertRejectsUnauthorizedAccessToRoute($route, 'delete');
 
         // User with permissions
+        $user = $this->createUser(['permissions' => ['use-master-module', 'country-delete']]);
         $referer = route('master.country.index');
-        $response = $this->actingAs($this->admin)->from($referer)->delete($route);
+        $response = $this->actingAs($user)->from($referer)->delete($route);
         $response->assertRedirect($referer);
         $response->assertSessionHasNoErrors();
         $response->assertSessionHas('success');

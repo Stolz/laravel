@@ -7,10 +7,11 @@ use App\Traits\AttachesRepositories;
 use Tests\Traits\CreatesCountries;
 use Tests\Traits\CreatesUsers;
 use Tests\Traits\RefreshDatabase;
+use Tests\Traits\RejectsUnauthorizedRouteAccess;
 
 class CountryControllerTest extends TestCase
 {
-    use RefreshDatabase, AttachesRepositories, CreatesUsers, CreatesCountries;
+    use RefreshDatabase, AttachesRepositories, CreatesUsers, CreatesCountries, RejectsUnauthorizedRouteAccess;
 
     /**
      * Run before each test.
@@ -21,11 +22,8 @@ class CountryControllerTest extends TestCase
     {
         parent::setUp();
 
-        // Create user with all permissions ...
-        $this->user = $this->createUser([], ['name' => 'Admin']);
-
-        // ... and authenticate it
-        $this->actingAs($this->user, 'api');
+        // Create user with no permissions
+        $this->user = $this->createUser();
     }
 
     /**
@@ -35,8 +33,15 @@ class CountryControllerTest extends TestCase
      */
     public function testIndex()
     {
-        // Test empty list
+        // User without permissions
         $route = route('api.country.index');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-master-module', 'country-list']]);
+        $this->actingAs($user, 'api');
+
+        // Test empty list
         $response = $this->get($route);
         $response->assertOk();
         $response->assertJsonStructure(static::PAGINATION_STRUCTURE);
@@ -69,17 +74,24 @@ class CountryControllerTest extends TestCase
      */
     public function testShow()
     {
+        // User without permissions
+        $country = $this->createCountry();
+        $route = route('api.country.show', $country->getId());
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'get', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-master-module', 'country-view']]);
+        $this->actingAs($user, 'api');
+
+        // Test existing country
+        $response = $this->get($route);
+        $response->assertOk();
+        $response->assertJson($country->jsonSerialize());
+
         // Test non existing country
         $route = route('api.country.show', ['random']);
         $response = $this->get($route);
         $response->assertNotFound();
-
-        // Test existing country
-        $country = $this->createCountry();
-        $route = route('api.country.show', $country->getId());
-        $response = $this->get($route);
-        $response->assertOk();
-        $response->assertJson($country->jsonSerialize());
     }
 
     /**
@@ -89,8 +101,15 @@ class CountryControllerTest extends TestCase
      */
     public function testStore()
     {
+        // User without permissions
+        $route = route('api.country.store');
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'post', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-master-module', 'country-create']]);
+        $this->actingAs($user, 'api');
+
         // Test with incomplete data
-        $route = route('api.country.store', ['random']);
         $response = $this->post($route);
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['name']);
@@ -110,14 +129,16 @@ class CountryControllerTest extends TestCase
      */
     public function testUpdate()
     {
-        // Test non existing country
-        $route = route('api.country.update', ['random']);
-        $response = $this->put($route);
-        $response->assertNotFound();
-
-        // Test existing country with incomplete data
+        // User without permissions
         $country = $this->createCountry();
         $route = route('api.country.update', $country->getId());
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'put', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-master-module', 'country-update']]);
+        $this->actingAs($user, 'api');
+
+        // Test existing country with incomplete data
         $response = $this->put($route);
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['name']);
@@ -127,6 +148,11 @@ class CountryControllerTest extends TestCase
         $response = $this->put($route, $data);
         $response->assertOk();
         $response->assertJson(['updated' => true]);
+
+        // Test non existing country
+        $route = route('api.country.update', ['random']);
+        $response = $this->put($route);
+        $response->assertNotFound();
     }
 
     /**
@@ -136,16 +162,23 @@ class CountryControllerTest extends TestCase
      */
     public function testDestroy()
     {
+        // User without permissions
+        $country = $this->createCountry();
+        $route = route('api.country.destroy', $country->getId());
+        $this->assertRejectsUnauthorizedAccessToRoute($route, 'delete', 'api');
+
+        // User with permissions
+        $user = $this->createUser(['permissions' => ['use-master-module', 'country-delete']]);
+        $this->actingAs($user, 'api');
+
+        // Test existing country
+        $response = $this->delete($route);
+        $response->assertOk();
+        $response->assertJson(['deleted' => true]);
+
         // Test non existing country
         $route = route('api.country.destroy', ['random']);
         $response = $this->delete($route);
         $response->assertNotFound();
-
-        // Test existing country
-        $country = $this->createCountry();
-        $route = route('api.country.destroy', $country->getId());
-        $response = $this->delete($route);
-        $response->assertOk();
-        $response->assertJson(['deleted' => true]);
     }
 }

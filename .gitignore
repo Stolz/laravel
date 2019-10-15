@@ -8,6 +8,7 @@
 .phpunit.result.cache
 /.idea/
 /.php_cs.cache
+/.scannerwork/
 /docs/coverage/
 /docs/sami
 /node_modules
