@@ -44,7 +44,7 @@ abstract class TestCase extends BaseTestCase
     public function actingAs(\Illuminate\Contracts\Auth\Authenticatable $user, $driver = null)
     {
         // Automatically add user's auth token to the request
-        $token = auth($driver)->tokenById($this->user->getJWTIdentifier());
+        $token = auth($driver)->tokenById($user->getJWTIdentifier());
 
         return $this->be($user, $driver)->withTokenHeader($token);
     }
