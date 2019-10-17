@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class MeasureResponseTime
+{
+    /**
+     * Handle an incoming HTTP request.
+     *
+     * @param  \Symfony\Component\HttpFoundation\Request $request
+     * @param  \Closure $next
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function handle($request, \Closure $next)
+    {
+        $response = $next($request);
+
+        // Add response time as an HTTP header. For better accuracy ensure this middleware
+        // is added at the end of the list of global middlewares in the Kernel.php file
+        if ($response instanceof Response) {
+            $response->headers->add(['X-RESPONSE-MICROTIME' => microtime(true) - LARAVEL_START]);
+        }
+
+        return $response;
+    }
+
+    /**
+     * Perform any final actions for the request lifecycle.
+     *
+     * @param  \Symfony\Component\HttpFoundation\Request $request
+     * @param  \Symfony\Component\HttpFoundation\Response $response
+     * @return void
+     */
+    public function terminate($request, $response)
+    {
+        // At this point the response has already been sent to the browser so any
+        // modification to the response (such adding HTTP headers) will have no effect
+        if ($request instanceof Request) {
+            app('log')->debug('Response time', [
+                'request' => $request->getRequestUri(),
+                'microseconds' => microtime(true) - LARAVEL_START,
+            ]);
+        }
+    }
+}
