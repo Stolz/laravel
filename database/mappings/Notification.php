@@ -25,7 +25,7 @@ class Notification extends EntityMapping
     public function map(\LaravelDoctrine\Fluent\Fluent $builder)
     {
         $builder->increments('id');
-        $builder->string('level');
+        $builder->string('level')->columnName('`LEVEL`'); // 'Level' is a reserved keyword in Oracle. It needs to be escaped
         $builder->string('message');
         $builder->string('actionText')->nullable();
         $builder->string('actionUrl')->nullable();

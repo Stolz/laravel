@@ -348,3 +348,21 @@ if (! function_exists('date_in_user_timezone')) {
         return $date;
     }
 }
+
+if (! function_exists('db_is')) {
+    /**
+     * Determine if a database connection uses the given driver.
+     *
+     * @param  string $driver
+     * @param  string|null $connection
+     * @return bool
+     */
+    function db_is($driver, $connection = null): bool
+    {
+        if ($connection === null) {
+            $connection = config('database.default');
+        }
+
+        return $driver === config("database.connections.{$connection}.driver");
+    }
+}

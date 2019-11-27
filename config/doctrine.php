@@ -45,7 +45,9 @@ return [
             */
             'events' => [
                 'listeners' => [],
-                'subscribers' => [],
+                'subscribers' => [
+                    'Doctrine\Subscribers\OracleDateFormat', // Set Oracle's date format to match PHP format
+                ],
             ],
             'filters' => [],
             /*
@@ -118,7 +120,9 @@ return [
     | DQL custom datetime functions
     |--------------------------------------------------------------------------
     */
-    'custom_datetime_functions' => [],
+    'custom_datetime_functions' => [
+        'DATE' => Doctrine\Extensions\OracleDateFunction::class,
+    ],
     /*
     |--------------------------------------------------------------------------
     | DQL custom numeric functions
