@@ -167,7 +167,7 @@
 	</rule>
 
 	<!--Variable names in camelCase-->
-	<rule ref="Zend.NamingConventions.ValidVariableName">-->
+	<rule ref="Zend.NamingConventions.ValidVariableName">
 		<!--Protected variable don't need an underscore prefix-->
 		<exclude name="Zend.NamingConventions.ValidVariableName.PrivateNoUnderscore"/>
 	</rule>
