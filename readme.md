@@ -133,7 +133,7 @@ Run a single test on a single file
 
 	./vendor/bin/phpunit --filter testSomething tests/TestClass.php
 
-Run all test on certain suites only (use `phpunit --list-suites` to see availale suites)
+Run all test on certain suites only (use `phpunit --list-suites` to see available suites)
 
 	./vendor/bin/phpunit --testsuite Unit,Feature
 
