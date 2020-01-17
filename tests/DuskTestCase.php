@@ -31,11 +31,18 @@ abstract class DuskTestCase extends BaseTestCase
     protected function driver()
     {
         $options = (new ChromeOptions)->addArguments([
-            '--disable-gpu',   // GPU enabled renders black screenshots
+            // List of options: https://peter.sh/experiments/chromium-command-line-switches/
             //'--headless',    // headless mode does not work in my system
+            '--disable-gpu',   // GPU enabled renders black screenshots
             //'--no-sandbox',
-            '--window-size=1920,1200',
+            //'--window-size=1920,1200',
+            '--start-maximized',
+            '--disable-extensions',
         ]);
+
+        // Disable message 'Chrome is being controlled by automated test software'
+        $options->setExperimentalOption('excludeSwitches', ['enable-automation']);
+        $options->setExperimentalOption('useAutomationExtension', false);
 
         $capabilities = DesiredCapabilities::chrome()->setCapability(ChromeOptions::CAPABILITY, $options);
 
