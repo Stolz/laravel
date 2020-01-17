@@ -98,7 +98,7 @@ return [
         'oracle' => [
             'driver' => 'oracle',
             'service_name' => env('DB_SERVICE', 'ORCLPDB1.localdomain'), // used by yajra/laravel-oci8
-            'service' => env('DB_SERVICE', 'ORCLPDB1.localdomain'), // used by laravel-doctrine/orm
+            'service' => env('DB_SERVICE', 'ORCLPDB1.localdomain'),      // used by laravel-doctrine/orm
             'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', 1521),
             'database' => env('DB_DATABASE', 'ORCLPDB1'),
@@ -107,6 +107,7 @@ return [
             'charset' => env('DB_CHARSET', 'AL32UTF8'),
             'prefix' => env('DB_PREFIX', ''),
             'prefix_schema' => env('DB_SCHEMA_PREFIX', ''),
+            'tns' => env('DB_TNS', ''),    // Connect using values from $TNS_ADMIN/tnsnames.ora file
             'skip_session_vars' => false,  // Set Oracle's date format to match PHP format
         ],
     ],
