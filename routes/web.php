@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /// Neutral area ===============================================================
 
 Route::view('/', 'home')->name('home');

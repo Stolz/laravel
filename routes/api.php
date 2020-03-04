@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /// Only guests area ===========================================================
 
 Route::middleware(['guest'])->group(function () {
