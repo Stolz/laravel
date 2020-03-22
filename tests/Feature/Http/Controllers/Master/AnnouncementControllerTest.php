@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Http\Controller\Master;
+namespace Tests\Feature\Http\Controllers\Master;
 
 use App\Traits\AttachesRepositories;
 use Tests\TestCase;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Http\Controllers\Api;
+namespace Tests\Feature\Http\Controllers\Api;
 
 use App\Models\Role;
 use App\Traits\AttachesRepositories;
