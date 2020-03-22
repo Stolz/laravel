@@ -63,7 +63,7 @@ class AppServiceProvider extends ServiceProvider
             'table.table' => 'table',
         ];
         foreach ($components as $path => $name) {
-            Blade::component("components.$path", $name);
+            Blade::aliasComponent("components.$path", $name);
         }
 
         // Register view composers
