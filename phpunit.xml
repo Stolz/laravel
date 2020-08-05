@@ -23,8 +23,13 @@
         </whitelist>
     </filter>
     <logging>
-        <log type="coverage-html" target="docs/coverage" lowUpperBound="30" highLowerBound="70"/>
-        <log type="coverage-text" target="php://stdout"/>
+        <!--<log type="coverage-clover" target="docs/coverage/clover.xml"/>-->
+        <!--<log type="coverage-html" target="docs/coverage" lowUpperBound="30" highLowerBound="70"/>-->
+        <!--<log type="coverage-php" target="docs/coverage/coverage.serialized"/>-->
+        <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
+        <!--<log type="junit" target="docs/coverage/junit.xml"/>-->
+        <!--<log type="testdox-html" target="docs/coverage/testdox.html"/>-->
+        <!--<log type="testdox-text" target="docs/coverage/testdox.txt"/>-->
     </logging>
     <php>
         <server name="APP_ENV" value="testing"/>
